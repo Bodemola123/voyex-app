@@ -1,0 +1,35 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import React from "react";
+
+function Keyword() {
+  return (
+    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border-none">
+      <CardHeader>
+        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+          keyword
+        </CardTitle>
+        <CardDescription className="text-base font-medium text-fontlight">
+          This sows the AI-identified most used hashtags
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="mt-5 grid grid-cols-4 gap-3">
+        {Array.from({ length: 16 }).map((_, i) => (
+          <div
+            key={i}
+            className="text-sm text-center font-medium text-btnlime px-2 py-1 rounded-2xl bg-[#84DE7C40]"
+          >
+            Theme {i + 1}
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
+
+export default Keyword;

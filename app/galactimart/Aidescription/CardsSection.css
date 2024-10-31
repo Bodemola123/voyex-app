@@ -1,0 +1,25 @@
+
+.scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+
+  .scroll-container {
+    scrollbar-width: none; /* Firefox */
+  }
+  
+
+  .cards-wrapper {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+  }
+  
+
+  
