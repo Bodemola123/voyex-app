@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const PlansFeatures = () => {
   return (
-    <div className=" text-[#F4F4F4] p-6 gap-6 flex flex-col">
+    <div className=" text-[#F4F4F4] p-6 gap-6 flex flex-col bg-custom-gradient backdrop-blur-custom rounded-3xl">
     <div className='flex flex-row justify-between items-center'>
         <p className='font-bold text-[22.46px] leading-[33.7px]'>Deal Terms and Conditions</p>
         <button className='py-4 px-4 flex flex-row items-center gap-[5.62px] text-[19.66px] leading-[28.08px] font-bold'>See all reviews <MdKeyboardArrowRight/> </button>

@@ -4,6 +4,9 @@ import { FaTags, FaCode, FaStar } from 'react-icons/fa';
 import AboutChatgpt from './AboutChatgpt';
 import PlansFeatures from './PlansFeatures';
 import { PiBookOpenText } from 'react-icons/pi';
+import ReviewSection from '@/components/galatimart-page/ReviewSection';
+import ReviewSecond from '@/components/galatimart-page/ReviewSecond';
+import '@/app/galactimart/Aidescription/CardsSection.css'
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState('About ChatGPT');
@@ -25,7 +28,7 @@ const Tabs = () => {
     ),
 
     'From the Developer': (
-      <div className="p-6">
+      <div className="p-6 bg-custom-gradient backdrop-blur-custom rounded-3xl">
         <h2 className="text-xl font-semibold">Developers Note</h2>
         <p className="mt-4">
           This platform is continuously evolving, and we value your feedback.
@@ -33,8 +36,12 @@ const Tabs = () => {
       </div>
     ),
 
-    Reviews: (
-        <div></div>
+    'Reviews': (
+      <div className='flex flex-col gap-4'>
+        <ReviewSection/>
+        <ReviewSecond/>
+      </div>
+        
     ),
   };
 
@@ -55,7 +62,7 @@ const Tabs = () => {
         ))}
       </div>
 
-      <div className="mt-4 rounded-3xl bg-custom-gradient backdrop-blur-custom">{content[activeTab]}</div>
+      <div className="mt-4 ">{content[activeTab]}</div>
     </div>
   );
 };

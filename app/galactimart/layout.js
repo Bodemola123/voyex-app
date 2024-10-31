@@ -1,16 +1,14 @@
-import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import React from "react";
-import './GalactiMart.css';
+import "./GalactiMart.css";
 
 function SearchLayout({ children }) {
   return (
-    <div className="flex items-center w-full h-full px-11">
+    <div className="flex items-center w-screen h-screen">
       <Navbar />
-      <div className="relative w-full h-full scroll-container scrollbar-hide">
+      <div className="relative w-full h-full py-5 px-11 overflow-y-scroll">
         {children}
       </div>
-      <Footer/>
     </div>
   );
 }

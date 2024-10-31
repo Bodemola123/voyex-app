@@ -59,7 +59,7 @@ const ProductCard = ( {product} ) => {
         }
         {hovered && (
             <div>
-                <Link href='/galactimart/Aidescription' passHref>
+                <Link href='/' passHref>
                 <button className="w-[286px] bg-[#46BA3C] py-2 px-4 gap-2.5 rounded-3xl flex items-center flex-row justify-center">
                         <PiAirplaneBold className='text-[#032400]'/>
                         <p className=' text-base font-medium text-[#032400]'>{product.buttonText}</p>

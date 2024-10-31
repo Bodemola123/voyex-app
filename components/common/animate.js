@@ -9,7 +9,7 @@ function Animate() {
           <Image
             className="absolute right-[500px] top-40 bg-contain "
             src="/chatgpt.svg"
-            alt="chatgpt"
+            alt="chatgpt image"
             width={20}
             height={20}
           />
