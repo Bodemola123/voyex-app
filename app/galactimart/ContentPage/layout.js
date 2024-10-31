@@ -1,12 +1,11 @@
 import React from "react";
-import '../Galactimart.css';
+import "../galactimart.css";
 
 function SearchLayout({ children }) {
   return (
-<div className=" flex items-center w-full h-[92%] relative scroll-container scrollbar-hide">
-        {children}
-</div>
-
+    <div className=" flex items-center w-full h-[92%] relative scroll-container scrollbar-hide">
+      {children}
+    </div>
   );
 }
 

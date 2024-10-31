@@ -1,6 +1,6 @@
 import Navbar from "@/components/common/Navbar";
 import React from "react";
-import "./GalactiMart.css";
+import "./galactimart.css";
 
 function SearchLayout({ children }) {
   return (
