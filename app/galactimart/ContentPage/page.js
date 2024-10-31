@@ -7,7 +7,7 @@ import Card from "./Card";
 const ContentPage = () => {
 
   return (
-    <div className='text-white flex flex-col w-full h-full px-10 gap-10'>
+    <div className='text-white flex flex-col w-full h-full gap-10'>
         <Header1/>
         <Card/>
         

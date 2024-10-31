@@ -38,7 +38,7 @@ const ProductCard = ( {product} ) => {
             <p className='truncate'>next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
         </div>
         {!hovered && (
-        <div className='flex flex-row items-center justify-center gap-1 mt-4'>
+        <div className='flex flex-row items-center truncate gap-2 mt-4'>
          <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
           chatbot
         </span>
@@ -60,7 +60,7 @@ const ProductCard = ( {product} ) => {
         {hovered && (
             <div>
                 <Link href='/' passHref>
-                <button className="w-[286px] bg-[#46BA3C] py-2 px-4 gap-2.5 rounded-3xl flex items-center flex-row justify-center">
+                <button className="w-full bg-[#46BA3C] py-2 px-4 gap-2.5 rounded-3xl flex items-center flex-row justify-center">
                         <PiAirplaneBold className='text-[#032400]'/>
                         <p className=' text-base font-medium text-[#032400]'>{product.buttonText}</p>
                 </button>
