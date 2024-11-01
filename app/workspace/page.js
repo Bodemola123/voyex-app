@@ -3,7 +3,7 @@ import Product from "@/components/workspace-page/Product";
 
 function WorkSpace() {
   return (
-    <main className="w-full mt-10">
+    <main className="w-full mt-5">
       <p className="text-base font-normal text-fontlight">
         Where the cosmic meets the artificial, offering a stellar selection of
         AI companions tailored
