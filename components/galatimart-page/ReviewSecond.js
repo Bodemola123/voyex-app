@@ -17,10 +17,10 @@ const ReviewSecond = () => {
                 <MdOutlineKeyboardArrowRight className='w-[22.46px] h-[22.46px] text-[#F4F4F4]'/>
             </button>
         </div>
-        <div className='flex flex-row justify-between'>
-            <div className='flex flex-row gap-5'>
+        <div className='grid grid-cols-3 gap-20'>
+            <div className='flex flex-row w-1/4 gap-4'>
                 <div className='flex flex-col justify-center items-center'>
-                    <p className='font-bold text-[67.39px] leading-[84.24px] text-[#F4F4F4]'>3.5</p>
+                    <p className='font-bold text-5xl text-[#F4F4F4]'>3.5</p>
                     <div className='flex flex-row gap-[5.62px]'>
                     <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
                     <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
@@ -30,13 +30,13 @@ const ReviewSecond = () => {
                     </div>
                 </div>
                 <div className='flex flex-col justify-center items-center'>
-                    <p className='font-bold text-[67.39px] leading-[86.27px] text-[#F4F4F4]'>10.0k</p>
-                    <p className='font-medium text-[22.46px] leading-[28.78px] text-[#F4F4F4]'>Total Reviews</p>
+                    <p className='font-bold text-5xl text-[#F4F4F4]'>10.0k</p>
+                    <p className='font-medium text-base text-[#F4F4F4]'>Total Reviews</p>
                 </div>
             </div>
-            <div className='ml-2 flex flex-col gap-[11.23px]'>
+            <div className='col-span-2 flex flex-col gap-[11.23px]'>
                 <div className='flex flex-row gap-3'>
-                    <div className='w-[333.3px] rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
+                    <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
                         <div className='w-3/4 h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
@@ -48,7 +48,7 @@ const ReviewSecond = () => {
                     </div>
                 </div>
                 <div className='flex flex-row gap-3'>
-                    <div className='w-[333.3px] rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
+                    <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
                         <div className='w-[88%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
@@ -60,7 +60,7 @@ const ReviewSecond = () => {
                     </div>
                 </div>
                 <div className='flex flex-row gap-3'>
-                    <div className='w-[333.3px] rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
+                    <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
                         <div className='w-[62%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
@@ -72,7 +72,7 @@ const ReviewSecond = () => {
                     </div>
                 </div>
                 <div className='flex flex-row gap-3'>
-                    <div className='w-[333.3px] rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
+                    <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
                         <div className='w-[4%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
@@ -84,7 +84,7 @@ const ReviewSecond = () => {
                     </div>
                 </div>
                 <div className='flex flex-row gap-3'>
-                    <div className='w-[333.3px] rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
+                    <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
                         <div className='w-[4%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
