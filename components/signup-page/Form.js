@@ -60,7 +60,7 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 function Form() {
   return (
     <main className="w-full lg:w-1/2 h-full">
-      <section className="container relative flex justify-center items-center mx-auto w-full h-full">
+      <section className=" relative flex justify-center items-center mx-auto w-full h-full">
         <div className="w-full h-full max-w-[600px] flex flex-col justify-center">
           <h1 className="text-5xl font-bold text-center">Voyex.</h1>
           <div className="flex items-center justify-end space-x-2 mt-3 ">
@@ -73,7 +73,7 @@ function Form() {
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium mt-5">Enter your email</label>
             <input
-              // type="email"
+              type="email"
               placeholder="abc example.com"
               className="h-14 rounded-full px-4 bg-[#171920] outline-none mt-2"
             />
@@ -83,7 +83,7 @@ function Form() {
             <label className="text-sm font-medium mt-4">Password</label>
             <div className="relative w-full">
               <input
-                // type="password"
+                type="password"
                 placeholder="*********"
                 className="h-14 rounded-full px-4 bg-[#171920] outline-none mt-2 w-full"
               />
@@ -93,7 +93,7 @@ function Form() {
             </div>
           </div>
 
-          <button className="flex items-center justify-center text-lg font-medium w-full h-14 rounded-full bg-btnlime mt-4">
+          <button className="flex items-center justify-center text-lg font-medium w-full h-14 rounded-full bg-btnlime mt-4 capitalize">
             sign up
           </button>
 

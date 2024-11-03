@@ -50,6 +50,7 @@ module.exports = {
         nunito: ["Nunito Sans", "sans-serif"],
         roboto: ["Roboto Mono", "monospace"],
         space: ["Space Grotesk", "sans-serif"],
+        grotesk: ["FKGroteskNeueTrial", "sans-serif"],
         dmsans: ["DM Sans", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },

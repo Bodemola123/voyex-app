@@ -4,7 +4,7 @@ import WorkspaceMenuDropdown from "./MenuDropdown";
 
 function Product() {
   return (
-    <div className="rounded-[25px] border border-card backdrop-blur-[6.8px] p-6">
+    <div className="rounded-[25px] bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 border border-card backdrop-blur-[6.8px] p-6">
       <div className="flex items-start justify-between gap-3">
         <Image src="/gpt.png" alt="gpt" width={50} height={50} />
         <WorkspaceMenuDropdown />
