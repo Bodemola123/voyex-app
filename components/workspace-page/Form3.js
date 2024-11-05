@@ -36,10 +36,7 @@ function Form3() {
               <IoAdd />
             </button>
           </div>
-          <button
-            className="text-xl text-white font-medium w-full h-14 rounded-full bg-btnlime mt-5"
-            onClick={() => router.push("/workspace/analytics")}
-          >
+          <button className="text-xl text-white font-medium w-full h-14 rounded-full bg-btnlime mt-5">
             Proceed to Performance Metrics
           </button>
         </div>
