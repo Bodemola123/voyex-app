@@ -20,6 +20,16 @@
     gap: 16px;
     width: max-content;
   }
+  .right-container {
+    position: sticky;
+    top: 30px; /* Adjust as needed */
+    height: 100vh;
+  }
+  .not-sticky {
+    position: relative;
+    margin-top: 100%;
+  }
+  
   
 
   
