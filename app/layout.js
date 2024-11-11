@@ -16,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <meta charset="UTF-8" />
+      <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <body
         className={`${inter.className} relative flex items-center justify-center text-fontlight h-screen w-screen overflow-hidden bg-black`}

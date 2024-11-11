@@ -28,7 +28,10 @@ function Navbar() {
             <GoSidebarCollapse className="text-2xl" />
           </button>
           {isOpen && (
-            <Link href="/" className="text-xl text-white font-bold">
+            <Link
+              href="/"
+              className="text-xl text-white font-bold tracking-wider"
+            >
               Voyex.
             </Link>
           )}
@@ -76,7 +79,7 @@ function Navbar() {
           </button>
         </div> */}
 
-        <div className="flex flex-col items-center w-full gap-2 z-10">
+        <div className="flex flex-col items-center w-full gap-2 z-10 tracking-wide">
           <Link
             href="/search"
             className={`flex items-center w-full py-3 pl-5 bg-none hover:text-fontlight ${
@@ -156,7 +159,9 @@ function Navbar() {
         </div>
       </div>
 
-      <div className={`flex flex-col items-center gap-2 w-full z-10`}>
+      <div
+        className={`flex flex-col items-center gap-2 w-full z-10 tracking-wide`}
+      >
         <Link
           href="/sign-up"
           title="Signup"
