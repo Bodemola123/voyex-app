@@ -43,7 +43,7 @@ const Body = () => {
   return (
     <div className='grid grid-cols-4 gap-8'>
         <div className='w-auto col-span-3 mt-6 flex gap-9 flex-col'>
-        <div className='border rounded-[18px] border-card h-[380px] bg-cover bg-center bg-no-repeat flex justify-center items-center' style={{ backgroundImage: "url('/Logged-in.svg')" }}>
+        <div className='border rounded-[18px] border-card h-[410px] bg-cover bg-center bg-no-repeat flex justify-center items-center' style={{ backgroundImage: "url('/Logged-in.svg')" }}>
                 <button className=' p-[23.86px] gap-[23.86px] border rounded-3xl flex  items-center justify-center bg-custom-gradient backdrop-blur-custom'>
                     <CiPlay1 className='text-white w-10 h-10'/>
                 </button>
