@@ -55,7 +55,7 @@ export default function ConversationRate() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="h-[412px] w-full">
           <LineChart
             accessibilityLayer
             data={chartData}
