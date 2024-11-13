@@ -51,7 +51,7 @@ const Card1 = () => {
   ]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-12">
       <div className="flex flex-col gap-4">
         <div className="flex flex-row items-start justify-between">
           <div className="flex gap-2 flex-col w-[681px] h-20">
@@ -70,7 +70,7 @@ const Card1 = () => {
             See More <MdOutlineKeyboardArrowRight />
           </Link>
         </div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-3 gap-4 w-auto">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
