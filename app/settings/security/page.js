@@ -1,7 +1,14 @@
+import FlexibleFooter from "@/components/common/FlexibleFooter";
+import Security from "@/components/settings-page/Security";
 import React from "react";
 
 function SecurityPage() {
-  return <div>SecurityPage</div>;
+  return (
+    <>
+      <Security />
+      <FlexibleFooter />
+    </>
+  );
 }
 
 export default SecurityPage;
