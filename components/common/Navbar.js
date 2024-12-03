@@ -165,17 +165,18 @@ function Navbar() {
         <Link
           href="/sign-up"
           title="Signup"
-          className="flex items-center justify-center gap-3 text-btnlime text-base font-medium py-3 w-full h-12 rounded-xl bg-none capitalize"
+          className="flex items-center justify-start gap-3 text-btnlime text-base font-medium py-3 pl-5 w-full h-12 rounded-xl bg-none capitalize overflow-x-hidden whitespace-nowrap"
         >
-          {!isOpen && <VscSignIn className="text-xl" />}
-          {isOpen && "sign up"}
+          {/* <VscSignIn className="text-2xl" /> */}
+          <FaUserCircle className="text-xl" />
+          {isOpen ? "sign up" : ""}
         </Link>
         <button
           title="Login"
-          className="flex items-center justify-center gap-3 text-fontlight text-base font-medium py-3 w-full h-12 rounded-xl bg-btnlime capitalize"
+          className="flex items-center justify-start gap-3 text-fontlight text-base font-medium py-3 pl-5 w-full h-12 rounded-xl bg-btnlime capitalize overflow-x-hidden whitespace-nowrap"
         >
-          {!isOpen && <FaUserCircle className="text-xl" />}
-          {isOpen && "log in"}
+          <FaUserCircle className="text-xl" />
+          {isOpen ? "log in" : ""}
         </button>
       </div>
     </div>
