@@ -20,11 +20,9 @@ function Form() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const accessName = localStorage.getItem("name");
-  const accessEmail = localStorage.getItem("useremail");
 
   useEffect(() => {
-    if (accessName || accessEmail || googleUserDetails) {
+    if (googleUserDetails) {
       toast("Navigating to Search");
       setTimeout(() => {
         router.push("/search");

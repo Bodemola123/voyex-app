@@ -6,10 +6,10 @@ function SearchLayout({ children }) {
   return (
     <div className="flex items-center w-full h-full">
       <Navbar />
-      <div className="relative w-full h-full">
+      <main className="relative w-full h-full">
         {children}
         <Footer />
-      </div>
+      </main>
     </div>
   );
 }
