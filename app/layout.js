@@ -4,6 +4,7 @@ import StarsCanvas from "@/components/common/StarBackground.js";
 import Image from "next/image";
 import Animate from "@/components/common/animate";
 import StoreProvider from "./StoreProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,20 +20,15 @@ export default function RootLayout({ children }) {
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <body
-        className={`relative flex items-center justify-center text-fontlight h-screen w-screen overflow-hidden bg-black`}
+        className={`relative flex items-center justify-center text-fontlight h-screen w-screen overflow-hidden bg-black bg-[url('/background.png')] bg-no-repeat bg-center bg-origin-content bg-cover`}
       >
         <StarsCanvas />
-        <Image
-          className="absolute top-0 bottom-0 right-0 left-0 z-0 w-screen h-screen bg-contain"
-          src="/background.png"
-          alt="galaxy"
-          width={1419}
-          height={766}
-        />
         <Animate />
-        <div className="relative w-full h-full z-[2]">
-          <StoreProvider>{children}</StoreProvider>
-        </div>
+        <StoreProvider>
+          <GoogleOAuthProvider clientId="674221708942-scpkfslkcl6b1h6pgqam7j77es9s50nk.apps.googleusercontent.com">
+            <div className="relative w-full h-full z-[2]">{children}</div>
+          </GoogleOAuthProvider>
+        </StoreProvider>
       </body>
     </html>
   );
