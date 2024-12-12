@@ -9,7 +9,7 @@ import React from "react";
 
 function Keyword() {
   return (
-    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border-none">
+    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-gray/10 backdrop-blur-[9.3px] border-none">
       <CardHeader>
         <CardTitle className="text-2xl text-btnlime font-medium capitalize">
           keyword

@@ -16,7 +16,7 @@ function AnalyticsNavbar() {
   };
 
   return (
-    <div className="flex items-center justify-start gap-7 mt-8 mb-7 px-4 py-2 rounded-2xl text-fontlight bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px]">
+    <div className="flex items-center justify-start gap-7 mt-8 mb-7 px-4 py-2 rounded-2xl text-fontlight bg-gradient-to-r from-[#00a766]/10 to-gray/10 backdrop-blur-[9.3px]">
       {analyticsNav.map((nav, i) => (
         <Link
           href={nav.link}

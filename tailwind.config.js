@@ -20,6 +20,7 @@ module.exports = {
     extend: {
       colors: {
         primary: "#313131",
+        secondary: "#00A766",
         white: "#ffffff",
         black: "#000000",
         fontlight: "#F4f4f4",
@@ -31,6 +32,7 @@ module.exports = {
         btnhover: "#3c3c3c",
         card: "#313131",
         input: "#171920",
+        gray: "#999999",
       },
       backgroundImage: {
         "custom-gradient":
