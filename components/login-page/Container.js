@@ -2,7 +2,7 @@
 
 import Form from "./Form";
 import ImageSide from "./ImageSide";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -14,10 +14,8 @@ import axios from "axios";
 function Container() {
   const router = useRouter();
   const { googleUserDetails } = useSelector((state) => state.auth);
-  const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const [userCountry, setUserCountry] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,14 +27,8 @@ function Container() {
     }
   }, [router, googleUserDetails]);
 
-  const emailInput = (e) => {
-    setUserEmail(e.target.value);
-  };
   const usernameInput = (e) => {
     setUserName(e.target.value);
-  };
-  const countryInput = (e) => {
-    setUserCountry(e.target.value);
   };
   const passwordInput = (e) => {
     setUserPassword(e.target.value);
@@ -72,63 +64,45 @@ function Container() {
     },
   });
 
-  const signing = async () => {
+  const login = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
-      if (!userEmail || !userPassword) {
-        toast.error("all fields are required");
-        return;
-      }
-
-      if (!passwordRegex.test(userPassword)) {
-        toast.error(
-          "Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!"
-        );
+      if (!userName) {
+        toast.error("username required!");
         return;
       }
       setLoading(true);
-      const response = await axios.post(
-        `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers`,
-        {
-          email: userEmail,
-          user_name: userName,
-          country: userCountry,
-          user_type: "regular",
-          subscription_type: "free",
-          // google_id: "google13",
-          metadata: {},
-          password_hash: userPassword,
-        }
+      const response = await axios.get(
+        `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${userName}`
       );
-      // console.log("response", response);
-      if (response.status === 200) {
-        toast.success(response.data.message);
-        return router.push("/login");
+      console.log("response", response);
+      if (response.status === 200 && response.data.exists === true) {
+        toast.success("Login successful");
+        localStorage.setItem("voyexUserName", userName);
+        return router.push("/search");
+      }
+      if (response.status === 200 && response.data.exists === false) {
+        toast.error("Wrong credentials, user doesn't exist!");
+        return;
       }
     } catch (error) {
       // console.log(error);
-      if (
-        error.response.data.includes(
-          "Error creating user: duplicate key value violates unique constraint"
-        )
-      ) {
-        toast.error("User already exists");
+      if (error.message.includes("Network Error")) {
+        toast.error("Network Error, Try again!");
       }
     } finally {
       setLoading(false);
     }
   };
-  const handleSignup = async () => {
-    signing();
+  const handleLogin = async () => {
+    login();
   };
   return (
     <main className="h-screen overflow-y-scroll no-scrollbar">
       <section className="flex w-full h-full items-center">
         <Form
-          handleSignup={handleSignup}
-          emailInput={emailInput}
+          handleLogin={handleLogin}
           usernameInput={usernameInput}
-          countryInput={countryInput}
           passwordInput={passwordInput}
           googleSignup={googleSignup}
           loading={loading}
