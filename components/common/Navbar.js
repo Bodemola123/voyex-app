@@ -26,14 +26,14 @@ function Navbar() {
         <div className="flex items-center justify-center w-full z-10">
           <div className="flex items-center pl-4 w-full overflow-hidden  whitespace-nowrap">
             <button onClick={toggleSidebar}>
-              <Image
+              {/* <Image
                 src="/collapse.png"
                 alt="collapse"
                 width={24}
                 height={24}
                 className="mr-auto block"
-              />
-              {/* <GoSidebarCollapse className="text-2xl" /> */}
+              /> */}
+              <GoSidebarCollapse className="text-2xl" />
             </button>
             {isOpen && (
               <Link

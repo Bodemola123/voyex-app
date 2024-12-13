@@ -1,9 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import StarsCanvas from "@/components/common/StarBackground.js";
-import Image from "next/image";
 import Animate from "@/components/common/animate";
 import StoreProvider from "./StoreProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,7 +27,10 @@ export default function RootLayout({ children }) {
         <Animate />
         <StoreProvider>
           <GoogleOAuthProvider clientId="674221708942-scpkfslkcl6b1h6pgqam7j77es9s50nk.apps.googleusercontent.com">
-            <div className="relative w-full h-full z-[2]">{children}</div>
+            <div className="relative w-full h-full z-[10]">
+              {children}
+              <ToastContainer />
+            </div>
           </GoogleOAuthProvider>
         </StoreProvider>
       </body>
