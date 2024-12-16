@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GoSidebarCollapse } from "react-icons/go";
 import { usePathname } from "next/navigation";
-import { VscSignIn } from "react-icons/vsc";
+import { PiGear } from "react-icons/pi";
 import { FaUserCircle } from "react-icons/fa";
 
 function Navbar() {
@@ -19,7 +19,7 @@ function Navbar() {
   return (
     <nav
       className={`flex flex-col items-center gap-5 justify-between py-4 rounded-xl z-10 ml-3 h-[96%] px-3 ${
-        isOpen ? "w-64" : "w-[86px]"
+        isOpen ? "w-64" : "w-[95px]"
       } bg-gradient-to-tr from-[#00a766]/10 to-gray/10 overflow-hidden transition-all duration-300`}
     >
       <div className="flex flex-col items-center justify-center w-full">
@@ -132,21 +132,20 @@ function Navbar() {
         className={`flex flex-col items-center gap-2 w-full z-10 tracking-wide`}
       >
         <Link
-          href="/sign-up"
+          href="/settings"
           title="Signup"
-          className="flex items-center justify-start text-btnlime text-base font-medium py-3 pl-4 w-full h-12 rounded-xl bg-none capitalize overflow-x-hidden whitespace-nowrap"
+          className="flex items-center justify-start text-fontlight text-base font-medium py-3 pl-4 w-full rounded-xl bg-none capitalize overflow-x-hidden whitespace-nowrap"
         >
-          {/* <VscSignIn className="text-2xl" /> */}
-          <FaUserCircle className="text-xl" />
-          {isOpen ? <span className="ml-3">Sign up</span> : ""}
+          <PiGear className="text-4xl" />
+          {isOpen ? <span className="ml-3">Settings</span> : ""}
         </Link>
-        <button
-          title="Login"
-          className="flex items-center justify-start gap-3 text-fontlight text-base font-medium py-3 pl-4 w-full h-12 rounded-xl bg-btnlime capitalize overflow-x-hidden whitespace-nowrap"
+        <div
+          title="user"
+          className="flex items-center justify-start gap-3 text-fontlight text-base font-medium py-3 pl-4 w-full rounded-xl bg-btnlime capitalize overflow-x-hidden whitespace-nowrap"
         >
-          <FaUserCircle className="text-xl" />
-          {isOpen ? "log in" : ""}
-        </button>
+          <Image src="/emoji.png" alt="user" width={35} height={35} />
+          {isOpen ? "Voyex User" : ""}
+        </div>
       </div>
     </nav>
   );

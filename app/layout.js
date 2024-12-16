@@ -6,6 +6,7 @@ import StoreProvider from "./StoreProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ProtectedRoute from "@/lib/protectedRoutes";
 
 const inter = Inter({ subsets: ["latin"] });
 

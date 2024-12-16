@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { updateGoogleUserDetails } from "@/lib/features/authentication/auth";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function Container() {
   const router = useRouter();
@@ -17,15 +18,16 @@ function Container() {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const name = Cookies.get("voyexUserName") || googleUserDetails;
 
   useEffect(() => {
-    if (googleUserDetails) {
-      toast("Navigating to Search");
+    if (name || googleUserDetails) {
+      toast("redirecting to search page");
       setTimeout(() => {
         router.push("/search");
-      }, 5500);
+      }, 3500);
     }
-  }, [router, googleUserDetails]);
+  }, [router, name, googleUserDetails]);
 
   const usernameInput = (e) => {
     setUserName(e.target.value);
@@ -78,7 +80,7 @@ function Container() {
       console.log("response", response);
       if (response.status === 200 && response.data.exists === true) {
         toast.success("Login successful");
-        localStorage.setItem("voyexUserName", userName);
+        Cookies.set("voyexUserName", userName, { expires: 7 });
         return router.push("/search");
       }
       if (response.status === 200 && response.data.exists === false) {
