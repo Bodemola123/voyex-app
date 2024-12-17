@@ -25,6 +25,7 @@ function Container() {
   const [tools, setTools] = useState("");
   const [referral, setReferral] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -108,8 +109,7 @@ function Container() {
         !orgLocation ||
         !orgInstagram ||
         !yearFounded ||
-        !tools ||
-        !referral
+        !tools
       ) {
         toast.error("all fields are required");
         return;
@@ -141,24 +141,20 @@ function Container() {
           tools_count: tools,
           billing_info: "debit card",
           password: orgPassword,
-          referred_by: referral,
+          // referred_by: referral,
         }
       );
       console.log("response", response);
-      if (response.status === 200) {
-        toast.success(response.message);
+      if (response.status === 201) {
+        toast.success(response.data.message);
         return router.push("/login");
       }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
-      // if (
-      //   error.response.data.includes(
-      //     "Error creating organization: duplicate key value violates unique constraint"
-      //   )
-      // ) {
-      //   toast.error("Organization already exists");
-      // }
+      if (error.response.data.includes("Organization already exists")) {
+        toast.error("Organization already exists");
+      }
     } finally {
       setLoading(false);
     }
@@ -182,6 +178,8 @@ function Container() {
         passwordInput={passwordInput}
         googleSignup={googleSignup}
         loading={loading}
+        showPassword={showPassword}
+        setShowPassword={setShowPassword}
       />
       <ImageSide />
     </main>

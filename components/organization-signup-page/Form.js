@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import { FaRegEye } from "react-icons/fa6";
 
 function Form({
   handleSignup,
@@ -21,6 +22,8 @@ function Form({
   referralInput,
   googleSignup,
   loading,
+  showPassword,
+  setShowPassword,
 }) {
   const router = useRouter();
   return (
@@ -79,13 +82,17 @@ function Form({
                 <div className="relative w-full">
                   <input
                     id="password"
-                    type="password"
+                    type={`${showPassword ? "text" : "password"}`}
                     placeholder="*********"
                     className="h-14 rounded-full px-4 pr-16 bg-[#171920] outline-none mt-2 w-full"
                     onChange={passwordInput}
                   />
-                  <button className="absolute right-5 top-1/2 -translate-y-1/2 text-xl text-btnlime">
-                    <FaRegEyeSlash />
+                  <button
+                    className="absolute right-1 top-1/2 -translate-y-1/2 text-xl text-btnlime p-3"
+                    title={`${showPassword ? "Hide" : "Show"}`}
+                    onClick={() => setShowPassword((e) => !e)}
+                  >
+                    {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                   </button>
                 </div>
               </div>
