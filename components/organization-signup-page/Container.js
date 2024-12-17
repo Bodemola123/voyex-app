@@ -15,12 +15,12 @@ function Container() {
   const router = useRouter();
   const { googleUserDetails } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [orgPassword, setOrgPassword] = useState("");
   const [orgname, setOrgname] = useState("");
-  const [website, setWebsite] = useState("");
-  const [industry, setIndustry] = useState("");
-  const [location, setLocation] = useState("");
-  const [instagram, setInstagram] = useState("");
+  const [orgWebsite, setOrgWebsite] = useState("");
+  const [orgIndustry, setOrgIndustry] = useState("");
+  const [orgLocation, setOrgLocation] = useState("");
+  const [orgInstagram, setOrgInstagram] = useState("");
   const [yearFounded, setYearFounded] = useState("");
   const [tools, setTools] = useState("");
   const [referral, setReferral] = useState("");
@@ -42,16 +42,16 @@ function Container() {
     setOrgname(e.target.value);
   };
   const locationInput = (e) => {
-    setLocation(e.target.value);
+    setOrgLocation(e.target.value);
   };
   const websiteInput = (e) => {
-    setWebsite(e.target.value);
+    setOrgWebsite(e.target.value);
   };
   const industryInput = (e) => {
-    setIndustry(e.target.value);
+    setOrgIndustry(e.target.value);
   };
   const instaSocialInput = (e) => {
-    setInstagram(e.target.value);
+    setOrgInstagram(e.target.value);
   };
   const yearFoundedInput = (e) => {
     setYearFounded(e.target.value);
@@ -63,7 +63,7 @@ function Container() {
     setReferral(e.target.value);
   };
   const passwordInput = (e) => {
-    setPassword(e.target.value);
+    setOrgPassword(e.target.value);
   };
 
   const googleSignup = useGoogleLogin({
@@ -101,12 +101,12 @@ function Container() {
     try {
       if (
         !email ||
-        !password ||
+        !orgPassword ||
         !orgname ||
-        !website ||
-        !industry ||
-        !location ||
-        !instagram ||
+        !orgWebsite ||
+        !orgIndustry ||
+        !orgLocation ||
+        !orgInstagram ||
         !yearFounded ||
         !tools ||
         !referral
@@ -115,7 +115,7 @@ function Container() {
         return;
       }
 
-      if (!passwordRegex.test(password)) {
+      if (!passwordRegex.test(orgPassword)) {
         toast.error(
           "Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!"
         );
@@ -125,23 +125,22 @@ function Container() {
       const response = await axios.post(
         `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org`,
         {
-          org_email: email,
           org_name: orgname,
-          website: website,
+          org_email: email,
+          website: orgWebsite,
           logo_url: "https://testorg.com/logo.png",
-          industry: industry,
-          location: location,
+          industry: orgIndustry,
+          location: orgLocation,
           social_mediaLinks: {
             twitter: "https://testorg.com/logo.png",
-            instagram: instagram,
+            instagram: orgInstagram,
           },
-          // google_id: "google13",
           metadata: {
             founded: yearFounded,
           },
           tools_count: tools,
-          billing_info: "credit card",
-          password_hash: password,
+          billing_info: "debit card",
+          password: orgPassword,
           referred_by: referral,
         }
       );
