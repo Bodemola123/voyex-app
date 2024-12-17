@@ -116,7 +116,7 @@ function Form({
                 <input
                   id="industry"
                   type="text"
-                  placeholder="India"
+                  placeholder="commerce"
                   className="h-14 rounded-full px-4 bg-[#171920] outline-none mt-2"
                   onChange={industryInput}
                 />
@@ -148,7 +148,7 @@ function Form({
                 <input
                   id="instaSocial"
                   type="text"
-                  placeholder="India"
+                  placeholder="https://www.media.com/socials"
                   className="h-14 rounded-full px-4 bg-[#171920] outline-none mt-2"
                   onChange={instaSocialInput}
                 />
