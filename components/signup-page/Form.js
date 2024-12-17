@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaRegEyeSlash } from "react-icons/fa6";
 
 function Form({
@@ -15,17 +16,21 @@ function Form({
   googleSignup,
   loading,
 }) {
+  const router = useRouter();
   return (
     <main className="w-full lg:w-1/2 h-full">
       <section className=" relative flex justify-center items-center mx-auto w-full h-full">
         <div className="w-full h-full max-w-[700px] flex flex-col justify-center">
           <h1 className="text-5xl font-bold text-center">Voyex.</h1>
-          <div className="flex items-center justify-end space-x-2 mt-3 ">
+          <button
+            className="flex items-center justify-end space-x-2 mt-3 cursor-pointer"
+            onClick={() => router.push("/organization-signup")}
+          >
             <Switch id="airplane-mode" />
             <Label htmlFor="airplane-mode" className="text-base font-normal">
               Join as an organization
             </Label>
-          </div>
+          </button>
 
           <div className="mt-7">
             <div className="grid grid-cols-2 gap-5">
