@@ -1,8 +1,8 @@
-import Container from "@/components/signup-page/Container";
+import Welcome from "@/components/signup-page/Welcome";
 import React from "react";
 
 function SignUp() {
-  return <Container />;
+  return <Welcome />;
 }
 
 export default SignUp;

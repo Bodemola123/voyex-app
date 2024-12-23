@@ -2,8 +2,8 @@ import AuthHeader from "@/components/signup-page/AuthHeader";
 
 function AuthLayout({ children }) {
   return (
-    <div className="h-screen w-screen px-5 md:px-16 pt-2 md:pt-8 pb-5 md:pb-16">
-      <AuthHeader />
+    <div className="h-screen w-screen flex items-center justify-center p-5">
+      {/* <AuthHeader /> */}
       {children}
     </div>
   );
