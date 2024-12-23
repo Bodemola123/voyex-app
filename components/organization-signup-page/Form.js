@@ -194,7 +194,7 @@ function Form({
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
+              {/* <div className="flex flex-col gap-1">
                 <label
                   htmlFor="referral"
                   className="text-sm font-medium capitalize"
@@ -208,7 +208,7 @@ function Form({
                   className="h-14 rounded-full px-4 bg-[#171920] outline-none mt-2"
                   onChange={referralInput}
                 />
-              </div>
+              </div> */}
             </div>
 
             <button

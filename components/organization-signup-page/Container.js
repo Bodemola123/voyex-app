@@ -23,7 +23,7 @@ function Container() {
   const [orgInstagram, setOrgInstagram] = useState("");
   const [yearFounded, setYearFounded] = useState("");
   const [tools, setTools] = useState("");
-  const [referral, setReferral] = useState("");
+  // const [referral, setReferral] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -60,9 +60,9 @@ function Container() {
   const toolsAmountInput = (e) => {
     setTools(e.target.value);
   };
-  const referralInput = (e) => {
-    setReferral(e.target.value);
-  };
+  // const referralInput = (e) => {
+  //   setReferral(e.target.value);
+  // };
   const passwordInput = (e) => {
     setOrgPassword(e.target.value);
   };
@@ -174,7 +174,7 @@ function Container() {
         instaSocialInput={instaSocialInput}
         yearFoundedInput={yearFoundedInput}
         toolsAmountInput={toolsAmountInput}
-        referralInput={referralInput}
+        // referralInput={referralInput}
         passwordInput={passwordInput}
         googleSignup={googleSignup}
         loading={loading}
