@@ -1,4 +1,4 @@
-import Container from "@/components/organization-signup-page/Container";
+import Container from "@/components/organization-signing-page/Container";
 import React from "react";
 
 function OrganizationSignup() {

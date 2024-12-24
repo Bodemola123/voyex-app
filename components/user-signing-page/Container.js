@@ -123,16 +123,16 @@ function Container() {
     signing();
   };
   return (
-    // <Signing
-    //   handleSignup={handleSignup}
-    //   emailInput={emailInput}
-    //   usernameInput={usernameInput}
-    //   countryInput={countryInput}
-    //   passwordInput={passwordInput}
-    //   googleSignup={googleSignup}
-    //   loading={loading}
-    // />
-    <EmailVerify />
+    <Signing
+      handleSignup={handleSignup}
+      emailInput={emailInput}
+      usernameInput={usernameInput}
+      countryInput={countryInput}
+      passwordInput={passwordInput}
+      googleSignup={googleSignup}
+      loading={loading}
+    />
+    // <EmailVerify />
     // <AccountSuccess />
   );
 }

@@ -20,14 +20,14 @@ function AccountSuccess() {
           Your account has been created
           <br /> successfully
         </p>
-        {/* <div className="flex items-center justify-between max-w-[400px] w-full">
+        <div className="flex items-center justify-between max-w-[400px] w-full">
           <button className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card">
             Skip
           </button>
           <button className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple">
             Upload info
           </button>
-        </div> */}
+        </div>
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
         <Link href="/terms_of_use" className="">

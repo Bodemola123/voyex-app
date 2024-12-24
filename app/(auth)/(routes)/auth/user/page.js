@@ -1,4 +1,4 @@
-import Container from "@/components/signing-page/Container";
+import Container from "@/components/user-signing-page/Container";
 
 function UserPage() {
   return <Container />;

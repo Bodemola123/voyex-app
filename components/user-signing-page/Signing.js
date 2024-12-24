@@ -1,6 +1,6 @@
 "use client";
 
-import SignOptions from "@/components/signing-page/SignOptions";
+import SignOptions from "@/components/user-signing-page/SignOptions";
 import { Button } from "@/components/ui/button";
 import {
   Card,

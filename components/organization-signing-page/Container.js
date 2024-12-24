@@ -1,7 +1,5 @@
 "use client";
 
-import Form from "./Form";
-import ImageSide from "./ImageSide";
 import { useSelector, useDispatch } from "react-redux";
 
 import { toast } from "react-toastify";
@@ -10,6 +8,9 @@ import { useEffect, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { updateGoogleUserDetails } from "@/lib/features/authentication/auth";
 import axios from "axios";
+import Signing from "./Signing";
+import EmailVerify from "./EmailVerify";
+import AccountSuccess from "./AccountSuccess";
 
 function Container() {
   const router = useRouter();
@@ -163,26 +164,25 @@ function Container() {
     signing();
   };
   return (
-    <main className="flex w-screen h-screen">
-      <Form
-        handleSignup={handleSignup}
-        emailInput={emailInput}
-        orgInput={orgInput}
-        websiteInput={websiteInput}
-        industryInput={industryInput}
-        locationInput={locationInput}
-        instaSocialInput={instaSocialInput}
-        yearFoundedInput={yearFoundedInput}
-        toolsAmountInput={toolsAmountInput}
-        // referralInput={referralInput}
-        passwordInput={passwordInput}
-        googleSignup={googleSignup}
-        loading={loading}
-        showPassword={showPassword}
-        setShowPassword={setShowPassword}
-      />
-      <ImageSide />
-    </main>
+    <Signing
+      handleSignup={handleSignup}
+      emailInput={emailInput}
+      orgInput={orgInput}
+      websiteInput={websiteInput}
+      industryInput={industryInput}
+      locationInput={locationInput}
+      instaSocialInput={instaSocialInput}
+      yearFoundedInput={yearFoundedInput}
+      toolsAmountInput={toolsAmountInput}
+      // referralInput={referralInput}
+      passwordInput={passwordInput}
+      googleSignup={googleSignup}
+      loading={loading}
+      showPassword={showPassword}
+      setShowPassword={setShowPassword}
+    />
+    // <EmailVerify />
+    // <AccountSuccess />
   );
 }
 export default Container;
