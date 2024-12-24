@@ -137,26 +137,23 @@
   }
 }
 
-*::-webkit-scrollbar {
-  width: 15px !important;
+::-webkit-scrollbar {
+  width: 10px;
 }
 /* ::-webkit-scrollbar {
   width: 20px;
 } */
 
 ::-webkit-scrollbar-track {
+  width: 2px !important;
   background-color: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #00a766;
-  border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #00a766;
-  border-radius: 20px;
-  border: 6px solid transparent;
+*::-webkit-scrollbar-thumb {
+  background-color: #c088fb;
+  width: 5px;
+  /* border-radius: 2px; */
+  /* border: 6px solid transparent; */
   background-clip: content-box;
 }
 
