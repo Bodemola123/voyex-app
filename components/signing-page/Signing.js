@@ -1,6 +1,6 @@
 "use client";
 
-import SignOptions from "@/components/signup-page/SignOptions";
+import SignOptions from "@/components/signing-page/SignOptions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 
-function UserPage() {
+function Signing() {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center justify-center h-full mt-10">
@@ -138,4 +138,4 @@ function UserPage() {
   );
 }
 
-export default UserPage;
+export default Signing;

@@ -13,17 +13,17 @@ function HomeNavbar() {
 
       <div className="flex items-center gap-3 z-10">
         <Link
-          href="/sign-up"
+          href="/auth"
           className="text-btnlime text-base font-medium py-3 px-4 rounded-xl bg-none capitalize"
         >
           sign up
         </Link>
-        <Link
+        {/* <Link
           href="/login"
           className="text-fontlight text-base font-medium py-2 px-9 rounded-xl bg-btnlime capitalize"
         >
           log in
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

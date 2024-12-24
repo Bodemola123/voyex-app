@@ -17,13 +17,13 @@ function Welcome() {
       <div className="flex flex-col items-center gap-[0.90rem] w-full mt-[76px]">
         <button
           className="capitalize text-[#131314] text-base font-medium text-center py-4 max-w-[353px] w-full bg-purple rounded-[60px]"
-          onClick={() => router.push("/sign-up/user")}
+          onClick={() => router.push("/auth/user")}
         >
           single user
         </button>
         <button
           className="capitalize text-[#131314] text-base font-medium text-center py-4 max-w-[353px] w-full bg-purple rounded-[60px]"
-          onClick={() => router.push("/sign-up/organization")}
+          onClick={() => router.push("/auth/organization")}
         >
           organization
         </button>

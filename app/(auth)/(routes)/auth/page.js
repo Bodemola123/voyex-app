@@ -1,4 +1,4 @@
-import Welcome from "@/components/signup-page/Welcome";
+import Welcome from "@/components/signing-page/Welcome";
 import React from "react";
 
 function SignUp() {

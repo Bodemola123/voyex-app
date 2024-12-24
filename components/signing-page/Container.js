@@ -1,7 +1,5 @@
 "use client";
 
-import Form from "./Form";
-import ImageSide from "./ImageSide";
 import { useSelector, useDispatch } from "react-redux";
 
 import { toast } from "react-toastify";
@@ -10,6 +8,9 @@ import { useEffect, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { updateGoogleUserDetails } from "@/lib/features/authentication/auth";
 import axios from "axios";
+import Signing from "./Signing";
+import EmailVerify from "./EmailVerify";
+import AccountSuccess from "./AccountSuccess";
 
 function Container() {
   const router = useRouter();
@@ -122,20 +123,17 @@ function Container() {
     signing();
   };
   return (
-    <main className="h-screen overflow-y-scroll no-scrollbar">
-      <section className="flex w-full h-full items-center">
-        <Form
-          handleSignup={handleSignup}
-          emailInput={emailInput}
-          usernameInput={usernameInput}
-          countryInput={countryInput}
-          passwordInput={passwordInput}
-          googleSignup={googleSignup}
-          loading={loading}
-        />
-        <ImageSide />
-      </section>
-    </main>
+    // <Signing
+    //   handleSignup={handleSignup}
+    //   emailInput={emailInput}
+    //   usernameInput={usernameInput}
+    //   countryInput={countryInput}
+    //   passwordInput={passwordInput}
+    //   googleSignup={googleSignup}
+    //   loading={loading}
+    // />
+    <EmailVerify />
+    // <AccountSuccess />
   );
 }
 export default Container;
