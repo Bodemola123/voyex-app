@@ -14,8 +14,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-function Signing() {
+function Signing({
+  handleUserSignup,
+  emailInput,
+  passwordInput,
+  countryInput,
+  usernameInput,
+  handleUserSignin,
+  usernameInput1,
+  passwordInput1,
+  googleSignup,
+  loading,
+}) {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center justify-center h-full mt-10">
@@ -47,6 +59,21 @@ function Signing() {
             </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
+                  <Label
+                    htmlFor="username"
+                    className="text-fontlight font-normal"
+                  >
+                    Username
+                  </Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    defaultValue="Your username"
+                    onChange={usernameInput}
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
+                  />
+                </div>
+                <div className="space-y-1">
                   <Label htmlFor="email" className="text-fontlight font-normal">
                     Email address
                   </Label>
@@ -54,6 +81,7 @@ function Signing() {
                     id="email"
                     type="email"
                     defaultValue="Your email"
+                    onChange={emailInput}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
                   />
                 </div>
@@ -68,13 +96,21 @@ function Signing() {
                     id="password"
                     type="password"
                     defaultValue="password"
+                    onChange={passwordInput}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
                   />
                 </div>
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
-                <Button className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]">
-                  Sign up
+                <Button
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]"
+                  onClick={() => handleUserSignup()}
+                >
+                  {loading ? (
+                    <AiOutlineLoading3Quarters className="animate-spin text-black" />
+                  ) : (
+                    "Sign up"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
@@ -99,6 +135,7 @@ function Signing() {
                     id="username"
                     type="text"
                     defaultValue="Your username"
+                    onChange={usernameInput1}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
                   />
                 </div>
@@ -113,19 +150,27 @@ function Signing() {
                     id="password"
                     type="password"
                     defaultValue="password"
+                    onChange={passwordInput1}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
                   />
                 </div>
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
-                <Button className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]">
-                  Sign in
+                <Button
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]"
+                  onClick={() => handleUserSignin()}
+                >
+                  {loading ? (
+                    <AiOutlineLoading3Quarters className="animate-spin text-black" />
+                  ) : (
+                    "Sign in"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
           </TabsContent>
         </Tabs>
-        <SignOptions />
+        <SignOptions googleSignup={googleSignup} />
         <p className="text-center text-fontlight text-base font-normal mt-14 pb-10">
           By creating an account or signing you agree to our
           <br />
