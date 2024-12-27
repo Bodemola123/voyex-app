@@ -11,11 +11,13 @@ import axios from "axios";
 import Signing from "./Signing";
 import EmailVerify from "./EmailVerify";
 import AccountSuccess from "./AccountSuccess";
+import { useDebounce } from "@/hooks/useDebounce";
 
 function Container() {
   const router = useRouter();
   const { googleUserDetails } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
+  const debouncedValue = useDebounce(email, 500);
   const [orgPassword, setOrgPassword] = useState("");
   const [orgname, setOrgname] = useState("");
   const [orgWebsite, setOrgWebsite] = useState("");
@@ -25,8 +27,13 @@ function Container() {
   const [yearFounded, setYearFounded] = useState("");
   const [tools, setTools] = useState("");
   // const [referral, setReferral] = useState("");
+
+  const [orgname1, setOrgname1] = useState("");
+  const [orgPassword1, setOrgPassword1] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const [border, setBorder] = useState(null);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -64,9 +71,41 @@ function Container() {
   // const referralInput = (e) => {
   //   setReferral(e.target.value);
   // };
+  const orgInput1 = (e) => {
+    setOrgname1(e.target.value);
+  };
   const passwordInput = (e) => {
     setOrgPassword(e.target.value);
   };
+  const passwordInput1 = (e) => {
+    setOrgPassword1(e.target.value);
+  };
+
+  // useEffect(() => {
+  //   const checkOrgName = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${orgname1}`
+  //       );
+  //       console.log("checked name:", response);
+  //       if (response.status === 200 && response.data.exists === true) {
+  //         toast.success("Signup successful");
+  //         setBorder(true);
+  //       }
+  //       if (response.status === 200 && response.data.exists === false) {
+  //         toast.error("organization doesn't exist!");
+  //         setBorder(false);
+  //         return;
+  //       }
+  //     } catch (error) {
+  //       if (error.message.includes("Network Error")) {
+  //         toast.error("Network Error, Try again!");
+  //       }
+  //     }
+  //   };
+  //   checkOrgName();
+  //   // input finall order
+  // }, [debouncedValue, orgname1]);
 
   const googleSignup = useGoogleLogin({
     onSuccess: async (response) => {
@@ -98,6 +137,7 @@ function Container() {
     },
   });
 
+  //////////////// ORGANIZATION SIGNUP /////////////////////////////////
   const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
@@ -163,10 +203,46 @@ function Container() {
   const handleSignup = async () => {
     signing();
   };
+
+  //////////////////todo ORGANIZATION SIGN IN /////////////////////////////
+  const organizationSignin = async () => {
+    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
+    try {
+      if (!orgname1) {
+        toast.error("organization name required!");
+        return;
+      }
+      setLoading(true);
+      const response = await axios.get(
+        `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${orgname1}`
+      );
+      console.log("response", response);
+      if (response.status === 200 && response.data.exists === true) {
+        toast.success("Signup successful");
+        Cookies.set("voyexOrgName", orgname1, { expires: 7 });
+        return router.push("/search");
+      }
+      if (response.status === 200 && response.data.exists === false) {
+        toast.error("Wrong credentials, organization doesn't exist!");
+        return;
+      }
+    } catch (error) {
+      // console.log(error);
+      if (error.message.includes("Network Error")) {
+        toast.error("Network Error, Try again!");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleOrgSignin = async () => {
+    organizationSignin();
+  };
   return (
     <Signing
       handleSignup={handleSignup}
       emailInput={emailInput}
+      passwordInput={passwordInput}
       orgInput={orgInput}
       websiteInput={websiteInput}
       industryInput={industryInput}
@@ -175,11 +251,14 @@ function Container() {
       yearFoundedInput={yearFoundedInput}
       toolsAmountInput={toolsAmountInput}
       // referralInput={referralInput}
-      passwordInput={passwordInput}
+      handleOrgSignin={handleOrgSignin}
+      orgInput1={orgInput1}
+      passwordInput1={passwordInput1}
       googleSignup={googleSignup}
       loading={loading}
       showPassword={showPassword}
       setShowPassword={setShowPassword}
+      border={border}
     />
     // <EmailVerify />
     // <AccountSuccess />

@@ -20,6 +20,7 @@ function Container() {
   const [userPassword, setUserPassword] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [userName1, setUserName1] = useState("");
   const [userPassword1, setUserPassword1] = useState("");
@@ -178,6 +179,8 @@ function Container() {
           usernameInput={usernameInput}
           countryInput={countryInput}
           passwordInput={passwordInput}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}

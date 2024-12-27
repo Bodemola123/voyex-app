@@ -5,7 +5,7 @@ import React from "react";
 function AccountSuccess() {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center justify-center gap-7 h-full">
+      <div className=" flex flex-col items-center gap-7 h-full">
         <Image
           src="/loading.png"
           alt="loading"

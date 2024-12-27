@@ -15,11 +15,14 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 function Signing({
   handleUserSignup,
   emailInput,
   passwordInput,
+  showPassword,
+  setShowPassword,
   countryInput,
   usernameInput,
   handleUserSignin,
@@ -30,10 +33,8 @@ function Signing({
 }) {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center justify-center h-full mt-10">
-        <h1 className="text-3xl font-bold text-fontlight pt-40 capitalize">
-          voyex
-        </h1>
+      <div className=" flex flex-col items-center h-full">
+        <h1 className="text-3xl font-bold text-fontlight capitalize">voyex</h1>
         <Tabs defaultValue="sign_up" className="w-[400px] mt-10">
           <TabsList className="grid w-full grid-cols-2 bg-card/30 text-fontlight rounded-[21px]">
             <TabsTrigger
@@ -80,12 +81,12 @@ function Signing({
                   <Input
                     id="email"
                     type="email"
-                    defaultValue="Your email"
+                    placeholder="Your email"
                     onChange={emailInput}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
                   />
                 </div>
-                <div className="space-y-1">
+                <div className="relative space-y-1">
                   <Label
                     htmlFor="password"
                     className="text-fontlight font-normal"
@@ -94,11 +95,18 @@ function Signing({
                   </Label>
                   <Input
                     id="password"
-                    type="password"
-                    defaultValue="password"
+                    type={`${showPassword ? "text" : "password"}`}
+                    placeholder="*********"
                     onChange={passwordInput}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
                   />
+                  <button
+                    className="absolute right-1 top-7 text-xl text-purple p-3"
+                    title={`${showPassword ? "Hide" : "Show"}`}
+                    onClick={() => setShowPassword((e) => !e)}
+                  >
+                    {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                  </button>
                 </div>
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
@@ -139,7 +147,7 @@ function Signing({
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
                   />
                 </div>
-                <div className="space-y-1">
+                <div className="relative space-y-1">
                   <Label
                     htmlFor="password"
                     className="text-fontlight font-normal"
@@ -148,11 +156,18 @@ function Signing({
                   </Label>
                   <Input
                     id="password"
-                    type="password"
-                    defaultValue="password"
+                    type={`${showPassword ? "text" : "password"}`}
+                    placeholder="*********"
                     onChange={passwordInput1}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
                   />
+                  <button
+                    className="absolute right-1 top-7 text-xl text-purple p-3"
+                    title={`${showPassword ? "Hide" : "Show"}`}
+                    onClick={() => setShowPassword((e) => !e)}
+                  >
+                    {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                  </button>
                 </div>
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
