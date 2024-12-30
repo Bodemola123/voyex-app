@@ -10,7 +10,14 @@ import { updateGoogleUserDetails } from "@/lib/features/authentication/auth";
 import axios from "axios";
 import Signing from "./Signing";
 import EmailVerify from "./EmailVerify";
-import AccountSuccess from "./AccountSuccess";
+import SignupSuccess from "./SignupSuccess";
+import { useDebounce } from "@/hooks/useDebounce";
+import BasicInfoContainer from "./BasicInfoContainer";
+import ContactDetailsContainer from "./ContactDetailsContainer";
+import AccountError from "./AccountError";
+import OrgLoading from "./OrgSignupLoading";
+import OrgSigninLoading from "./OrgSigninLoading";
+import SigninSuccess from "./SigninSuccess";
 
 function Container() {
   const router = useRouter();
@@ -25,8 +32,16 @@ function Container() {
   const [yearFounded, setYearFounded] = useState("");
   const [tools, setTools] = useState("");
   // const [referral, setReferral] = useState("");
+
+  const [orgname1, setOrgname1] = useState("");
+  const [orgPassword1, setOrgPassword1] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const [border, setBorder] = useState(false);
+  const [allowed, setAllowed] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState("signing");
+  const debouncedValue = useDebounce(orgname, 500);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -64,9 +79,44 @@ function Container() {
   // const referralInput = (e) => {
   //   setReferral(e.target.value);
   // };
+  const orgInput1 = (e) => {
+    setOrgname1(e.target.value);
+  };
   const passwordInput = (e) => {
     setOrgPassword(e.target.value);
   };
+  const passwordInput1 = (e) => {
+    setOrgPassword1(e.target.value);
+  };
+
+  ///////////// CHECK ORG NAME //////////////////////
+  useEffect(() => {
+    if (orgname === "") {
+      return;
+    } else {
+      const checkOrgName = async () => {
+        try {
+          const response = await axios.get(
+            `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${debouncedValue}`
+          );
+          // console.log("checked name:", response);
+          if (response.status === 200 && response.data.exist === "yes") {
+            // toast.error("Name taken");
+            setBorder(false);
+            return;
+          }
+          if (response.status === 200 && response.data.exist === "no") {
+            // toast.success("Name available");
+            setBorder(true);
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+      };
+      checkOrgName();
+    }
+    // input finall order
+  }, [debouncedValue, orgname]);
 
   const googleSignup = useGoogleLogin({
     onSuccess: async (response) => {
@@ -98,6 +148,7 @@ function Container() {
     },
   });
 
+  //////////////// ORGANIZATION SIGNUP /////////////////////////////////
   const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
@@ -123,6 +174,7 @@ function Container() {
         return;
       }
       setLoading(true);
+      setCurrentSlide("org-signup-loading");
       const response = await axios.post(
         `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org`,
         {
@@ -145,14 +197,15 @@ function Container() {
           // referred_by: referral,
         }
       );
-      console.log("response", response);
+      // console.log("response", response);
       if (response.status === 201) {
         toast.success(response.data.message);
-        return router.push("/login");
+        setCurrentSlide("org-signup-success");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
+      setCurrentSlide("error");
       if (error.response.data.includes("Organization already exists")) {
         toast.error("Organization already exists");
       }
@@ -160,29 +213,124 @@ function Container() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (border === true) {
+      setAllowed(true);
+    } else {
+      setAllowed(false);
+    }
+  }, [border]);
   const handleSignup = async () => {
-    signing();
+    allowed && signing();
   };
-  return (
-    <Signing
-      handleSignup={handleSignup}
-      emailInput={emailInput}
-      orgInput={orgInput}
-      websiteInput={websiteInput}
-      industryInput={industryInput}
-      locationInput={locationInput}
-      instaSocialInput={instaSocialInput}
-      yearFoundedInput={yearFoundedInput}
-      toolsAmountInput={toolsAmountInput}
-      // referralInput={referralInput}
-      passwordInput={passwordInput}
-      googleSignup={googleSignup}
-      loading={loading}
-      showPassword={showPassword}
-      setShowPassword={setShowPassword}
-    />
-    // <EmailVerify />
-    // <AccountSuccess />
-  );
+
+  //////////////////todo ORGANIZATION SIGN IN /////////////////////////////
+  const organizationSignin = async () => {
+    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
+    try {
+      if (!orgname1) {
+        toast.error("organization name required!");
+        return;
+      }
+      setLoading(true);
+      setCurrentSlide("org-signin-loading");
+      const response = await axios.get(
+        `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${orgname1}`
+      );
+      // console.log("response", response);
+      if (response.status === 200 && response.data.exist === "yes") {
+        setCurrentSlide("org-signin-success");
+        toast.success("Signin successful");
+        Cookies.set("voyexOrgName", orgname1, { expires: 7 });
+      }
+      if (response.status === 200 && response.data.exist === "no") {
+        toast.error("Wrong credentials, organization doesn't exist!");
+        setCurrentSlide("signing");
+        return;
+      }
+    } catch (error) {
+      // console.log(error);
+      // setCurrentSlide("signing");
+      if (error.message.includes("Network Error")) {
+        toast.error("Network Error, Try again!");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleOrgSignin = async () => {
+    organizationSignin();
+  };
+
+  ////////////// HANDLE CURRENT SLIDE ////////////////////////
+  const handleCurrentSlide = () => {
+    if (currentSlide === "signing") {
+      return (
+        <Signing
+          passwordInput={passwordInput}
+          orgInput={orgInput}
+          // referralInput={referralInput}
+          ////////////////////////////////////////////////
+          handleOrgSignin={handleOrgSignin}
+          orgInput1={orgInput1}
+          passwordInput1={passwordInput1}
+          googleSignup={googleSignup}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          allowed={allowed}
+          border={border}
+          loading={loading}
+          setCurrentSlide={setCurrentSlide}
+        />
+      );
+    } else if (currentSlide === "basic-info") {
+      return (
+        <BasicInfoContainer
+          handleSignup={handleSignup}
+          emailInput={emailInput}
+          websiteInput={websiteInput}
+          industryInput={industryInput}
+          locationInput={locationInput}
+          instaSocialInput={instaSocialInput}
+          yearFoundedInput={yearFoundedInput}
+          toolsAmountInput={toolsAmountInput}
+          setCurrentSlide={setCurrentSlide}
+          loading={loading}
+        />
+      );
+    } else if (currentSlide === "contact-details") {
+      return <ContactDetailsContainer />;
+    } else if (currentSlide === "org-signup-loading") {
+      return <OrgLoading />;
+    } else if (currentSlide === "org-signin-loading") {
+      return <OrgSigninLoading />;
+    } else if (currentSlide === "email-verify") {
+      return <EmailVerify />;
+    } else if (currentSlide === "org-signup-success") {
+      return <SignupSuccess />;
+    } else if (currentSlide === "org-signin-success") {
+      return <SigninSuccess />;
+    } else if (currentSlide === "error") {
+      return <AccountError setCurrentSlide={setCurrentSlide} />;
+    } else
+      return (
+        <Signing
+          passwordInput={passwordInput}
+          orgInput={orgInput}
+          // referralInput={referralInput}
+          ////////////////////////////////////////////////
+          handleOrgSignin={handleOrgSignin}
+          orgInput1={orgInput1}
+          passwordInput1={passwordInput1}
+          googleSignup={googleSignup}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          allowed={allowed}
+          border={border}
+          setCurrentSlide={setCurrentSlide}
+        />
+      );
+  };
+  return handleCurrentSlide();
 }
 export default Container;
