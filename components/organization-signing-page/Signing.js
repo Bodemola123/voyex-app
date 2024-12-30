@@ -18,7 +18,6 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 function Signing({
-  handleSignup,
   passwordInput,
   orgInput,
   // referralInput,

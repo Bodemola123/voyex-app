@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-function Loading() {
+function OrgSigninLoading() {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center gap-7 h-full">
@@ -13,11 +13,11 @@ function Loading() {
           className="animate-spin"
         />
         <h1 className="text-fontlight text-3xl font-bold text-center">
-          Creating Account
+          Loading Credentials
         </h1>
         <p className="text-base text-fontlight text-center font-light">
-          Please wait while your account is being
-          <br /> created
+          Please wait while we search account
+          <br /> authenticity
         </p>
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
@@ -32,4 +32,4 @@ function Loading() {
   );
 }
 
-export default Loading;
+export default OrgSigninLoading;

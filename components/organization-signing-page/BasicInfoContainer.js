@@ -134,7 +134,7 @@ function BasicInfoContainer({
             {loading ? (
               <AiOutlineLoading3Quarters className="animate-spin text-black" />
             ) : (
-              "Upload Info"
+              "Sign up"
             )}
           </button>
         </div>

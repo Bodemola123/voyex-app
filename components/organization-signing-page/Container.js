@@ -10,12 +10,14 @@ import { updateGoogleUserDetails } from "@/lib/features/authentication/auth";
 import axios from "axios";
 import Signing from "./Signing";
 import EmailVerify from "./EmailVerify";
-import AccountSuccess from "./AccountSuccess";
+import SignupSuccess from "./SignupSuccess";
 import { useDebounce } from "@/hooks/useDebounce";
 import BasicInfoContainer from "./BasicInfoContainer";
 import ContactDetailsContainer from "./ContactDetailsContainer";
-import Loading from "./Loading";
 import AccountError from "./AccountError";
+import OrgLoading from "./OrgSignupLoading";
+import OrgSigninLoading from "./OrgSigninLoading";
+import SigninSuccess from "./SigninSuccess";
 
 function Container() {
   const router = useRouter();
@@ -172,7 +174,7 @@ function Container() {
         return;
       }
       setLoading(true);
-      setCurrentSlide("loading");
+      setCurrentSlide("org-signup-loading");
       const response = await axios.post(
         `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org`,
         {
@@ -195,13 +197,13 @@ function Container() {
           // referred_by: referral,
         }
       );
-      console.log("response", response);
+      // console.log("response", response);
       if (response.status === 201) {
         toast.success(response.data.message);
-        setCurrentSlide("success");
+        setCurrentSlide("org-signup-success");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
       setCurrentSlide("error");
       if (error.response.data.includes("Organization already exists")) {
@@ -231,21 +233,24 @@ function Container() {
         return;
       }
       setLoading(true);
+      setCurrentSlide("org-signin-loading");
       const response = await axios.get(
         `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${orgname1}`
       );
-      console.log("response", response);
-      if (response.status === 200 && response.data.exists === true) {
-        toast.success("Signup successful");
+      // console.log("response", response);
+      if (response.status === 200 && response.data.exist === "yes") {
+        setCurrentSlide("org-signin-success");
+        toast.success("Signin successful");
         Cookies.set("voyexOrgName", orgname1, { expires: 7 });
-        return router.push("/search");
       }
-      if (response.status === 200 && response.data.exists === false) {
+      if (response.status === 200 && response.data.exist === "no") {
         toast.error("Wrong credentials, organization doesn't exist!");
+        setCurrentSlide("signing");
         return;
       }
     } catch (error) {
       // console.log(error);
+      // setCurrentSlide("signing");
       if (error.message.includes("Network Error")) {
         toast.error("Network Error, Try again!");
       }
@@ -274,6 +279,7 @@ function Container() {
           setShowPassword={setShowPassword}
           allowed={allowed}
           border={border}
+          loading={loading}
           setCurrentSlide={setCurrentSlide}
         />
       );
@@ -294,12 +300,16 @@ function Container() {
       );
     } else if (currentSlide === "contact-details") {
       return <ContactDetailsContainer />;
-    } else if (currentSlide === "loading") {
-      return <Loading />;
+    } else if (currentSlide === "org-signup-loading") {
+      return <OrgLoading />;
+    } else if (currentSlide === "org-signin-loading") {
+      return <OrgSigninLoading />;
     } else if (currentSlide === "email-verify") {
       return <EmailVerify />;
-    } else if (currentSlide === "success") {
-      return <AccountSuccess />;
+    } else if (currentSlide === "org-signup-success") {
+      return <SignupSuccess />;
+    } else if (currentSlide === "org-signin-success") {
+      return <SigninSuccess />;
     } else if (currentSlide === "error") {
       return <AccountError setCurrentSlide={setCurrentSlide} />;
     } else

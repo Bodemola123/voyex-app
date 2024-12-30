@@ -18,18 +18,19 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 function Signing({
-  handleUserSignup,
-  emailInput,
+  usernameInput,
   passwordInput,
   showPassword,
   setShowPassword,
-  countryInput,
-  usernameInput,
+  border,
+  allowed,
+  /////////////////////
   handleUserSignin,
   usernameInput1,
   passwordInput1,
   googleSignup,
   loading,
+  setCurrentSlide,
 }) {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
@@ -69,21 +70,13 @@ function Signing({
                   <Input
                     id="username"
                     type="text"
-                    defaultValue="Your username"
+                    placeholder="Your username"
                     onChange={usernameInput}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="email" className="text-fontlight font-normal">
-                    Email address
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Your email"
-                    onChange={emailInput}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
+                    className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] ${
+                      border
+                        ? "ring-offset-green-500 bg-green-500/50"
+                        : "ring-offset-red-500 bg-red-500/50"
+                    }`}
                   />
                 </div>
                 <div className="relative space-y-1">
@@ -111,14 +104,11 @@ function Signing({
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]"
-                  onClick={() => handleUserSignup()}
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
+                  disabled={!allowed}
+                  onClick={() => setCurrentSlide("basic-info")}
                 >
-                  {loading ? (
-                    <AiOutlineLoading3Quarters className="animate-spin text-black" />
-                  ) : (
-                    "Sign up"
-                  )}
+                  Upload Info
                 </Button>
               </CardFooter>
             </Card>

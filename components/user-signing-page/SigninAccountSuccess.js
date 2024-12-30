@@ -1,11 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-function AccountSuccess() {
+function SigninAccountSuccess() {
+  const router = useRouter();
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center justify-center gap-7 h-full">
+      <div className=" flex flex-col items-center gap-7 h-full">
         <Image
           src="/loading.png"
           alt="loading"
@@ -14,12 +18,22 @@ function AccountSuccess() {
           className=""
         />
         <h1 className="text-fontlight text-3xl font-bold text-center">
-          Account Created
+          Sign in Successfull
         </h1>
         <p className="text-base text-fontlight text-center font-light">
-          Your account has been created
-          <br /> successfully
+          Sign in authentication completed
         </p>
+        <div className="flex items-center justify-center max-w-[400px] w-full">
+          {/* <button className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card">
+            Skip
+          </button> */}
+          <button
+            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
+            onClick={() => router.push("/search")}
+          >
+            Continue
+          </button>
+        </div>
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
         <Link href="/terms_of_use" className="">
@@ -33,4 +47,4 @@ function AccountSuccess() {
   );
 }
 
-export default AccountSuccess;
+export default SigninAccountSuccess;

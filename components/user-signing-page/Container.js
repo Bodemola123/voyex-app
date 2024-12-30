@@ -10,7 +10,12 @@ import { updateGoogleUserDetails } from "@/lib/features/authentication/auth";
 import axios from "axios";
 import Signing from "./Signing";
 import EmailVerify from "./EmailVerify";
-import AccountSuccess from "./AccountSuccess";
+import SignupAccountSuccess from "./SignupAccountSuccess";
+import SigninAccountSuccess from "./SigninAccountSuccess";
+import BasicInfoContainer from "./BasicInfoContainer";
+import { useDebounce } from "@/hooks/useDebounce";
+import SigninLoading from "./SigninLoading";
+import SignupLoading from "./SignupLoading";
 
 function Container() {
   const router = useRouter();
@@ -25,7 +30,10 @@ function Container() {
   const [userName1, setUserName1] = useState("");
   const [userPassword1, setUserPassword1] = useState("");
 
+  const [border, setBorder] = useState(false);
+  const [allowed, setAllowed] = useState(false);
   const [currentSlide, setCurrentSlide] = useState("signing");
+  const debouncedValue = useDebounce(userName, 500);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -57,6 +65,36 @@ function Container() {
     setUserPassword1(e.target.value);
   };
 
+  ///////////// CHECK USER NAME //////////////////////
+  useEffect(() => {
+    if (userName === "") {
+      return;
+    } else {
+      const checkUserName = async () => {
+        try {
+          const response = await axios.get(
+            `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${debouncedValue}`
+          );
+          // console.log("checked name:", response);
+          if (response.status === 200 && response.data.exists === true) {
+            // toast.error("Name taken");
+            setBorder(false);
+            return;
+          }
+          if (response.status === 200 && response.data.exists === false) {
+            // toast.success("Name available");
+            setBorder(true);
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+      };
+      checkUserName();
+    }
+    // input finall order
+  }, [debouncedValue, userName]);
+
+  ////////////////// GOOGLE LOGIN /////////////////////////////////
   const googleSignup = useGoogleLogin({
     onSuccess: async (response) => {
       try {
@@ -103,12 +141,13 @@ function Container() {
         return;
       }
       setLoading(true);
+      setCurrentSlide("signup-loading");
       const response = await axios.post(
         `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers`,
         {
           email: userEmail,
           user_name: userName,
-          // country: userCountry,
+          country: userCountry,
           user_type: "regular",
           subscription_type: "free",
           // google_id: "google13",
@@ -116,23 +155,30 @@ function Container() {
           password_hash: userPassword,
         }
       );
-      // console.log("response", response);
-      if (response.status === 200) {
-        setCurrentSlide("success");
+      console.log("response", response);
+      if (response.status === 201) {
+        setCurrentSlide("signup-success");
         toast.success(response.data.message);
-        return router.push("/login");
       }
     } catch (error) {
       console.log(error);
       if (error.response.data?.error) {
+        setCurrentSlide("basic-info");
         return toast.error(error.response.data.error);
       } else return toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (border === true) {
+      setAllowed(true);
+    } else {
+      setAllowed(false);
+    }
+  }, [border]);
   const handleUserSignup = async () => {
-    userSignup();
+    allowed && userSignup();
   };
 
   ////////////////// USER SIGN IN /////////////////////////////////
@@ -144,17 +190,19 @@ function Container() {
         return;
       }
       setLoading(true);
+      setCurrentSlide("signin-loading");
       const response = await axios.get(
         `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${userName1}`
       );
       console.log("response", response);
       if (response.status === 200 && response.data.exists === true) {
+        setCurrentSlide("signin-success");
         toast.success("Login successful");
         Cookies.set("voyexUserName", userName1, { expires: 7 });
-        return router.push("/search");
       }
       if (response.status === 200 && response.data.exists === false) {
         toast.error("Wrong credentials, user doesn't exist!");
+        setCurrentSlide("basic-info");
         return;
       }
     } catch (error) {
@@ -174,13 +222,13 @@ function Container() {
     if (currentSlide === "signing") {
       return (
         <Signing
-          handleUserSignup={handleUserSignup}
-          emailInput={emailInput}
           usernameInput={usernameInput}
-          countryInput={countryInput}
           passwordInput={passwordInput}
           showPassword={showPassword}
+          border={border}
+          allowed={allowed}
           setShowPassword={setShowPassword}
+          setCurrentSlide={setCurrentSlide}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}
@@ -189,18 +237,33 @@ function Container() {
           loading={loading}
         />
       );
+    } else if (currentSlide === "basic-info") {
+      return (
+        <BasicInfoContainer
+          handleUserSignup={handleUserSignup}
+          emailInput={emailInput}
+          countryInput={countryInput}
+          setCurrentSlide={setCurrentSlide}
+        />
+      );
     } else if (currentSlide === "verify") {
       return <EmailVerify />;
-    } else if (currentSlide === "success") {
-      return <AccountSuccess />;
+    } else if (currentSlide === "signin-loading") {
+      return <SigninLoading />;
+    } else if (currentSlide === "signup-loading") {
+      return <SignupLoading />;
+    } else if (currentSlide === "signup-success") {
+      return <SignupAccountSuccess />;
+    } else if (currentSlide === "signin-success") {
+      return <SigninAccountSuccess />;
     } else
       return (
         <Signing
-          handleUserSignup={handleUserSignup}
-          emailInput={emailInput}
           usernameInput={usernameInput}
-          countryInput={countryInput}
           passwordInput={passwordInput}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          setCurrentSlide={setCurrentSlide}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}
