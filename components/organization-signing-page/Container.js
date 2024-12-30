@@ -12,12 +12,15 @@ import Signing from "./Signing";
 import EmailVerify from "./EmailVerify";
 import AccountSuccess from "./AccountSuccess";
 import { useDebounce } from "@/hooks/useDebounce";
+import BasicInfoContainer from "./BasicInfoContainer";
+import ContactDetailsContainer from "./ContactDetailsContainer";
+import Loading from "./Loading";
+import AccountError from "./AccountError";
 
 function Container() {
   const router = useRouter();
   const { googleUserDetails } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
-  const debouncedValue = useDebounce(email, 500);
   const [orgPassword, setOrgPassword] = useState("");
   const [orgname, setOrgname] = useState("");
   const [orgWebsite, setOrgWebsite] = useState("");
@@ -33,7 +36,10 @@ function Container() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const [border, setBorder] = useState(null);
+  const [border, setBorder] = useState(false);
+  const [allowed, setAllowed] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState("signing");
+  const debouncedValue = useDebounce(orgname, 500);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -81,31 +87,34 @@ function Container() {
     setOrgPassword1(e.target.value);
   };
 
-  // useEffect(() => {
-  //   const checkOrgName = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${orgname1}`
-  //       );
-  //       console.log("checked name:", response);
-  //       if (response.status === 200 && response.data.exists === true) {
-  //         toast.success("Signup successful");
-  //         setBorder(true);
-  //       }
-  //       if (response.status === 200 && response.data.exists === false) {
-  //         toast.error("organization doesn't exist!");
-  //         setBorder(false);
-  //         return;
-  //       }
-  //     } catch (error) {
-  //       if (error.message.includes("Network Error")) {
-  //         toast.error("Network Error, Try again!");
-  //       }
-  //     }
-  //   };
-  //   checkOrgName();
-  //   // input finall order
-  // }, [debouncedValue, orgname1]);
+  ///////////// CHECK ORG NAME //////////////////////
+  useEffect(() => {
+    if (orgname === "") {
+      return;
+    } else {
+      const checkOrgName = async () => {
+        try {
+          const response = await axios.get(
+            `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${debouncedValue}`
+          );
+          // console.log("checked name:", response);
+          if (response.status === 200 && response.data.exist === "yes") {
+            // toast.error("Name taken");
+            setBorder(false);
+            return;
+          }
+          if (response.status === 200 && response.data.exist === "no") {
+            // toast.success("Name available");
+            setBorder(true);
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+      };
+      checkOrgName();
+    }
+    // input finall order
+  }, [debouncedValue, orgname]);
 
   const googleSignup = useGoogleLogin({
     onSuccess: async (response) => {
@@ -163,6 +172,7 @@ function Container() {
         return;
       }
       setLoading(true);
+      setCurrentSlide("loading");
       const response = await axios.post(
         `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org`,
         {
@@ -188,11 +198,12 @@ function Container() {
       console.log("response", response);
       if (response.status === 201) {
         toast.success(response.data.message);
-        return router.push("/login");
+        setCurrentSlide("success");
       }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+      setCurrentSlide("error");
       if (error.response.data.includes("Organization already exists")) {
         toast.error("Organization already exists");
       }
@@ -200,8 +211,15 @@ function Container() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (border === true) {
+      setAllowed(true);
+    } else {
+      setAllowed(false);
+    }
+  }, [border]);
   const handleSignup = async () => {
-    signing();
+    allowed && signing();
   };
 
   //////////////////todo ORGANIZATION SIGN IN /////////////////////////////
@@ -238,30 +256,71 @@ function Container() {
   const handleOrgSignin = async () => {
     organizationSignin();
   };
-  return (
-    <Signing
-      handleSignup={handleSignup}
-      emailInput={emailInput}
-      passwordInput={passwordInput}
-      orgInput={orgInput}
-      websiteInput={websiteInput}
-      industryInput={industryInput}
-      locationInput={locationInput}
-      instaSocialInput={instaSocialInput}
-      yearFoundedInput={yearFoundedInput}
-      toolsAmountInput={toolsAmountInput}
-      // referralInput={referralInput}
-      handleOrgSignin={handleOrgSignin}
-      orgInput1={orgInput1}
-      passwordInput1={passwordInput1}
-      googleSignup={googleSignup}
-      loading={loading}
-      showPassword={showPassword}
-      setShowPassword={setShowPassword}
-      border={border}
-    />
-    // <EmailVerify />
-    // <AccountSuccess />
-  );
+
+  ////////////// HANDLE CURRENT SLIDE ////////////////////////
+  const handleCurrentSlide = () => {
+    if (currentSlide === "signing") {
+      return (
+        <Signing
+          passwordInput={passwordInput}
+          orgInput={orgInput}
+          // referralInput={referralInput}
+          ////////////////////////////////////////////////
+          handleOrgSignin={handleOrgSignin}
+          orgInput1={orgInput1}
+          passwordInput1={passwordInput1}
+          googleSignup={googleSignup}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          allowed={allowed}
+          border={border}
+          setCurrentSlide={setCurrentSlide}
+        />
+      );
+    } else if (currentSlide === "basic-info") {
+      return (
+        <BasicInfoContainer
+          handleSignup={handleSignup}
+          emailInput={emailInput}
+          websiteInput={websiteInput}
+          industryInput={industryInput}
+          locationInput={locationInput}
+          instaSocialInput={instaSocialInput}
+          yearFoundedInput={yearFoundedInput}
+          toolsAmountInput={toolsAmountInput}
+          setCurrentSlide={setCurrentSlide}
+          loading={loading}
+        />
+      );
+    } else if (currentSlide === "contact-details") {
+      return <ContactDetailsContainer />;
+    } else if (currentSlide === "loading") {
+      return <Loading />;
+    } else if (currentSlide === "email-verify") {
+      return <EmailVerify />;
+    } else if (currentSlide === "success") {
+      return <AccountSuccess />;
+    } else if (currentSlide === "error") {
+      return <AccountError setCurrentSlide={setCurrentSlide} />;
+    } else
+      return (
+        <Signing
+          passwordInput={passwordInput}
+          orgInput={orgInput}
+          // referralInput={referralInput}
+          ////////////////////////////////////////////////
+          handleOrgSignin={handleOrgSignin}
+          orgInput1={orgInput1}
+          passwordInput1={passwordInput1}
+          googleSignup={googleSignup}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          allowed={allowed}
+          border={border}
+          setCurrentSlide={setCurrentSlide}
+        />
+      );
+  };
+  return handleCurrentSlide();
 }
 export default Container;

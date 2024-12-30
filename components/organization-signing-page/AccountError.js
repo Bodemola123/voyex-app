@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-function AccountSuccess() {
+function AccountError({ setCurrentSlide }) {
   const router = useRouter();
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
@@ -17,11 +17,11 @@ function AccountSuccess() {
           height={136}
           className=""
         />
-        <h1 className="text-fontlight text-3xl font-bold text-center">
-          Account Created
+        <h1 className="text-red-500 text-3xl font-bold text-center">
+          Account Creation Failed
         </h1>
         <p className="text-base text-fontlight text-center font-light">
-          Your account has been created
+          Your account was not created
           <br /> successfully
         </p>
         <div className="flex items-center justify-center max-w-[400px] w-full">
@@ -29,10 +29,10 @@ function AccountSuccess() {
             Skip
           </button> */}
           <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
-            onClick={() => router.push("/search")}
+            className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border border-card"
+            onClick={() => setCurrentSlide("basic-info")}
           >
-            Continue
+            Return
           </button>
         </div>
       </div>
@@ -48,4 +48,4 @@ function AccountSuccess() {
   );
 }
 
-export default AccountSuccess;
+export default AccountError;

@@ -19,15 +19,8 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 function Signing({
   handleSignup,
-  emailInput,
   passwordInput,
   orgInput,
-  websiteInput,
-  industryInput,
-  locationInput,
-  instaSocialInput,
-  yearFoundedInput,
-  toolsAmountInput,
   // referralInput,
   handleOrgSignin,
   orgInput1,
@@ -36,7 +29,9 @@ function Signing({
   loading,
   showPassword,
   setShowPassword,
+  allowed,
   border,
+  setCurrentSlide,
 }) {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
@@ -67,14 +62,14 @@ function Signing({
             </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
-                  <Label htmlFor="email" className="text-fontlight font-normal">
-                    Email address
+                  <Label htmlFor="name" className="text-fontlight font-normal">
+                    Org Name
                   </Label>
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="Your organization email"
-                    onChange={emailInput}
+                    id="name"
+                    type="text"
+                    placeholder="Your organization name"
+                    onChange={orgInput}
                     className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] ${
                       border
                         ? "ring-offset-green-500 bg-green-500/50"
@@ -107,14 +102,11 @@ function Signing({
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]"
-                  onClick={() => handleSignup()}
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
+                  disabled={!allowed}
+                  onClick={() => setCurrentSlide("basic-info")}
                 >
-                  {loading ? (
-                    <AiOutlineLoading3Quarters className="animate-spin text-black" />
-                  ) : (
-                    "Sign up"
-                  )}
+                  Upload Info
                 </Button>
               </CardFooter>
             </Card>

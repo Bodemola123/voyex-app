@@ -1,12 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
 
-function AccountSuccess() {
-  const router = useRouter();
+function Loading() {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center gap-7 h-full">
@@ -15,26 +10,15 @@ function AccountSuccess() {
           alt="loading"
           width={136}
           height={136}
-          className=""
+          className="animate-spin"
         />
         <h1 className="text-fontlight text-3xl font-bold text-center">
-          Account Created
+          Creating Account
         </h1>
         <p className="text-base text-fontlight text-center font-light">
-          Your account has been created
-          <br /> successfully
+          Please wait while your account is being
+          <br /> created
         </p>
-        <div className="flex items-center justify-center max-w-[400px] w-full">
-          {/* <button className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card">
-            Skip
-          </button> */}
-          <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
-            onClick={() => router.push("/search")}
-          >
-            Continue
-          </button>
-        </div>
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
         <Link href="/terms_of_use" className="">
@@ -48,4 +32,4 @@ function AccountSuccess() {
   );
 }
 
-export default AccountSuccess;
+export default Loading;
