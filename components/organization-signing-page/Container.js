@@ -18,9 +18,11 @@ import AccountError from "./AccountError";
 import OrgLoading from "./OrgSignupLoading";
 import OrgSigninLoading from "./OrgSigninLoading";
 import SigninSuccess from "./SigninSuccess";
+import Cookies from "js-cookie";
 
 function Container() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { googleUserDetails } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const [orgPassword, setOrgPassword] = useState("");
@@ -118,8 +120,10 @@ function Container() {
     // input finall order
   }, [debouncedValue, orgname]);
 
-  const googleSignup = useGoogleLogin({
+  ////////////////// GOOGLE ORG SIGNUP /////////////////////////////////
+  const googleOrgSignup = useGoogleLogin({
     onSuccess: async (response) => {
+      setLoading(true);
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -130,20 +134,106 @@ function Container() {
           }
         );
         console.log(res);
-        console.log(res.data);
+        // console.log(res.data);
         if (res.status === 200) {
+          const response = await axios.post(
+            `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org`,
+            {
+              org_name: res.data?.name,
+              org_email: res.data?.email,
+              website: orgWebsite,
+              logo_url: res.data?.picture,
+              industry: "Tech",
+              location: "nil",
+              social_mediaLinks: {
+                twitter: "https://testorg.com/logo.png",
+                instagram: "https://testorg.com/logo.png",
+              },
+              metadata: {
+                founded: 2024,
+              },
+              tools_count: 5,
+              billing_info: "debit card",
+              password: res.data?.sub,
+              // referred_by: referral,
+            }
+          );
+          console.log("response", response);
+          if (response.status === 201) {
+            setCurrentSlide("signup-success");
+            toast.success(response.data.message);
+          }
+          if (response.status === 400) {
+            setCurrentSlide("signing");
+          }
           dispatch(
             updateGoogleUserDetails({
               email: res.data?.email,
               username: res.data?.name,
               picture: res.data?.picture,
+              id: res.data?.sub,
             })
           );
-          router.push("/search");
-          toast.success("Login Sucessfull");
         }
       } catch (err) {
         console.log(err);
+        if (err.response?.data) {
+          toast.error(err.response.data);
+        } else toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+  });
+
+  ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
+  const googleOrgSignin = useGoogleLogin({
+    onSuccess: async (response) => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          }
+        );
+        console.log(res);
+        // console.log(res.data);
+        if (res.status === 200) {
+          const response = await axios.get(
+            `https://ptmex2ovs0.execute-api.eu-north-1.amazonaws.com/default/voyex_org?org_name=${res.data.name}`
+          );
+          // console.log("response", response);
+          if (response.status === 200 && response.data.exist === "yes") {
+            setCurrentSlide("org-signin-success");
+            toast.success("Signin successful");
+            Cookies.set("voyexOrgName", res.data.name, { expires: 7 });
+          }
+          if (response.status === 200 && response.data.exist === "no") {
+            toast.error("Wrong credentials, organization doesn't exist!");
+            setCurrentSlide("signing");
+            return;
+          }
+          dispatch(
+            updateGoogleUserDetails({
+              email: res.data?.email,
+              username: res.data?.name,
+              picture: res.data?.picture,
+              id: res.data?.sub,
+            })
+          );
+          // router.push("/search");
+          // toast.success("Login Sucessfull");
+        }
+      } catch (err) {
+        console.log(err);
+        if (err.response?.data?.error) {
+          toast.error(err.response.data.error);
+        } else toast.error(err.message);
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -202,13 +292,16 @@ function Container() {
         toast.success(response.data.message);
         setCurrentSlide("org-signup-success");
       }
+      if (response.status === 409) {
+        setCurrentSlide("signing");
+        // toast.error(response.data?.error);
+      }
     } catch (error) {
       // console.log(error);
-      toast.error(error.message);
-      setCurrentSlide("error");
-      if (error.response.data.includes("Organization already exists")) {
-        toast.error("Organization already exists");
-      }
+      // setCurrentSlide("error");
+      if (error.response?.data) {
+        toast.error(error.response.data);
+      } else toast.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -224,7 +317,7 @@ function Container() {
     allowed && signing();
   };
 
-  //////////////////todo ORGANIZATION SIGN IN /////////////////////////////
+  ////////////////// ORGANIZATION SIGN IN /////////////////////////////
   const organizationSignin = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
@@ -274,7 +367,8 @@ function Container() {
           handleOrgSignin={handleOrgSignin}
           orgInput1={orgInput1}
           passwordInput1={passwordInput1}
-          googleSignup={googleSignup}
+          googleOrgSignup={googleOrgSignup}
+          googleOrgSignin={googleOrgSignin}
           showPassword={showPassword}
           setShowPassword={setShowPassword}
           allowed={allowed}
@@ -322,11 +416,13 @@ function Container() {
           handleOrgSignin={handleOrgSignin}
           orgInput1={orgInput1}
           passwordInput1={passwordInput1}
-          googleSignup={googleSignup}
+          googleOrgSignup={googleOrgSignup}
+          googleOrgSignin={googleOrgSignin}
           showPassword={showPassword}
           setShowPassword={setShowPassword}
           allowed={allowed}
           border={border}
+          loading={loading}
           setCurrentSlide={setCurrentSlide}
         />
       );

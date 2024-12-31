@@ -16,9 +16,11 @@ import BasicInfoContainer from "./BasicInfoContainer";
 import { useDebounce } from "@/hooks/useDebounce";
 import SigninLoading from "./SigninLoading";
 import SignupLoading from "./SignupLoading";
+import Cookies from "js-cookie";
 
 function Container() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { googleUserDetails } = useSelector((state) => state.auth);
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -36,6 +38,7 @@ function Container() {
   const debouncedValue = useDebounce(userName, 500);
 
   useEffect(() => {
+    //navigate to /search if googleUserDetails exists
     if (googleUserDetails) {
       toast("Navigating to Search");
       setTimeout(() => {
@@ -94,9 +97,10 @@ function Container() {
     // input finall order
   }, [debouncedValue, userName]);
 
-  ////////////////// GOOGLE LOGIN /////////////////////////////////
-  const googleSignup = useGoogleLogin({
+  ////////////////// GOOGLE USER SIGNUP /////////////////////////////////
+  const googleUserSignup = useGoogleLogin({
     onSuccess: async (response) => {
+      setLoading(true);
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -109,18 +113,97 @@ function Container() {
         console.log(res);
         console.log(res.data);
         if (res.status === 200) {
+          const response = await axios.post(
+            `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers`,
+            {
+              email: res.data?.email,
+              user_name: res.data?.name,
+              country: "nil",
+              user_type: "regular",
+              subscription_type: "free",
+              google_id: res.data?.sub,
+              metadata: {},
+              password_hash: res.data?.sub,
+            }
+          );
+          console.log("response", response);
+          if (response.status === 201) {
+            setCurrentSlide("signup-success");
+            toast.success(response.data.message);
+          }
+          if (response.status === 400) {
+            setCurrentSlide("signing");
+            toast.error(response.data?.error);
+          }
           dispatch(
             updateGoogleUserDetails({
               email: res.data?.email,
               username: res.data?.name,
               picture: res.data?.picture,
+              id: res.data?.sub,
             })
           );
-          router.push("/search");
-          toast.success("Login Sucessfull");
+          // router.push("/search");
+          // toast.success("Login Sucessfull");
         }
       } catch (err) {
         console.log(err);
+        if (err.response.data?.error) {
+          toast.error(err.response.data.error);
+        } else toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+  });
+
+  ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
+  const googleUserSignin = useGoogleLogin({
+    onSuccess: async (response) => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          }
+        );
+        console.log(res);
+        console.log(res.data);
+        if (res.status === 200) {
+          const response = await axios.get(
+            `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${res.data.name}`
+          );
+          console.log("response", response);
+          if (response.status === 200 && response.data.exists === true) {
+            setCurrentSlide("signin-success");
+            toast.success("Login successful");
+            Cookies.set("voyexUserName", res.data.name, { expires: 7 });
+          }
+          if (response.status === 200 && response.data.exists === false) {
+            toast.error("Wrong credentials, user doesn't exist!");
+            return;
+          }
+          dispatch(
+            updateGoogleUserDetails({
+              email: res.data?.email,
+              username: res.data?.name,
+              picture: res.data?.picture,
+              id: res.data?.sub,
+            })
+          );
+          // router.push("/search");
+          // toast.success("Login Sucessfull");
+        }
+      } catch (err) {
+        console.log(err);
+        if (err.response?.data?.error) {
+          toast.error(err.response.data.error);
+        } else toast.error(err.message);
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -228,12 +311,14 @@ function Container() {
           border={border}
           allowed={allowed}
           setShowPassword={setShowPassword}
+          currentSlide={currentSlide}
           setCurrentSlide={setCurrentSlide}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}
           passwordInput1={passwordInput1}
-          googleSignup={googleSignup}
+          googleUserSignup={googleUserSignup}
+          googleUserSignin={googleUserSignin}
           loading={loading}
         />
       );
@@ -262,13 +347,17 @@ function Container() {
           usernameInput={usernameInput}
           passwordInput={passwordInput}
           showPassword={showPassword}
+          border={border}
+          allowed={allowed}
           setShowPassword={setShowPassword}
+          currentSlide={currentSlide}
           setCurrentSlide={setCurrentSlide}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}
           passwordInput1={passwordInput1}
-          googleSignup={googleSignup}
+          googleUserSignup={googleUserSignup}
+          googleUserSignin={googleUserSignin}
           loading={loading}
         />
       );
