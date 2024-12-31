@@ -16,6 +16,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
+import { FaApple } from "react-icons/fa";
 
 function Signing({
   usernameInput,
@@ -28,8 +31,10 @@ function Signing({
   handleUserSignin,
   usernameInput1,
   passwordInput1,
-  googleSignup,
+  googleUserSignin,
+  googleUserSignup,
   loading,
+  currentSlide,
   setCurrentSlide,
 }) {
   return (
@@ -53,12 +58,6 @@ function Signing({
           </TabsList>
           <TabsContent value="sign_up" className="mt-10">
             <Card className="rounded-none border-none">
-              {/* <CardHeader>
-              <CardTitle>Account</CardTitle>
-              <CardDescription>
-                {`Make changes to your account here. Click save when you're done.`}
-              </CardDescription>
-            </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
                   <Label
@@ -112,15 +111,32 @@ function Signing({
                 </Button>
               </CardFooter>
             </Card>
+            <div className="flex flex-col items-center mt-[4rem] w-full">
+              <span className="">Other sign in options</span>
+              <div className="flex items-center gap-4 mt-4">
+                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                  <FaFacebookF className="text-[#3C5A99]" />
+                </button>
+                <button
+                  className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
+                  disabled={loading}
+                  onClick={() => googleUserSignup()}
+                >
+                  {loading && (
+                    <span className="absolute p-6 bg-black/30">
+                      <AiOutlineLoading3Quarters className="animate-spin text-black" />
+                    </span>
+                  )}
+                  <FcGoogle />
+                </button>
+                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                  <FaApple className="text-black" />
+                </button>
+              </div>
+            </div>
           </TabsContent>
           <TabsContent value="sign_in" className="mt-10">
             <Card className="rounded-none border-none">
-              {/* <CardHeader>
-              <CardTitle>Account</CardTitle>
-              <CardDescription>
-                {`Make changes to your account here. Click save when you're done.`}
-              </CardDescription>
-            </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
                   <Label
@@ -173,9 +189,31 @@ function Signing({
                 </Button>
               </CardFooter>
             </Card>
+            <div className="flex flex-col items-center mt-[4rem] w-full">
+              <span className="">Other sign in options</span>
+              <div className="flex items-center gap-4 mt-4">
+                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                  <FaFacebookF className="text-[#3C5A99]" />
+                </button>
+                <button
+                  className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
+                  disabled={loading}
+                  onClick={() => googleUserSignin()}
+                >
+                  {loading && (
+                    <span className="absolute p-6 bg-black/30">
+                      <AiOutlineLoading3Quarters className="animate-spin text-black" />
+                    </span>
+                  )}
+                  <FcGoogle />
+                </button>
+                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                  <FaApple className="text-black" />
+                </button>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
-        <SignOptions googleSignup={googleSignup} />
         <p className="text-center text-fontlight text-base font-normal mt-14 pb-10">
           By creating an account or signing you agree to our
           <br />
