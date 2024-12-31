@@ -37,15 +37,15 @@ function Container() {
   const [currentSlide, setCurrentSlide] = useState("signing");
   const debouncedValue = useDebounce(userName, 500);
 
-  // useEffect(() => {
-  //   //navigate to /search if googleUserDetails exists
-  //   if (googleUserDetails) {
-  //     toast("Navigating to Search");
-  //     setTimeout(() => {
-  //       router.push("/search");
-  //     }, 5500);
-  //   }
-  // }, [router, googleUserDetails]);
+  useEffect(() => {
+    //navigate to /search if googleUserDetails exists
+    if (googleUserDetails) {
+      toast("Navigating to Search");
+      setTimeout(() => {
+        router.push("/search");
+      }, 5500);
+    }
+  }, [router, googleUserDetails]);
 
   const emailInput = (e) => {
     setUserEmail(e.target.value);
@@ -96,41 +96,6 @@ function Container() {
     }
     // input finall order
   }, [debouncedValue, userName]);
-
-  ////////////////// GOOGLE LOGIN/SIGNUP /////////////////////////////////
-  const googleSignup = useGoogleLogin({
-    onSuccess: async (response) => {
-      setLoading(true);
-      try {
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${response.access_token}`,
-            },
-          }
-        );
-        console.log(res);
-        console.log(res.data);
-        if (res.status === 200) {
-          dispatch(
-            updateGoogleUserDetails({
-              email: res.data?.email,
-              username: res.data?.name,
-              picture: res.data?.picture,
-              id: res.data?.sub,
-            })
-          );
-          router.push("/search");
-          toast.success("Login Sucessfull");
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    },
-  });
 
   ////////////////// GOOGLE USER SIGNUP /////////////////////////////////
   const googleUserSignup = useGoogleLogin({
@@ -382,13 +347,17 @@ function Container() {
           usernameInput={usernameInput}
           passwordInput={passwordInput}
           showPassword={showPassword}
+          border={border}
+          allowed={allowed}
           setShowPassword={setShowPassword}
+          currentSlide={currentSlide}
           setCurrentSlide={setCurrentSlide}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}
           passwordInput1={passwordInput1}
-          googleSignup={googleSignup}
+          googleUserSignup={googleUserSignup}
+          googleUserSignin={googleUserSignin}
           loading={loading}
         />
       );
