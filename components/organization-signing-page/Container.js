@@ -151,18 +151,22 @@ function Container() {
           if (response.status === 201) {
             setCurrentSlide("org-signup-success");
             toast.success(response.data.message);
+            dispatch(
+              updateGoogleUserDetails({
+                email: res.data?.email,
+                username: res.data?.name,
+                picture: res.data?.picture,
+                id: res.data?.sub,
+              })
+            );
+          }
+          if (response.status === 200) {
+            setCurrentSlide("signing");
+            toast.error(response.data.message);
           }
           if (response.status === 400) {
             setCurrentSlide("signing");
           }
-          dispatch(
-            updateGoogleUserDetails({
-              email: res.data?.email,
-              username: res.data?.name,
-              picture: res.data?.picture,
-              id: res.data?.sub,
-            })
-          );
         }
       } catch (err) {
         console.log(err);
@@ -194,30 +198,31 @@ function Container() {
         console.log(res);
         // console.log(res.data);
         if (res.status === 200) {
-          const response = await axios.get(
-            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?org_name=${res.data.name}`
+          const response = await axios.post(
+            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+            {
+              email: res.data?.email,
+              password: res.data?.sub,
+            }
           );
           // console.log("response", response);
-          if (response.status === 200 && response.data.exist === "yes") {
+          if (response.status === 200) {
             setCurrentSlide("org-signin-success");
             toast.success("Signin successful");
-            Cookies.set("voyexOrgName", res.data.name, { expires: 7 });
+            dispatch(
+              updateGoogleUserDetails({
+                email: res.data?.email,
+                username: res.data?.name,
+                picture: res.data?.picture,
+                id: res.data?.sub,
+              })
+            );
+            Cookies.set("voyexEmail", orgEmail, { expires: 7 });
           }
-          if (response.status === 200 && response.data.exist === "no") {
-            toast.error("Wrong credentials, organization doesn't exist!");
+          if (response.status === 404) {
             setCurrentSlide("signing");
             return;
           }
-          dispatch(
-            updateGoogleUserDetails({
-              email: res.data?.email,
-              username: res.data?.name,
-              picture: res.data?.picture,
-              id: res.data?.sub,
-            })
-          );
-          // router.push("/search");
-          // toast.success("Login Sucessfull");
         }
       } catch (err) {
         console.log(err);
