@@ -22,10 +22,11 @@ import { FaApple } from "react-icons/fa";
 
 function Signing({
   passwordInput,
-  orgInput,
+  emailInput,
+  handleSignup,
   // referralInput,
   handleOrgSignin,
-  orgInput1,
+  orgEmailInput1,
   passwordInput1,
   googleOrgSignup,
   googleOrgSignin,
@@ -65,14 +66,14 @@ function Signing({
             </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
-                  <Label htmlFor="name" className="text-fontlight font-normal">
-                    Org Name
+                  <Label htmlFor="email" className="text-fontlight font-normal">
+                    Org Email
                   </Label>
                   <Input
-                    id="name"
-                    type="text"
-                    placeholder="Your organization name"
-                    onChange={orgInput}
+                    id="email"
+                    type="email"
+                    placeholder="Organization email"
+                    onChange={emailInput}
                     className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] ${
                       border
                         ? "ring-offset-green-500 bg-green-500/50"
@@ -107,14 +108,18 @@ function Signing({
                 <Button
                   className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
                   disabled={!allowed}
-                  onClick={() => setCurrentSlide("basic-info")}
+                  onClick={() => handleSignup()}
                 >
-                  Upload Info
+                  {loading ? (
+                    <AiOutlineLoading3Quarters className="animate-spin text-black" />
+                  ) : (
+                    "Sign up"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
             <div className="flex flex-col items-center mt-[4rem] w-full">
-              <span className="">Other sign in options</span>
+              <span className="">Other sign up options</span>
               <div className="flex items-center gap-4 mt-4">
                 <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
@@ -147,17 +152,14 @@ function Signing({
             </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
-                  <Label
-                    htmlFor="username"
-                    className="text-fontlight font-normal"
-                  >
-                    Organization Name
+                  <Label htmlFor="email" className="text-fontlight font-normal">
+                    Organization email
                   </Label>
                   <Input
-                    id="username"
-                    type="text"
-                    placeholder="Your organization username"
-                    onChange={orgInput1}
+                    id="email"
+                    type="email"
+                    placeholder="Organization email"
+                    onChange={orgEmailInput1}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
                   />
                 </div>
