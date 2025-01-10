@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-function SignupSuccess({ setCurrentSlide }) {
+function OrgUploadSuccess() {
   const router = useRouter();
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
@@ -18,24 +18,24 @@ function SignupSuccess({ setCurrentSlide }) {
           className=""
         />
         <h1 className="text-fontlight text-3xl font-bold text-center">
-          Account Created
+          Data Upload Successful
         </h1>
         <p className="text-base text-fontlight text-center font-light">
-          Your account has been created
+          Your account data has been uploaded
           <br /> successfully
         </p>
         <div className="flex items-center justify-between max-w-[400px] w-full">
-          <button
+          {/* <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card"
             onClick={() => router.push("/search")}
           >
             Skip
-          </button>
+          </button> */}
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
-            onClick={() => setCurrentSlide("basic-info")}
+            onClick={() => router.push("/search")}
           >
-            Upload info
+            Continue
           </button>
         </div>
       </div>
@@ -51,4 +51,4 @@ function SignupSuccess({ setCurrentSlide }) {
   );
 }
 
-export default SignupSuccess;
+export default OrgUploadSuccess;
