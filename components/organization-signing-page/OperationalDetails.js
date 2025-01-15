@@ -1,12 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-function OperationalDetails({ handleUploadDetails, loading }) {
-  const router = useRouter();
+function OperationalDetails({
+  handleUploadDetails,
+  serviceInput,
+  techUsedInput,
+  audienceInput,
+  loading,
+  setCurrentSlide,
+}) {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center h-full max-w-[444px] w-full mx-auto">
@@ -61,9 +66,9 @@ function OperationalDetails({ handleUploadDetails, loading }) {
         <div className="flex items-center justify-between max-w-[500px] mt-6 w-full">
           <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border border-card"
-            onClick={() => router.push("/search")}
+            onClick={() => setCurrentSlide("contact-details")}
           >
-            Skip
+            Back
           </button>
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3  bg-purple"

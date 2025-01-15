@@ -10,6 +10,7 @@ function ContactDetailsContainer({
   twitterInput,
   linkedinInput,
   loading,
+  setCurrentSlide,
   handleContactDetailsSlide,
 }) {
   const router = useRouter();
@@ -50,11 +51,11 @@ function ContactDetailsContainer({
           />
         </div>
         <div className="space-y-[6px] w-full mt-5">
-          <Label htmlFor="social_media" className="text-fontlight font-normal">
+          <Label htmlFor="social_media2" className="text-fontlight font-normal">
             Social Media Link(linkedin)
           </Label>
           <Input
-            id="social_media"
+            id="social_media2"
             type="text"
             placeholder="add url"
             onChange={linkedinInput}
@@ -64,12 +65,12 @@ function ContactDetailsContainer({
         <div className="flex items-center justify-between max-w-[400px] mt-6 w-full">
           <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card"
-            onClick={() => router.push("/search")}
+            onClick={() => setCurrentSlide("basic-info")}
           >
-            Skip
+            Back
           </button>
           <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
+            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple ml-auto"
             onClick={() => handleContactDetailsSlide()}
           >
             Next

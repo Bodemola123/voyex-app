@@ -3,11 +3,12 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { IndustryDropdown } from "./IndustryDropdown";
 
 function BasicInfoContainer({
   orgNameInput,
   websiteInput,
-  industryInput,
+  setOrgIndustry,
   locationInput,
   handleBasicInfoSlide,
   loading,
@@ -53,6 +54,11 @@ function BasicInfoContainer({
           <Label htmlFor="industry" className="text-fontlight font-normal">
             Industry
           </Label>
+          <IndustryDropdown setOrgIndustry={setOrgIndustry} />
+          {/* <div className="space-y-[6px] w-full mt-5">
+          <Label htmlFor="industry" className="text-fontlight font-normal">
+            Industry
+          </Label>
           <Input
             id="industry"
             type="text"
@@ -60,6 +66,7 @@ function BasicInfoContainer({
             onChange={industryInput}
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]`}
           />
+        </div> */}
         </div>
         <div className="space-y-[6px] w-full mt-5">
           <Label htmlFor="location" className="text-fontlight font-normal">
@@ -75,14 +82,14 @@ function BasicInfoContainer({
         </div>
 
         <div className="flex items-center justify-between max-w-[500px] mt-6 w-full">
-          <button
+          {/* <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border border-card"
             onClick={() => router.push("/search")}
           >
             Skip
-          </button>
+          </button> */}
           <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
+            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple ml-auto"
             onClick={() => handleBasicInfoSlide()}
           >
             Next

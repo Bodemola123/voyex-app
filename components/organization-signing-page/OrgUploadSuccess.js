@@ -24,7 +24,7 @@ function OrgUploadSuccess() {
           Your account data has been uploaded
           <br /> successfully
         </p>
-        <div className="flex items-center justify-between max-w-[400px] w-full">
+        <div className="flex items-center justify-center max-w-[400px] w-full">
           {/* <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card"
             onClick={() => router.push("/search")}
@@ -32,7 +32,7 @@ function OrgUploadSuccess() {
             Skip
           </button> */}
           <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
+            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple hover:bg-purple/80 transition-all"
             onClick={() => router.push("/search")}
           >
             Continue
