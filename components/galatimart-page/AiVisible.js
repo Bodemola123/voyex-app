@@ -11,7 +11,7 @@ const AiVisible = () => {
         ])
   return (
       
-      <div className={`flex gap-6 py-12 px-6 h-screen w-full justify-start items-center`}>
+      <div className={`flex gap-6 py-12 px-4 h-screen w-full justify-start items-center`}>
             <div className='flex flex-col gap-4'>
                 <p className='font-medium'>Use Cases</p>
                 <div className='grid grid-rows-4 gap-5 w-auto'>
