@@ -14,7 +14,7 @@ const Visible = () => {
             <IoCube className='text-[#ffffff] text-[24px]'/>
             <p className='text-[20px] font-bold'>Categories</p>
         </div>
-        <div className='flex flex-col gap-[9px] border-b border-[#FFFFFF26] overflow-y-scroll scrollbar-hide scroll-container'>
+        <div className='flex flex-col px-6 gap-[9px] border-b border-[#FFFFFF26] overflow-y-scroll scrollbar-hide scroll-container'>
 
         <button className='flex gap-2.5 py-5 px-6'>Ads</button>
         <button className='flex gap-2.5 py-5 px-6'>AI</button>
