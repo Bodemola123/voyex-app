@@ -10,7 +10,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 
 const Header = () => {
   return (
-    <div className="flex flex-col gap-y-6 mt-5">
+    <div className="flex flex-col gap-y-6 mt-5 w-full">
     <div className="flex flex-row justify-between">
       <div className='flex flex-row w-[697px] h-[94px] gap-4'>
       <Link href={'/galactimart'} passHref>

@@ -65,9 +65,9 @@ const Card1 = () => {
           <Link
             href="/galactimart/ContentPage"
             passHref
-            className="font-bold text-[#00A766] px-3 py-1 flex items-center gap-2"
+            className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] px-3 py-1 flex items-center gap-2"
           >
-            See More <MdOutlineKeyboardArrowRight />
+            See More <MdOutlineKeyboardArrowRight className="text-[#c088fb]"/>
           </Link>
         </div>
         <div className="grid grid-cols-3 gap-4 w-auto">
@@ -86,8 +86,8 @@ const Card1 = () => {
               adventures
             </p>
           </div>
-          <button className="font-bold text-[#00A766] h-5 flex items-center justify-center gap-2">
-            See More <MdOutlineKeyboardArrowRight className />{" "}
+          <button className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] h-5 flex items-center justify-center gap-2">
+            See More <MdOutlineKeyboardArrowRight className="text-[#c088fb]"/>{" "}
           </button>
         </div>
         <div className="grid grid-cols-3 gap-4 ">
@@ -106,8 +106,8 @@ const Card1 = () => {
               adventures
             </p>
           </div>
-          <button className="font-bold text-[#00A766] h-5 flex items-center justify-center gap-2">
-            See More <MdOutlineKeyboardArrowRight className />{" "}
+          <button className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] h-5 flex items-center justify-center gap-2">
+            See More <MdOutlineKeyboardArrowRight className="text-[#c088fb]" />{" "}
           </button>
         </div>
         <div className="grid grid-cols-3 gap-4 ">
