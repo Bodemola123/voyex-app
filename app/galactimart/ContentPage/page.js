@@ -34,7 +34,7 @@ const ContentPage = () => {
       />
         <div
         className={`transition-all duration-300 ${
-          isHistoryVisible ? 'w-[360px]' : 'w-0'
+          isHistoryVisible ? 'w-[320px]' : 'w-0'
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <Visible />}

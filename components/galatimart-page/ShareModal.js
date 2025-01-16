@@ -45,7 +45,7 @@ const ShareModal = ({ isOpen, onClose, position }) => {
 
       <div className='flex flex-col gap-2'>
         <p>Copy Link</p>
-        <div className="bg-gray-800 rounded-md p-3 flex items-center justify-between">
+        <div className="bg-gray-800 bg-[#131314] rounded-md p-3 flex items-center justify-between">
           <p className="text-white text-sm">https://app.voyex.xyz/s/chatGPT</p>
           <button>
             <AiOutlineCopy className="w-6 h-6 text-white" />
