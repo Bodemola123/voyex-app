@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex flex-col mt-5 relative">
+    <div className="flex flex-col relative">
       <div className="flex flex-row justify-between">
         <div className='flex flex-row gap-4'>
           <Link href={'/galactimart/ContentPage'} passHref>
@@ -63,7 +63,7 @@ const Header = () => {
             </button>
           </div>
 
-          <button className='bg-[#46BA3C] py-2 px-4 gap-2.5 rounded-3xl flex items-center flex-row justify-center'>
+          <button className='bg-[#c088fb] py-2 px-4 gap-2.5 rounded-3xl flex items-center flex-row justify-center'>
             <PiAirplaneBold className='text-[#032400]' />
             <p className='text-base font-medium text-[#032400]'>Takeoff to App</p>
           </button>

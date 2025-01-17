@@ -35,7 +35,7 @@ const StarRating = ({ onNext }) => {
     </div>
     <div className='mt-5 flex flex-row-reverse gap-2.5'>
     <button
-          className="bg-[#46BA3C] text-[#032400] w-[170px] flex items-center justify-center rounded-3xl px-4 py-2.5 "
+          className="bg-[#c088fb] text-[#ffffff] w-[170px] flex items-center justify-center rounded-3xl px-4 py-2.5 "
           onClick={() => onNext(rating)}
         >
           Next

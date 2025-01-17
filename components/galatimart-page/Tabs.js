@@ -48,14 +48,14 @@ const Tabs = () => {
   return (
     <div className="">
     
-      <div className="flex flex-row justify-between w-11/12 items-center bg-custom-gradient backdrop-blur-custom rounded-2xl py-2 px-4">
+      <div className="flex flex-row justify-between w-full items-center bg-custom-gradient backdrop-blur-custom rounded-2xl py-2 px-4">
         {tabs.map((tab) => (
           <button
             key={tab.name}
             onClick={() => setActiveTab(tab.name)}
             className={`flex items-center gap-2 text-base text-center font-medium${
-              activeTab === tab.name ? 'text-[#46BA3C]' : 'text-[#F4F4F4]'
-            } ${activeTab === tab.name ? 'text-[#46BA3C]' : ''} hover:text-[#46BA3C] transition-colors`}
+              activeTab === tab.name ? 'text-[#c088fb]' : 'text-[#F4F4F4]'
+            } ${activeTab === tab.name ? 'text-[#c088fb]' : ''} hover:text-[#c088fb] transition-colors`}
           >
             {tab.icon} {tab.name}
           </button>

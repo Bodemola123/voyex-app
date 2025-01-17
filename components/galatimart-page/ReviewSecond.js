@@ -37,7 +37,7 @@ const ReviewSecond = () => {
             <div className='col-span-2 w-3/4 flex flex-col gap-[11.23px]'>
                 <div className='flex flex-row gap-3'>
                     <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
-                        <div className='w-3/4 h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
+                        <div className='w-3/4 h-3 rounded-[14.04px] bg-[#c088fb]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
                         <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
@@ -49,7 +49,7 @@ const ReviewSecond = () => {
                 </div>
                 <div className='flex flex-row gap-3'>
                     <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
-                        <div className='w-[88%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
+                        <div className='w-[88%] h-3 rounded-[14.04px] bg-[#c088fb]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
                         <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
@@ -61,7 +61,7 @@ const ReviewSecond = () => {
                 </div>
                 <div className='flex flex-row gap-3'>
                     <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
-                        <div className='w-[62%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
+                        <div className='w-[62%] h-3 rounded-[14.04px] bg-[#c088fb]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
                         <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
@@ -73,7 +73,7 @@ const ReviewSecond = () => {
                 </div>
                 <div className='flex flex-row gap-3'>
                     <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
-                        <div className='w-[4%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
+                        <div className='w-[4%] h-3 rounded-[14.04px] bg-[#c088fb]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
                         <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
@@ -85,7 +85,7 @@ const ReviewSecond = () => {
                 </div>
                 <div className='flex flex-row gap-3'>
                     <div className='w-4/5 rounded-[14.04px] h-[12.64px] bg-[#F5E6FA]'>
-                        <div className='w-[4%] h-3 rounded-[14.04px] bg-[#46BA3C]'></div>
+                        <div className='w-[4%] h-3 rounded-[14.04px] bg-[#c088fb]'></div>
                     </div>
                     <div className='flex flex-row gap-[5.62px]'>
                         <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
