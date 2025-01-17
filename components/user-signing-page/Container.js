@@ -72,6 +72,10 @@ function Container() {
   useEffect(() => {
     if (userName === "") {
       return;
+    }
+    if (userName.includes("@gmail") || userName.includes("@yahoo")) {
+      toast.error("username isn't proper");
+      return;
     } else {
       const checkUserName = async () => {
         try {
@@ -86,10 +90,14 @@ function Container() {
           }
           if (response.status === 200 && response.data.exists === false) {
             // toast.success("Name available");
-            setBorder(true);
+            userName === "" || userName.length < 3
+              ? setBorder(false)
+              : setBorder(true);
           }
         } catch (error) {
-          toast.error(error.message);
+          if (error.response?.data) {
+            toast.error(error.response.data);
+          } else toast.error(error.message);
         }
       };
       checkUserName();
@@ -212,7 +220,7 @@ function Container() {
   const userSignup = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
-      if (!userEmail || !userPassword) {
+      if (!userName || !userPassword || !userEmail || !userCountry) {
         toast.error("all fields are required");
         return;
       }
@@ -254,12 +262,15 @@ function Container() {
     }
   };
   useEffect(() => {
-    if (border === true) {
+    if (border === true && userName.length > 2) {
       setAllowed(true);
+    } else if (border === true && !userName) {
+      setAllowed(false);
     } else {
       setAllowed(false);
     }
-  }, [border]);
+  }, [border, userName]);
+
   const handleUserSignup = async () => {
     allowed && userSignup();
   };

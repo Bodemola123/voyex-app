@@ -1,12 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import TargetAudienceDropdown from "./TargetAudienceDropdown";
 
-function OperationalDetails({ handleUploadDetails, loading }) {
-  const router = useRouter();
+function OperationalDetails({
+  handleUploadDetails,
+  serviceInput,
+  techUsedInput,
+  setOrgAudience,
+  loading,
+  setCurrentSlide,
+}) {
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center h-full max-w-[444px] w-full mx-auto">
@@ -38,13 +44,14 @@ function OperationalDetails({ handleUploadDetails, loading }) {
           >
             Target Audience
           </Label>
-          <Input
+          {/* <Input
             id="primary_contact_name"
             type="text"
             placeholder="student"
             onChange={audienceInput}
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]`}
-          />
+          /> */}
+          <TargetAudienceDropdown setOrgAudience={setOrgAudience} />
         </div>
         <div className="space-y-[6px] w-full mt-5">
           <Label htmlFor="tech" className="text-fontlight font-normal">
@@ -61,9 +68,9 @@ function OperationalDetails({ handleUploadDetails, loading }) {
         <div className="flex items-center justify-between max-w-[500px] mt-6 w-full">
           <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border border-card"
-            onClick={() => router.push("/search")}
+            onClick={() => setCurrentSlide("contact-details")}
           >
-            Skip
+            Back
           </button>
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3  bg-purple"

@@ -74,6 +74,7 @@ function Container() {
   };
   const industryInput = (e) => {
     setOrgIndustry(e.target.value);
+    console.log(orgIndustry);
   };
   const locationInput = (e) => {
     setOrgLocation(e.target.value);
@@ -128,11 +129,11 @@ function Container() {
           }
           if (response.status === 200 && response.data.exists === "no") {
             // toast.success("Name available");
-            setBorder(true);
+            email.includes("@") ? setBorder(true) : setBorder(false);
           }
         } catch (error) {
           // console.log("checked name error:", error);
-          if (error.response.data) {
+          if (error.response?.data) {
             toast.error(error.response.data);
           } else toast.error(error.message);
         }
@@ -312,12 +313,13 @@ function Container() {
     }
   };
   useEffect(() => {
-    if (border === true) {
+    if (border === true && email.includes("@")) {
       setAllowed(true);
-    } else {
+    } else if (border === false || !email.includes("@")) {
       setAllowed(false);
     }
-  }, [border]);
+  }, [border, email]);
+
   const handleSignup = async () => {
     allowed && signing();
   };
@@ -327,19 +329,17 @@ function Container() {
     if (!orgname || !orgWebsite || !orgIndustry || !orgLocation) {
       toast.error("complete all fields!!!");
       return;
-    }
-    setCurrentSlide("contact-details");
+    } else setCurrentSlide("contact-details");
   };
   const handleContactDetailsSlide = () => {
-    if (!pocInput || !twitterInput || !linkedinInput) {
+    if (!orgPoc || !orgTwitter || !orgLinkedin) {
       toast.error("complete all fields!!!");
       return;
-    }
-    setCurrentSlide("operational-details");
+    } else setCurrentSlide("operational-details");
   };
   const uploadDetails = async () => {
     try {
-      if (!audienceInput || !techUsedInput || !serviceInput) {
+      if (!orgAudience || !orgTechUsed || !orgService) {
         toast.error("complete all fields!!!");
         return;
       }
@@ -469,9 +469,10 @@ function Container() {
         <BasicInfoContainer
           orgNameInput={orgNameInput}
           websiteInput={websiteInput}
-          industryInput={industryInput}
+          setOrgIndustry={setOrgIndustry}
           locationInput={locationInput}
           handleBasicInfoSlide={handleBasicInfoSlide}
+          setCurrentSlide={setCurrentSlide}
           loading={loading}
         />
       );
@@ -482,17 +483,19 @@ function Container() {
           twitterInput={twitterInput}
           linkedinInput={linkedinInput}
           handleContactDetailsSlide={handleContactDetailsSlide}
+          setCurrentSlide={setCurrentSlide}
           loading={loading}
         />
       );
     } else if (currentSlide === "operational-details") {
       return (
         <OperationalDetails
-          audienceInput={audienceInput}
+          setOrgAudience={setOrgAudience}
           serviceInput={serviceInput}
           techUsedInput={techUsedInput}
           loading={loading}
           handleUploadDetails={handleUploadDetails}
+          setCurrentSlide={setCurrentSlide}
         />
       );
     } else if (currentSlide === "org-signup-loading") {
@@ -534,5 +537,15 @@ function Container() {
       );
   };
   return handleCurrentSlide();
+  // return (
+  //   <OperationalDetails
+  //     setOrgAudience={setOrgAudience}
+  //     serviceInput={serviceInput}
+  //     techUsedInput={techUsedInput}
+  //     loading={loading}
+  //     handleUploadDetails={handleUploadDetails}
+  //     setCurrentSlide={setCurrentSlide}
+  //   />
+  // );
 }
 export default Container;
