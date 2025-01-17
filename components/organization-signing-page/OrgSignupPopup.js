@@ -14,8 +14,9 @@ import ContactDetailsContainer from "./ContactDetailsContainer";
 import OperationalDetails from "./OperationalDetails";
 import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
+import axios from "axios";
 
-function OrgSignupPopup({}) {
+function OrgSignupPopup({ setDisplay }) {
   // const [email, setEmail] = useState("");
   // const [orgPassword, setOrgPassword] = useState("");
   const [orgname, setOrgname] = useState("");
@@ -97,7 +98,7 @@ function OrgSignupPopup({}) {
     }
   };
   const handleUploadDetails = async () => {
-    allowed && uploadDetails();
+    uploadDetails();
   };
 
   ///////////////// SIGN UP VALUES
@@ -196,7 +197,10 @@ function OrgSignupPopup({}) {
       );
   };
   return (
-    <div className="fixed z-50 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm">
+    <div
+      className="fixed z-50 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
+      onClick={() => setDisplay(false)}
+    >
       {handleCurrentSlide()}
     </div>
   );
