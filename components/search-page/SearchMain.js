@@ -179,7 +179,7 @@ function SearchMain({
       <div className="relative w-full items-center justify-center flex">
       <div className={`flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] border-[0.5px] border-transparent ${
       showSuggestions && userInput
-        ? "rounded-full bg-[#31313140] backdrop-blur-[3.4px] border-x-[#c088fb] border-t-[#c088fb] max-w-[532px]"
+        ? "rounded-full bg-[#31313140] backdrop-blur-[3.4px] border-x-[#c088fb] border-y-[#c088fb]  max-w-[532px]"
         : "rounded-full border-[#d0d5dd] max-w-[532px]"
     } hover:shadow-md hover:border-[#c088fb] group`}
   >
