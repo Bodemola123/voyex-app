@@ -165,7 +165,7 @@ function SearchMain({
     }
   return (
     <div className="flex flex-col items-center justify-center w-full gap-10">
-          <div className='flex flex-col gap-[24px] justify-center items-center'>
+          <div className='flex flex-col gap-[25px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center'>
   <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] text-[48px] leading-[57.6px] font-bold'>
     Hi Explorer VANSH
