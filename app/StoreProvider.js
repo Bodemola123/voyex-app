@@ -6,8 +6,10 @@ import { makeStore } from "../lib/store";
 import axios from "axios";
 import OrgSignupPopup from "@/components/organization-signing-page/OrgSignupPopup";
 import { ToastContainer } from "react-toastify";
+import { updateOrgOverlay } from "@/lib/features/authentication/auth";
 
 export default function StoreProvider({ children }) {
+  // const { orgOverlay } = useSelector((state) => state.auth);
   const [display, setDisplay] = useState(false);
   const storeRef = useRef();
   if (!storeRef.current) {
@@ -29,12 +31,18 @@ export default function StoreProvider({ children }) {
           const response = await axios.get(
             `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?org_id=${id}`
           );
-          console.log("checked id🚨:", response);
+          // console.log("checked id🚨:", response);
           if (
             response.status === 200 &&
             response.data?.organization_name === null
           ) {
             setDisplay(true);
+          }
+          if (
+            response.status === 200 &&
+            response.data?.organization_name !== null
+          ) {
+            setDisplay(false);
           }
         } catch (error) {
           if (error.response?.data) {
@@ -49,7 +57,7 @@ export default function StoreProvider({ children }) {
   return (
     <Provider store={storeRef.current}>
       {children}
-      {display && <OrgSignupPopup />}
+      {display && <OrgSignupPopup setDisplay={setDisplay} />}
       <ToastContainer />
     </Provider>
   );

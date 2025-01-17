@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import TargetAudienceDropdown from "./TargetAudienceDropdown";
+import { useRouter } from "next/navigation";
 
 function OperationalDetails({
   handleUploadDetails,
@@ -13,6 +14,7 @@ function OperationalDetails({
   loading,
   setCurrentSlide,
 }) {
+  const router = useRouter();
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center h-full max-w-[444px] w-full mx-auto">
@@ -44,13 +46,6 @@ function OperationalDetails({
           >
             Target Audience
           </Label>
-          {/* <Input
-            id="primary_contact_name"
-            type="text"
-            placeholder="student"
-            onChange={audienceInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]`}
-          /> */}
           <TargetAudienceDropdown setOrgAudience={setOrgAudience} />
         </div>
         <div className="space-y-[6px] w-full mt-5">
@@ -79,7 +74,7 @@ function OperationalDetails({
             {loading ? (
               <AiOutlineLoading3Quarters className="animate-spin text-black" />
             ) : (
-              "Save Changes"
+              "Submit Details"
             )}
           </button>
         </div>
