@@ -490,7 +490,7 @@ function Container() {
     } else if (currentSlide === "operational-details") {
       return (
         <OperationalDetails
-          audienceInput={audienceInput}
+          setOrgAudience={setOrgAudience}
           serviceInput={serviceInput}
           techUsedInput={techUsedInput}
           loading={loading}
@@ -538,12 +538,13 @@ function Container() {
   };
   return handleCurrentSlide();
   // return (
-  //   <ContactDetailsContainer
-  //     pocInput={pocInput}
-  //     twitterInput={twitterInput}
-  //     linkedinInput={linkedinInput}
-  //     setCurrentSlide={setCurrentSlide}
+  //   <OperationalDetails
+  //     setOrgAudience={setOrgAudience}
+  //     serviceInput={serviceInput}
+  //     techUsedInput={techUsedInput}
   //     loading={loading}
+  //     handleUploadDetails={handleUploadDetails}
+  //     setCurrentSlide={setCurrentSlide}
   //   />
   // );
 }

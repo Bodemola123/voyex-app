@@ -3,12 +3,13 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import TargetAudienceDropdown from "./TargetAudienceDropdown";
 
 function OperationalDetails({
   handleUploadDetails,
   serviceInput,
   techUsedInput,
-  audienceInput,
+  setOrgAudience,
   loading,
   setCurrentSlide,
 }) {
@@ -43,13 +44,14 @@ function OperationalDetails({
           >
             Target Audience
           </Label>
-          <Input
+          {/* <Input
             id="primary_contact_name"
             type="text"
             placeholder="student"
             onChange={audienceInput}
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]`}
-          />
+          /> */}
+          <TargetAudienceDropdown setOrgAudience={setOrgAudience} />
         </div>
         <div className="space-y-[6px] w-full mt-5">
           <Label htmlFor="tech" className="text-fontlight font-normal">

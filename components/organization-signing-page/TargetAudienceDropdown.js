@@ -20,42 +20,42 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 
-const indutries = [
+const audiences = [
   {
-    value: "technology",
-    label: "Technology",
+    value: "student",
+    label: "Student",
   },
   {
-    value: "health",
-    label: "Health",
+    value: "programmers",
+    label: "Programmers",
   },
   {
-    value: "business",
-    label: "Business",
+    value: "politicians",
+    label: "Politicians",
   },
   {
-    value: "marketing",
-    label: "Marketing",
+    value: "engineers",
+    label: "Engineers",
   },
   {
-    value: "design",
-    label: "Design",
+    value: "designers",
+    label: "Designers",
   },
   {
-    value: "trading",
-    label: "Trading",
+    value: "farmers",
+    label: "Farmers",
   },
   {
-    value: "e-commerce",
-    label: "E-commerce",
+    value: "bankers",
+    label: "Bankers",
   },
   {
-    value: "agriculture",
-    label: "Agriculture",
+    value: "scientists",
+    label: "Scientists",
   },
 ];
 
-export function IndustryDropdown({ setOrgIndustry }) {
+function TargetAudienceDropdown({ setOrgAudience }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -69,36 +69,36 @@ export function IndustryDropdown({ setOrgIndustry }) {
           className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none placeholder:text-fontlight text-fontlight hover:text-fontlight h-[56px]"
         >
           {value
-            ? indutries.find((industry) => industry.value === value)?.label
-            : "Select industry..."}
+            ? audiences.find((audience) => audience.value === value)?.label
+            : "Select audience..."}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none">
+      <PopoverContent className="w-96 h-full p-0 text-fontlight border-none">
+        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
           <CommandInput
-            placeholder="Search for industry"
+            placeholder="Search for audience"
             className="border border-gray/20 rounded-[28px] "
           />
-          <CommandList className=" mt-3">
-            <CommandEmpty>No industry found.</CommandEmpty>
+          <CommandList className="mt-3">
+            <CommandEmpty>No audience found.</CommandEmpty>
             <CommandGroup>
-              {indutries.map((industry) => (
+              {audiences.map((audience) => (
                 <CommandItem
-                  key={industry.value}
-                  value={industry.value}
+                  key={audience.value}
+                  value={audience.value}
                   className="text-fontlight data-[selected='true']:bg-purple"
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    setOrgIndustry(currentValue === value ? "" : currentValue);
+                    setOrgAudience(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
-                  {industry.label}
+                  {audience.label}
                   <Check
                     className={cn(
                       "ml-auto ",
-                      value === industry.value
+                      value === audience.value
                         ? "opacity-100 text-fontlight hover:text-black"
                         : "opacity-0"
                     )}
@@ -112,3 +112,5 @@ export function IndustryDropdown({ setOrgIndustry }) {
     </Popover>
   );
 }
+
+export default TargetAudienceDropdown;

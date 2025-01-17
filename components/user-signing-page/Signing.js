@@ -19,6 +19,8 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 
 function Signing({
   usernameInput,
@@ -59,7 +61,7 @@ function Signing({
           <TabsContent value="sign_up" className="mt-10">
             <Card className="rounded-none border-none">
               <CardContent className="space-y-4 p-0">
-                <div className="space-y-1">
+                <div className="relative space-y-1">
                   <Label
                     htmlFor="username"
                     className="text-fontlight font-normal"
@@ -71,12 +73,17 @@ function Signing({
                     type="text"
                     placeholder="Your username"
                     onChange={usernameInput}
-                    className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] ${
+                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px] ${
                       border
-                        ? "ring-offset-green-500 bg-green-500/50"
-                        : "ring-offset-red-500 bg-red-500/50"
+                        ? "ring-offset-green-500 border border-green-500"
+                        : "ring-offset-red-500 border border-red-500"
                     }`}
                   />
+                  {border ? (
+                    <FaCheck className="absolute right-4 top-1/2 text-green-500" />
+                  ) : (
+                    <RxCross2 className="absolute right-4 top-[45px] text-red-500" />
+                  )}
                 </div>
                 <div className="relative space-y-1">
                   <Label
@@ -107,7 +114,7 @@ function Signing({
                   disabled={!allowed}
                   onClick={() => setCurrentSlide("basic-info")}
                 >
-                  Upload Info
+                  Proceed
                 </Button>
               </CardFooter>
             </Card>

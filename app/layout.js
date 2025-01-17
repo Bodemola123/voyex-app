@@ -3,7 +3,7 @@ import "./globals.css";
 import StarsCanvas from "@/components/common/StarBackground.js";
 import Animate from "@/components/common/animate";
 import StoreProvider from "./StoreProvider";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ProtectedRoute from "@/lib/protectedRoutes";
@@ -28,10 +28,7 @@ export default function RootLayout({ children }) {
         <Animate />
         <StoreProvider>
           <GoogleOAuthProvider clientId="674221708942-scpkfslkcl6b1h6pgqam7j77es9s50nk.apps.googleusercontent.com">
-            <div className="relative w-full h-full z-[10]">
-              {children}
-              <ToastContainer />
-            </div>
+            <div className="relative w-full h-full z-[10]">{children}</div>
           </GoogleOAuthProvider>
         </StoreProvider>
       </body>
