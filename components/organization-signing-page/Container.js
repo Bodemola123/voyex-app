@@ -112,36 +112,31 @@ function Container() {
   };
 
   ///////////// CHECK ORG EMAIL //////////////////////
-  useEffect(() => {
-    if (email === "") {
-      return;
-    } else {
-      const checkOrgName = async () => {
-        try {
-          const response = await axios.get(
-            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${debouncedValue}&action=check_email`
-          );
-          // console.log("checked email:", response);
-          if (response.status === 200 && response.data.exists === "yes") {
-            // toast.error("Name taken");
-            setBorder(false);
-            return;
-          }
-          if (response.status === 200 && response.data.exists === "no") {
-            // toast.success("Name available");
-            email.includes("@") ? setBorder(true) : setBorder(false);
-          }
-        } catch (error) {
-          // console.log("checked name error:", error);
-          // if (error.response?.data) {
-          //   toast.error(error.response.data);
-          // } else toast.error(error.message);
-        }
-      };
-      checkOrgName();
-    }
-    // input finall order
-  }, [debouncedValue, email]);
+  // useEffect(() => {
+  //   if (email === "") {
+  //     return;
+  //   } else {
+  //     const checkOrgName = async () => {
+  //       try {
+  //         const response = await axios.get(
+  //           `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${debouncedValue}&action=check_email`
+  //         );
+  //         // console.log("checked email:", response);
+  //         if (response.status === 200 && response.data.exists === "yes") {
+  //           // toast.error("Name taken");
+  //           setBorder(false);
+  //           return;
+  //         }
+  //         if (response.status === 200 && response.data.exists === "no") {
+  //           // toast.success("Name available");
+  //           email.includes("@") ? setBorder(true) : setBorder(false);
+  //         }
+  //       } catch (error) {}
+  //     };
+  //     checkOrgName();
+  //   }
+  //   // input finall order
+  // }, [debouncedValue, email]);
 
   ////////////////// GOOGLE ORG SIGNUP /////////////////////////////////
   const googleOrgSignup = useGoogleLogin({
@@ -265,7 +260,7 @@ function Container() {
         return;
       }
       if (!email.includes("@")) {
-        setBorder(false);
+        toast.warn("email is missing @");
         return;
       }
 
@@ -276,30 +271,41 @@ function Container() {
         return;
       }
       setLoading(true);
-      setCurrentSlide("org-signup-loading");
-      const response = await axios.post(
-        `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
-        {
-          email: email,
-          method: "sign_up",
-          password: orgPassword,
-        }
+      ///////////// check if email is taken /////////////////////
+      const check_email = await axios.get(
+        `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${debouncedValue}&action=check_email`
       );
-      console.log("sign up res👉", response);
-      if (response.status === 201) {
-        toast.success(response.data.message);
-        setCurrentSlide("org-signup-success");
-        localStorage.setItem("orgId", response.data.org_id);
+      if (check_email.status === 200 && check_email.data.exists === "yes") {
+        toast("Email already taken");
+        return;
       }
-      if (
-        response.status === 200 &&
-        response.data.message === "Organization already exists"
-      ) {
-        toast.warn(response.data.message);
-        setCurrentSlide("signing");
-      }
-      if (response.status === 409) {
-        setCurrentSlide("signing");
+      if (check_email.status === 200 && check_email.data.exists === "no") {
+        // toast.success("Name available");
+        setCurrentSlide("org-signup-loading");
+        const response = await axios.post(
+          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+          {
+            email: email,
+            method: "sign_up",
+            password: orgPassword,
+          }
+        );
+        console.log("sign up res👉", response);
+        if (response.status === 201) {
+          toast.success(response.data.message);
+          setCurrentSlide("org-signup-success");
+          localStorage.setItem("orgId", response.data.org_id);
+        }
+        if (
+          response.status === 200 &&
+          response.data.message === "Organization already exists"
+        ) {
+          toast.warn(response.data.message);
+          setCurrentSlide("signing");
+        }
+        if (response.status === 409) {
+          setCurrentSlide("signing");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -313,16 +319,9 @@ function Container() {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (border === true && email.includes("@")) {
-      setAllowed(true);
-    } else if (border === false || !email.includes("@")) {
-      setAllowed(false);
-    }
-  }, [border, email]);
 
   const handleSignup = async () => {
-    allowed && signing();
+    signing();
   };
 
   //////////////// ORGANIZATION UPLOAD DETAILS /////////////////////////////////

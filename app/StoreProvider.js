@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { makeStore } from "../lib/store";
 import axios from "axios";
 import OrgSignupPopup from "@/components/organization-signing-page/OrgSignupPopup";
-import { Slide, toast, ToastContainer } from "react-toastify";
+import { Flip, Slide, toast, ToastContainer } from "react-toastify";
 // import { updateOrgOverlay } from "@/lib/features/authentication/auth";
 
 export default function StoreProvider({ children }) {
@@ -60,16 +60,16 @@ export default function StoreProvider({ children }) {
       {display && <OrgSignupPopup setDisplay={setDisplay} />}
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
+        autoClose={3500}
         hideProgressBar
         newestOnTop={false}
-        closeOnClick={false}
+        closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="dark"
-        transition={Slide}
+        transition={Flip}
       />
     </Provider>
   );

@@ -35,8 +35,8 @@ function Signing({
   loading,
   showPassword,
   setShowPassword,
-  allowed,
-  border,
+  // allowed,
+  // border,
   setCurrentSlide,
 }) {
   return (
@@ -60,12 +60,6 @@ function Signing({
           </TabsList>
           <TabsContent value="sign_up" className="mt-10">
             <Card className="rounded-none border-none">
-              {/* <CardHeader>
-              <CardTitle>Account</CardTitle>
-              <CardDescription>
-                {`Make changes to your account here. Click save when you're done.`}
-              </CardDescription>
-            </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="relative space-y-1">
                   <Label htmlFor="email" className="text-fontlight font-normal">
@@ -78,11 +72,11 @@ function Signing({
                     onChange={emailInput}
                     className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px]`}
                   />
-                  {border ? (
+                  {/* {border ? (
                     <FaCheck className="absolute right-4 top-1/2 text-green-500" />
                   ) : (
                     <RxCross2 className="absolute right-4 top-[45px] text-red-500" />
-                  )}
+                  )} */}
                 </div>
                 <div className="relative space-y-1">
                   <Label
@@ -110,7 +104,7 @@ function Signing({
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
                   className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
-                  disabled={!allowed}
+                  // disabled={!allowed}
                   onClick={() => handleSignup()}
                 >
                   {loading ? (

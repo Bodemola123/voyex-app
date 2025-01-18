@@ -38,7 +38,7 @@ function OrgSignupPopup({ setDisplay }) {
   //////////////// ORGANIZATION UPLOAD DETAILS /////////////////////////////////
   const handleBasicInfoSlide = () => {
     if (!orgname || !orgWebsite || !orgIndustry || !orgLocation) {
-      toast.error("complete all fields!!!");
+      toast.warn("complete all fields!!!");
       return;
     } else setCurrentSlide("contact-details");
   };
@@ -198,8 +198,8 @@ function OrgSignupPopup({ setDisplay }) {
   };
   return (
     <div
-      className="fixed z-50 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
-      onClick={() => setDisplay(false)}
+      className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
+      // onClick={(e) => setDisplay(false) + e.stopPropagation()}
     >
       {handleCurrentSlide()}
     </div>
