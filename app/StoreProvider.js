@@ -46,7 +46,7 @@ export default function StoreProvider({ children }) {
           }
         } catch (error) {
           if (error.response?.data) {
-            toast.error(error.response.data);
+            // toast.error(error.response.data);
           } else toast.error(error.message);
         }
       };
