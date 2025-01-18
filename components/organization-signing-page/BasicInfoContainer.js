@@ -12,10 +12,12 @@ function BasicInfoContainer({
   locationInput,
   handleBasicInfoSlide,
   loading,
+  // e,
 }) {
+  // e.stopPropagation();
   const router = useRouter();
   return (
-    <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
+    <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll z-50 basic">
       <div className=" flex flex-col items-center h-full max-w-[444px] w-full mx-auto">
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
           <span className="w-[35px] h-[9px] rounded-[28px] bg-purple"></span>
