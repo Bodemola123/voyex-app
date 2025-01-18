@@ -5,8 +5,8 @@ import { Provider } from "react-redux";
 import { makeStore } from "../lib/store";
 import axios from "axios";
 import OrgSignupPopup from "@/components/organization-signing-page/OrgSignupPopup";
-import { ToastContainer } from "react-toastify";
-import { updateOrgOverlay } from "@/lib/features/authentication/auth";
+import { Slide, toast, ToastContainer } from "react-toastify";
+// import { updateOrgOverlay } from "@/lib/features/authentication/auth";
 
 export default function StoreProvider({ children }) {
   // const { orgOverlay } = useSelector((state) => state.auth);
@@ -58,7 +58,19 @@ export default function StoreProvider({ children }) {
     <Provider store={storeRef.current}>
       {children}
       {display && <OrgSignupPopup setDisplay={setDisplay} />}
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Slide}
+      />
     </Provider>
   );
 }

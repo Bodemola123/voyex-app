@@ -53,14 +53,14 @@ function Container() {
   const [currentSlide, setCurrentSlide] = useState("signing");
   const debouncedValue = useDebounce(email, 500);
 
-  useEffect(() => {
-    if (googleUserDetails) {
-      toast("redirecting to /search");
-      setTimeout(() => {
-        router.push("/search");
-      }, 5500);
-    }
-  }, [router, googleUserDetails]);
+  // useEffect(() => {
+  //   if (googleUserDetails) {
+  //     toast("redirecting to /search");
+  //     setTimeout(() => {
+  //       router.push("/search");
+  //     }, 5500);
+  //   }
+  // }, [router, googleUserDetails]);
 
   ///////////////// SIGN UP VALUES
   const emailInput = (e) => {
@@ -133,9 +133,9 @@ function Container() {
           }
         } catch (error) {
           // console.log("checked name error:", error);
-          if (error.response?.data) {
-            toast.error(error.response.data);
-          } else toast.error(error.message);
+          // if (error.response?.data) {
+          //   toast.error(error.response.data);
+          // } else toast.error(error.message);
         }
       };
       checkOrgName();
@@ -171,6 +171,7 @@ function Container() {
           if (response.status === 201) {
             setCurrentSlide("org-signup-success");
             toast.success(response.data.message);
+            localStorage.setItem("orgId", response.data.org_id);
             dispatch(
               updateGoogleUserDetails({
                 email: res.data?.email,
@@ -260,16 +261,16 @@ function Container() {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
       if (!email || !orgPassword) {
-        toast.error("all fields are required");
+        toast.warn("all fields are required");
         return;
       }
       if (!email.includes("@")) {
-        toast.error("@ is required for email");
+        setBorder(false);
         return;
       }
 
       if (!passwordRegex.test(orgPassword)) {
-        toast.error(
+        toast(
           "Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!"
         );
         return;
@@ -294,7 +295,7 @@ function Container() {
         response.status === 200 &&
         response.data.message === "Organization already exists"
       ) {
-        toast.error(response.data.message);
+        toast.warn(response.data.message);
         setCurrentSlide("signing");
       }
       if (response.status === 409) {
