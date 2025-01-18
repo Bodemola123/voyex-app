@@ -46,6 +46,7 @@ function Container() {
   const [orgEmail, setOrgEmail] = useState("");
   const [orgPassword1, setOrgPassword1] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [border, setBorder] = useState(false);
@@ -141,7 +142,7 @@ function Container() {
   ////////////////// GOOGLE ORG SIGNUP /////////////////////////////////
   const googleOrgSignup = useGoogleLogin({
     onSuccess: async (response) => {
-      setLoading(true);
+      setLoadingGoogle(true);
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -189,11 +190,11 @@ function Container() {
         if (err.message) {
           setCurrentSlide("signing");
         }
-        if (err.response?.data) {
-          toast.error(err.response.data);
-        } else toast.error(err.message);
+        if (err.response?.data?.message) {
+          toast.warn(err.response.data.message);
+        } else toast.warn(err.message);
       } finally {
-        setLoading(false);
+        setLoadingGoogle(false);
       }
     },
   });
@@ -201,7 +202,7 @@ function Container() {
   ////////////////// GOOGLE ORG SIGNIN /////////////////////////////////
   const googleOrgSignin = useGoogleLogin({
     onSuccess: async (response) => {
-      setLoading(true);
+      setLoadingGoogle(true);
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -242,11 +243,11 @@ function Container() {
         }
       } catch (err) {
         console.log(err);
-        if (err.response?.data?.error) {
-          toast.error(err.response.data.error);
-        } else toast.error(err.message);
+        if (err.response?.data?.message) {
+          toast.warn(err.response.data.message);
+        } else toast.warn(err.message);
       } finally {
-        setLoading(false);
+        setLoadingGoogle(false);
       }
     },
   });
@@ -461,6 +462,7 @@ function Container() {
           allowed={allowed}
           border={border}
           loading={loading}
+          loadingGoogle={loadingGoogle}
           setCurrentSlide={setCurrentSlide}
         />
       );
@@ -532,6 +534,7 @@ function Container() {
           allowed={allowed}
           border={border}
           loading={loading}
+          loadingGoogle={loadingGoogle}
           setCurrentSlide={setCurrentSlide}
         />
       );

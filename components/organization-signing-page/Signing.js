@@ -33,6 +33,7 @@ function Signing({
   googleOrgSignup,
   googleOrgSignin,
   loading,
+  loadingGoogle,
   showPassword,
   setShowPassword,
   // allowed,
@@ -123,10 +124,10 @@ function Signing({
                 </button>
                 <button
                   className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
-                  disabled={loading}
+                  disabled={loadingGoogle}
                   onClick={() => googleOrgSignup()}
                 >
-                  {loading && (
+                  {loadingGoogle && (
                     <span className="absolute p-6 bg-black/30">
                       <AiOutlineLoading3Quarters className="animate-spin text-black" />
                     </span>
@@ -141,12 +142,6 @@ function Signing({
           </TabsContent>
           <TabsContent value="sign_in" className="mt-10">
             <Card className="rounded-none border-none">
-              {/* <CardHeader>
-              <CardTitle>Account</CardTitle>
-              <CardDescription>
-                {`Make changes to your account here. Click save when you're done.`}
-              </CardDescription>
-            </CardHeader> */}
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
                   <Label htmlFor="email" className="text-fontlight font-normal">
@@ -204,10 +199,10 @@ function Signing({
                 </button>
                 <button
                   className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
-                  disabled={loading}
+                  disabled={loadingGoogle}
                   onClick={() => googleOrgSignin()}
                 >
-                  {loading && (
+                  {loadingGoogle && (
                     <span className="absolute p-6 bg-black/30">
                       <AiOutlineLoading3Quarters className="animate-spin text-black" />
                     </span>

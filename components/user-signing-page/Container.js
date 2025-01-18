@@ -27,6 +27,7 @@ function Container() {
   const [userPassword, setUserPassword] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -113,7 +114,7 @@ function Container() {
   ////////////////// GOOGLE USER SIGNUP /////////////////////////////////
   const googleUserSignup = useGoogleLogin({
     onSuccess: async (response) => {
-      setLoading(true);
+      setLoadingGoogle(true);
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -165,7 +166,7 @@ function Container() {
           toast.error(err.response.data.error);
         } else toast.error(err.message);
       } finally {
-        setLoading(false);
+        setLoadingGoogle(false);
       }
     },
   });
@@ -173,7 +174,7 @@ function Container() {
   ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
   const googleUserSignin = useGoogleLogin({
     onSuccess: async (response) => {
-      setLoading(true);
+      setLoadingGoogle(true);
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -183,20 +184,20 @@ function Container() {
             },
           }
         );
-        console.log(res);
-        console.log(res.data);
+        // console.log(res);
+        // console.log(res.data);
         if (res.status === 200) {
           const response = await axios.get(
             `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${res.data.name}`
           );
-          console.log("response", response);
+          // console.log("response", response);
           if (response.status === 200 && response.data.exists === true) {
             setCurrentSlide("signin-success");
             toast.success("Login successful");
             Cookies.set("voyexUserName", res.data.name, { expires: 7 });
           }
           if (response.status === 200 && response.data.exists === false) {
-            toast.error("Wrong credentials, user doesn't exist!");
+            toast.warn("User doesn't exist!");
             return;
           }
           dispatch(
@@ -212,11 +213,11 @@ function Container() {
         }
       } catch (err) {
         console.log(err);
-        if (err.response?.data?.error) {
-          toast.error(err.response.data.error);
-        } else toast.error(err.message);
+        if (err.response?.data?.message) {
+          toast.warn(err.response.data.message);
+        } else toast.warn(err.message);
       } finally {
-        setLoading(false);
+        setLoadingGoogle(false);
       }
     },
   });
@@ -337,6 +338,7 @@ function Container() {
           googleUserSignup={googleUserSignup}
           googleUserSignin={googleUserSignin}
           loading={loading}
+          loadingGoogle={loadingGoogle}
         />
       );
     } else if (currentSlide === "basic-info") {
@@ -377,6 +379,7 @@ function Container() {
           googleUserSignup={googleUserSignup}
           googleUserSignin={googleUserSignin}
           loading={loading}
+          loadingGoogle={loadingGoogle}
         />
       );
   };

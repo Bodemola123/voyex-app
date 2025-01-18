@@ -12,9 +12,7 @@ function BasicInfoContainer({
   locationInput,
   handleBasicInfoSlide,
   loading,
-  // e,
 }) {
-  // e.stopPropagation();
   const router = useRouter();
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll z-50 basic">

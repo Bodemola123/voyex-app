@@ -37,6 +37,7 @@ function Signing({
   googleUserSignin,
   googleUserSignup,
   loading,
+  loadingGoogle,
   currentSlide,
   setCurrentSlide,
 }) {
@@ -131,10 +132,10 @@ function Signing({
                 </button>
                 <button
                   className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
-                  disabled={loading}
+                  disabled={loadingGoogle}
                   onClick={() => googleUserSignup()}
                 >
-                  {loading && (
+                  {loadingGoogle && (
                     <span className="absolute p-6 bg-black/30">
                       <AiOutlineLoading3Quarters className="animate-spin text-black" />
                     </span>
@@ -209,10 +210,10 @@ function Signing({
                 </button>
                 <button
                   className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
-                  disabled={loading}
+                  disabled={loadingGoogle}
                   onClick={() => googleUserSignin()}
                 >
-                  {loading && (
+                  {loadingGoogle && (
                     <span className="absolute p-6 bg-black/30">
                       <AiOutlineLoading3Quarters className="animate-spin text-black" />
                     </span>
