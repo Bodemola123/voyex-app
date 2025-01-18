@@ -28,6 +28,7 @@ function Container() {
   const [userCountry, setUserCountry] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
 
   const [userName1, setUserName1] = useState("");
   const [userPassword1, setUserPassword1] = useState("");
@@ -74,7 +75,7 @@ function Container() {
       return;
     }
     if (userName.includes("@gmail") || userName.includes("@yahoo")) {
-      toast.error("username isn't proper");
+      setBorder(false);
       return;
     } else {
       const checkUserName = async () => {
@@ -82,17 +83,21 @@ function Container() {
           const response = await axios.get(
             `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${debouncedValue}`
           );
-          // console.log("checked name:", response);
+          console.log("checked name:", response);
           if (response.status === 200 && response.data.exists === true) {
             // toast.error("Name taken");
+            setMessage("username is taken");
             setBorder(false);
             return;
           }
           if (response.status === 200 && response.data.exists === false) {
             // toast.success("Name available");
-            userName === "" || userName.length < 3
-              ? setBorder(false)
-              : setBorder(true);
+            if (userName === "" || userName.length < 3) {
+              setBorder(false);
+            } else {
+              setBorder(true);
+              setMessage("username is available");
+            }
           }
         } catch (error) {
           if (error.response?.data) {
@@ -221,12 +226,12 @@ function Container() {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
       if (!userName || !userPassword || !userEmail || !userCountry) {
-        toast.error("all fields are required");
+        toast.warn("all fields are required");
         return;
       }
 
       if (!passwordRegex.test(userPassword)) {
-        toast.error(
+        toast(
           "Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!"
         );
         return;
@@ -324,6 +329,7 @@ function Container() {
           setShowPassword={setShowPassword}
           currentSlide={currentSlide}
           setCurrentSlide={setCurrentSlide}
+          message={message}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}
@@ -363,6 +369,7 @@ function Container() {
           setShowPassword={setShowPassword}
           currentSlide={currentSlide}
           setCurrentSlide={setCurrentSlide}
+          message={message}
           /////////////////
           handleUserSignin={handleUserSignin}
           usernameInput1={usernameInput1}

@@ -76,11 +76,7 @@ function Signing({
                     type="email"
                     placeholder="Organization email"
                     onChange={emailInput}
-                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px] ${
-                      border
-                        ? "ring-offset-green-500 border border-green-500"
-                        : "ring-offset-red-500 border border-red-500"
-                    }`}
+                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px]`}
                   />
                   {border ? (
                     <FaCheck className="absolute right-4 top-1/2 text-green-500" />

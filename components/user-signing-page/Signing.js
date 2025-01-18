@@ -27,6 +27,7 @@ function Signing({
   passwordInput,
   showPassword,
   setShowPassword,
+  message,
   border,
   allowed,
   /////////////////////
@@ -61,7 +62,7 @@ function Signing({
           <TabsContent value="sign_up" className="mt-10">
             <Card className="rounded-none border-none">
               <CardContent className="space-y-4 p-0">
-                <div className="relative space-y-1">
+                <div className="relative space-y-1 mb-1">
                   <Label
                     htmlFor="username"
                     className="text-fontlight font-normal"
@@ -73,17 +74,21 @@ function Signing({
                     type="text"
                     placeholder="Your username"
                     onChange={usernameInput}
-                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px] ${
-                      border
-                        ? "ring-offset-green-500 border border-green-500"
-                        : "ring-offset-red-500 border border-red-500"
-                    }`}
+                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px]`}
                   />
                   {border ? (
-                    <FaCheck className="absolute right-4 top-1/2 text-green-500" />
+                    <FaCheck className="absolute right-4 top-[45px] text-green-500" />
                   ) : (
                     <RxCross2 className="absolute right-4 top-[45px] text-red-500" />
                   )}
+
+                  <span
+                    className={`absolute -bottom-[20px] right-0 text-xs ${
+                      border ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {message}
+                  </span>
                 </div>
                 <div className="relative space-y-1">
                   <Label
@@ -114,7 +119,7 @@ function Signing({
                   disabled={!allowed}
                   onClick={() => setCurrentSlide("basic-info")}
                 >
-                  Proceed
+                  Sign up
                 </Button>
               </CardFooter>
             </Card>
