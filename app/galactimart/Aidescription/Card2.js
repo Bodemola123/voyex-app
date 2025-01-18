@@ -33,7 +33,15 @@ const Card2 = () => {
       users: "5M+",
       buttonText: "Takeoff to App",
     },
+    {
+      id:5,
+      title: "ChatGPT",
+      rating: 9,
+      users:"5M+",
+      buttonText: "Takeoff to APP",
+    }
   ]);
+
 
   return (
     <div className="flex-row cards-wrapper">

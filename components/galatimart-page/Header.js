@@ -17,7 +17,7 @@ import { GrTag } from "react-icons/gr";
 
 const Header = () => {
   return (
-    <div className="flex flex-col gap-y-6">
+    <div className="flex flex-col gap-y-6 w-full">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-2 w-[681px] h-20">
           <h1 className="text-4xl font-bold">GalactiMart</h1>
