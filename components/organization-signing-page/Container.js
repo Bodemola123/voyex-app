@@ -1,7 +1,6 @@
 "use client";
 
 import { useSelector, useDispatch } from "react-redux";
-
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,6 +21,8 @@ import Cookies from "js-cookie";
 import OperationalDetails from "./OperationalDetails";
 import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
+
+const emailKey = process.env.EMAIL_KEY;
 
 function Container() {
   const router = useRouter();
@@ -260,10 +261,6 @@ function Container() {
         toast.warn("all fields are required");
         return;
       }
-      if (!email.includes("@")) {
-        toast.warn("email is missing @");
-        return;
-      }
 
       if (!passwordRegex.test(orgPassword)) {
         toast(
@@ -272,40 +269,62 @@ function Container() {
         return;
       }
       setLoading(true);
-      ///////////// check if email is taken /////////////////////
-      const check_email = await axios.get(
-        `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${debouncedValue}&action=check_email`
+      /////////////// check if email is legit //////////////////
+      const check_legit_email = await axios.get(
+        `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${email}`
       );
-      if (check_email.status === 200 && check_email.data.exists === "yes") {
-        toast("Email already taken");
+      console.log(check_legit_email.data);
+      if (check_legit_email.data.is_valid_format.value === false) {
+        toast.warn("Email format unacceptable");
         return;
       }
-      if (check_email.status === 200 && check_email.data.exists === "no") {
-        // toast.success("Name available");
-        setCurrentSlide("org-signup-loading");
-        const response = await axios.post(
-          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
-          {
-            email: email,
-            method: "sign_up",
-            password: orgPassword,
-          }
+      if (
+        check_legit_email.data.is_smtp_valid.value === true &&
+        check_legit_email.data.is_valid_format.value === true
+      ) {
+        ///////////// check if email is taken /////////////////////
+        const check_available_email = await axios.get(
+          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${debouncedValue}&action=check_email`
         );
-        console.log("sign up res👉", response);
-        if (response.status === 201) {
-          toast.success(response.data.message);
-          setCurrentSlide("org-signup-success");
-          localStorage.setItem("orgId", response.data.org_id);
-        }
+        /////////// if email exists, return/stop
         if (
-          response.status === 200 &&
-          response.data.message === "Organization already exists"
+          check_available_email.status === 200 &&
+          check_available_email.data.exists === "yes"
         ) {
-          toast.warn(response.data.message);
-          setCurrentSlide("signing");
+          toast("Email already taken");
+          return;
         }
-        if (response.status === 409) {
-          setCurrentSlide("signing");
+        /////////////// if email doesn't exist, continue process
+        if (
+          check_available_email.status === 200 &&
+          check_available_email.data.exists === "no"
+        ) {
+          // toast.success("Name available");
+          setCurrentSlide("org-signup-loading");
+          const response = await axios.post(
+            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+            {
+              email: email,
+              method: "sign_up",
+              password: orgPassword,
+            }
+          );
+          console.log("sign up res👉", response);
+          if (response.status === 201) {
+            toast.success(response.data.message);
+            setCurrentSlide("org-signup-success");
+            localStorage.setItem("orgId", response.data.org_id);
+          }
+          if (
+            response.status === 200 &&
+            response.data.message === "Organization already exists"
+          ) {
+            toast.warn(response.data.message);
+            setCurrentSlide("signing");
+          }
+          if (response.status === 409) {
+            setCurrentSlide("signing");
+          }
         }
       }
     } catch (error) {
