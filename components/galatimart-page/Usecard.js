@@ -19,7 +19,7 @@ const Usecard = ({ usecase }) => {
   };
 
   return (
-    <div className='flex gap-3 flex-col'>
+    <div className='flex gap-3 flex-col' key={usecase.id} usecase={usecase}>
         <div className='flex flex-row gap-2'>
             <Image src={'/Ellipse.svg'} alt='ellipse' width={44} height={44}/>
             <div className='flex flex-col gap-2'>

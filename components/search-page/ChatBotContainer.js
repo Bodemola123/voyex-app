@@ -3,6 +3,8 @@ import ChatTop from "@/components/search-page/ChatTop";
 import ChatBotMessage from "@/components/search-page/ChatBotMessage";
 import ChatAside from "@/components/search-page/ChatAside";
 import { useState } from "react";
+import BenFooter from "../common/BenFooter";
+import '../../app/globals.css'
 
 function ChatBotContainer({
   messages,
@@ -17,18 +19,14 @@ function ChatBotContainer({
   const [isBotTyping, setIsBotTyping] = useState(false);
 
   return (
-    <div className="relative flex flex-col justify-between w-full h-full mb-24">
-      <ChatTop messages={messages} setShowChat={setShowChat} />
-
-      <div className="flex items-start justify-between gap-8 w-full px-5 mt-5 pt-8">
-        <ChatBotMessage
+    <div className="relative flex flex-col justify-between w-full h-screen">
+      <ChatTop messages={messages} setShowChat={setShowChat} handleNewConversation={handleNewConversation}/>
+      <ChatBotMessage
           messages={messages}
           error={error}
           isLoading={isLoading}
           setBotTyping={setIsBotTyping}
         />
-        <ChatAside />
-      </div>
 
       <ChatInput
         userInput={userInput}

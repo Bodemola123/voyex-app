@@ -1,7 +1,12 @@
-import React, { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
+'use client'
+import React, { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { TfiReload } from "react-icons/tfi";
 import { VscSend } from "react-icons/vsc";
+import { GrAttachment } from "react-icons/gr";
+import { GrMicrophone } from "react-icons/gr";
+import { IoArrowUp } from "react-icons/io5";
+import { HiXMark } from "react-icons/hi2";
 
 function ChatInput({
   userInput,
@@ -11,6 +16,17 @@ function ChatInput({
   isLoading,
   isBotTyping,
 }) {
+
+  const [attachedFile, setAttachedFile] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioBlobUrl, setAudioBlobUrl] = useState("");
+  const [isClient, setIsClient] = useState(false); // To track if we're on the client
+  const [uploadSuccessful, setUploadSuccessful] = useState(false); // Track if upload is valid
+
+    // Set isClient to true when the component has mounted on the client
+    useEffect(() => {
+      setIsClient(true);
+    }, []);
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -22,49 +38,161 @@ function ChatInput({
     e.preventDefault();
     handleSendMessage();
   };
+  const handleFileChange = (event) => {
+    setAttachedFile(event.target.files[0]);
+  };
+  // Remove attached file
+  const handleRemoveFile = () => {
+    setAttachedFile(null);
+    setAudioBlobUrl(""); // Reset audio
+  };
+    // Handle upload action
+    const handleUpload = () => {
+      if (inputText || attachedFile) {
+        alert(
+          `Uploading:\\nText: ${inputText}\\nFile: ${
+            attachedFile ? attachedFile.name : "None"
+          }`
+        );
+        setInputText("");
+        setAttachedFile(null);
+        setAudioBlobUrl(""); // Reset audio
+        setUploadSuccessful(true); // Mark upload as successful
+      } else {
+        setUploadSuccessful(false); // Set upload to unsuccessful
+        alert("Please provide text or attach a file before uploading.");
+      }
+    };
 
-  return (
-    <div className="flex items-center justify-start gap-4 w-full ml-5">
-      <form
-        action=""
-        className="flex items-center justify-between gap-2 max-w-[700px] w-full px-3 border border-[#d0d5dd] bg-fade/10 rounded-lg"
-      >
-        <div className="flex items-center gap-2 w-full">
-          <CiSearch
-            className={`text-3xl ${
-              isLoading ? "cursor-not-allowed text-gray-400" : ""
-            }`}
-          />
-          <input
-            type="text"
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            disabled={isLoading}
-            onKeyDown={!isBotTyping ? handleKeyPress : undefined}
-            className={`outline-none bg-transparent py-2 w-full placeholder:text-sm placeholder:font-normal ${
-              isLoading
+        // Only render the ReactMediaRecorder component on the client side
+        if (!isClient) {
+          return (
+            <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-md">
+              <textarea       
+               placeholder="Start Exploration"
+                 value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                   disabled={isLoading}
+                   onKeyDown={!isBotTyping ? handleKeyPress : undefined}
+        className={`flex-grow bg-black text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 ${isLoading
                 ? "placeholder:text-gray-400 cursor-not-allowed"
                 : "placeholder:text-fontlight"
-            }`}
-            placeholder="Message Voyex"
+            }`
+          
+        }
+        rows={1}
+              />
+              <button
+                onClick={handleUpload}
+                className="flex items-center justify-center w-8 h-8 bg-purple-500 rounded-full focus:outline-none"
+              >
+                <GrMicrophone
+                  className={`text-[20px] ${isRecording ? "text-red-500" : "text-[#94a3b8]"}`}
+                />
+              </button>
+            </div>
+          );
+        }
+  return (
+    <div className="flex items-center justify-center gap-4 w-full">
+    <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px]">
+      {/* File attachment icon */}
+      <label className="cursor-pointer">
+        <input
+          type="file"
+          className="hidden"
+          onChange={handleFileChange}
+          accept="image/*, video/*, audio/*"
+        />
+        <GrAttachment className={`text-[#94a3b8] text-[20px]${
+              isLoading ? "cursor-not-allowed" : ""
+            }`} />
+      </label>
+
+      {/* Display the file (image/video) */}
+      {attachedFile && attachedFile.type.startsWith("image/") && (
+        <div className="relative">
+          <img
+            src={URL.createObjectURL(attachedFile)}
+            alt="Attachment"
+            className="w-14 h-14 object-cover rounded-lg"
           />
+          <button
+            onClick={handleRemoveFile}
+            className="absolute top-0 right-0 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"
+          >
+            <HiXMark className="text-[#ffffff]" />
+          </button>
         </div>
+      )}
+      {attachedFile && attachedFile.type.startsWith("video/") && (
+        <div className="relative">
+          <video
+            controls
+            className="w-14 h-14 object-cover rounded-lg"
+            src={URL.createObjectURL(attachedFile)}
+          />
+          <button
+            onClick={handleRemoveFile}
+            className="absolute top-0 right-0 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"
+          >
+            <HiXMark className="text-[#ffffff]" />
+          </button>
+        </div>
+      )}
+         {audioBlobUrl && (
+      <div className="relative">
+        <audio controls className="w-14 h-14">
+          <source src={audioBlobUrl} type="audio/mpeg" />
+        </audio>
         <button
-          className={`pl-3 py-3 ${
-            isLoading || isBotTyping ? "cursor-not-allowed text-gray-400" : ""
-          }`}
-          onClick={handleButtonPress}
-          disabled={isLoading || isBotTyping}
+          onClick={() => {
+            console.log("Audio file being removed..."); // Debugging line to check removal
+            setAudioBlobUrl(""); // Reset the audio URL
+          }}
+          className="absolute top-0 right-0 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"
         >
-          <VscSend className="-rotate-45" />
+          <HiXMark className="text-[#ffffff]" />
         </button>
-      </form>
-      <button
-        className="text-base text-center text-fontlight font-medium rounded-xl bg-btnlime px-4 py-3"
-        onClick={handleNewConversation}
-      >
-        <TfiReload />
-      </button>
+      </div>
+    )}
+
+      {/* Expandable Input field */}
+      <textarea
+        placeholder="Start Exploration"
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+        disabled={isLoading}
+        onKeyDown={!isBotTyping ? handleKeyPress : undefined}
+        className={`flex-grow bg-black text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 ${isLoading
+                ? "placeholder:text-gray-500 cursor-not-allowed"
+                : "placeholder:text-gray-400"
+            }`
+          
+        }
+        rows={1}
+      />
+      
+                <button
+                  className="focus:outline-none"
+                >
+                  <GrMicrophone
+                    className={`text-[20px] text-[#94a3b8]`}
+                  />
+                </button>
+      
+
+      {/* Upload button */}
+        <button
+          className={`flex items-center justify-center w-10 h-10 bg-[#C088fb] rounded-full focus:outline-none ${
+            isLoading || isBotTyping && !attachedFile ? "cursor-not-allowed text-gray-400" : ""
+          }`}
+          onClick={() => { handleButtonPress(); handleUpload(); }} // First, handle the upload logic
+          disabled={isLoading || isBotTyping && !attachedFile}
+        >
+          <IoArrowUp className="text-[#ffffff] text-[24px]" />
+        </button>
+    </div>
     </div>
   );
 }
