@@ -223,6 +223,7 @@ function Container() {
   });
 
   ////////////////// USER SIGN UP /////////////////////////////////
+  // todo implement email validity-------------
   const userSignup = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
