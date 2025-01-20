@@ -1,9 +1,12 @@
+/* Import DM Sans font */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  font-family: poppins, sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 
 @font-face {
@@ -61,6 +64,69 @@
   font-weight: 900;
   font-style: normal;
 }
+/*///////////////////////// FK GROTESK FONT  /////////////////////////////*/
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Grotesk/FKGroteskNeueTrial-Thin-BF6576818c2a14c.otf")
+    format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Grotesk/FKGroteskNeueTrial-Light-BF6576818c0f3e8.otf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Grotesk/FKGroteskNeueTrial-Regular-BF6576818c3af74.otf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Grotesk/FKGroteskNeueTrial-Medium-BF6576818c3a00a.otf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Grotesk/FKGroteskNeueTrial-Black-BF6576818b4c472.otf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Grotesk/FKGroteskNeueTrial-Bold-BF6576818bd3700.otf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Poppins/Poppins-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "grotesk";
+  src: url("./fonts/Grotesk/FKGroteskNeueTrial-Black-BF6576818b4c472.otf")
+    format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
 
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
@@ -74,26 +140,23 @@
   }
 }
 
-*::-webkit-scrollbar {
-  width: 15px !important;
+::-webkit-scrollbar {
+  width: 4px;
 }
 /* ::-webkit-scrollbar {
   width: 20px;
 } */
 
 ::-webkit-scrollbar-track {
+  width: 2px !important;
   background-color: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #00a766;
-  border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #00a766;
-  border-radius: 20px;
-  border: 6px solid transparent;
+*::-webkit-scrollbar-thumb {
+  background-color: #c088fb;
+  width: 5px;
+  /* border-radius: 2px; */
+  /* border: 6px solid transparent; */
   background-clip: content-box;
 }
 
@@ -158,6 +221,7 @@ a:hover .i {
 
 /* Add this to your global CSS file */
 
+<<<<<<< HEAD
 .border-custom {
   position: relative;
 }
@@ -173,6 +237,24 @@ a:hover .i {
   background: linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%);
   z-index: -1; /* Place the pseudo-element behind the content */
 }
+=======
+
+.border-custom {
+    position: relative;
+  }
+
+.border-custom::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: inherit; /* Inherit the border radius */
+    background: linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%);
+    z-index: -1; /* Place the pseudo-element behind the content */
+  }
+>>>>>>> 1dff4b4134d03e9b999119aebf770a8df2c9029c
 
 .border-custom2 {
   position: relative;
@@ -190,7 +272,11 @@ a:hover .i {
   z-index: -1;
 }
 
+<<<<<<< HEAD
 .border-custom3 {
+=======
+.border-customer3 {
+>>>>>>> 1dff4b4134d03e9b999119aebf770a8df2c9029c
   position: relative;
 
 }

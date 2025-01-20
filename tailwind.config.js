@@ -20,6 +20,8 @@ module.exports = {
     extend: {
       colors: {
         primary: "#313131",
+        purple: "#C088FB",
+        secondary: "#00A766",
         white: "#ffffff",
         black: "#000000",
         fontlight: "#F4f4f4",
@@ -31,6 +33,7 @@ module.exports = {
         btnhover: "#3c3c3c",
         card: "#313131",
         input: "#171920",
+        gray: "#999999",
       },
       backgroundImage: {
         "custom-gradient":
@@ -50,6 +53,7 @@ module.exports = {
         nunito: ["Nunito Sans", "sans-serif"],
         roboto: ["Roboto Mono", "monospace"],
         space: ["Space Grotesk", "sans-serif"],
+        grotesk: ["FKGroteskNeueTrial", "sans-serif"],
         dmsans: ["DM Sans", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },

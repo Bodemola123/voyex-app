@@ -56,7 +56,7 @@ const chartConfig = {
 
 export default function TopRegions() {
   return (
-    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border border-card w-[60%] h-full">
+    <Card className="flex flex-col justify-between text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border border-card w-full h-full">
       <CardHeader>
         <CardTitle className="text-2xl text-btnlime font-medium capitalize">
           top regions
@@ -65,7 +65,7 @@ export default function TopRegions() {
           Top Regions where your Product has been engaged from
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="">
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
