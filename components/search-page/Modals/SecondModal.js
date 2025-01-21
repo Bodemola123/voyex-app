@@ -34,10 +34,10 @@ const SecondModal = ({ closeModal, openModal }) => {
         </form>
 
         <div className="flex justify-between items-center mt-6">
-          <button className="px-6 py-2 text-sm md:text-base bg-transparent text-white border border-gray-700 rounded-lg hover:bg-gray-800 focus:ring focus:ring-gray-500" onClick={() => openModal('first')}>
+          <button className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 focus:ring focus:ring-[#c088fb]" onClick={() => openModal('first')}>
             Intelligence
           </button>
-          <button className="text-white px-4 py-2 bg-[#C088FB] rounded-[25px]" onClick={() => openModal('third')}>
+          <button className="px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] focus:ring focus:ring-[#c088fb]" onClick={() => openModal('third')}>
             Save Changes
           </button>
         </div>

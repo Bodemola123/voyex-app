@@ -38,14 +38,14 @@ const FirstModal = ({ closeModal, openModal }) => {
                 Describe Branding
               </label>
               <textarea
-                className="w-full p-3 resize-none rounded-md bg-[#1d1d1f] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
+                className="w-full max-h-[130px] p-3 resize-none rounded-3xl bg-transparent border border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
                 rows="4"
               ></textarea>
             </div>
             <div>
               <label className="block text-sm text-gray-400 mb-2">Overview</label>
               <textarea
-                className="w-full p-3 rounded-md resize-none bg-[#1d1d1f] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
+                className="w-full p-3 max-h-[130px] rounded-3xl border resize-none bg-transparent border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
                 rows="4"
               ></textarea>
             </div>
@@ -54,7 +54,7 @@ const FirstModal = ({ closeModal, openModal }) => {
           <div>
             <label className="block text-sm text-gray-400 mb-2">Goals</label>
             <textarea
-              className="w-full p-3 rounded-md resize-none bg-[#1d1d1f] text-white focus:outline-none focus:ring focus:ring-[#6b46c1]"
+              className="w-full p-3 max-h-[130px] rounded-3xl border resize-none bg-transparent border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
                 rows="4"
             ></textarea>
           </div>
@@ -64,7 +64,7 @@ const FirstModal = ({ closeModal, openModal }) => {
               Describe Challenges Faced
             </label>
             <textarea
-              className="w-full p-3 resize-none rounded-md bg-[#1d1d1f] text-white focus:outline-none focus:ring focus:ring-[#6b46c1]"
+              className="w-full p-3 max-h-[130px] rounded-3xl border resize-none bg-transparent border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
               rows="4"
             ></textarea>
           </div>
@@ -74,7 +74,7 @@ const FirstModal = ({ closeModal, openModal }) => {
               <label className="block text-sm text-gray-400 mb-2">
                 Preferred Tool
               </label>
-              <select className="w-full p-3 rounded-md bg-[#1d1d1f] text-gray-300 focus:outline-none focus:ring focus:ring-[#6b46c1]">
+              <select className="w-full py-3 px-4 max-h-[64px] bg-[#0A0A0B] text-gray-300 focus:outline-none focus:ring focus:ring-[#c088fb] rounded-[68px]">
                 <option value="">Select Tools</option>
                 <option value="Tool 1">Tool 1</option>
                 <option value="Tool 2">Tool 2</option>
@@ -85,7 +85,7 @@ const FirstModal = ({ closeModal, openModal }) => {
               <label className="block text-sm text-gray-400 mb-2">
                 Preferred Framework (if applicable)
               </label>
-              <select className="w-full p-3 rounded-md bg-[#1d1d1f] text-gray-300 focus:outline-none focus:ring focus:ring-[#6b46c1]">
+              <select className="w-full py-3 px-4 max-h-[64px] bg-[#0a0a0b] text-gray-300 focus:outline-none focus:ring focus:ring-[#c088fb] rounded-[68px]">
                 <option value="">Select Tools</option>
                 <option value="Framework 1">Framework 1</option>
                 <option value="Framework 2">Framework 2</option>
@@ -96,16 +96,16 @@ const FirstModal = ({ closeModal, openModal }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-gray-700 flex justify-between items-center">
+        <div className="flex p-6 justify-between items-center">
           <button
             onClick={() => openModal('first')}
-            className="px-6 py-2 text-sm md:text-base bg-transparent text-white border border-gray-700 rounded-lg hover:bg-gray-800 focus:ring focus:ring-gray-500"
+            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 focus:ring focus:ring-[#c088fb]"
           >
             Intelligence
           </button>
           <button
             onClick={() => openModal('second')}
-            className="px-6 py-2 text-sm md:text-base bg-[#6b46c1] text-white rounded-lg hover:bg-[#5a3bb1] focus:ring focus:ring-[#6b46c1]"
+            className="px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] focus:ring focus:ring-[#c088fb]"
           >
             Feedback Mechanism
           </button>

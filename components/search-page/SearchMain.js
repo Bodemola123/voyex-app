@@ -301,14 +301,14 @@ function SearchMain({
         )}
       </div>
     <div className={`grid grid-cols-3 gap-6 ${ showSuggestions && userInput ? "mt-0" : "mt-0" }`}>
-    <div
+    <div className="max-w-[270px] max-h-[213px]"
   style={{
     background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%)',
     padding: '2px',
     borderRadius: '24px',
   }}
 >
-      <button className="relative max-w-[270px] max-h-[213px] bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}> 
+      <button className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}> 
       {/* Text */}
       <p className="text-lg">Create an image for my presentation</p>
 
@@ -318,7 +318,7 @@ function SearchMain({
       </div>
     </button>
       </div>
-      <div 
+      <div className="max-w-[270px] max-h-[213px]"
         style={{
           background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%)',
           padding: '2px',
@@ -332,13 +332,13 @@ function SearchMain({
           </button>
       </div>
 
-        <div
+        <div className="max-w-[270px] max-h-[213px]"
                 style={{
                   background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%)',
                   padding: '2px',
                   borderRadius: '24px',
                 }}>
-        <button className="relative max-w-[270px] max-h-[213px] bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6"             onClick={handleSurpriseClick}>
+        <button className="relative h-full w-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6"             onClick={handleSurpriseClick}>
       {/* Text */}
       <p className="text-lg">Find the decade that a photo is from</p>
 

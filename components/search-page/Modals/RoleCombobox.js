@@ -56,7 +56,7 @@ const RoleCombobox = () => {
     <div className="relative">
       <label className="block text-white mb-2">Role</label>
       {/* Selected Roles */}
-      <div className="flex flex-wrap gap-2 mb-2 bg-[#131314] py-2 px-4 rounded-md">
+      <div className="flex flex-wrap gap-2 mb-2 bg-[#0A0A0B] py-3 px-4 rounded-[68px]">
         {selectedRoles.map((role) => (
           <div
             key={role}
