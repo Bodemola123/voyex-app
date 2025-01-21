@@ -119,7 +119,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
 
   return (
     <div
-      className="relative w-full h-[80vh] pt-3 overflow-y-auto"
+      className="relative w-full h-full pt-3 overflow-y-auto"
       ref={scrollContainerRef}
     >
       {renderedMessages}

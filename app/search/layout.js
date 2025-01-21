@@ -47,7 +47,6 @@ function SearchLayout({ children }) {
       </div>
       <main className="flex-grow relative flex h-full w-full flex-col gap-10 p-10 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
         {children}
-        <BenFooter/>
       </main>
     </div>
   );

@@ -4,8 +4,9 @@ import { HiOutlineDownload } from "react-icons/hi";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { useEffect } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { MdOutlineRestartAlt } from "react-icons/md";
 
-function ChatTop({ messages, setShowChat }) {
+function ChatTop({ messages, setShowChat,  handleNewConversation }) {
   const handleBackClick = () => {
     setShowChat(false);
   };
@@ -29,11 +30,11 @@ function ChatTop({ messages, setShowChat }) {
   }, [setShowChat]);
 
   return (
-    <div className="sticky top-[10px] flex items-center justify-between py-1 px-6">
+    <div className="sticky top-0 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <button
           onClick={handleBackClick}
-          className={`text-base text-center text-fontlight font-medium rounded-md bg-btnlime px-2 py-1`}
+          className={`text-base text-center text-fontlight font-medium rounded-md bg-[#c088fb] px-2 py-1`}
         >
           <IoMdArrowRoundBack />
         </button>
@@ -41,17 +42,10 @@ function ChatTop({ messages, setShowChat }) {
           {messages[0]?.text || "Begin chatting with Voyex AI..."}
         </h1>
       </div>
-      <div className="flex items-center gap-3 text-xl">
-        <button className="p-2">
-          <BsClockHistory />
+      <button className='flex flex-row items-center justify-center gap-1' onClick={handleNewConversation}>
+          <MdOutlineRestartAlt className='text-[16px] text-white/60'/>
+          <p className='text-white/60 text-sm'>Clear Chat</p>
         </button>
-        <button className="p-2">
-          <HiOutlineSpeakerWave />
-        </button>
-        <button className="p-2">
-          <HiOutlineDownload />
-        </button>
-      </div>
     </div>
   );
 }
