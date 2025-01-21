@@ -94,7 +94,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
             <p
               className={`text-base text-fontlight font-normal px-4 py-2 rounded-lg ${
                 msg.role === "user"
-                  ? "bg-userbubble w-max"
+                  ? "bg-[#4F46E5] w-max"
                   : "bg-botbubble max-w-[80%]"
               } whitespace-pre-line`}
             >
@@ -127,13 +127,13 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
         <div className="flex flex-col items-start gap-2 pb-3">
           <div className="flex flex-row-reverse gap-2 items-center">
             <p className="">Voyex AI</p>
-            <span className="w-7 h-7 rounded-full overflow-hidden">
-              <Image alt="emoji" height={40} width={40} src="/emoji.png" />{" "}
+            <span className="bg-[#000000] border-[#FFFFFF52] border-[0.5px] rounded-[12px] w-8 flex items-center justify-center text-[20px] font-black text-transparent overflow-hidden">
+              <p className="bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF]">V</p>
             </span>
           </div>
           <div
             className={`flex text-fontlight text-base font-normal px-4 py-2 rounded-lg ${
-              isLoading ? "bg-botbubble" : "bg-red-500 border border-red-400"
+              isLoading ? "bg-botbubble" : "bg-[#000000]"
             } min-w-[18%]`}
           >
             {isLoading ? (

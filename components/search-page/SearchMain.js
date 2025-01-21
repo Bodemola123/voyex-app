@@ -301,7 +301,14 @@ function SearchMain({
         )}
       </div>
     <div className={`grid grid-cols-3 gap-6 ${ showSuggestions && userInput ? "mt-0" : "mt-0" }`}>
-         <button className="relative max-w-[270px] max-h-[213px] bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6 border-custom border border-[#223FFA80]" onClick={handleSurpriseClick}> 
+    <div
+  style={{
+    background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%)',
+    padding: '2px',
+    borderRadius: '24px',
+  }}
+>
+      <button className="relative max-w-[270px] max-h-[213px] bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}> 
       {/* Text */}
       <p className="text-lg">Create an image for my presentation</p>
 
@@ -310,16 +317,28 @@ function SearchMain({
         <MdImageSearch className='text-[24px] text-[#2f82ef]'/>
       </div>
     </button>
-    <button className="relative max-w-[270px] max-h-[213px] items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6 border-custom2 border border-[#FF7F0080]" onClick={handleSurpriseClick}>
-      {/* Text */}
-      <p className="text-lg">What to do with kid&apos;s art</p>
-
-      {/* Button/Icon */}
-      <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
+      </div>
+      <div 
+        style={{
+          background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%)',
+          padding: '2px',
+          borderRadius: '24px',
+        }}>
+          <button className="relative w-full h-full items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}>
+            <p>What to do with kid&apos;s art</p>
+            <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
         <GoLightBulb className='text-[24px] text-[#f1a62d]'/>
       </div>
-    </button>
-    <button className="relative max-w-[270px] max-h-[213px] bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6 border-custom3 border border-[#3fc390]"             onClick={handleSurpriseClick}>
+          </button>
+      </div>
+
+        <div
+                style={{
+                  background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%)',
+                  padding: '2px',
+                  borderRadius: '24px',
+                }}>
+        <button className="relative max-w-[270px] max-h-[213px] bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6"             onClick={handleSurpriseClick}>
       {/* Text */}
       <p className="text-lg">Find the decade that a photo is from</p>
 
@@ -328,7 +347,7 @@ function SearchMain({
         <LuEye className='text-[24px] text-[#3fc390]'/>
       </div>
     </button>
-      
+        </div>
     </div>
       {showTrendingModal && (
         <>

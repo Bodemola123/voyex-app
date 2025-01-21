@@ -12,7 +12,7 @@ const StarRating = ({ onNext }) => {
   };
 
   return (
-        <div className='flex flex-col p-6 gap-[22.46px] rounded-3xl'>
+        <div className='flex flex-col p-6 gap-[22.46px] bg-[#131314] rounded-3xl'>
         <div className="flex flex-row justify-between items-center">
       <h1 className="text-[22.46px] leading[33.7px] font-bold">Leave Review</h1>
       <div className="flex flex-row gap-[15.16px] text-[#FCD53F]">
@@ -90,7 +90,7 @@ const ReviewForm = ({ rating, onPrevious, onNext }) => {
       </div>
       <div className="flex gap-[11px] flex-row-reverse ">
       <button
-          className="bg-[#46BA3C] text-[#032400] w-[170px] flex items-center justify-center rounded-3xl px-4 py-2.5 "
+          className="bg-[#c088fb] text-[#032400] w-[170px] flex items-center justify-center rounded-3xl px-4 py-2.5 "
           onClick={onNext}
         >
           Next
@@ -211,7 +211,7 @@ const FinalPage = ({ onPrevious }) => {
     </div>
         <div className="flex gap-[11px] flex-row-reverse ">
       <button
-          className="bg-[#46BA3C] text-[#032400] w-[170px] flex items-center justify-center rounded-3xl px-4 py-2.5 "
+          className="bg-[#c088fb] text-[#032400] w-[170px] flex items-center justify-center rounded-3xl px-4 py-2.5 "
         >
           Submit
         </button>
