@@ -12,7 +12,18 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-function EmailVerify({ value, setValue, loading, otpError, formatTime }) {
+function EmailVerify({
+  value,
+  setValue,
+  loading,
+  otpError,
+  formatTime,
+  mins,
+  secs,
+}) {
+  useEffect(() => {
+    localStorage.getItem("email") ? localStorage.getItem("email") : null;
+  }, []);
   const first = localStorage.getItem("email").slice(0, 3);
   const last = localStorage.getItem("email").slice(13);
 
@@ -81,7 +92,7 @@ function EmailVerify({ value, setValue, loading, otpError, formatTime }) {
         <div className="text-center text-sm"></div>
         <p className="flex items-center gap-2 text-base text-fontlight font-medium">
           Send code again
-          <span className="text-purple font-normal">{formatTime()}</span>
+          <span className="text-purple font-normal">{mins + ":" + secs}</span>
         </p>
         <p
           className={`text-[#F54135] text-base font-normal ${

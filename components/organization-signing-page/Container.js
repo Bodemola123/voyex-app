@@ -60,6 +60,8 @@ function Container() {
   const debouncedValue = useDebounce(email, 500);
 
   const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
+  const [mins, setMins] = useState("");
+  const [secs, setSecs] = useState("");
 
   //////////// Countdown timer
   useEffect(() => {
@@ -79,13 +81,25 @@ function Container() {
   }, []);
 
   // Format the time as mm:ss
-  const formatTime = () => {
-    const minutes = Math.floor(timeLeft / 60);
-    const secs = timeLeft % 60;
-    return `${minutes.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
+  // const formatTime = () => {
+  //   const minutes = Math.floor(timeLeft / 60);
+  //   const secs = timeLeft % 60;
+  //   return `${minutes.toString().padStart(2, "0")}:${secs
+  //     .toString()
+  //     .padStart(2, "0")}`;
+  // };
+
+  useEffect(() => {
+    const formatTime = () => {
+      setMins(
+        Math.floor(timeLeft / 60)
+          .toString()
+          .padStart(2, "0")
+      );
+      setSecs((timeLeft % 60).toString().padStart(2, "0"));
+    };
+    formatTime();
+  }, [timeLeft]);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -587,7 +601,9 @@ function Container() {
           setValue={setValue}
           loading={loading}
           otpError={otpError}
-          formatTime={formatTime}
+          // formatTime={formatTime}
+          mins={mins}
+          secs={secs}
         />
       );
     } else if (currentSlide === "org-signup-success") {
@@ -625,13 +641,14 @@ function Container() {
   };
   return handleCurrentSlide();
   // return (
-  //   <OperationalDetails
-  //     setOrgAudience={setOrgAudience}
-  //     serviceInput={serviceInput}
-  //     techUsedInput={techUsedInput}
+  //   <EmailVerify
+  //     value={value}
+  //     setValue={setValue}
   //     loading={loading}
-  //     handleUploadDetails={handleUploadDetails}
-  //     setCurrentSlide={setCurrentSlide}
+  //     otpError={otpError}
+  //     // formatTime={formatTime}
+  //     mins={mins}
+  //     secs={secs}
   //   />
   // );
 }
