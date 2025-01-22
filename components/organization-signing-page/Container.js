@@ -60,7 +60,6 @@ function Container() {
   const debouncedValue = useDebounce(email, 500);
 
   const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
-  const [countdown, setCountDown] = useState("05:00");
 
   //////////// Countdown timer
   useEffect(() => {
@@ -88,14 +87,14 @@ function Container() {
       .padStart(2, "0")}`;
   };
 
-  // useEffect(() => {
-  //   if (googleUserDetails) {
-  //     toast("redirecting to /search");
-  //     setTimeout(() => {
-  //       router.push("/search");
-  //     }, 5500);
-  //   }
-  // }, [router, googleUserDetails]);
+  useEffect(() => {
+    if (googleUserDetails) {
+      toast("redirecting to /search");
+      setTimeout(() => {
+        router.push("/search");
+      }, 5500);
+    }
+  }, [router, googleUserDetails]);
 
   ///////////////// SIGN UP VALUES
   const emailInput = (e) => {
@@ -145,33 +144,6 @@ function Container() {
   const passwordInput1 = (e) => {
     setOrgPassword1(e.target.value);
   };
-
-  ///////////// CHECK ORG EMAIL //////////////////////
-  // useEffect(() => {
-  //   if (email === "") {
-  //     return;
-  //   } else {
-  //     const checkOrgName = async () => {
-  //       try {
-  //         const response = await axios.get(
-  //           `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${debouncedValue}&action=check_email`
-  //         );
-  //         // console.log("checked email:", response);
-  //         if (response.status === 200 && response.data.exists === "yes") {
-  //           // toast.error("Name taken");
-  //           setBorder(false);
-  //           return;
-  //         }
-  //         if (response.status === 200 && response.data.exists === "no") {
-  //           // toast.success("Name available");
-  //           email.includes("@") ? setBorder(true) : setBorder(false);
-  //         }
-  //       } catch (error) {}
-  //     };
-  //     checkOrgName();
-  //   }
-  //   // input finall order
-  // }, [debouncedValue, email]);
 
   ////////////////// GOOGLE ORG SIGNUP /////////////////////////////////
   const googleOrgSignup = useGoogleLogin({
@@ -313,6 +285,13 @@ function Container() {
         return;
       }
       if (
+        check_legit_email.data.is_smtp_valid.value === false &&
+        check_legit_email.data.deliverability === "UNDELIVERABLE"
+      ) {
+        toast.warn("Email broken, try another");
+        return;
+      }
+      if (
         check_legit_email.data.is_smtp_valid.value === true &&
         check_legit_email.data.is_valid_format.value === true
       ) {
@@ -328,7 +307,7 @@ function Container() {
           toast("Email already in use");
           return;
         }
-        /////////////// if email doesn't exist, send otp verification
+        /////////////// if email doesn't exist in database, send otp verification
         if (
           check_available_email.status === 200 &&
           check_available_email.data.exists === "no"
@@ -348,32 +327,6 @@ function Container() {
             // toast(send_otp.data.message)
             toast("OTP sent to email");
           }
-
-          //////// OTP vaid?  /////////////////
-          // const response = await axios.post(
-          //   `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
-          //   {
-          //     email: localStorage.getItem("email"),
-          //     method: "sign_up",
-          //     password: localStorage.getItem("password"),
-          //   }
-          // );
-          // console.log("sign up res👉", response);
-          // if (response.status === 201) {
-          //   toast.success(response.data.message);
-          //   setCurrentSlide("org-signup-success");
-          //   localStorage.setItem("orgId", response.data.org_id);
-          // }
-          // if (
-          //   response.status === 200 &&
-          //   response.data.message === "Organization already exists"
-          // ) {
-          //   toast.warn(response.data.message);
-          //   setCurrentSlide("signing");
-          // }
-          // if (response.status === 409) {
-          //   setCurrentSlide("signing");
-          // }
         }
       }
     } catch (error) {
@@ -391,7 +344,7 @@ function Container() {
   const handleSignup = async () => {
     signing();
   };
-
+  //----- verify email, then signup
   const verifying = async () => {
     try {
       setLoading(true);
@@ -670,15 +623,16 @@ function Container() {
         />
       );
   };
-  return handleCurrentSlide();
-  // return (
-  //   <EmailVerify
-  //     value={value}
-  //     setValue={setValue}
-  //     loading={loading}
-  //     otpError={otpError}
-  //     formatTime={formatTime}
-  //   />
-  // );
+  // return handleCurrentSlide();
+  return (
+    <OperationalDetails
+      setOrgAudience={setOrgAudience}
+      serviceInput={serviceInput}
+      techUsedInput={techUsedInput}
+      loading={loading}
+      handleUploadDetails={handleUploadDetails}
+      setCurrentSlide={setCurrentSlide}
+    />
+  );
 }
 export default Container;
