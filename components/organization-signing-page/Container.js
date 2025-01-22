@@ -623,16 +623,16 @@ function Container() {
         />
       );
   };
-  // return handleCurrentSlide();
-  return (
-    <OperationalDetails
-      setOrgAudience={setOrgAudience}
-      serviceInput={serviceInput}
-      techUsedInput={techUsedInput}
-      loading={loading}
-      handleUploadDetails={handleUploadDetails}
-      setCurrentSlide={setCurrentSlide}
-    />
-  );
+  return handleCurrentSlide();
+  // return (
+  //   <OperationalDetails
+  //     setOrgAudience={setOrgAudience}
+  //     serviceInput={serviceInput}
+  //     techUsedInput={techUsedInput}
+  //     loading={loading}
+  //     handleUploadDetails={handleUploadDetails}
+  //     setCurrentSlide={setCurrentSlide}
+  //   />
+  // );
 }
 export default Container;
