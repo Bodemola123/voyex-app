@@ -21,6 +21,8 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
+import ForgotPassword from "./ForgotPassword";
+import { useState } from "react";
 
 function Signing({
   usernameInput,
@@ -41,6 +43,8 @@ function Signing({
   currentSlide,
   setCurrentSlide,
 }) {
+
+  const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   return (
     <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center h-full">
@@ -101,7 +105,7 @@ function Signing({
                   <Input
                     id="password"
                     type={`${showPassword ? "text" : "password"}`}
-                    placeholder="*********"
+                    placeholder="Password"
                     onChange={passwordInput}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
                   />
@@ -176,7 +180,7 @@ function Signing({
                   <Input
                     id="password"
                     type={`${showPassword ? "text" : "password"}`}
-                    placeholder="*********"
+                    placeholder="Password"
                     onChange={passwordInput1}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
                   />
@@ -188,6 +192,17 @@ function Signing({
                     {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                   </button>
                 </div>
+                <div className="flex justify-end items-center">
+          <button onClick={() => setForgotPasswordOpen(true)}>
+            <p className="bg-gradient-to-r from-[#C088FB] to-[#9747FF] bg-clip-text text-transparent text-sm font-bold">
+              Forgot password?
+            </p>
+          </button>
+        </div>
+        {/* Render Forgot Password Modal */}
+        {isForgotPasswordOpen && (
+          <ForgotPassword onClose={() => setForgotPasswordOpen(false)} />
+        )}
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
@@ -197,7 +212,7 @@ function Signing({
                   {loading ? (
                     <AiOutlineLoading3Quarters className="animate-spin text-black" />
                   ) : (
-                    "Sign in"
+                    "Login"
                   )}
                 </Button>
               </CardFooter>
