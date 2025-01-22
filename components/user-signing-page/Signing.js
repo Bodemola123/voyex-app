@@ -21,7 +21,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
-import ForgotPassword from "./ForgotPassword";
+import ForgotPassword from "./ForgotPasswordHome";
 import { useState } from "react";
 
 function Signing({
@@ -176,18 +176,12 @@ function Signing({
                   </button>
                 </div>
                 <div className="flex justify-end items-center">
-                  <button onClick={() => setForgotPasswordOpen(true)}>
+                  <button onClick={() => setCurrentSlide("forgot-password-home")}>
                     <p className="bg-gradient-to-r from-[#C088FB] to-[#9747FF] bg-clip-text text-transparent text-sm font-bold">
                       Forgot password?
                     </p>
                   </button>
                 </div>
-                {/* Render Forgot Password Modal */}
-                {isForgotPasswordOpen && (
-                  <ForgotPassword
-                    onClose={() => setForgotPasswordOpen(false)}
-                  />
-                )}
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button

@@ -1,7 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
-const PasswordChanged= ({ onClose }) =>{
+function PasswordChanged({
+  setCurrentSlide,
+
+}) {
   return (
     <div
       className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50"
@@ -34,7 +37,7 @@ const PasswordChanged= ({ onClose }) =>{
 
         {/* Return to Login Button */}
         <button
-          onClick={onClose}
+          onClick={() => setCurrentSlide("signing")}
           className="w-full bg-[#c088fb] text-[#131314] font-medium text-lg py-3 px-[100px] rounded-[33px] hover:bg-[#b270fb] transition-all"
         >
           Return to Login

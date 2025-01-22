@@ -42,7 +42,6 @@ function Signing({
   // border,
   setCurrentSlide,
 }) {
-  const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   return (
     <main className="relative max-w-[665px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center h-full">
@@ -187,12 +186,6 @@ function Signing({
                     </p>
                   </button>
                 </div>
-                {/* Render Forgot Password Modal */}
-                {isForgotPasswordOpen && (
-                  <ForgotPassword
-                    onClose={() => setForgotPasswordOpen(false)}
-                  />
-                )}
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button

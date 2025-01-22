@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import PasswordChanged from "./PasswordChanged";
 
-const ResetPassword= ({ onClose }) => {
+function ResetPassword({ setCurrentSlide }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(true); // Password is visible by default
+  const [showPassword, setShowPassword] = useState(false); // Toggle for the password field
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Toggle for the confirm password field
   const [error, setError] = useState("");
-  const [showPasswordChanged, setShowPasswordChanged] = useState(false);
 
   const handlePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const handleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
   };
 
   const validatePassword = (password) => {
@@ -49,14 +52,8 @@ const ResetPassword= ({ onClose }) => {
 
     // Clear the error if validation passes
     setError("");
-
-    // Show the Password Changed modal
-    setShowPasswordChanged(true);
+    setCurrentSlide("password-changed"); // Navigate to PasswordChangedHome
   };
-
-  if (showPasswordChanged) {
-    return <PasswordChanged onClose={onClose} />;
-  }
 
   return (
     <div
@@ -64,15 +61,12 @@ const ResetPassword= ({ onClose }) => {
     >
       <div
         className="bg-[#000000] p-[26px] max-w-lg w-full relative rounded-[41px] flex flex-col gap-4"
-        onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-3xl font-bold text-center text-[#f4f4f4]">
           Reset Password
         </h2>
 
-        {error && (
-          <p className="text-center text-red-500 mt-4">{error}</p>
-        )}
+        {error && <p className="text-center text-red-500 mt-4">{error}</p>}
 
         <div className="mt-6">
           <label className="block text-[#f4f4f4] mb-2">New Password</label>
@@ -99,7 +93,7 @@ const ResetPassword= ({ onClose }) => {
           <label className="block text-[#f4f4f4] mb-2">Confirm New Password</label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full p-3 rounded-[28px] bg-[#0a0a0b] text-[#f4f4f4] focus:ring-0 focus:outline-none"
@@ -108,10 +102,12 @@ const ResetPassword= ({ onClose }) => {
             <button
               type="button"
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#f4f4f4] focus:ring-0 focus:outline-none"
-              onClick={handlePasswordVisibility}
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              onClick={handleConfirmPasswordVisibility}
+              aria-label={
+                showConfirmPassword ? "Hide confirm password" : "Show confirm password"
+              }
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </div>

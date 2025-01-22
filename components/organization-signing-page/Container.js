@@ -23,6 +23,10 @@ import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
 import OrgUploadDetails from "./OrgUploadDetails";
 import React from "react";
+import ForgotPassword from "./ForgotPasswordHome";
+import VerifyEmailAuthentication from "./ResetVerifyOTP";
+import ResetPassword from "./ResetPasswordHome";
+import PasswordChanged from "./PasswordChangedHome";
 
 const emailKey = process.env.EMAIL_KEY;
 
@@ -52,6 +56,7 @@ function Container() {
   const [loading, setLoading] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [emailAddress, setEmailAddress] = useState("");
 
   const [otpError, setOtpError] = useState(false);
   const [border, setBorder] = useState(false);
@@ -616,6 +621,27 @@ function Container() {
       return <OrgUploadSuccess />;
     } else if (currentSlide === "error") {
       return <AccountError setCurrentSlide={setCurrentSlide} />;
+    } else if (currentSlide === "forgot-password-home"){
+      return (
+        <ForgotPassword
+        setCurrentSlide={setCurrentSlide}
+        setEmailAddress={setEmailAddress}
+        />
+      );
+    } else if (currentSlide === "reset-verifyotp"){
+      return (
+      <VerifyEmailAuthentication
+      setCurrentSlide={setCurrentSlide}
+      emailAddress={emailAddress}
+      />);
+    } else if (currentSlide === "reset-password"){
+      return (<ResetPassword
+        setCurrentSlide={setCurrentSlide}/>
+      );
+    } else if (currentSlide === "password-changed"){
+      return (<PasswordChanged
+        setCurrentSlide={setCurrentSlide}/>
+      );
     } else
       return (
         <Signing

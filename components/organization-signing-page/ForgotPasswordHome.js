@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import VerifyEmailAuthentication from "./VerifyEmailAuthentication";
 
-const ForgotPassword = ({ onClose }) => {
-  const [showVerifyEmail, setShowVerifyEmail] = useState(false);
+function ForgotPassword({ setCurrentSlide, setEmailAddress }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
@@ -13,24 +11,16 @@ const ForgotPassword = ({ onClose }) => {
       return;
     }
     setError("");
-    setShowVerifyEmail(true);
+    setEmailAddress(email); // Save the email to the parent state
+    setCurrentSlide("reset-verifyotp"); // Navigate to ResetVerifyOTP
   };
 
-  if (showVerifyEmail) {
-    return <VerifyEmailAuthentication onClose={onClose} userEmail={email} />;
-  }
-
   return (
-    <div
-      className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50"
-    >
-      <div
-        className="bg-[#000000] rounded-lg p-6 max-w-sm w-full relative"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50">
+      <div className="bg-[#000000] rounded-lg p-6 max-w-sm w-full relative">
         <button
           className="absolute top-2 right-2 text-2xl font-bold text-[#ffffff]"
-          onClick={onClose}
+          onClick={() => setCurrentSlide("signing")}
         >
           &times;
         </button>
@@ -38,8 +28,7 @@ const ForgotPassword = ({ onClose }) => {
           Forgot Password
         </h2>
         <p className="text-sm text-center mb-4 text-[#f4f4f4]">
-          Enter your email address below, and we&apos;ll send you a code to reset
-          your password.
+          Enter your email address below, and we&apos;ll send you a code to reset your password.
         </p>
         <input
           type="email"
@@ -59,5 +48,6 @@ const ForgotPassword = ({ onClose }) => {
     </div>
   );
 }
+
 
 export default ForgotPassword;
