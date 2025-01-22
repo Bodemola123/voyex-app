@@ -590,8 +590,6 @@ function Container() {
       );
     } else if (currentSlide === "org-signup-loading") {
       return <OrgLoading />;
-    } else if (currentSlide === "forgot-password-home") {
-      return <OrgLoading />;
     } else if (currentSlide === "org-signin-loading") {
       return <OrgSigninLoading />;
     } else if (currentSlide === "org-upload-loading") {
@@ -603,7 +601,9 @@ function Container() {
           setValue={setValue}
           loading={loading}
           otpError={otpError}
-          formatTime={formatTime}
+          // formatTime={formatTime}
+          mins={mins}
+          secs={secs}
         />
       );
     } else if (currentSlide === "org-signup-success") {
@@ -639,17 +639,17 @@ function Container() {
         />
       );
   };
-  // return handleCurrentSlide();
-  return (
-    <EmailVerify
-      value={value}
-      setValue={setValue}
-      loading={loading}
-      otpError={otpError}
-      // formatTime={formatTime}
-      mins={mins}
-      secs={secs}
-    />
-  );
+  return handleCurrentSlide();
+  // return (
+  //   <EmailVerify
+  //     value={value}
+  //     setValue={setValue}
+  //     loading={loading}
+  //     otpError={otpError}
+  //     // formatTime={formatTime}
+  //     mins={mins}
+  //     secs={secs}
+  //   />
+  // );
 }
 export default Container;
