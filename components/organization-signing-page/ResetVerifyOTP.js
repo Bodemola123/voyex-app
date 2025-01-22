@@ -57,7 +57,7 @@ function VerifyEmailAuthentication({ setCurrentSlide, emailAddress }) {
           &times;
         </button>
         <div className="flex flex-col gap-7 items-center justify-center">
-          <div className="flex justify-center items-center mt-4">
+          <div className="flex justify-center items-center mt-2">
             <Image
               src="/loading.png"
               alt="loading"
@@ -102,7 +102,7 @@ function VerifyEmailAuthentication({ setCurrentSlide, emailAddress }) {
           <button
             className={`w-full ${
               isOtpComplete ? "bg-[#c088fb]" : "bg-purple/50"
-            } text-[#131314] font-bold p-3 rounded-[33px] mt-6`}
+            } text-[#131314] font-bold p-3 rounded-[33px] mt-3`}
             onClick={() => isOtpComplete && setCurrentSlide("reset-password")}
             disabled={!isOtpComplete} // Prevents clicking when OTP is incomplete
           >

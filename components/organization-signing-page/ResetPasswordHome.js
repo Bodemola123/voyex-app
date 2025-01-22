@@ -60,7 +60,7 @@ function ResetPassword({ setCurrentSlide }) {
       className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50"
     >
       <div
-        className="bg-[#000000] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px] flex flex-col gap-4"
+        className="bg-[#000000] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px] flex flex-col gap-4 justify-center items-center"
       >
         <h2 className="text-3xl font-bold text-center text-[#f4f4f4]">
           Reset Password
@@ -75,7 +75,7 @@ function ResetPassword({ setCurrentSlide }) {
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded-[28px] bg-[#0a0a0b] text-[#f4f4f4] focus:ring-0 focus:outline-none"
+              className="w-[402px] p-3 rounded-[28px] bg-[#0a0a0b] text-[#f4f4f4] focus:ring-0 focus:outline-none"
               placeholder="Enter new password"
             />
             <button
@@ -96,7 +96,7 @@ function ResetPassword({ setCurrentSlide }) {
               type={showConfirmPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full p-3 rounded-[28px] bg-[#0a0a0b] text-[#f4f4f4] focus:ring-0 focus:outline-none"
+              className="p-3 w-[402px] rounded-[28px] bg-[#0a0a0b] text-[#f4f4f4] focus:ring-0 focus:outline-none"
               placeholder="Confirm new password"
             />
             <button
@@ -113,7 +113,7 @@ function ResetPassword({ setCurrentSlide }) {
         </div>
 
         <button
-          className="w-full bg-[#c088fb] text-[#131314] font-bold p-3 rounded-[33px] mt-6"
+          className="w-full max-w-[402px] bg-[#c088fb] text-[#131314] font-bold p-3 rounded-[33px] mt-6"
           onClick={handleResetPassword}
         >
           Reset Password

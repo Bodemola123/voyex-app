@@ -17,7 +17,7 @@ function ForgotPassword({ setCurrentSlide, setEmailAddress }) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50">
-      <div className="bg-[#000000] rounded-lg p-6 max-w-[665px] w-full h-[600px] relative">
+      <div className="bg-[#000000] rounded-lg p-[70px] max-w-[665px] w-full h-[600px] relative flex justify-center items-center flex-col">
         <button
           className="absolute top-2 right-2 text-2xl font-bold text-[#ffffff]"
           onClick={() => setCurrentSlide("signing")}
@@ -35,11 +35,11 @@ function ForgotPassword({ setCurrentSlide, setEmailAddress }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email Address"
-          className="w-full p-2 rounded-3xl mb-4 text-[#000000] placeholder:text-grey focus:outline-none focus:ring-0"
+          className="w-full max-w-[402px] p-2 rounded-3xl mb-4 text-[#000000] placeholder:text-grey focus:outline-none focus:ring-0"
         />
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <button
-          className="w-full bg-[#c088fb] text-[#131314] text-lg font-medium py-2 rounded-3xl"
+          className="w-full max-w-[402px] bg-[#c088fb] text-[#131314] text-lg font-medium py-2 rounded-3xl"
           onClick={handleSendCode}
         >
           Send Reset Code
