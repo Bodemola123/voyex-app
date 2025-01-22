@@ -21,6 +21,8 @@ import Cookies from "js-cookie";
 import OperationalDetails from "./OperationalDetails";
 import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
+import OrgUploadDetails from "./OrgUploadDetails";
+import React from "react";
 
 const emailKey = process.env.EMAIL_KEY;
 
@@ -32,6 +34,7 @@ function Container() {
   ///////////////////// SIGN UP INPUTS
   const [email, setEmail] = useState("");
   const [orgPassword, setOrgPassword] = useState("");
+  const [value, setValue] = useState("");
   const [orgname, setOrgname] = useState("");
   const [orgWebsite, setOrgWebsite] = useState("");
   const [orgIndustry, setOrgIndustry] = useState("");
@@ -50,10 +53,40 @@ function Container() {
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const [otpError, setOtpError] = useState(false);
   const [border, setBorder] = useState(false);
   const [allowed, setAllowed] = useState(false);
   const [currentSlide, setCurrentSlide] = useState("signing");
   const debouncedValue = useDebounce(email, 500);
+
+  const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
+  const [countdown, setCountDown] = useState("05:00");
+
+  //////////// Countdown timer
+  useEffect(() => {
+    // Update the timer every second
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(timer);
+  }, []);
+
+  // Format the time as mm:ss
+  const formatTime = () => {
+    const minutes = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    return `${minutes.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   // useEffect(() => {
   //   if (googleUserDetails) {
@@ -254,6 +287,7 @@ function Container() {
   });
 
   //////////////// ORGANIZATION SIGNUP /////////////////////////////////
+  //----- authenticate email
   const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
@@ -284,47 +318,62 @@ function Container() {
       ) {
         ///////////// check if email is taken /////////////////////
         const check_available_email = await axios.get(
-          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${debouncedValue}&action=check_email`
+          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${email}&action=check_email`
         );
         /////////// if email exists, return/stop
         if (
           check_available_email.status === 200 &&
           check_available_email.data.exists === "yes"
         ) {
-          toast("Email already taken");
+          toast("Email already in use");
           return;
         }
-        /////////////// if email doesn't exist, continue process
+        /////////////// if email doesn't exist, send otp verification
         if (
           check_available_email.status === 200 &&
           check_available_email.data.exists === "no"
         ) {
           // toast.success("Name available");
-          setCurrentSlide("org-signup-loading");
-          const response = await axios.post(
-            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+          localStorage.setItem("email", email);
+          localStorage.setItem("password", orgPassword);
+          const send_otp = await axios.post(
+            `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
             {
-              email: email,
-              method: "sign_up",
-              password: orgPassword,
+              email: localStorage.getItem("email"),
             }
           );
-          console.log("sign up res👉", response);
-          if (response.status === 201) {
-            toast.success(response.data.message);
-            setCurrentSlide("org-signup-success");
-            localStorage.setItem("orgId", response.data.org_id);
+          console.log("OTP response", send_otp);
+          if (send_otp.status === 200) {
+            setCurrentSlide("email-verify");
+            // toast(send_otp.data.message)
+            toast("OTP sent to email");
           }
-          if (
-            response.status === 200 &&
-            response.data.message === "Organization already exists"
-          ) {
-            toast.warn(response.data.message);
-            setCurrentSlide("signing");
-          }
-          if (response.status === 409) {
-            setCurrentSlide("signing");
-          }
+
+          //////// OTP vaid?  /////////////////
+          // const response = await axios.post(
+          //   `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+          //   {
+          //     email: localStorage.getItem("email"),
+          //     method: "sign_up",
+          //     password: localStorage.getItem("password"),
+          //   }
+          // );
+          // console.log("sign up res👉", response);
+          // if (response.status === 201) {
+          //   toast.success(response.data.message);
+          //   setCurrentSlide("org-signup-success");
+          //   localStorage.setItem("orgId", response.data.org_id);
+          // }
+          // if (
+          //   response.status === 200 &&
+          //   response.data.message === "Organization already exists"
+          // ) {
+          //   toast.warn(response.data.message);
+          //   setCurrentSlide("signing");
+          // }
+          // if (response.status === 409) {
+          //   setCurrentSlide("signing");
+          // }
         }
       }
     } catch (error) {
@@ -339,10 +388,63 @@ function Container() {
       setLoading(false);
     }
   };
-
   const handleSignup = async () => {
     signing();
   };
+
+  const verifying = async () => {
+    try {
+      setLoading(true);
+      /////////////// check if otp is legit from email //////////////////
+      const verify_otp = await axios.get(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp?email=${localStorage.getItem(
+          "email"
+        )}&otp=${value}`
+      );
+      console.log("OTP Verifying⛔⛔⛔", verify_otp);
+      if (verify_otp.status === 200) {
+        setOtpError(false);
+        //////// OTP valid? accept org /////////////////
+        const acceptEmailPassword = await axios.post(
+          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+          {
+            email: localStorage.getItem("email"),
+            method: "sign_up",
+            password: localStorage.getItem("password"),
+          }
+        );
+        console.log("sign up res👉", acceptEmailPassword);
+        if (acceptEmailPassword.status === 201) {
+          setLoading(false);
+          toast.success(acceptEmailPassword.data.message);
+          setCurrentSlide("org-signup-success");
+          localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
+        }
+        // if (
+        //   acceptEmailPassword.status === 200 &&
+        //   acceptEmailPassword.data.message === "Organization already exists"
+        // ) {
+        //   toast.warn(acceptEmailPassword.data.message);
+        //   setCurrentSlide("signing");
+        // }
+        if (acceptEmailPassword.status === 409) {
+          setCurrentSlide("signing");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setOtpError(true);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    value.length === 6 && verifying();
+    value.length !== 6 && setOtpError(false);
+  }, [value.length]);
 
   //////////////// ORGANIZATION UPLOAD DETAILS /////////////////////////////////
   const handleBasicInfoSlide = () => {
@@ -526,11 +628,21 @@ function Container() {
     } else if (currentSlide === "org-upload-loading") {
       return <OrgUploadLoading />;
     } else if (currentSlide === "email-verify") {
-      return <EmailVerify />;
+      return (
+        <EmailVerify
+          value={value}
+          setValue={setValue}
+          loading={loading}
+          otpError={otpError}
+          formatTime={formatTime}
+        />
+      );
     } else if (currentSlide === "org-signup-success") {
       return <SignupSuccess setCurrentSlide={setCurrentSlide} />;
     } else if (currentSlide === "org-signin-success") {
       return <SigninSuccess />;
+    } else if (currentSlide === "org-upload-details") {
+      return <OrgUploadDetails />;
     } else if (currentSlide === "org-upload-success") {
       return <OrgUploadSuccess />;
     } else if (currentSlide === "error") {
@@ -560,13 +672,12 @@ function Container() {
   };
   return handleCurrentSlide();
   // return (
-  //   <OperationalDetails
-  //     setOrgAudience={setOrgAudience}
-  //     serviceInput={serviceInput}
-  //     techUsedInput={techUsedInput}
+  //   <EmailVerify
+  //     value={value}
+  //     setValue={setValue}
   //     loading={loading}
-  //     handleUploadDetails={handleUploadDetails}
-  //     setCurrentSlide={setCurrentSlide}
+  //     otpError={otpError}
+  //     formatTime={formatTime}
   //   />
   // );
 }

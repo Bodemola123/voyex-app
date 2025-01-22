@@ -71,45 +71,45 @@ function Container() {
   };
 
   ///////////// CHECK USER NAME //////////////////////
-  useEffect(() => {
-    if (userName === "") {
-      return;
-    }
-    if (userName.includes("@gmail") || userName.includes("@yahoo")) {
-      setBorder(false);
-      return;
-    } else {
-      const checkUserName = async () => {
-        try {
-          const response = await axios.get(
-            `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${debouncedValue}`
-          );
-          console.log("checked name:", response);
-          if (response.status === 200 && response.data.exists === true) {
-            // toast.error("Name taken");
-            setMessage("username is taken");
-            setBorder(false);
-            return;
-          }
-          if (response.status === 200 && response.data.exists === false) {
-            // toast.success("Name available");
-            if (userName === "" || userName.length < 3) {
-              setBorder(false);
-            } else {
-              setBorder(true);
-              setMessage("username is available");
-            }
-          }
-        } catch (error) {
-          if (error.response?.data) {
-            toast.error(error.response.data);
-          } else toast.error(error.message);
-        }
-      };
-      checkUserName();
-    }
-    // input finall order
-  }, [debouncedValue, userName]);
+  // useEffect(() => {
+  //   if (userName === "") {
+  //     return;
+  //   }
+  //   if (userName.includes("@gmail") || userName.includes("@yahoo")) {
+  //     setBorder(false);
+  //     return;
+  //   } else {
+  //     const checkUserName = async () => {
+  //       try {
+  //         const response = await axios.get(
+  //           `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${debouncedValue}`
+  //         );
+  //         console.log("checked name:", response);
+  //         if (response.status === 200 && response.data.exists === true) {
+  //           // toast.error("Name taken");
+  //           setMessage("username is taken");
+  //           setBorder(false);
+  //           return;
+  //         }
+  //         if (response.status === 200 && response.data.exists === false) {
+  //           // toast.success("Name available");
+  //           if (userName === "" || userName.length < 3) {
+  //             setBorder(false);
+  //           } else {
+  //             setBorder(true);
+  //             setMessage("username is available");
+  //           }
+  //         }
+  //       } catch (error) {
+  //         if (error.response?.data) {
+  //           toast.error(error.response.data);
+  //         } else toast.error(error.message);
+  //       }
+  //     };
+  //     checkUserName();
+  //   }
+  //   // input finall order
+  // }, [debouncedValue, userName]);
 
   ////////////////// GOOGLE USER SIGNUP /////////////////////////////////
   const googleUserSignup = useGoogleLogin({
@@ -240,28 +240,41 @@ function Container() {
       }
       setLoading(true);
       setCurrentSlide("signup-loading");
-      const response = await axios.post(
-        `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers`,
-        {
-          email: userEmail,
-          user_name: userName,
-          country: userCountry,
-          user_type: "regular",
-          subscription_type: "free",
-          // google_id: "google13",
-          metadata: {},
-          password_hash: userPassword,
-        }
+      const response = await axios.get(
+        `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${debouncedValue}`
       );
-      console.log("response", response);
-      if (response.status === 201) {
-        setCurrentSlide("signup-success");
-        toast.success(response.data.message);
+      console.log("checked name:", response);
+      if (response.status === 200 && response.data.exists === true) {
+        // toast.error("Name taken");
+        toast("username is taken");
+        setCurrentSlide("signing");
+        return;
+      }
+      if (response.status === 200 && response.data.exists === false) {
+        // toast.success("Name available");
+        const create_account = await axios.post(
+          `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers`,
+          {
+            email: userEmail,
+            user_name: userName,
+            country: userCountry,
+            user_type: "regular",
+            subscription_type: "free",
+            // google_id: "google13",
+            metadata: {},
+            password_hash: userPassword,
+          }
+        );
+        console.log("create_account", create_account);
+        if (create_account.status === 201) {
+          setCurrentSlide("signup-success");
+          toast.success(create_account.data.message);
+        }
       }
     } catch (error) {
       console.log(error);
       if (error.response.data?.error) {
-        setCurrentSlide("basic-info");
+        setCurrentSlide("signing");
         return toast.error(error.response.data.error);
       } else return toast.error(error.message);
     } finally {
@@ -279,12 +292,11 @@ function Container() {
   }, [border, userName]);
 
   const handleUserSignup = async () => {
-    allowed && userSignup();
+    userSignup();
   };
 
   ////////////////// USER SIGN IN /////////////////////////////////
   const userSignin = async () => {
-    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
       if (!userName1) {
         toast.error("username required!");
@@ -302,15 +314,15 @@ function Container() {
         Cookies.set("voyexUserName", userName1, { expires: 7 });
       }
       if (response.status === 200 && response.data.exists === false) {
-        toast.error("Wrong credentials, user doesn't exist!");
-        setCurrentSlide("basic-info");
+        toast("user doesn't exist!");
+        setCurrentSlide("signing");
         return;
       }
     } catch (error) {
       // console.log(error);
       if (error.message.includes("Network Error")) {
         toast.error("Network Error, Try again!");
-      }
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
