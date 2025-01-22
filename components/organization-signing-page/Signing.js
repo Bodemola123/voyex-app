@@ -75,7 +75,7 @@ function Signing({
                     type="email"
                     placeholder="Organization email"
                     onChange={emailInput}
-                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px]`}
+                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus-visible:ring-0 focus:ring-offset-0 focus:border-none focus-within:border-none`}
                   />
                   {/* {border ? (
                     <FaCheck className="absolute right-4 top-1/2 text-green-500" />
@@ -95,7 +95,7 @@ function Signing({
                     type={`${showPassword ? "text" : "password"}`}
                     placeholder="Password"
                     onChange={passwordInput}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] pr-16"
                   />
                   <button
                     className="absolute right-1 top-7 text-xl text-purple p-3"
@@ -108,7 +108,7 @@ function Signing({
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 w-full rounded-[33px] disabled:cursor-not-allowed"
                   // disabled={!allowed}
                   onClick={() => handleSignup()}
                 >
@@ -123,9 +123,9 @@ function Signing({
             <div className="flex flex-col items-center mt-[4rem] w-full">
               <span className="">Other sign up options</span>
               <div className="flex items-center gap-4 mt-4">
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
-                </button>
+                </button> */}
                 <button
                   className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
                   disabled={loadingGoogle}
@@ -138,9 +138,9 @@ function Signing({
                   )}
                   <FcGoogle />
                 </button>
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaApple className="text-black" />
-                </button>
+                </button> */}
               </div>
             </div>
           </TabsContent>
@@ -156,7 +156,7 @@ function Signing({
                     type="email"
                     placeholder="Organization email"
                     onChange={orgEmailInput1}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                   />
                 </div>
                 <div className="relative space-y-1">
@@ -171,7 +171,7 @@ function Signing({
                     type={`${showPassword ? "text" : "password"}`}
                     placeholder="Password"
                     onChange={passwordInput1}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16"
                   />
                   <button
                     className="absolute right-1 top-7 text-xl text-purple p-3"
@@ -195,7 +195,7 @@ function Signing({
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]"
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 w-full rounded-[33px]"
                   onClick={() => handleOrgSignin()}
                 >
                   {loading ? (
@@ -209,9 +209,9 @@ function Signing({
             <div className="flex flex-col items-center mt-[4rem] w-full">
               <span className="">Other sign in options</span>
               <div className="flex items-center gap-4 mt-4">
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
-                </button>
+                </button> */}
                 <button
                   className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
                   disabled={loadingGoogle}
@@ -224,9 +224,9 @@ function Signing({
                   )}
                   <FcGoogle />
                 </button>
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaApple className="text-black" />
-                </button>
+                </button> */}
               </div>
             </div>
           </TabsContent>

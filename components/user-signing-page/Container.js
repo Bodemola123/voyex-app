@@ -284,7 +284,6 @@ function Container() {
 
   ////////////////// USER SIGN IN /////////////////////////////////
   const userSignin = async () => {
-    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
       if (!userName1) {
         toast.error("username required!");
@@ -302,15 +301,15 @@ function Container() {
         Cookies.set("voyexUserName", userName1, { expires: 7 });
       }
       if (response.status === 200 && response.data.exists === false) {
-        toast.error("Wrong credentials, user doesn't exist!");
-        setCurrentSlide("basic-info");
+        toast("Wrong credentials, user doesn't exist!");
+        setCurrentSlide("signing");
         return;
       }
     } catch (error) {
       // console.log(error);
       if (error.message.includes("Network Error")) {
         toast.error("Network Error, Try again!");
-      }
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }

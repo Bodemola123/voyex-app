@@ -33,7 +33,7 @@ function SignupSuccess({ setCurrentSlide }) {
           </button> */}
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
-            onClick={() => setCurrentSlide("basic-info")}
+            onClick={() => setCurrentSlide("org-upload-details")}
           >
             Upload info
           </button>

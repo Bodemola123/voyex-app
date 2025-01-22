@@ -16,7 +16,7 @@ import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
 import axios from "axios";
 
-function OrgSignupPopup({ setDisplay }) {
+function OrgUploadDetails({ setDisplay }) {
   // const [email, setEmail] = useState("");
   // const [orgPassword, setOrgPassword] = useState("");
   const [orgname, setOrgname] = useState("");
@@ -206,4 +206,4 @@ function OrgSignupPopup({ setDisplay }) {
   );
 }
 
-export default OrgSignupPopup;
+export default OrgUploadDetails;
