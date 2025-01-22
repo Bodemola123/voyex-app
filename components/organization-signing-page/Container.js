@@ -60,6 +60,8 @@ function Container() {
   const debouncedValue = useDebounce(email, 500);
 
   const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
+  const [mins, setMins] = useState("");
+  const [secs, setSecs] = useState("");
 
   //////////// Countdown timer
   useEffect(() => {
@@ -79,13 +81,25 @@ function Container() {
   }, []);
 
   // Format the time as mm:ss
-  const formatTime = () => {
-    const minutes = Math.floor(timeLeft / 60);
-    const secs = timeLeft % 60;
-    return `${minutes.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
+  // const formatTime = () => {
+  //   const minutes = Math.floor(timeLeft / 60);
+  //   const secs = timeLeft % 60;
+  //   return `${minutes.toString().padStart(2, "0")}:${secs
+  //     .toString()
+  //     .padStart(2, "0")}`;
+  // };
+
+  useEffect(() => {
+    const formatTime = () => {
+      setMins(
+        Math.floor(timeLeft / 60)
+          .toString()
+          .padStart(2, "0")
+      );
+      setSecs((timeLeft % 60).toString().padStart(2, "0"));
+    };
+    formatTime();
+  }, [timeLeft]);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -576,6 +590,8 @@ function Container() {
       );
     } else if (currentSlide === "org-signup-loading") {
       return <OrgLoading />;
+    } else if (currentSlide === "forgot-password-home") {
+      return <OrgLoading />;
     } else if (currentSlide === "org-signin-loading") {
       return <OrgSigninLoading />;
     } else if (currentSlide === "org-upload-loading") {
@@ -623,16 +639,17 @@ function Container() {
         />
       );
   };
-  return handleCurrentSlide();
-  // return (
-  //   <OperationalDetails
-  //     setOrgAudience={setOrgAudience}
-  //     serviceInput={serviceInput}
-  //     techUsedInput={techUsedInput}
-  //     loading={loading}
-  //     handleUploadDetails={handleUploadDetails}
-  //     setCurrentSlide={setCurrentSlide}
-  //   />
-  // );
+  // return handleCurrentSlide();
+  return (
+    <EmailVerify
+      value={value}
+      setValue={setValue}
+      loading={loading}
+      otpError={otpError}
+      // formatTime={formatTime}
+      mins={mins}
+      secs={secs}
+    />
+  );
 }
 export default Container;

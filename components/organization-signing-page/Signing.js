@@ -181,7 +181,9 @@ function Signing({
                   </button>
                 </div>
                 <div className="flex justify-end items-center">
-                  <button onClick={() => setForgotPasswordOpen(true)}>
+                  <button
+                    onClick={() => setCurrentSlide("forgot-password-home")}
+                  >
                     <p className="bg-gradient-to-r from-[#C088FB] to-[#9747FF] bg-clip-text text-transparent text-sm font-bold">
                       Forgot password?
                     </p>
