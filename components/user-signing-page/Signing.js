@@ -30,8 +30,6 @@ function Signing({
   showPassword,
   setShowPassword,
   message,
-  border,
-  allowed,
   /////////////////////
   handleUserSignin,
   usernameInput1,
@@ -80,13 +78,6 @@ function Signing({
                     onChange={usernameInput}
                     className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]`}
                   />
-                  <span
-                    className={`absolute -bottom-[20px] right-0 text-xs ${
-                      border ? "text-green-500" : "text-red-500"
-                    }`}
-                  >
-                    {message}
-                  </span>
                 </div>
                 <div className="relative space-y-1">
                   <Label
@@ -114,7 +105,6 @@ function Signing({
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
                   className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
-                  disabled={!allowed}
                   onClick={() => setCurrentSlide("basic-info")}
                 >
                   Sign up
@@ -207,7 +197,7 @@ function Signing({
                   {loading ? (
                     <AiOutlineLoading3Quarters className="animate-spin text-black" />
                   ) : (
-                    "Login"
+                    "Sign in"
                   )}
                 </Button>
               </CardFooter>
