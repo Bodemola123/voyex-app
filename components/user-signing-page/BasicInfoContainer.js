@@ -10,8 +10,8 @@ function BasicInfoContainer({
   loading,
 }) {
   return (
-    <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center h-full max-w-[444px] w-full mx-auto">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
+      <div className=" flex flex-col items-center justify-center h-full max-w-[444px] w-full mx-auto">
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
           <span className="w-[35px] h-[9px] rounded-[28px] bg-purple"></span>
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>

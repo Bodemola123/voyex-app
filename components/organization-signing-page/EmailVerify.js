@@ -17,8 +17,8 @@ function EmailVerify({ value, setValue, loading, otpError, formatTime }) {
   const last = localStorage.getItem("email").slice(13);
 
   return (
-    <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center gap-7 h-full">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
+      <div className=" flex flex-col items-center justify-center gap-7 h-full">
         <Image
           src="/loading.png"
           alt="loading"
@@ -34,28 +34,6 @@ function EmailVerify({ value, setValue, loading, otpError, formatTime }) {
           <br /> to your email
           <span className="font-bold ml-2">{first + "***" + last}</span>
         </p>
-        {/* <div className="grid grid-cols-4 gap-2 max-w-[440px] w-full">
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
-        </div> */}
         <InputOTP
           maxLength={6}
           value={value}

@@ -226,14 +226,19 @@ a:hover .i {
 }
 
 .border-custom::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -1px;
   left: -1px;
   right: -1px;
   bottom: -1px;
   border-radius: inherit; /* Inherit the border radius */
-  background: linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%);
+  background: linear-gradient(
+    236.35deg,
+    rgba(255, 255, 255, 0.3) 1.57%,
+    rgba(34, 63, 250, 0.5) 48.49%,
+    rgba(47, 130, 239, 0.2) 95.41%
+  );
   z-index: -1; /* Place the pseudo-element behind the content */
 }
 
@@ -242,31 +247,40 @@ a:hover .i {
 }
 
 .border-custom2::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -1px;
   left: -1px;
   right: -1px;
   bottom: -1px;
   border-radius: inherit;
-  background:  linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%);
+  background: linear-gradient(
+    236.35deg,
+    rgba(255, 255, 255, 0.4) 1.67%,
+    rgba(255, 127, 0, 0.5) 52.47%,
+    rgba(255, 198, 142, 0.2) 95.5%
+  );
   z-index: -1;
 }
 
 .border-custom3 {
   position: relative;
-
 }
 
-.border-custom3::before{
-  content: '';
+.border-custom3::before {
+  content: "";
   position: absolute;
   top: -1px;
   left: -1px;
   right: -1px;
   bottom: -1px;
   border-radius: inherit;
-  background: linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%);
+  background: linear-gradient(
+    236.35deg,
+    rgba(255, 255, 255, 0.3) 1.67%,
+    rgba(55, 195, 144, 0.5) 48.59%,
+    rgba(153, 248, 214, 0.2) 95.5%
+  );
   z-index: -1;
 }
 @keyframes bubbleEffect {
@@ -299,4 +313,8 @@ a:hover .i {
     transform: scale(1);
     opacity: 0;
   }
+}
+
+.shadow {
+  box-shadow: 0px 0px 100px 300px rgba(255, 255, 255, 0.112);
 }
