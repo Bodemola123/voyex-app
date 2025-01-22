@@ -21,7 +21,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
-import ForgotPassword from "./ForgotPassword";
+import ForgotPassword from "./ForgotPasswordHome";
 import { useState } from "react";
 
 function Signing({
@@ -104,7 +104,7 @@ function Signing({
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 w-full rounded-[33px] disabled:cursor-not-allowed"
                   onClick={() => setCurrentSlide("basic-info")}
                 >
                   Sign up
@@ -113,12 +113,12 @@ function Signing({
             </Card>
             <div className="flex flex-col items-center mt-[4rem] w-full">
               <span className="">Other sign in options</span>
-              <div className="flex items-center gap-4 mt-4">
+              <div className="flex items-center gap-4 w-full mt-4">
                 {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
                 </button> */}
                 <button
-                  className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
+                  className=" flex items-center justify-center gap-1 text-2xl w-full h-[50px] bg-white hover:bg-white/80 border border-[#D8DADC] rounded-full overflow-hidden transition-all"
                   disabled={loadingGoogle}
                   onClick={() => googleUserSignup()}
                 >
@@ -128,6 +128,9 @@ function Signing({
                     </span>
                   )}
                   <FcGoogle />
+                  <span className="text-black text-base font-medium">
+                    Google
+                  </span>
                 </button>
                 {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaApple className="text-black" />
@@ -176,22 +179,18 @@ function Signing({
                   </button>
                 </div>
                 <div className="flex justify-end items-center">
-                  <button onClick={() => setForgotPasswordOpen(true)}>
+                  <button
+                    onClick={() => setCurrentSlide("forgot-password-home")}
+                  >
                     <p className="bg-gradient-to-r from-[#C088FB] to-[#9747FF] bg-clip-text text-transparent text-sm font-bold">
                       Forgot password?
                     </p>
                   </button>
                 </div>
-                {/* Render Forgot Password Modal */}
-                {isForgotPasswordOpen && (
-                  <ForgotPassword
-                    onClose={() => setForgotPasswordOpen(false)}
-                  />
-                )}
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]"
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 transition-all w-full rounded-[33px]"
                   onClick={() => handleUserSignin()}
                 >
                   {loading ? (
@@ -204,12 +203,12 @@ function Signing({
             </Card>
             <div className="flex flex-col items-center mt-[4rem] w-full">
               <span className="">Other sign in options</span>
-              <div className="flex items-center gap-4 mt-4">
+              <div className="flex items-center gap-4 w-full mt-4">
                 {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
                 </button> */}
                 <button
-                  className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
+                  className=" flex items-center justify-center gap-1 text-2xl w-full h-[50px] bg-white hover:bg-white/80 border border-[#D8DADC] rounded-full overflow-hidden transition-all"
                   disabled={loadingGoogle}
                   onClick={() => googleUserSignin()}
                 >
@@ -219,6 +218,9 @@ function Signing({
                     </span>
                   )}
                   <FcGoogle />
+                  <span className="text-black text-base font-medium">
+                    Google
+                  </span>
                 </button>
                 {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaApple className="text-black" />

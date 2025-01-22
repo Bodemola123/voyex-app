@@ -1,13 +1,12 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import PasswordChanged from "./PasswordChanged";
 
-const ResetPassword= ({ onClose }) => {
+const ResetPasswordHome = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true); // Password is visible by default
   const [error, setError] = useState("");
-  const [showPasswordChanged, setShowPasswordChanged] = useState(false);
 
   const handlePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -49,30 +48,16 @@ const ResetPassword= ({ onClose }) => {
 
     // Clear the error if validation passes
     setError("");
-
-    // Show the Password Changed modal
-    setShowPasswordChanged(true);
   };
 
-  if (showPasswordChanged) {
-    return <PasswordChanged onClose={onClose} />;
-  }
-
   return (
-    <div
-      className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50"
-    >
-      <div
-        className="bg-[#000000] p-[26px] max-w-lg w-full relative rounded-[41px] flex flex-col gap-4"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="flex justify-center items-center min-h-screen bg-black">
+      <div className="bg-[#000000] p-[26px] max-w-lg w-full rounded-[41px] flex flex-col gap-4">
         <h2 className="text-3xl font-bold text-center text-[#f4f4f4]">
           Reset Password
         </h2>
 
-        {error && (
-          <p className="text-center text-red-500 mt-4">{error}</p>
-        )}
+        {error && <p className="text-center text-red-500 mt-4">{error}</p>}
 
         <div className="mt-6">
           <label className="block text-[#f4f4f4] mb-2">New Password</label>
@@ -116,15 +101,27 @@ const ResetPassword= ({ onClose }) => {
           </div>
         </div>
 
-        <button
-          className="w-full bg-[#c088fb] text-[#131314] font-bold p-3 rounded-[33px] mt-6"
-          onClick={handleResetPassword}
+        <Link
+          href="/PasswordChangedHome"
+          passHref
+          onClick={(e) => {
+            if (error) {
+              e.preventDefault();
+            } else {
+              handleResetPassword();
+            }
+          }}
         >
-          Reset Password
-        </button>
+          <button
+            className="w-full bg-[#c088fb] text-[#131314] font-bold p-3 rounded-[33px] mt-6"
+            disabled={error || !password || !confirmPassword} // Disable if any field is empty or validation fails
+          >
+            Reset Password
+          </button>
+        </Link>
       </div>
     </div>
   );
-}
+};
 
-export default ResetPassword;
+export default ResetPasswordHome;

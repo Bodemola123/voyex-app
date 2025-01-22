@@ -17,6 +17,10 @@ import { useDebounce } from "@/hooks/useDebounce";
 import SigninLoading from "./SigninLoading";
 import SignupLoading from "./SignupLoading";
 import Cookies from "js-cookie";
+import ForgotPassword from "./ForgotPasswordHome";
+import VerifyEmailAuthentication from "./ResetVerifyOTP";
+import ResetPassword from "./ResetPasswordHome";
+import PasswordChanged from "./PasswordChangedHome";
 
 function Container() {
   const router = useRouter();
@@ -31,9 +35,10 @@ function Container() {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
 
+
   const [userName1, setUserName1] = useState("");
   const [userPassword1, setUserPassword1] = useState("");
-
+  const [emailAddress, setEmailAddress] = useState("");
   const [border, setBorder] = useState(false);
   const [allowed, setAllowed] = useState(false);
   const [currentSlide, setCurrentSlide] = useState("signing");
@@ -373,6 +378,27 @@ function Container() {
       return <SignupAccountSuccess />;
     } else if (currentSlide === "signin-success") {
       return <SigninAccountSuccess />;
+    } else if (currentSlide === "forgot-password-home"){
+      return (
+        <ForgotPassword
+        setCurrentSlide={setCurrentSlide}
+        setEmailAddress={setEmailAddress}
+        />
+      );
+    } else if (currentSlide === "reset-verifyotp"){
+      return (
+      <VerifyEmailAuthentication
+      setCurrentSlide={setCurrentSlide}
+      emailAddress={emailAddress}
+      />);
+    } else if (currentSlide === "reset-password"){
+      return (<ResetPassword
+        setCurrentSlide={setCurrentSlide}/>
+      );
+    } else if (currentSlide === "password-changed"){
+      return (<PasswordChanged
+        setCurrentSlide={setCurrentSlide}/>
+      );
     } else
       return (
         <Signing

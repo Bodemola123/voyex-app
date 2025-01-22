@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ForgotPassword from "./ForgotPassword";
-import ResetPassword from "./ResetPassword"; // Import the ResetPassword modal
 import Image from "next/image";
 
-const VerifyEmailAuthentication = ({ onClose, userEmail }) => {
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [showResetPassword, setShowResetPassword] = useState(false);
+function VerifyEmailAuthentication({ setCurrentSlide, emailAddress }) {
   const [otp, setOtp] = useState(["", "", "", ""]);
-  const [timer, setTimer] = useState(20);
+  const [timer, setTimer] = useState(300); // 5 minutes
 
-  // Timer logic
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
@@ -20,7 +15,9 @@ const VerifyEmailAuthentication = ({ onClose, userEmail }) => {
   }, [timer]);
 
   const handleResend = () => {
-    setTimer(20); // Reset timer to 20 seconds
+    if (timer <= 0) {
+      setTimer(300); // Reset timer to 5 minutes
+    }
   };
 
   const handleOtpChange = (value, index) => {
@@ -28,14 +25,8 @@ const VerifyEmailAuthentication = ({ onClose, userEmail }) => {
     updatedOtp[index] = value;
     setOtp(updatedOtp);
 
-    // Automatically focus on the next input if a value is entered
     if (value && index < 3) {
       document.getElementById(`otp-${index + 1}`).focus();
-    }
-
-    // Check if all OTP fields are filled
-    if (updatedOtp.every((digit) => digit !== "")) {
-      setTimeout(() => setShowResetPassword(true), 200); // Navigate to Reset Password modal
     }
   };
 
@@ -43,33 +34,30 @@ const VerifyEmailAuthentication = ({ onClose, userEmail }) => {
     if (!email) return "Invalid email"; // Handle undefined or null email
     const [localPart, domain] = email.split("@");
     if (!domain) return "Invalid email"; // Handle cases where split fails
-    return `${localPart}@${domain}`;
+    const maskedLocal = localPart[0] + "*".repeat(localPart.length - 1);
+    return `${maskedLocal}@${domain}`;
   };
 
-  if (showForgotPassword) {
-    return <ForgotPassword onClose={onClose} />;
-  }
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
-  if (showResetPassword) {
-    return <ResetPassword onClose={onClose} />;
-  }
+  // Check if all OTP fields are filled
+  const isOtpComplete = otp.every((digit) => digit.trim() !== "");
 
   return (
-    <div
-      className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50"
-    >
-      <div
-        className="bg-[#000000] p-[26px] max-w-lg w-full relative rounded-[41px]"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50">
+      <div className="bg-[#000000] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px]">
         <button
-          className="absolute top-2 right-2 text-2xl font-bold text-white"
-          onClick={() => setShowForgotPassword(true)}
+          className="absolute top-2 right-6 text-2xl font-bold text-white"
+          onClick={() => setCurrentSlide("forgot-password-home")}
         >
           &times;
         </button>
         <div className="flex flex-col gap-7 items-center justify-center">
-          <div className="flex justify-center items-center mt-4">
+          <div className="flex justify-center items-center mt-2">
             <Image
               src="/loading.png"
               alt="loading"
@@ -84,7 +72,7 @@ const VerifyEmailAuthentication = ({ onClose, userEmail }) => {
           <p className="text-base text-center text-[#f4f4f4]">
             We&apos;ve sent a mail with an activation code to your email
             <br />
-            <span className="font-bold">{maskEmail(userEmail)}</span>
+            <span className="font-bold">{maskEmail(emailAddress)}</span>
           </p>
           <div className="flex justify-center gap-2">
             {otp.map((digit, index) => (
@@ -101,8 +89,7 @@ const VerifyEmailAuthentication = ({ onClose, userEmail }) => {
           </div>
           {timer > 0 ? (
             <button className="text-base font-medium text-white">
-              Send code again{" "}
-              <span className="text-[#c088fb]">00:{timer.toString().padStart(2, "0")}</span>
+              Send code again <span className="text-[#c088fb]">{formatTime(timer)}</span>
             </button>
           ) : (
             <button
@@ -112,9 +99,18 @@ const VerifyEmailAuthentication = ({ onClose, userEmail }) => {
               Resend code
             </button>
           )}
+          <button
+            className={`w-full ${
+              isOtpComplete ? "bg-[#c088fb]" : "bg-purple/50"
+            } text-[#131314] font-bold p-3 rounded-[33px] mt-3`}
+            onClick={() => isOtpComplete && setCurrentSlide("reset-password")}
+            disabled={!isOtpComplete} // Prevents clicking when OTP is incomplete
+          >
+            Continue to Reset Password
+          </button>
           <p className="text-center mb-4 text-[#f4f4f4]">
             Remember Password?{" "}
-            <span className="text-[#c088fb] cursor-pointer" onClick={onClose}>
+            <span className="text-[#c088fb] cursor-pointer" onClick={() => setCurrentSlide("signing")}>
               Login
             </span>
           </p>
