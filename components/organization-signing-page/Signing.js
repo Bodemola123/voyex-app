@@ -44,7 +44,7 @@ function Signing({
 }) {
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   return (
-    <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
+    <main className="relative max-w-[665px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center h-full">
         <h1 className="text-3xl font-bold text-fontlight capitalize">voyex</h1>
         <Tabs defaultValue="sign_up" className="w-[400px] mt-10">
@@ -202,7 +202,7 @@ function Signing({
                   {loading ? (
                     <AiOutlineLoading3Quarters className="animate-spin text-black" />
                   ) : (
-                    "Sign in"
+                    "Login"
                   )}
                 </Button>
               </CardFooter>
