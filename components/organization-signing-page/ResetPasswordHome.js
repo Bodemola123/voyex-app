@@ -60,7 +60,7 @@ function ResetPassword({ setCurrentSlide }) {
       className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50"
     >
       <div
-        className="bg-[#000000] p-[26px] max-w-lg w-full relative rounded-[41px] flex flex-col gap-4"
+        className="bg-[#000000] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px] flex flex-col gap-4"
       >
         <h2 className="text-3xl font-bold text-center text-[#f4f4f4]">
           Reset Password

@@ -49,7 +49,7 @@ function VerifyEmailAuthentication({ setCurrentSlide, emailAddress }) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50">
-      <div className="bg-[#000000] p-[26px] max-w-lg w-full relative rounded-[41px]">
+      <div className="bg-[#000000] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px]">
         <button
           className="absolute top-2 right-6 text-2xl font-bold text-white"
           onClick={() => setCurrentSlide("forgot-password-home")}

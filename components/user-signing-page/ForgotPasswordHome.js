@@ -17,7 +17,7 @@ function ForgotPassword({ setCurrentSlide, setEmailAddress }) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50">
-      <div className="bg-[#000000] rounded-lg p-6 max-w-sm w-full relative">
+      <div className="bg-[#000000] rounded-lg p-6 max-w-[665px] w-full h-[600px] relative">
         <button
           className="absolute top-2 right-2 text-2xl font-bold text-[#ffffff]"
           onClick={() => setCurrentSlide("signing")}
