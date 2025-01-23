@@ -123,6 +123,7 @@ function UserUploadDetails({ setDisplay }) {
       if (response.status === 200) {
         toast.success(response.data.message);
         setCurrentSlide("user-upload-success");
+        localStorage.removeItem("user_password");
       }
       if (response.status !== 200) {
         setCurrentSlide("basic-info");
@@ -189,6 +190,7 @@ function UserUploadDetails({ setDisplay }) {
       // onClick={(e) => setDisplay(false) + e.stopPropagation()}
     >
       {handleCurrentSlide()}
+
       {/* <UserPurpose
         usage={usage}
         clickedButtons={clickedButtons}

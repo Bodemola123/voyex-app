@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { FiCheckCircle } from "react-icons/fi";
 
-function SignupAccountSuccess() {
+function SignupAccountSuccess({ setCurrentSlide }) {
   const router = useRouter();
   return (
     <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
