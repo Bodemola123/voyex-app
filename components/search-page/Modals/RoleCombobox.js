@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const RoleCombobox = () => {
+const RoleCombobox = ({ selectedRoles, setSelectedRoles }) => {
   const techRoles = [
     "Product Designer",
     "User Researcher",
@@ -12,9 +12,25 @@ const RoleCombobox = () => {
     "DevOps Engineer",
     "Mobile Developer",
     "Full Stack Developer",
+    "Cloud Architect",
+    "Cybersecurity Specialist",
+    "Software Engineer",
+    "Machine Learning Engineer",
+    "Data Engineer",
+    "Blockchain Developer",
+    "QA Engineer",
+    "Network Engineer",
+    "Systems Administrator",
+    "Business Intelligence Analyst",
+    "Technical Project Manager",
+    "Embedded Systems Engineer",
+    "AR/VR Developer",
+    "Game Developer",
+    "Site Reliability Engineer",
+    "Database Administrator",
   ];
+  
 
-  const [selectedRoles, setSelectedRoles] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [filteredRoles, setFilteredRoles] = useState(techRoles);
 

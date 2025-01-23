@@ -11,8 +11,20 @@ import ThirdModal from './Modals/ThirdModal';
 const History = () => {
   const [activeModal, setActiveModal] = useState(null);
 
+  // State for modal inputs
+  const [firstModalData, setFirstModalData] = useState({});
+  const [secondModalData, setSecondModalData] = useState({});
+  const [thirdModalData, setThirdModalData] = useState({});
+
   const openModal = (modalName) => setActiveModal(modalName);
-  const closeModal = () => setActiveModal(null);
+
+  const closeModal = () => {
+    // Clear saved data when closing the modal
+    setFirstModalData({});
+    setSecondModalData({});
+    setThirdModalData({});
+    setActiveModal(null);
+  };
 
   return (
     <>
@@ -47,9 +59,28 @@ const History = () => {
       </nav>
 
       {/* Render Modals */}
-      {activeModal === 'first' && <FirstModal closeModal={closeModal} openModal={openModal} />}
-      {activeModal === 'second' && <SecondModal closeModal={closeModal} openModal={openModal} />}
-      {activeModal === 'third' && <ThirdModal closeModal={closeModal} />}
+      {activeModal === 'first' && (
+        <FirstModal
+          closeModal={closeModal}
+          openModal={openModal}
+          modalData={firstModalData}
+          setModalData={setFirstModalData}
+        />
+      )}
+      {activeModal === 'second' && (
+        <SecondModal
+          closeModal={closeModal}
+          openModal={openModal}
+          modalData={secondModalData}
+          setModalData={setSecondModalData}
+        />
+      )}
+      {activeModal === 'third' && (
+        <ThirdModal
+          closeModal={closeModal}
+          openModal={openModal}
+        />
+      )}
     </>
   );
 };
