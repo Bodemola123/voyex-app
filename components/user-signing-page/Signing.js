@@ -25,20 +25,20 @@ import ForgotPassword from "./ForgotPasswordHome";
 import { useState } from "react";
 
 function Signing({
-  usernameInput,
+  emailInput,
   passwordInput,
-  showPassword,
-  setShowPassword,
-  message,
+  handleUserSignup,
   /////////////////////
   handleUserSignin,
-  usernameInput1,
-  passwordInput1,
+  setEmailAddress,
+  setUserPassword1,
   googleUserSignin,
   googleUserSignup,
   loading,
   loadingGoogle,
   currentSlide,
+  showPassword,
+  setShowPassword,
   setCurrentSlide,
 }) {
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
@@ -65,17 +65,14 @@ function Signing({
             <Card className="rounded-none border-none">
               <CardContent className="space-y-4 p-0">
                 <div className="relative space-y-1 mb-1">
-                  <Label
-                    htmlFor="username"
-                    className="text-fontlight font-normal"
-                  >
-                    Username
+                  <Label htmlFor="email" className="text-fontlight font-normal">
+                    Email
                   </Label>
                   <Input
-                    id="username"
-                    type="text"
-                    placeholder="Your username"
-                    onChange={usernameInput}
+                    id="email"
+                    type="email"
+                    placeholder="Your email"
+                    onChange={emailInput}
                     className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]`}
                   />
                 </div>
@@ -105,9 +102,14 @@ function Signing({
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
                   className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 w-full rounded-[33px] disabled:cursor-not-allowed"
-                  onClick={() => setCurrentSlide("basic-info")}
+                  disabled={loading}
+                  onClick={() => handleUserSignup()}
                 >
-                  Sign up
+                  {loading ? (
+                    <AiOutlineLoading3Quarters className="animate-spin text-black" />
+                  ) : (
+                    "Sign up"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
@@ -142,18 +144,15 @@ function Signing({
             <Card className="rounded-none border-none">
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
-                  <Label
-                    htmlFor="username"
-                    className="text-fontlight font-normal"
-                  >
-                    Username
+                  <Label htmlFor="email" className="text-fontlight font-normal">
+                    Email
                   </Label>
                   <Input
-                    id="username"
-                    type="text"
-                    placeholder="Your username"
-                    onChange={usernameInput1}
-                    className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]`}
+                    id="email"
+                    type="email"
+                    placeholder="Organization email"
+                    onChange={(e) => setEmailAddress(e.target.value)}
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                   />
                 </div>
                 <div className="relative space-y-1">
@@ -167,7 +166,7 @@ function Signing({
                     id="password"
                     type={`${showPassword ? "text" : "password"}`}
                     placeholder="Password"
-                    onChange={passwordInput1}
+                    onChange={(e) => setUserPassword1(e.target.value)}
                     className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16 focus:outline-none focus-within:outline-none"
                   />
                   <button
@@ -191,6 +190,7 @@ function Signing({
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
                   className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 transition-all w-full rounded-[33px]"
+                  disabled={loading}
                   onClick={() => handleUserSignin()}
                 >
                   {loading ? (

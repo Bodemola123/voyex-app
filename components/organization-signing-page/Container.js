@@ -17,7 +17,7 @@ import AccountError from "./AccountError";
 import OrgLoading from "./OrgSignupLoading";
 import OrgSigninLoading from "./OrgSigninLoading";
 import SigninSuccess from "./SigninSuccess";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import OperationalDetails from "./OperationalDetails";
 import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
@@ -204,7 +204,7 @@ function Container() {
           }
           if (response.status === 200) {
             setCurrentSlide("signing");
-            toast.error(response.data.message);
+            toast.warn(response.data.message);
           }
           if (response.status === 400) {
             setCurrentSlide("signing");
@@ -392,13 +392,6 @@ function Container() {
           setCurrentSlide("org-signup-success");
           localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
         }
-        // if (
-        //   acceptEmailPassword.status === 200 &&
-        //   acceptEmailPassword.data.message === "Organization already exists"
-        // ) {
-        //   toast.warn(acceptEmailPassword.data.message);
-        //   setCurrentSlide("signing");
-        // }
         if (acceptEmailPassword.status === 409) {
           setCurrentSlide("signing");
         }
@@ -512,7 +505,7 @@ function Container() {
       if (response.status === 200) {
         setCurrentSlide("org-signin-success");
         toast.success("Signin successful");
-        Cookies.set("voyexEmail", orgEmail, { expires: 7 });
+        // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
@@ -662,18 +655,18 @@ function Container() {
         />
       );
   };
-  // return handleCurrentSlide();
+  return handleCurrentSlide();
   // return <SigninSuccess />;
-  return (
-    <EmailVerify
-      value={value}
-      setValue={setValue}
-      loading={loading}
-      otpError={otpError}
-      // formatTime={formatTime}
-      mins={mins}
-      secs={secs}
-    />
-  );
+  // return (
+  //   <EmailVerify
+  //     value={value}
+  //     setValue={setValue}
+  //     loading={loading}
+  //     otpError={otpError}
+  //     // formatTime={formatTime}
+  //     mins={mins}
+  //     secs={secs}
+  //   />
+  // );
 }
 export default Container;

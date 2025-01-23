@@ -21,28 +21,78 @@ import ForgotPassword from "./ForgotPasswordHome";
 import VerifyEmailAuthentication from "./ResetVerifyOTP";
 import ResetPassword from "./ResetPasswordHome";
 import PasswordChanged from "./PasswordChangedHome";
+import UserUploadDetails from "./UserUploadDetails";
+
+const emailKey = process.env.EMAIL_KEY;
 
 function Container() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { googleUserDetails } = useSelector((state) => state.auth);
+
+  /// sign up section
   const [userEmail, setUserEmail] = useState("");
+  const [value, setValue] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [skillLevel, setSkillLevel] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
 
-
+  /// sign in section
   const [userName1, setUserName1] = useState("");
   const [userPassword1, setUserPassword1] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [border, setBorder] = useState(false);
   const [allowed, setAllowed] = useState(false);
   const [currentSlide, setCurrentSlide] = useState("signing");
-  const debouncedValue = useDebounce(userName, 500);
+  const debouncedValue = useDebounce(userEmail, 500);
+
+  const [otpError, setOtpError] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
+  const [mins, setMins] = useState("");
+  const [secs, setSecs] = useState("");
+
+  //////////// Countdown timer
+  useEffect(() => {
+    // Update the timer every second
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(timer);
+  }, []);
+
+  // Format the time as mm:ss
+  // const formatTime = () => {
+  //   const minutes = Math.floor(timeLeft / 60);
+  //   const secs = timeLeft % 60;
+  //   return `${minutes.toString().padStart(2, "0")}:${secs
+  //     .toString()
+  //     .padStart(2, "0")}`;
+  // };
+
+  useEffect(() => {
+    const formatTime = () => {
+      setMins(
+        Math.floor(timeLeft / 60)
+          .toString()
+          .padStart(2, "0")
+      );
+      setSecs((timeLeft % 60).toString().padStart(2, "0"));
+    };
+    formatTime();
+  }, [timeLeft]);
 
   useEffect(() => {
     //navigate to /search if googleUserDetails exists
@@ -68,53 +118,9 @@ function Container() {
   };
 
   //////////////////////////////////
-  const usernameInput1 = (e) => {
-    setUserName1(e.target.value);
-  };
   const passwordInput1 = (e) => {
     setUserPassword1(e.target.value);
   };
-
-  ///////////// CHECK USER NAME //////////////////////
-  // useEffect(() => {
-  //   if (userName === "") {
-  //     return;
-  //   }
-  //   if (userName.includes("@gmail") || userName.includes("@yahoo")) {
-  //     setBorder(false);
-  //     return;
-  //   } else {
-  //     const checkUserName = async () => {
-  //       try {
-  //         const response = await axios.get(
-  //           `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${debouncedValue}`
-  //         );
-  //         console.log("checked name:", response);
-  //         if (response.status === 200 && response.data.exists === true) {
-  //           // toast.error("Name taken");
-  //           setMessage("username is taken");
-  //           setBorder(false);
-  //           return;
-  //         }
-  //         if (response.status === 200 && response.data.exists === false) {
-  //           // toast.success("Name available");
-  //           if (userName === "" || userName.length < 3) {
-  //             setBorder(false);
-  //           } else {
-  //             setBorder(true);
-  //             setMessage("username is available");
-  //           }
-  //         }
-  //       } catch (error) {
-  //         if (error.response?.data) {
-  //           toast.error(error.response.data);
-  //         } else toast.error(error.message);
-  //       }
-  //     };
-  //     checkUserName();
-  //   }
-  //   // input finall order
-  // }, [debouncedValue, userName]);
 
   ////////////////// GOOGLE USER SIGNUP /////////////////////////////////
   const googleUserSignup = useGoogleLogin({
@@ -133,21 +139,16 @@ function Container() {
         console.log(res.data);
         if (res.status === 200) {
           const response = await axios.post(
-            `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers`,
+            `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
             {
               email: res.data?.email,
-              user_name: res.data?.name,
-              country: "nil",
-              user_type: "regular",
-              subscription_type: "free",
-              google_id: res.data?.sub,
-              metadata: {},
-              password_hash: res.data?.sub,
+              password: res.data?.sub,
+              action: "sign_up",
             }
           );
           console.log("response", response);
           if (response.status === 201) {
-            setCurrentSlide("signup-success");
+            setCurrentSlide("user-signup-success");
             toast.success(response.data.message);
           }
           if (response.status === 400) {
@@ -192,14 +193,19 @@ function Container() {
         // console.log(res);
         // console.log(res.data);
         if (res.status === 200) {
-          const response = await axios.get(
-            `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${res.data.name}`
+          const response = await axios.post(
+            `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+            {
+              email: res.data?.email,
+              password: res.data?.sub,
+              action: "sign_in",
+            }
           );
           // console.log("response", response);
           if (response.status === 200 && response.data.exists === true) {
             setCurrentSlide("signin-success");
             toast.success("Login successful");
-            Cookies.set("voyexUserName", res.data.name, { expires: 7 });
+            // Cookies.set("voyexUserName", res.data.name, { expires: 7 });
           }
           if (response.status === 200 && response.data.exists === false) {
             toast.warn("User doesn't exist!");
@@ -228,11 +234,11 @@ function Container() {
   });
 
   ////////////////// USER SIGN UP /////////////////////////////////
-  // todo implement email validity-------------
-  const userSignup = async () => {
+  //----- authenticate email
+  const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
-      if (!userName || !userPassword || !userEmail || !userCountry) {
+      if (!userEmail || !userPassword) {
         toast.warn("all fields are required");
         return;
       }
@@ -244,90 +250,168 @@ function Container() {
         return;
       }
       setLoading(true);
-      setCurrentSlide("signup-loading");
-      const response = await axios.get(
-        `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${debouncedValue}`
+      /////////////// check if email is legit //////////////////
+      const check_legit_email = await axios.get(
+        `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${userEmail}`
       );
-      console.log("checked name:", response);
-      if (response.status === 200 && response.data.exists === true) {
-        // toast.error("Name taken");
-        toast("username is taken");
-        setCurrentSlide("signing");
+      console.log(check_legit_email.data);
+      if (check_legit_email.data.is_valid_format.value === false) {
+        toast.warn("invalid email format");
         return;
       }
-      if (response.status === 200 && response.data.exists === false) {
-        // toast.success("Name available");
-        const create_account = await axios.post(
-          `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers`,
-          {
-            email: userEmail,
-            user_name: userName,
-            country: userCountry,
-            user_type: "regular",
-            subscription_type: "free",
-            // google_id: "google13",
-            metadata: {},
-            password_hash: userPassword,
-          }
+      if (
+        check_legit_email.data.is_smtp_valid.value === false &&
+        check_legit_email.data.deliverability === "UNDELIVERABLE"
+      ) {
+        toast.warn("email broken, try another");
+        return;
+      }
+      if (
+        check_legit_email.data.is_smtp_valid.value === true &&
+        check_legit_email.data.is_valid_format.value === true
+      ) {
+        ///////////// check if email is taken /////////////////////
+        const check_available_email = await axios.get(
+          `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex?email=${userEmail}`
         );
-        console.log("create_account", create_account);
-        if (create_account.status === 201) {
-          setCurrentSlide("signup-success");
-          toast.success(create_account.data.message);
+        /////////// if email exists, return/stop
+        if (
+          check_available_email.status === 200 &&
+          check_available_email.data.exists === true
+        ) {
+          toast.warn("email already in use");
+          return;
+        }
+        /////////////// if email doesn't exist in database, send otp verification
+        if (
+          check_available_email.status === 200 &&
+          check_available_email.data.exists === false
+        ) {
+          // toast.success("Name available");
+          localStorage.setItem("user_email", userEmail);
+          localStorage.setItem("user_password", userPassword);
+          const send_otp = await axios.post(
+            `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+            {
+              email: localStorage.getItem("user_email"),
+            }
+          );
+          console.log("OTP response", send_otp);
+          if (send_otp.status === 200) {
+            setCurrentSlide("email-verify");
+            // toast(send_otp.data.message)
+            toast("OTP sent to email");
+          }
         }
       }
     } catch (error) {
       console.log(error);
-      if (error.response.data?.error) {
+      if (error.response?.data) {
+        toast.error(error.response.data);
+      } else toast.error(error.message);
+      if (error.message) {
         setCurrentSlide("signing");
-        return toast.error(error.response.data.error);
-      } else return toast.error(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleUserSignup = async () => {
+    signing();
+  };
+  //----- verify email, then signup
+  const verifying = async () => {
+    try {
+      setLoading(true);
+      /////////////// check if otp is legit from email //////////////////
+      const verify_otp = await axios.get(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp?email=${localStorage.getItem(
+          "user_email"
+        )}&otp=${value}`
+      );
+      console.log("OTP Verifying⛔⛔⛔", verify_otp);
+      if (verify_otp.status === 200) {
+        setOtpError(false);
+        //////// OTP valid? accept org /////////////////
+        const acceptEmailPassword = await axios.post(
+          `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+          {
+            email: localStorage.getItem("user_email"),
+            password: localStorage.getItem("user_password"),
+            action: "sign_up",
+          }
+        );
+        console.log("sign up res👉", acceptEmailPassword);
+        if (acceptEmailPassword.status === 200) {
+          toast.warn("User already exists");
+          setCurrentSlide("signing");
+        }
+        if (acceptEmailPassword.status === 201) {
+          setLoading(false);
+          toast.success(acceptEmailPassword.data.message);
+          setCurrentSlide("user-signup-success");
+          localStorage.setItem("userId", acceptEmailPassword.data.user_id);
+        }
+        if (acceptEmailPassword.status === 409) {
+          setCurrentSlide("signing");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setOtpError(true);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
   useEffect(() => {
-    if (border === true && userName.length > 2) {
-      setAllowed(true);
-    } else if (border === true && !userName) {
-      setAllowed(false);
-    } else {
-      setAllowed(false);
-    }
-  }, [border, userName]);
-
-  const handleUserSignup = async () => {
-    userSignup();
-  };
+    value.length === 6 && verifying();
+    value.length !== 6 && setOtpError(false);
+  }, [value.length]);
 
   ////////////////// USER SIGN IN /////////////////////////////////
   const userSignin = async () => {
+    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
-      if (!userName1) {
-        toast.error("username required!");
+      if (!emailAddress || !userPassword1) {
+        toast.warn("all input fields required");
         return;
       }
       setLoading(true);
-      setCurrentSlide("signin-loading");
-      const response = await axios.get(
-        `https://rsblupwp0e.execute-api.ap-southeast-2.amazonaws.com/default/voyexUsers?user_name=${userName1}`
+      setCurrentSlide("user-signin-loading");
+      const response = await axios.post(
+        `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+        {
+          email: emailAddress,
+          password: userPassword1,
+          action: "sign_in",
+        }
       );
-      console.log("response", response);
-      if (response.status === 200 && response.data.exists === true) {
-        setCurrentSlide("signin-success");
-        toast.success("Login successful");
-        Cookies.set("voyexUserName", userName1, { expires: 7 });
+      console.log("user signin response", response);
+      if (response.status === 200 && response.data.valid === false) {
+        setCurrentSlide("signing");
+        toast.error("user not found");
       }
-      if (response.status === 200 && response.data.exists === false) {
-        toast("user doesn't exist!");
+      if (response.status === 200 && response.data.valid === true) {
+        setCurrentSlide("user-signin-success");
+        toast.success("signin successful");
+        // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
+      }
+      if (response.status === 404) {
         setCurrentSlide("signing");
         return;
       }
     } catch (error) {
-      // console.log(error);
-      if (error.message.includes("Network Error")) {
-        toast.error("Network Error, Try again!");
-      } else toast(error.message);
+      console.log("user_signin_error", error);
+      if (error.response.data) {
+        toast.error(error.response.data.message);
+        setCurrentSlide("signing");
+      } else toast.error(error.message);
+      if (error.message.includes("network error")) {
+        toast.error("network error, try again!");
+      }
     } finally {
       setLoading(false);
     }
@@ -340,88 +424,84 @@ function Container() {
     if (currentSlide === "signing") {
       return (
         <Signing
-          usernameInput={usernameInput}
+          emailInput={emailInput}
           passwordInput={passwordInput}
-          showPassword={showPassword}
-          border={border}
-          allowed={allowed}
-          setShowPassword={setShowPassword}
-          currentSlide={currentSlide}
-          setCurrentSlide={setCurrentSlide}
-          message={message}
+          handleUserSignup={handleUserSignup}
           /////////////////
           handleUserSignin={handleUserSignin}
-          usernameInput1={usernameInput1}
-          passwordInput1={passwordInput1}
+          setEmailAddress={setEmailAddress}
+          setUserPassword1={setUserPassword1}
           googleUserSignup={googleUserSignup}
           googleUserSignin={googleUserSignin}
           loading={loading}
           loadingGoogle={loadingGoogle}
-        />
-      );
-    } else if (currentSlide === "basic-info") {
-      return (
-        <BasicInfoContainer
-          handleUserSignup={handleUserSignup}
-          emailInput={emailInput}
-          countryInput={countryInput}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          currentSlide={currentSlide}
           setCurrentSlide={setCurrentSlide}
         />
       );
-    } else if (currentSlide === "verify") {
-      return <EmailVerify />;
-    } else if (currentSlide === "signin-loading") {
-      return <SigninLoading />;
-    } else if (currentSlide === "signup-loading") {
-      return <SignupLoading />;
-    } else if (currentSlide === "signup-success") {
-      return <SignupAccountSuccess />;
-    } else if (currentSlide === "signin-success") {
-      return <SigninAccountSuccess />;
-    } else if (currentSlide === "forgot-password-home"){
+    } else if (currentSlide === "email-verify") {
       return (
-        <ForgotPassword
-        setCurrentSlide={setCurrentSlide}
-        setEmailAddress={setEmailAddress}
+        <EmailVerify
+          value={value}
+          setValue={setValue}
+          loading={loading}
+          otpError={otpError}
+          mins={mins}
+          secs={secs}
         />
       );
-    } else if (currentSlide === "reset-verifyotp"){
+    } else if (currentSlide === "user-signin-loading") {
+      return <SigninLoading />;
+    } else if (currentSlide === "user-signup-loading") {
+      return <SignupLoading />;
+    } else if (currentSlide === "user-signup-success") {
+      return <SignupAccountSuccess />;
+    } else if (currentSlide === "user-signin-success") {
+      return <SigninAccountSuccess />;
+    } else if (currentSlide === "user-upload-details") {
+      return <UserUploadDetails />;
+    } else if (currentSlide === "forgot-password-home") {
       return (
-      <VerifyEmailAuthentication
-      setCurrentSlide={setCurrentSlide}
-      emailAddress={emailAddress}
-      />);
-    } else if (currentSlide === "reset-password"){
-      return (<ResetPassword
-        setCurrentSlide={setCurrentSlide}/>
+        <ForgotPassword
+          setCurrentSlide={setCurrentSlide}
+          setEmailAddress={setEmailAddress}
+        />
       );
-    } else if (currentSlide === "password-changed"){
-      return (<PasswordChanged
-        setCurrentSlide={setCurrentSlide}/>
+    } else if (currentSlide === "reset-verifyotp") {
+      return (
+        <VerifyEmailAuthentication
+          setCurrentSlide={setCurrentSlide}
+          emailAddress={emailAddress}
+        />
       );
+    } else if (currentSlide === "reset-password") {
+      return <ResetPassword setCurrentSlide={setCurrentSlide} />;
+    } else if (currentSlide === "password-changed") {
+      return <PasswordChanged setCurrentSlide={setCurrentSlide} />;
     } else
       return (
         <Signing
-          usernameInput={usernameInput}
+          emailInput={emailInput}
           passwordInput={passwordInput}
-          showPassword={showPassword}
-          border={border}
-          allowed={allowed}
-          setShowPassword={setShowPassword}
-          currentSlide={currentSlide}
-          setCurrentSlide={setCurrentSlide}
-          message={message}
+          handleUserSignup={handleUserSignup}
           /////////////////
           handleUserSignin={handleUserSignin}
-          usernameInput1={usernameInput1}
-          passwordInput1={passwordInput1}
+          setEmailAddress={setEmailAddress}
+          setUserPassword1={setUserPassword1}
           googleUserSignup={googleUserSignup}
           googleUserSignin={googleUserSignin}
           loading={loading}
           loadingGoogle={loadingGoogle}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          currentSlide={currentSlide}
+          setCurrentSlide={setCurrentSlide}
         />
       );
   };
   return handleCurrentSlide();
+  // return <UserUploadDetails />;
 }
 export default Container;

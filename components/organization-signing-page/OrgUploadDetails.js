@@ -1,13 +1,7 @@
 // DISPLAY THIS IF ORGANIZATION HASN'T PROVIDED ADDITIONAL DETAILS AFTER SIGNING UP
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
-import { IndustryDropdown } from "./IndustryDropdown";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import TargetAudienceDropdown from "./TargetAudienceDropdown";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import BasicInfoContainer from "./BasicInfoContainer";
 import ContactDetailsContainer from "./ContactDetailsContainer";
@@ -198,7 +192,7 @@ function OrgUploadDetails({ setDisplay }) {
   };
   return (
     <div
-      className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
+      className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-[2px]"
       // onClick={(e) => setDisplay(false) + e.stopPropagation()}
     >
       {handleCurrentSlide()}
