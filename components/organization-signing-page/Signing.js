@@ -92,7 +92,7 @@ function Signing({
                     type={`${showPassword ? "text" : "password"}`}
                     placeholder="Password"
                     onChange={passwordInput}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] pr-16"
+                    className="rounded-[28px] bg-card/30 border-none outline-none focus-within:border-none focus:border-none focus-visible:border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] pr-16"
                   />
                   <button
                     className="absolute right-1 top-7 text-xl text-purple p-3"
@@ -106,7 +106,6 @@ function Signing({
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
                   className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 w-full rounded-[33px] disabled:cursor-not-allowed transition-all"
-                  // disabled={!allowed}
                   onClick={() => handleSignup()}
                 >
                   {loading ? (
@@ -182,7 +181,9 @@ function Signing({
                   </button>
                 </div>
                 <div className="flex justify-end items-center">
-                  <button onClick={() => setForgotPasswordOpen(true)}>
+                  <button
+                    onClick={() => setCurrentSlide("forgot-password-home")}
+                  >
                     <p className="bg-gradient-to-r from-[#C088FB] to-[#9747FF] bg-clip-text text-transparent text-sm font-bold">
                       Forgot password?
                     </p>

@@ -17,7 +17,7 @@ import AccountError from "./AccountError";
 import OrgLoading from "./OrgSignupLoading";
 import OrgSigninLoading from "./OrgSigninLoading";
 import SigninSuccess from "./SigninSuccess";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import OperationalDetails from "./OperationalDetails";
 import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
@@ -204,7 +204,7 @@ function Container() {
           }
           if (response.status === 200) {
             setCurrentSlide("signing");
-            toast.error(response.data.message);
+            toast.warn(response.data.message);
           }
           if (response.status === 400) {
             setCurrentSlide("signing");
@@ -392,13 +392,6 @@ function Container() {
           setCurrentSlide("org-signup-success");
           localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
         }
-        // if (
-        //   acceptEmailPassword.status === 200 &&
-        //   acceptEmailPassword.data.message === "Organization already exists"
-        // ) {
-        //   toast.warn(acceptEmailPassword.data.message);
-        //   setCurrentSlide("signing");
-        // }
         if (acceptEmailPassword.status === 409) {
           setCurrentSlide("signing");
         }
@@ -512,7 +505,7 @@ function Container() {
       if (response.status === 200) {
         setCurrentSlide("org-signin-success");
         toast.success("Signin successful");
-        Cookies.set("voyexEmail", orgEmail, { expires: 7 });
+        // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
@@ -621,27 +614,24 @@ function Container() {
       return <OrgUploadSuccess />;
     } else if (currentSlide === "error") {
       return <AccountError setCurrentSlide={setCurrentSlide} />;
-    } else if (currentSlide === "forgot-password-home"){
+    } else if (currentSlide === "forgot-password-home") {
       return (
         <ForgotPassword
-        setCurrentSlide={setCurrentSlide}
-        setEmailAddress={setEmailAddress}
+          setCurrentSlide={setCurrentSlide}
+          setEmailAddress={setEmailAddress}
         />
       );
-    } else if (currentSlide === "reset-verifyotp"){
+    } else if (currentSlide === "reset-verifyotp") {
       return (
-      <VerifyEmailAuthentication
-      setCurrentSlide={setCurrentSlide}
-      emailAddress={emailAddress}
-      />);
-    } else if (currentSlide === "reset-password"){
-      return (<ResetPassword
-        setCurrentSlide={setCurrentSlide}/>
+        <VerifyEmailAuthentication
+          setCurrentSlide={setCurrentSlide}
+          emailAddress={emailAddress}
+        />
       );
-    } else if (currentSlide === "password-changed"){
-      return (<PasswordChanged
-        setCurrentSlide={setCurrentSlide}/>
-      );
+    } else if (currentSlide === "reset-password") {
+      return <ResetPassword setCurrentSlide={setCurrentSlide} />;
+    } else if (currentSlide === "password-changed") {
+      return <PasswordChanged setCurrentSlide={setCurrentSlide} />;
     } else
       return (
         <Signing
