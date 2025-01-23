@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -11,15 +10,7 @@ function OrgUploadSuccess() {
   return (
     <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center justify-center gap-7 h-full">
-        {/* <Image
-          src="/loading.png"
-          alt="loading"
-          width={136}
-          height={136}
-          className=""
-        /> */}
         <FiCheckCircle className="text-9xl text-green-500" />
-
         <h1 className="text-fontlight text-3xl font-bold text-center">
           Data Upload Successful
         </h1>

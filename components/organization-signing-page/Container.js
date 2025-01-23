@@ -621,27 +621,24 @@ function Container() {
       return <OrgUploadSuccess />;
     } else if (currentSlide === "error") {
       return <AccountError setCurrentSlide={setCurrentSlide} />;
-    } else if (currentSlide === "forgot-password-home"){
+    } else if (currentSlide === "forgot-password-home") {
       return (
         <ForgotPassword
-        setCurrentSlide={setCurrentSlide}
-        setEmailAddress={setEmailAddress}
+          setCurrentSlide={setCurrentSlide}
+          setEmailAddress={setEmailAddress}
         />
       );
-    } else if (currentSlide === "reset-verifyotp"){
+    } else if (currentSlide === "reset-verifyotp") {
       return (
-      <VerifyEmailAuthentication
-      setCurrentSlide={setCurrentSlide}
-      emailAddress={emailAddress}
-      />);
-    } else if (currentSlide === "reset-password"){
-      return (<ResetPassword
-        setCurrentSlide={setCurrentSlide}/>
+        <VerifyEmailAuthentication
+          setCurrentSlide={setCurrentSlide}
+          emailAddress={emailAddress}
+        />
       );
-    } else if (currentSlide === "password-changed"){
-      return (<PasswordChanged
-        setCurrentSlide={setCurrentSlide}/>
-      );
+    } else if (currentSlide === "reset-password") {
+      return <ResetPassword setCurrentSlide={setCurrentSlide} />;
+    } else if (currentSlide === "password-changed") {
+      return <PasswordChanged setCurrentSlide={setCurrentSlide} />;
     } else
       return (
         <Signing
@@ -665,18 +662,18 @@ function Container() {
         />
       );
   };
-  return handleCurrentSlide();
+  // return handleCurrentSlide();
   // return <SigninSuccess />;
-  // return (
-  //   <EmailVerify
-  //     value={value}
-  //     setValue={setValue}
-  //     loading={loading}
-  //     otpError={otpError}
-  //     // formatTime={formatTime}
-  //     mins={mins}
-  //     secs={secs}
-  //   />
-  // );
+  return (
+    <EmailVerify
+      value={value}
+      setValue={setValue}
+      loading={loading}
+      otpError={otpError}
+      // formatTime={formatTime}
+      mins={mins}
+      secs={secs}
+    />
+  );
 }
 export default Container;
