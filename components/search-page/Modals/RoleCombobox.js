@@ -1,117 +1,157 @@
+"use client";
+
 import React, { useState } from "react";
+import { FaCaretDown } from "react-icons/fa";
+import { Check } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-const RoleCombobox = ({ selectedRoles, setSelectedRoles }) => {
-  const techRoles = [
-    "Product Designer",
-    "User Researcher",
-    "UI Designer",
-    "Frontend Developer",
-    "Backend Developer",
-    "Data Scientist",
-    "AI Engineer",
-    "DevOps Engineer",
-    "Mobile Developer",
-    "Full Stack Developer",
-    "Cloud Architect",
-    "Cybersecurity Specialist",
-    "Software Engineer",
-    "Machine Learning Engineer",
-    "Data Engineer",
-    "Blockchain Developer",
-    "QA Engineer",
-    "Network Engineer",
-    "Systems Administrator",
-    "Business Intelligence Analyst",
-    "Technical Project Manager",
-    "Embedded Systems Engineer",
-    "AR/VR Developer",
-    "Game Developer",
-    "Site Reliability Engineer",
-    "Database Administrator",
-  ];
-  
+const techRoles = [
+  "Product Designer",
+  "User Researcher",
+  "UI Designer",
+  "Frontend Developer",
+  "Backend Developer",
+  "Data Scientist",
+  "AI Engineer",
+  "DevOps Engineer",
+  "Mobile Developer",
+  "Full Stack Developer",
+  "Cloud Architect",
+  "Cybersecurity Specialist",
+  "Software Engineer",
+  "Machine Learning Engineer",
+  "Data Engineer",
+  "Blockchain Developer",
+  "QA Engineer",
+  "Network Engineer",
+  "Systems Administrator",
+  "Business Intelligence Analyst",
+  "Technical Project Manager",
+  "Embedded Systems Engineer",
+  "AR/VR Developer",
+  "Game Developer",
+  "Site Reliability Engineer",
+  "Database Administrator",
+];
 
+const RoleCombobox = ({ setSelectedRoles }) => {
+  const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [filteredRoles, setFilteredRoles] = useState(techRoles);
+  const [selectedRoles, setLocalSelectedRoles] = useState([]);
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-
-    // Filter roles based on input
-    setFilteredRoles(
-      techRoles.filter(
-        (role) =>
-          role.toLowerCase().includes(value.toLowerCase()) &&
-          !selectedRoles.includes(role)
-      )
-    );
-  };
+  const filteredRoles = techRoles.filter(
+    (role) =>
+      role.toLowerCase().includes(inputValue.toLowerCase()) &&
+      !selectedRoles.includes(role)
+  );
 
   const handleRoleSelect = (role) => {
     if (selectedRoles.length < 3 && !selectedRoles.includes(role)) {
-      setSelectedRoles([...selectedRoles, role]);
+      const updatedRoles = [...selectedRoles, role];
+      setLocalSelectedRoles(updatedRoles);
+      setSelectedRoles(updatedRoles); // Pass to parent
       setInputValue("");
-      setFilteredRoles(techRoles.filter((r) => !selectedRoles.includes(r)));
     }
   };
 
-  const handleRoleRemove = (role) => {
+  const handleRoleRemove = (e, role) => {
+    // Prevent click event from triggering the Popover
+    e.stopPropagation();
+
     const updatedRoles = selectedRoles.filter((r) => r !== role);
-    setSelectedRoles(updatedRoles);
-    setFilteredRoles(
-      techRoles.filter(
-        (r) =>
-          !updatedRoles.includes(r) &&
-          r.toLowerCase().includes(inputValue.toLowerCase())
-      )
-    );
+    setLocalSelectedRoles(updatedRoles);
+    setSelectedRoles(updatedRoles); // Pass to parent
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
   };
 
   return (
-    <div className="relative">
-      <label className="block text-white mb-2">Role</label>
-      {/* Selected Roles */}
-      <div className="flex flex-wrap gap-2 mb-2 bg-[#0A0A0B] py-3 px-4 rounded-[68px]">
-        {selectedRoles.map((role) => (
-          <div
-            key={role}
-            className="flex items-center gap-2 bg-[#6b46c1] text-white text-sm px-3 py-1 rounded-full"
-          >
-            {role}
-            <button
-              onClick={() => handleRoleRemove(role)}
-              className="text-white text-xs"
-            >
-              &times;
-            </button>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+        >
+          {selectedRoles.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {selectedRoles.map((role) => (
+                <div
+                  key={role}
+                  className="flex items-center gap-2 bg-[#C088FB33] text-[#c088fb] text-sm font-bold px-3 py-1 rounded-full"
+                >
+                  {role}
+                  <button
+                    onClick={(e) => handleRoleRemove(e, role)} // Pass event and role
+                    className="text-white text-lg"
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            "Select roles..."
+          )}
+          <FaCaretDown className="opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[482px] p-0 text-fontlight border-none">
+        <Command className="bg-black text-fontlight p-3 border-none max-h-[308px] overflow-y-scroll">
+          <div className="relative">
+            <CommandInput
+              placeholder="Search role"
+              className="border border-gray/20 rounded-[28px] pl-10"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
           </div>
-        ))}
-        <input
-          className="flex-1 bg-transparent text-white focus:outline-none"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder={
-            selectedRoles.length < 3 ? "Select Roles" : "Maximum 3 roles"
-          }
-          disabled={selectedRoles.length >= 3}
-        />
-      </div>
-      {/* Dropdown */}
-      {inputValue && filteredRoles.length > 0 && (
-        <ul className="absolute bg-[#1d1d1f] text-white w-full rounded-md shadow-lg mt-1 max-h-40 overflow-y-auto">
-          {filteredRoles.map((role) => (
-            <li
-              key={role}
-              className="px-4 py-2 hover:bg-[#2a2a2e] cursor-pointer"
-              onClick={() => handleRoleSelect(role)}
-            >
-              {role}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+          <div className="mt-2 ml-2">
+            <p>You can add up to 3 Roles</p>
+          </div>
+          <CommandList className="mt-3">
+            <CommandEmpty>No roles found.</CommandEmpty>
+            <CommandGroup>
+              {filteredRoles.map((role) => (
+                <CommandItem
+                  key={role}
+                  value={role}
+                  className="text-fontlight data-[selected='true']:bg-purple"
+                  onSelect={() => handleRoleSelect(role)}
+                >
+                  {role}
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      selectedRoles.includes(role)
+                        ? "opacity-100 text-fontlight hover:text-black"
+                        : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 };
 

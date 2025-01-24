@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import RoleCombobox from "./RoleCombobox"; // Import the RoleCombobox component
 import Image from "next/image";
+import { FaCaretDown } from "react-icons/fa";
 
 const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
   // Handler to update specific input fields
@@ -18,6 +19,34 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
       ...prev,
       roles, // Save the selected roles
     }));
+  };
+
+  // State for the dropdown menus
+  const [showToolDropdown, setShowToolDropdown] = useState(false);
+  const [showFrameworkDropdown, setShowFrameworkDropdown] = useState(false);
+  const [selectedTool, setSelectedTool] = useState(modalData.preferredTool || "");
+  const [selectedFramework, setSelectedFramework] = useState(modalData.preferredFramework || "");
+
+  // Toggle dropdown visibility
+  const toggleDropdown = (dropdown) => {
+    if (dropdown === "tool") {
+      setShowToolDropdown(!showToolDropdown);
+    } else if (dropdown === "framework") {
+      setShowFrameworkDropdown(!showFrameworkDropdown);
+    }
+  };
+
+  // Handle selection of an item from dropdown
+  const handleDropdownSelect = (item, type) => {
+    if (type === "tool") {
+      setSelectedTool(item);
+      setShowToolDropdown(false);
+      setModalData((prev) => ({ ...prev, preferredTool: item }));
+    } else if (type === "framework") {
+      setSelectedFramework(item);
+      setShowFrameworkDropdown(false);
+      setModalData((prev) => ({ ...prev, preferredFramework: item }));
+    }
   };
 
   return (
@@ -43,10 +72,13 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
           </p>
 
           {/* Role Combobox */}
-          <RoleCombobox
-            selectedRoles={modalData.roles || []}
-            setSelectedRoles={handleRoleChange}
-          />
+          <div className="flex flex-col gap-2.5">
+            <p className="text-sm font-medium text-left text-[#ffffff]">Role</p>
+            <RoleCombobox
+              selectedRoles={modalData.roles || []}
+              setSelectedRoles={handleRoleChange}
+            />
+          </div>
 
           {/* Input fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -99,37 +131,80 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">
-                Preferred Tool
-              </label>
-              <select
-                name="preferredTool"
-                value={modalData.preferredTool || ""}
-                onChange={handleInputChange}
-                className="w-full py-3 px-4 max-h-[64px] bg-[#0A0A0B] text-gray-300 focus:outline-none focus:ring focus:ring-[#c088fb] rounded-[68px]"
-              >
-                <option value="">Select Tools</option>
-                <option value="Tool 1">Tool 1</option>
-                <option value="Tool 2">Tool 2</option>
-                <option value="Tool 3">Tool 3</option>
-              </select>
+            {/* Custom Dropdown for Preferred Tool */}
+            <div className="relative">
+              <label className="block text-sm text-gray-400 mb-2">Preferred Tool</label>
+              <div className="relative">
+                <div
+                  className="w-full py-3 px-4 bg-[#0A0A0B] text-gray-300 rounded-[68px] cursor-pointer flex items-center justify-between"
+                  onClick={() => toggleDropdown("tool")}
+                >
+                  <span>{selectedTool || "Select Tool"}</span>
+                  <FaCaretDown />
+                </div>
+
+                {showToolDropdown && (
+                  <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2">
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      onClick={() => handleDropdownSelect("Tool 1", "tool")}
+                    >
+                      Tool 1
+                    </li>
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      onClick={() => handleDropdownSelect("Tool 2", "tool")}
+                    >
+                      Tool 2
+                    </li>
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      onClick={() => handleDropdownSelect("Tool 3", "tool")}
+                    >
+                      Tool 3
+                    </li>
+                  </ul>
+                )}
+              </div>
             </div>
-            <div>
+
+            {/* Custom Dropdown for Preferred Framework */}
+            <div className="relative">
               <label className="block text-sm text-gray-400 mb-2">
                 Preferred Framework (if applicable)
               </label>
-              <select
-                name="preferredFramework"
-                value={modalData.preferredFramework || ""}
-                onChange={handleInputChange}
-                className="w-full py-3 px-4 max-h-[64px] bg-[#0a0a0b] text-gray-300 focus:outline-none focus:ring focus:ring-[#c088fb] rounded-[68px]"
-              >
-                <option value="">Select Framework</option>
-                <option value="Framework 1">Framework 1</option>
-                <option value="Framework 2">Framework 2</option>
-                <option value="Framework 3">Framework 3</option>
-              </select>
+              <div className="relative">
+                <div
+                  className="w-full py-3 px-4 bg-[#0A0A0B] text-gray-300 rounded-[68px] cursor-pointer flex items-center justify-between"
+                  onClick={() => toggleDropdown("framework")}
+                >
+                  <span>{selectedFramework || "Select Framework"}</span>
+                  <FaCaretDown />
+                </div>
+
+                {showFrameworkDropdown && (
+                  <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2">
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      onClick={() => handleDropdownSelect("Framework 1", "framework")}
+                    >
+                      Framework 1
+                    </li>
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      onClick={() => handleDropdownSelect("Framework 2", "framework")}
+                    >
+                      Framework 2
+                    </li>
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      onClick={() => handleDropdownSelect("Framework 3", "framework")}
+                    >
+                      Framework 3
+                    </li>
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         </div>

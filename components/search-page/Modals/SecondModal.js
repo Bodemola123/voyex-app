@@ -1,11 +1,47 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import { FaCaretDown } from 'react-icons/fa';
 import '../../../app/globals.css';
 
 const SecondModal = ({ closeModal, openModal }) => {
-  // Common classes for select elements
-  const selectClasses =
-    "w-full bg-[#0a0a0b] rounded-[64px] h-[64px] px-3 py-2 text-base text-gray-300 focus:outline-none focus:ring focus:ring-[#c088fb]";
+  // State for dropdown menus
+  const [showToneDropdown, setShowToneDropdown] = useState(false);
+  const [showFormatDropdown, setShowFormatDropdown] = useState(false);
+  const [showDepthDropdown, setShowDepthDropdown] = useState(false);
+
+  const [selectedTone, setSelectedTone] = useState('');
+  const [selectedFormat, setSelectedFormat] = useState('');
+  const [selectedDepth, setSelectedDepth] = useState('');
+
+  // Toggle dropdown visibility
+  const toggleDropdown = (dropdown) => {
+    if (dropdown === 'tone') {
+      setShowToneDropdown(!showToneDropdown);
+    } else if (dropdown === 'format') {
+      setShowFormatDropdown(!showFormatDropdown);
+    } else if (dropdown === 'depth') {
+      setShowDepthDropdown(!showDepthDropdown);
+    }
+  };
+
+  // Handle selection of an item from dropdown
+  const handleDropdownSelect = (item, type) => {
+    if (type === 'tone') {
+      setSelectedTone(item);
+      setShowToneDropdown(false);
+    } else if (type === 'format') {
+      setSelectedFormat(item);
+      setShowFormatDropdown(false);
+    } else if (type === 'depth') {
+      setSelectedDepth(item);
+      setShowDepthDropdown(false);
+    }
+  };
+
+  // Dropdown options
+  const toneOptions = ['Friendly', 'Professional', 'Neutral'];
+  const formatOptions = ['Text', 'Code', 'List'];
+  const depthOptions = ['Brief', 'Detailed', 'In-depth'];
 
   return (
     <div
@@ -39,62 +75,89 @@ const SecondModal = ({ closeModal, openModal }) => {
           How should Voyex respond?
         </p>
 
-        {/* Form */}
-        <form
-          className="space-y-4"
-          aria-describedby="modal-description"
-        >
+        {/* Custom Dropdowns */}
+        <div className="space-y-6">
           {/* Tone of Response */}
-          <div className="space-y-2">
-            <label className="text-base font-medium" htmlFor="tone-select">
+          <div className="relative">
+            <label className="text-base font-medium mb-2 block" htmlFor="tone-dropdown">
               Tone of Response
             </label>
-            <select
-              id="tone-select"
-              className={selectClasses}
-              defaultValue=""
+            <div
+              className="w-full py-3 px-4 bg-[#0A0A0B] text-gray-300 rounded-[68px] cursor-pointer flex items-center justify-between"
+              onClick={() => toggleDropdown('tone')}
             >
-              <option value="" disabled>
-                Select Tone
-              </option>
-              {/* Add other options here */}
-            </select>
+              <span>{selectedTone || 'Select Tone'}</span>
+              <FaCaretDown />
+            </div>
+            {showToneDropdown && (
+              <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2 z-10">
+                {toneOptions.map((option) => (
+                  <li
+                    key={option}
+                    className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                    onClick={() => handleDropdownSelect(option, 'tone')}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Format of Response */}
-          <div className="space-y-2">
-            <label className="text-base font-medium" htmlFor="format-select">
+          <div className="relative">
+            <label className="text-base font-medium mb-2 block" htmlFor="format-dropdown">
               Format of Response
             </label>
-            <select
-              id="format-select"
-              className={selectClasses}
-              defaultValue=""
+            <div
+              className="w-full py-3 px-4 bg-[#0A0A0B] text-gray-300 rounded-[68px] cursor-pointer flex items-center justify-between"
+              onClick={() => toggleDropdown('format')}
             >
-              <option value="" disabled>
-                Select Format
-              </option>
-              {/* Add other options here */}
-            </select>
+              <span>{selectedFormat || 'Select Format'}</span>
+              <FaCaretDown />
+            </div>
+            {showFormatDropdown && (
+              <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2 z-10">
+                {formatOptions.map((option) => (
+                  <li
+                    key={option}
+                    className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                    onClick={() => handleDropdownSelect(option, 'format')}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Depth of Response */}
-          <div className="space-y-2">
-            <label className="text-base font-medium" htmlFor="depth-select">
+          <div className="relative">
+            <label className="text-base font-medium mb-2 block" htmlFor="depth-dropdown">
               Depth of Response
             </label>
-            <select
-              id="depth-select"
-              className={selectClasses}
-              defaultValue=""
+            <div
+              className="w-full py-3 px-4 bg-[#0A0A0B] text-gray-300 rounded-[68px] cursor-pointer flex items-center justify-between"
+              onClick={() => toggleDropdown('depth')}
             >
-              <option value="" disabled>
-                Select Depth
-              </option>
-              {/* Add other options here */}
-            </select>
+              <span>{selectedDepth || 'Select Depth'}</span>
+              <FaCaretDown />
+            </div>
+            {showDepthDropdown && (
+              <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2 z-10">
+                {depthOptions.map((option) => (
+                  <li
+                    key={option}
+                    className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                    onClick={() => handleDropdownSelect(option, 'depth')}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-        </form>
+        </div>
 
         {/* Footer Buttons */}
         <div className="flex justify-between items-center mt-6">
