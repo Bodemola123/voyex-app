@@ -9,7 +9,7 @@ import UserUploadLoading from "./UserUploadLoading";
 import UserUploadSuccess from "./UserUploadSuccess";
 import UserPurpose from "./UserPurpose";
 
-function UserUploadDetails({ setDisplay }) {
+function UserUploadDetails({ setUserDisplay }) {
   const [userFullName, setUserFullName] = useState("");
   const [userLanguage, setUserLanguage] = useState("");
   const [skillLevel, setSkillLevel] = useState("");
@@ -187,7 +187,7 @@ function UserUploadDetails({ setDisplay }) {
   return (
     <div
       className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
-      // onClick={(e) => setDisplay(false) + e.stopPropagation()}
+      // onClick={(e) => setUserDisplay(false) + e.stopPropagation()}
     >
       {handleCurrentSlide()}
 
