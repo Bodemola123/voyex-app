@@ -1,53 +1,117 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function EmailVerify() {
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+
+function EmailVerify({
+  value,
+  setValue,
+  loading,
+  otpError,
+  mins,
+  secs,
+  handleUserResendOtp,
+}) {
+  useEffect(() => {
+    localStorage.getItem("user_email")
+      ? localStorage.getItem("user_email")
+      : null;
+  }, []);
+  const first = localStorage.getItem("user_email").slice(0, 3);
+  const last = localStorage.getItem("user_email").slice(-10);
+
+  /////// resend otp code if...
+  const elapsed = mins && secs != "00";
+
   return (
-    <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center justify-center gap-7 h-full">
-        <Image
-          src="/loading.png"
-          alt="loading"
-          width={136}
-          height={136}
-          className="animate-spin"
-        />
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
+      <div className=" flex flex-col items-center justify-center gap-6 h-full">
+        <div
+          className={`w-28 h-28 border-[7px] border-t-purple border-r-purple border-b-purple border-purple/30 rounded-full ${
+            loading && "animate-spin"
+          }`}
+        ></div>
         <h1 className="text-fontlight text-3xl font-bold text-center">
           Verify Email Authentication
         </h1>
         <p className="text-base text-fontlight text-center font-normal">
           We&apos;ve sent a mail with an activation code
           <br /> to your email
-          <span className="font-bold ml-2">hen***@gmail.com</span>
+          <span className="font-bold ml-2">{first + "***" + last}</span>
         </p>
-        <div className="grid grid-cols-4 gap-2 max-w-[440px] w-full">
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
-          <input
-            type="number"
-            maxLength={1}
-            className="h-[76px] bg-card/30 rounded-[28px] w-auto p-4 text-3xl text-center outline-none"
-          />
+        <InputOTP
+          maxLength={6}
+          value={value}
+          onChange={(value) => setValue(value)}
+        >
+          <InputOTPGroup className="gap-2 w-full justify-center">
+            <InputOTPSlot
+              index={0}
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+                otpError && "border-opacity-100 text-red-500 border-red-500"
+              }`}
+            />
+            <InputOTPSlot
+              index={1}
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+                otpError && "border-opacity-100 text-red-500 border-red-500"
+              }`}
+            />
+            <InputOTPSlot
+              index={2}
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+                otpError && "border-opacity-100 text-red-500 border-red-500"
+              }`}
+            />
+            <InputOTPSlot
+              index={3}
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+                otpError && "border-opacity-100 text-red-500 border-red-500"
+              }`}
+            />
+            <InputOTPSlot
+              index={4}
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+                otpError && "border-opacity-100 text-red-500 border-red-500"
+              }`}
+            />
+            <InputOTPSlot
+              index={5}
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+                otpError && "border-opacity-100 text-red-500 border-red-500"
+              }`}
+            />
+          </InputOTPGroup>
+        </InputOTP>
+        <div className="flex items-center gap-2 text-base text-fontlight font-medium">
+          {elapsed ? (
+            <span>Time left:</span>
+          ) : (
+            <button
+              className={`hover:underline transition-all duration-300 disabled:cursor-not-allowed disabled:hover:no-underline`}
+              // disabled={elapsed}
+              onClick={() => handleUserResendOtp()}
+            >
+              Send code again
+            </button>
+          )}
+
+          <span className="text-purple font-normal">{`${mins ? mins : "00"} : ${
+            secs ? secs : "00"
+          }`}</span>
         </div>
-        <p className="flex items-center gap-2 text-base text-fontlight font-medium">
-          Send code again
-          <span className="text-purple font-normal">00:20</span>
-        </p>
-        <p className="text-[#F54135] text-base font-normal opacity-0">
+        <p
+          className={`text-[#F54135] text-base font-normal ${
+            otpError ? "opacity-100" : "opacity-0"
+          }`}
+        >
           Wrong code, please try again
         </p>
       </div>

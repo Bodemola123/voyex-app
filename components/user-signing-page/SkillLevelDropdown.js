@@ -20,42 +20,22 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 
-const audiences = [
+const skillLevel = [
   {
-    value: "student",
-    label: "Student",
+    value: "beginner",
+    label: "Beginner",
   },
   {
-    value: "programmers",
-    label: "Programmers",
+    value: "intermediate",
+    label: "Intermediate",
   },
   {
-    value: "politicians",
-    label: "Politicians",
-  },
-  {
-    value: "engineers",
-    label: "Engineers",
-  },
-  {
-    value: "designers",
-    label: "Designers",
-  },
-  {
-    value: "farmers",
-    label: "Farmers",
-  },
-  {
-    value: "bankers",
-    label: "Bankers",
-  },
-  {
-    value: "scientists",
-    label: "Scientists",
+    value: "advanced",
+    label: "Advanced",
   },
 ];
 
-function TargetAudienceDropdown({ setOrgAudience }) {
+function SkillLevelDropdown({ setSkillLevel }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -69,36 +49,36 @@ function TargetAudienceDropdown({ setOrgAudience }) {
           className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
         >
           {value
-            ? audiences.find((audience) => audience.value === value)?.label
-            : "Select audience..."}
+            ? skillLevel.find((skill) => skill.value === value)?.label
+            : "Select skill..."}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 h-full p-0 text-fontlight border-none">
         <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
           <CommandInput
-            placeholder="Search for audience"
+            placeholder="Search for skill"
             className="border border-gray/20 rounded-[28px] "
           />
           <CommandList className="mt-3">
-            <CommandEmpty>No audience found.</CommandEmpty>
+            <CommandEmpty>No skill found.</CommandEmpty>
             <CommandGroup>
-              {audiences.map((audience) => (
+              {skillLevel.map((skill) => (
                 <CommandItem
-                  key={audience.value}
-                  value={audience.value}
+                  key={skill.value}
+                  value={skill.value}
                   className="text-fontlight data-[selected='true']:bg-purple"
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    setOrgAudience(currentValue === value ? "" : currentValue);
+                    setSkillLevel(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
-                  {audience.label}
+                  {skill.label}
                   <Check
                     className={cn(
                       "ml-auto ",
-                      value === audience.value
+                      value === skill.value
                         ? "opacity-100 text-fontlight hover:text-black"
                         : "opacity-0"
                     )}
@@ -113,4 +93,4 @@ function TargetAudienceDropdown({ setOrgAudience }) {
   );
 }
 
-export default TargetAudienceDropdown;
+export default SkillLevelDropdown;

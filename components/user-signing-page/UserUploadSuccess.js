@@ -1,29 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FiCheckCircle } from "react-icons/fi";
 
-function SignupSuccess({ setCurrentSlide }) {
+function UserUploadSuccess() {
   const router = useRouter();
   return (
     <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center justify-center gap-7 h-full">
-        {/* <Image
-                  src="/loading.png"
-                  alt="loading"
-                  width={136}
-                  height={136}
-                  className=""
-                /> */}
         <FiCheckCircle className="text-9xl text-green-500" />
         <h1 className="text-fontlight text-3xl font-bold text-center">
-          Account Created
+          Data Upload Successful
         </h1>
         <p className="text-base text-fontlight text-center font-light">
-          Your account has been created
+          Your account data has been uploaded
           <br /> successfully
         </p>
         <div className="flex items-center justify-center max-w-[400px] w-full">
@@ -34,10 +26,10 @@ function SignupSuccess({ setCurrentSlide }) {
             Skip
           </button> */}
           <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
-            onClick={() => setCurrentSlide("org-upload-details")}
+            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple hover:bg-purple/80 transition-all"
+            onClick={() => router.push("/search")}
           >
-            Upload info
+            Continue
           </button>
         </div>
       </div>
@@ -53,4 +45,4 @@ function SignupSuccess({ setCurrentSlide }) {
   );
 }
 
-export default SignupSuccess;
+export default UserUploadSuccess;

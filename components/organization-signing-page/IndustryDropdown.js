@@ -66,7 +66,7 @@ export function IndustryDropdown({ setOrgIndustry }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none placeholder:text-fontlight text-fontlight hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
         >
           {value
             ? indutries.find((industry) => industry.value === value)?.label

@@ -21,28 +21,29 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
+import ForgotPassword from "./ForgotPasswordHome";
+import { useState } from "react";
 
 function Signing({
-  usernameInput,
+  emailInput,
   passwordInput,
-  showPassword,
-  setShowPassword,
-  message,
-  border,
-  allowed,
+  handleUserSignup,
   /////////////////////
   handleUserSignin,
-  usernameInput1,
-  passwordInput1,
+  setEmailAddress,
+  setUserPassword1,
   googleUserSignin,
   googleUserSignup,
   loading,
   loadingGoogle,
   currentSlide,
+  showPassword,
+  setShowPassword,
   setCurrentSlide,
 }) {
+  const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   return (
-    <main className="relative max-w-[666px] w-full h-[90vh] p-6 rounded-[29px] bg-black overflow-y-scroll">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center h-full">
         <h1 className="text-3xl font-bold text-fontlight capitalize">voyex</h1>
         <Tabs defaultValue="sign_up" className="w-[400px] mt-10">
@@ -64,32 +65,16 @@ function Signing({
             <Card className="rounded-none border-none">
               <CardContent className="space-y-4 p-0">
                 <div className="relative space-y-1 mb-1">
-                  <Label
-                    htmlFor="username"
-                    className="text-fontlight font-normal"
-                  >
-                    Username
+                  <Label htmlFor="email" className="text-fontlight font-normal">
+                    Email
                   </Label>
                   <Input
-                    id="username"
-                    type="text"
-                    placeholder="Your username"
-                    onChange={usernameInput}
-                    className={`rounded-[28px] bg-card/30 placeholder:text-fontlight text-fontlight h-[56px]`}
+                    id="email"
+                    type="email"
+                    placeholder="Your email"
+                    onChange={emailInput}
+                    className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]`}
                   />
-                  {border ? (
-                    <FaCheck className="absolute right-4 top-[45px] text-green-500" />
-                  ) : (
-                    <RxCross2 className="absolute right-4 top-[45px] text-red-500" />
-                  )}
-
-                  <span
-                    className={`absolute -bottom-[20px] right-0 text-xs ${
-                      border ? "text-green-500" : "text-red-500"
-                    }`}
-                  >
-                    {message}
-                  </span>
                 </div>
                 <div className="relative space-y-1">
                   <Label
@@ -101,9 +86,9 @@ function Signing({
                   <Input
                     id="password"
                     type={`${showPassword ? "text" : "password"}`}
-                    placeholder="*********"
+                    placeholder="****"
                     onChange={passwordInput}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16 focus:outline-none focus-within:outline-none"
                   />
                   <button
                     className="absolute right-1 top-7 text-xl text-purple p-3"
@@ -116,22 +101,26 @@ function Signing({
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px] disabled:cursor-not-allowed"
-                  disabled={!allowed}
-                  onClick={() => setCurrentSlide("basic-info")}
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 w-full rounded-[33px] disabled:cursor-not-allowed"
+                  disabled={loading}
+                  onClick={() => handleUserSignup()}
                 >
-                  Sign up
+                  {loading ? (
+                    <AiOutlineLoading3Quarters className="animate-spin text-black" />
+                  ) : (
+                    "Sign up"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
             <div className="flex flex-col items-center mt-[4rem] w-full">
-              <span className="">Other sign in options</span>
-              <div className="flex items-center gap-4 mt-4">
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+              <span className="">Other sign up option</span>
+              <div className="flex items-center gap-4 w-full mt-4">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
-                </button>
+                </button> */}
                 <button
-                  className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
+                  className=" flex items-center justify-center gap-1 text-2xl w-full h-[50px] bg-white hover:bg-white/80 border border-[#D8DADC] rounded-full overflow-hidden transition-all"
                   disabled={loadingGoogle}
                   onClick={() => googleUserSignup()}
                 >
@@ -141,10 +130,13 @@ function Signing({
                     </span>
                   )}
                   <FcGoogle />
+                  <span className="text-black text-base font-medium">
+                    Google
+                  </span>
                 </button>
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaApple className="text-black" />
-                </button>
+                </button> */}
               </div>
             </div>
           </TabsContent>
@@ -152,18 +144,15 @@ function Signing({
             <Card className="rounded-none border-none">
               <CardContent className="space-y-4 p-0">
                 <div className="space-y-1">
-                  <Label
-                    htmlFor="username"
-                    className="text-fontlight font-normal"
-                  >
-                    Username
+                  <Label htmlFor="email" className="text-fontlight font-normal">
+                    Email
                   </Label>
                   <Input
-                    id="username"
-                    type="text"
-                    defaultValue="Your username"
-                    onChange={usernameInput1}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px]"
+                    id="email"
+                    type="email"
+                    placeholder="Organization email"
+                    onChange={(e) => setEmailAddress(e.target.value)}
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                   />
                 </div>
                 <div className="relative space-y-1">
@@ -176,9 +165,9 @@ function Signing({
                   <Input
                     id="password"
                     type={`${showPassword ? "text" : "password"}`}
-                    placeholder="*********"
-                    onChange={passwordInput1}
-                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight h-[56px] pr-16"
+                    placeholder="Password"
+                    onChange={(e) => setUserPassword1(e.target.value)}
+                    className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16 focus:outline-none focus-within:outline-none"
                   />
                   <button
                     className="absolute right-1 top-7 text-xl text-purple p-3"
@@ -188,10 +177,20 @@ function Signing({
                     {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                   </button>
                 </div>
+                <div className="flex justify-end items-center">
+                  <button
+                    onClick={() => setCurrentSlide("forgot-password-home")}
+                  >
+                    <p className="bg-gradient-to-r from-[#C088FB] to-[#9747FF] bg-clip-text text-transparent text-sm font-bold">
+                      Forgot password?
+                    </p>
+                  </button>
+                </div>
               </CardContent>
               <CardFooter className="w-full justify-center mt-10 p-0">
                 <Button
-                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple w-full rounded-[33px]"
+                  className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 transition-all w-full rounded-[33px]"
+                  disabled={loading}
                   onClick={() => handleUserSignin()}
                 >
                   {loading ? (
@@ -203,13 +202,13 @@ function Signing({
               </CardFooter>
             </Card>
             <div className="flex flex-col items-center mt-[4rem] w-full">
-              <span className="">Other sign in options</span>
-              <div className="flex items-center gap-4 mt-4">
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+              <span className="">Other sign in option</span>
+              <div className="flex items-center gap-4 w-full mt-4">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
-                </button>
+                </button> */}
                 <button
-                  className="relative flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full overflow-hidden"
+                  className=" flex items-center justify-center gap-1 text-2xl w-full h-[50px] bg-white hover:bg-white/80 border border-[#D8DADC] rounded-full overflow-hidden transition-all"
                   disabled={loadingGoogle}
                   onClick={() => googleUserSignin()}
                 >
@@ -219,10 +218,13 @@ function Signing({
                     </span>
                   )}
                   <FcGoogle />
+                  <span className="text-black text-base font-medium">
+                    Google
+                  </span>
                 </button>
-                <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
+                {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaApple className="text-black" />
-                </button>
+                </button> */}
               </div>
             </div>
           </TabsContent>
