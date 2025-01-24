@@ -3,16 +3,39 @@ import React, { useState } from "react";
 function ForgotPassword({ setCurrentSlide, setEmailAddress }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false); // To handle loading state
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
       return;
     }
-    setError("");
-    setEmailAddress(email); // Save the email to the parent state
-    setCurrentSlide("reset-verifyotp"); // Navigate to ResetVerifyOTP
+
+    setError(""); // Clear any existing errors
+    setIsVerifying(true); // Set loading state
+
+    try {
+      // Call Hunter.io API
+      const response = await fetch(
+        `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=96038781561cc3023000da4e3dbd7478d113e249`
+      );
+      const data = await response.json();
+
+      if (response.ok && data.data && data.data.result === "deliverable") {
+        // Email is valid and exists
+        setEmailAddress(email); // Save the email to the parent state
+        setCurrentSlide("reset-verifyotp"); // Navigate to ResetVerifyOTP
+      } else {
+        // Invalid email or not deliverable
+        setError("The email address is invalid or does not exist.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred while verifying the email. Please try again.");
+    } finally {
+      setIsVerifying(false); // Reset loading state
+    }
   };
 
   return (
@@ -41,13 +64,13 @@ function ForgotPassword({ setCurrentSlide, setEmailAddress }) {
         <button
           className="w-full max-w-[402px] bg-[#c088fb] text-[#131314] text-lg font-medium py-2 rounded-3xl"
           onClick={handleSendCode}
+          disabled={isVerifying} // Disable button while verifying
         >
-          Send Reset Code
+          {isVerifying ? "Verifying..." : "Send Reset Code"}
         </button>
       </div>
     </div>
   );
 }
-
 
 export default ForgotPassword;
