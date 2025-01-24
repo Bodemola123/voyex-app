@@ -91,8 +91,8 @@ function Container() {
       );
       setSecs((timeLeft % 60).toString().padStart(2, "0"));
     };
-    formatTime();
-  }, [timeLeft]);
+    currentSlide === "email-verify" && formatTime();
+  }, [timeLeft, currentSlide]);
 
   useEffect(() => {
     //navigate to /search if googleUserDetails exists
@@ -420,6 +420,38 @@ function Container() {
     userSignin();
   };
 
+  ////////////// USER RESEND OTP /////////////////
+  const resendOtp = async () => {
+    try {
+      setLoading(true);
+      const resend_otp = await axios.post(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+        {
+          email: localStorage.getItem("user_email"),
+        }
+      );
+      console.log("OTP response", resend_otp);
+      if (resend_otp.status === 200) {
+        setLoading(false);
+        setCurrentSlide("email-verify");
+        toast("OTP resent to email");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response?.data) {
+        toast.error(error.response.data);
+      } else toast.error(error.message);
+      if (error.message) {
+        setCurrentSlide("signing");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleUserResendOtp = async () => {
+    resendOtp();
+  };
+
   const handleCurrentSlide = () => {
     if (currentSlide === "signing") {
       return (
@@ -450,6 +482,7 @@ function Container() {
           otpError={otpError}
           mins={mins}
           secs={secs}
+          handleUserResendOtp={handleUserResendOtp}
         />
       );
     } else if (currentSlide === "user-signin-loading") {
@@ -457,9 +490,9 @@ function Container() {
     } else if (currentSlide === "user-signup-loading") {
       return <SignupLoading />;
     } else if (currentSlide === "user-signup-success") {
-      return <SignupAccountSuccess />;
+      return <SignupAccountSuccess setCurrentSlide={setCurrentSlide} />;
     } else if (currentSlide === "user-signin-success") {
-      return <SigninAccountSuccess />;
+      return <SigninAccountSuccess setCurrentSlide={setCurrentSlide} />;
     } else if (currentSlide === "user-upload-details") {
       return <UserUploadDetails />;
     } else if (currentSlide === "forgot-password-home") {
@@ -502,6 +535,16 @@ function Container() {
       );
   };
   return handleCurrentSlide();
-  // return <UserUploadDetails />;
+  // return (
+  //   <EmailVerify
+  //     value={value}
+  //     setValue={setValue}
+  //     loading={loading}
+  //     otpError={otpError}
+  //     mins={mins}
+  //     secs={secs}
+  //     handleUserResendOtp={handleUserResendOtp}
+  //   />
+  // );
 }
 export default Container;

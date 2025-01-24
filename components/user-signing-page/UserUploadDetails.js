@@ -9,7 +9,7 @@ import UserUploadLoading from "./UserUploadLoading";
 import UserUploadSuccess from "./UserUploadSuccess";
 import UserPurpose from "./UserPurpose";
 
-function UserUploadDetails({ setDisplay }) {
+function UserUploadDetails({ setUserDisplay }) {
   const [userFullName, setUserFullName] = useState("");
   const [userLanguage, setUserLanguage] = useState("");
   const [skillLevel, setSkillLevel] = useState("");
@@ -123,6 +123,7 @@ function UserUploadDetails({ setDisplay }) {
       if (response.status === 200) {
         toast.success(response.data.message);
         setCurrentSlide("user-upload-success");
+        localStorage.removeItem("user_password");
       }
       if (response.status !== 200) {
         setCurrentSlide("basic-info");
@@ -186,9 +187,10 @@ function UserUploadDetails({ setDisplay }) {
   return (
     <div
       className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
-      // onClick={(e) => setDisplay(false) + e.stopPropagation()}
+      // onClick={(e) => setUserDisplay(false) + e.stopPropagation()}
     >
       {handleCurrentSlide()}
+
       {/* <UserPurpose
         usage={usage}
         clickedButtons={clickedButtons}

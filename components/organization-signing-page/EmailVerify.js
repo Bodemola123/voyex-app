@@ -15,9 +15,9 @@ function EmailVerify({
   setValue,
   loading,
   otpError,
-  formatTime,
   mins,
   secs,
+  handleOrgResendOtp,
 }) {
   useEffect(() => {
     localStorage.getItem("email") ? localStorage.getItem("email") : null;
@@ -25,11 +25,14 @@ function EmailVerify({
   const first = localStorage.getItem("email").slice(0, 3);
   const last = localStorage.getItem("email").slice(13);
 
+  /////// resend otp code if...
+  const elapsed = mins && secs != "00";
+
   return (
     <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
       <div className=" flex flex-col items-center justify-center gap-7 h-full">
         <div
-          className={`w-28 h-28 border-[7px] border-t-purple border-r-purple border-purple/30 rounded-full ${
+          className={`w-28 h-28 border-[7px] border-t-purple border-r-purple border-b-purple border-purple/30 rounded-full ${
             loading && "animate-spin"
           }`}
         ></div>
@@ -85,11 +88,23 @@ function EmailVerify({
             />
           </InputOTPGroup>
         </InputOTP>
-        <div className="text-center text-sm"></div>
-        <p className="flex items-center gap-2 text-base text-fontlight font-medium">
-          Send code again
-          <span className="text-purple font-normal">{mins + ":" + secs}</span>
-        </p>
+        <div className="flex items-center gap-2 text-base text-fontlight font-medium">
+          {elapsed ? (
+            <span>Time left:</span>
+          ) : (
+            <button
+              className={`hover:underline transition-all duration-300 disabled:cursor-not-allowed disabled:hover:no-underline`}
+              // disabled={elapsed}
+              onClick={() => handleOrgResendOtp()}
+            >
+              Send code again
+            </button>
+          )}
+
+          <span className="text-purple font-normal">
+            {`${mins ? mins : "00"} : ${secs ? secs : "00"}`}
+          </span>
+        </div>
         <p
           className={`text-[#F54135] text-base font-normal ${
             otpError ? "opacity-100" : "opacity-0"

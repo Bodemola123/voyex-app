@@ -103,8 +103,8 @@ function Container() {
       );
       setSecs((timeLeft % 60).toString().padStart(2, "0"));
     };
-    formatTime();
-  }, [timeLeft]);
+    currentSlide === "email-verify" && formatTime();
+  }, [timeLeft, currentSlide]);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -528,6 +528,38 @@ function Container() {
     organizationSignin();
   };
 
+  ////////////// ORG RESEND OTP /////////////////
+  const resendOtp = async () => {
+    try {
+      setLoading(true);
+      const resend_otp = await axios.post(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+        {
+          email: localStorage.getItem("email"),
+        }
+      );
+      console.log("OTP response", resend_otp);
+      if (resend_otp.status === 200) {
+        setLoading(false);
+        setCurrentSlide("email-verify");
+        toast("OTP resent to email");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response?.data) {
+        toast.error(error.response.data);
+      } else toast.error(error.message);
+      if (error.message) {
+        setCurrentSlide("signing");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleOrgResendOtp = async () => {
+    resendOtp();
+  };
+
   ////////////// HANDLE CURRENT SLIDE ////////////////////////
   const handleCurrentSlide = () => {
     if (currentSlide === "signing") {
@@ -599,9 +631,9 @@ function Container() {
           setValue={setValue}
           loading={loading}
           otpError={otpError}
-          // formatTime={formatTime}
           mins={mins}
           secs={secs}
+          handleOrgResendOtp={handleOrgResendOtp}
         />
       );
     } else if (currentSlide === "org-signup-success") {
@@ -663,9 +695,9 @@ function Container() {
   //     setValue={setValue}
   //     loading={loading}
   //     otpError={otpError}
-  //     // formatTime={formatTime}
   //     mins={mins}
   //     secs={secs}
+  //     handleOrgResendOtp={handleOrgResendOtp}
   //   />
   // );
 }

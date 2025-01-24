@@ -114,7 +114,7 @@ function Signing({
               </CardFooter>
             </Card>
             <div className="flex flex-col items-center mt-[4rem] w-full">
-              <span className="">Other sign in options</span>
+              <span className="">Other sign up option</span>
               <div className="flex items-center gap-4 w-full mt-4">
                 {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
@@ -202,7 +202,7 @@ function Signing({
               </CardFooter>
             </Card>
             <div className="flex flex-col items-center mt-[4rem] w-full">
-              <span className="">Other sign in options</span>
+              <span className="">Other sign in option</span>
               <div className="flex items-center gap-4 w-full mt-4">
                 {/* <button className="flex items-center justify-center text-2xl w-[50px] h-[50px] bg-white border border-[#D8DADC] rounded-full">
                   <FaFacebookF className="text-[#3C5A99]" />
