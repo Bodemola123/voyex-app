@@ -301,7 +301,7 @@ function SearchMain({
         )}
       </div>
     <div className={`grid grid-cols-3 gap-6 ${ showSuggestions && userInput ? "mt-0" : "mt-0" }`}>
-    <div className="max-w-[270px] max-h-[213px]"
+    <div className="max-w-[270px] max-h-[213px] hover:scale-105 transition-all"
   style={{
     background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%)',
     padding: '2px',
@@ -318,7 +318,7 @@ function SearchMain({
       </div>
     </button>
       </div>
-      <div className="max-w-[270px] max-h-[213px]"
+      <div className="max-w-[270px] max-h-[213px] hover:scale-105 transition-all"
         style={{
           background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%)',
           padding: '2px',
@@ -332,7 +332,7 @@ function SearchMain({
           </button>
       </div>
 
-        <div className="max-w-[270px] max-h-[213px]"
+        <div className="max-w-[270px] max-h-[213px] hover:scale-105 transition-all"
                 style={{
                   background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%)',
                   padding: '2px',
