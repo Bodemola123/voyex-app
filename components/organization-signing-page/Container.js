@@ -68,6 +68,10 @@ function Container() {
   const [mins, setMins] = useState("");
   const [secs, setSecs] = useState("");
 
+  //////// forgot password section
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [resetValue, setResetValue] = useState("");
+
   //////////// Countdown timer
   useEffect(() => {
     // Update the timer every second
@@ -104,6 +108,7 @@ function Container() {
       setSecs((timeLeft % 60).toString().padStart(2, "0"));
     };
     currentSlide === "email-verify" && formatTime();
+    currentSlide === "reset-verifyotp" && formatTime();
   }, [timeLeft, currentSlide]);
 
   useEffect(() => {
@@ -528,6 +533,62 @@ function Container() {
     organizationSignin();
   };
 
+  ////////////// ORG FORGOT PASSWORD /////////////////
+  const forgotPassword = async () => {
+    if (!forgotEmail) {
+      toast.warn("provide email address");
+      return;
+    }
+    try {
+      setLoading(true);
+      /////////////// check if email is legit //////////////////
+      const check_legit_email = await axios.get(
+        `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${forgotEmail}`
+      );
+      console.log(check_legit_email.data);
+      if (check_legit_email.data.is_valid_format.value === false) {
+        toast.warn("invalid email format");
+        return;
+      }
+      if (
+        check_legit_email.data.is_smtp_valid.value === false &&
+        check_legit_email.data.deliverability === "UNDELIVERABLE"
+      ) {
+        toast.warn("email broken, try another");
+        return;
+      }
+      if (
+        check_legit_email.data.is_smtp_valid.value === true &&
+        check_legit_email.data.is_valid_format.value === true
+      ) {
+        ///// if email is legit? send otp
+        const send_otp = await axios.post(
+          `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+          {
+            email: forgotEmail,
+          }
+        );
+        console.log("OTP response", send_otp);
+        if (send_otp.status === 200) {
+          localStorage.setItem("reset_password_email", forgotEmail);
+          setLoading(false);
+          setCurrentSlide("reset-verifyotp");
+          toast("OTP sent to email");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response?.data) {
+        toast.error(error.response.data);
+      } else toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleOrgForgotPassword = async () => {
+    forgotPassword();
+  };
+
   ////////////// ORG RESEND OTP /////////////////
   const resendOtp = async () => {
     try {
@@ -559,6 +620,66 @@ function Container() {
   const handleOrgResendOtp = async () => {
     resendOtp();
   };
+
+  ////////////// FORGOT PASSWORD ORG RESEND OTP /////////////////
+  const resendForgotPasswordOtp = async () => {
+    try {
+      setLoading(true);
+      const resend_otp = await axios.post(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+        {
+          email: localStorage.getItem("reset_password_email"),
+        }
+      );
+      console.log("OTP response", resend_otp);
+      if (resend_otp.status === 200) {
+        setLoading(false);
+        setCurrentSlide("reset-verifyotp");
+        toast("OTP resent to email");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleUserResendForgotPasswordOtp = async () => {
+    resendForgotPasswordOtp();
+  };
+
+  //----- verify reset-password otp & email, then display reset input fields
+  const verifyResetPasswordOtp = async () => {
+    try {
+      setLoading(true);
+      /////////////// check if otp is legit from email //////////////////
+      const verify_otp = await axios.get(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp?email=${localStorage.getItem(
+          "reset_password_email"
+        )}&otp=${resetValue}`
+      );
+      console.log("OTP Verifying⛔⛔⛔", verify_otp);
+      // otp valid? change tab
+      if (verify_otp.status === 200) {
+        setOtpError(false);
+        setCurrentSlide("reset-password");
+      }
+    } catch (error) {
+      console.log(error);
+      setOtpError(true);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    resetValue.length === 6 && verifyResetPasswordOtp();
+    resetValue.length !== 6 && setOtpError(false);
+  }, [resetValue.length]);
 
   ////////////// HANDLE CURRENT SLIDE ////////////////////////
   const handleCurrentSlide = () => {
@@ -649,15 +770,22 @@ function Container() {
     } else if (currentSlide === "forgot-password-home") {
       return (
         <ForgotPassword
+          loading={loading}
           setCurrentSlide={setCurrentSlide}
-          setEmailAddress={setEmailAddress}
+          setForgotEmail={setForgotEmail}
+          handleOrgForgotPassword={handleOrgForgotPassword}
         />
       );
     } else if (currentSlide === "reset-verifyotp") {
       return (
         <VerifyEmailAuthentication
-          setCurrentSlide={setCurrentSlide}
-          emailAddress={emailAddress}
+          loading={loading}
+          mins={mins}
+          secs={secs}
+          resetValue={resetValue}
+          setResetValue={setResetValue}
+          otpError={otpError}
+          handleUserResendForgotPasswordOtp={handleUserResendForgotPasswordOtp}
         />
       );
     } else if (currentSlide === "reset-password") {
