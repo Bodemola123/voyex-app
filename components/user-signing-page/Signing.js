@@ -159,7 +159,7 @@ function Signing({
                     <Input
                       id="email"
                       type="email"
-                      placeholder="Organization email"
+                      placeholder="Email address"
                       onChange={(e) => setEmailAddress(e.target.value)}
                       className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                     />
