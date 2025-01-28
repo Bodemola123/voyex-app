@@ -53,7 +53,7 @@ module.exports = {
       },
       boxShadow: {
         "1xl": "0px 0px 10px 5px rgba(0,0,0,0.05)",
-        "1blue": "0px 0px 6px 1px rgba(22, 44, 244, 0.668)",
+        "1s": "0px 0px 30px 1px rgba(192, 136, 251, 0.2)",
         "2xl": "0px 0px 10px 5px rgba(0,0,0,0.1)",
       },
       fontFamily: {

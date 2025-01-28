@@ -254,3 +254,7 @@ a:hover .i {
 .shadow {
   box-shadow: 0px 0px 100px 300px rgba(255, 255, 255, 0.112);
 }
+
+.we {
+  background-color: rgba(192, 136, 251, 0.513);
+}
