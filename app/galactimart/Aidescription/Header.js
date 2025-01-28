@@ -27,8 +27,8 @@ const Header = () => {
       <div className="flex flex-row justify-between">
         <div className='flex flex-row gap-4'>
           <Link href={'/galactimart/ContentPage'} passHref>
-            <button className='border border-card px-4 py-2 gap-2.5 flex items-center justify-center rounded-lg'>
-              <MdKeyboardArrowLeft className='text-white' />
+            <button className='border border-card gap-2.5 flex items-center justify-center rounded-lg'>
+              <MdKeyboardArrowLeft className='text-white text-[24px]' />
             </button>
           </Link>
 
@@ -80,7 +80,7 @@ const Header = () => {
           {['chatbot', 'writing', 'sales', 'models', 'research'].map((tag) => (
             <span
               key={tag}
-              className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card"
+              className="text-xs capitalize px-2 py-1 rounded-[21px] bg-[#131314]"
             >
               {tag}
             </span>

@@ -28,7 +28,7 @@ const Tabs = () => {
     ),
 
     'From the Developer': (
-      <div className="p-6 bg-custom-gradient backdrop-blur-custom rounded-3xl">
+      <div className="p-6 bg-[#131314] rounded-3xl">
         <h2 className="text-xl font-semibold">Developers Note</h2>
         <p className="mt-4">
           This platform is continuously evolving, and we value your feedback.
@@ -48,7 +48,7 @@ const Tabs = () => {
   return (
     <div className="">
     
-      <div className="flex flex-row justify-between w-full items-center bg-custom-gradient backdrop-blur-custom rounded-2xl py-2 px-4">
+      <div className="flex flex-row justify-between max-w-[60%] items-center bg-[#131314] rounded-2xl py-2 px-4">
         {tabs.map((tab) => (
           <button
             key={tab.name}
