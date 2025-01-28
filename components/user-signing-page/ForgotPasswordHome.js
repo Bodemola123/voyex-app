@@ -1,80 +1,70 @@
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { TbLockExclamation } from "react-icons/tb";
+import { IoArrowBackOutline } from "react-icons/io5";
 
-function ForgotPassword({ setCurrentSlide }) {
-  const [email, setEmail] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
-
-  const handleSendCode = async () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      toast.error("Invalid email format. Please enter a valid email address.");
-      return;
-    }
-
-    setIsVerifying(true);
-
-    try {
-      // Save email in localStorage
-      localStorage.setItem("user_email", email);
-
-      // Send OTP to the email
-      const sendOtpResponse = await axios.post(
-        "https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp",
-        { email }
-      );
-
-      if (sendOtpResponse.status === 200) {
-        toast.success("OTP sent successfully! Please check your email.");
-        setCurrentSlide("reset-verifyotp");  // Pass control to OTP verification screen
-      } else {
-        toast.error("Failed to send OTP. Please try again.");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("An error occurred while verifying the email. Please try again.");
-    } finally {
-      setIsVerifying(false);
-    }
-  };
-
+function ForgotPassword({
+  setCurrentSlide,
+  setForgotEmail,
+  handleUserForgotPassword,
+  loading,
+}) {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleSendCode();
+      handleUserForgotPassword();
     }
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/50 z-50">
-      <ToastContainer />
-      <div className="bg-[#000000] rounded-lg p-[70px] max-w-[665px] w-full h-[600px] relative flex justify-center items-center flex-col">
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+      <div className="bg-black rounded-[29px] p-10 max-w-[665px] w-full h-[600px] relative flex justify-center items-center flex-col shadow-1s">
         <button
-          className="absolute top-2 right-6 text-2xl font-bold text-white"
-          onClick={() => setCurrentSlide("forgot-password-home")}
+          className="absolute top-6 left-6 text-2xl font-bold p-2 bg-purple bg-opacity-0 hover:bg-opacity-20 rounded-xl text-white transition-opacity duration-800"
+          onClick={() => setCurrentSlide("signing")}
         >
-          &times;
+          <IoArrowBackOutline />
         </button>
-        <h2 className="text-lg font-bold text-center mb-4 text-[#f4f4f4]">Forgot Password</h2>
-        <p className="text-sm text-center mb-4 text-[#f4f4f4]">
-          Enter your email address below, and we&apos;ll send you a code to reset your password.
+        <TbLockExclamation className="text-[7rem] text-purple" />
+        <h2 className="text-2xl font-medium text-center mt-5 text-[#f4f4f4]">
+          Forgot Password
+        </h2>
+        <p className="text-base text-center mt-1 text-[#f4f4f4]">
+          Enter your email address below, and we&apos;ll send you a<br /> code
+          to reset your password.
         </p>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={handleKeyDown} // Detect Enter key press
-          placeholder="Email Address"
-          className="w-full max-w-[402px] p-2 rounded-3xl mb-4 text-[#000000] placeholder:text-grey focus:outline-none focus:ring-0"
-        />
-        <button
-          className="w-full max-w-[402px] bg-[#c088fb] text-[#131314] text-lg font-medium py-2 rounded-3xl"
-          onClick={handleSendCode}
-          disabled={isVerifying}
-        >
-          {isVerifying ? "Verifying..." : "Send Reset Code"}
-        </button>
+        <div className="flex flex-col w-full space-y-5 mt-5 mx-auto">
+          <div className="space-y-1 max-w-[402px] w-full mx-auto">
+            <Label htmlFor="email" className="text-fontlight font-normal">
+              Email address
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="Enter email"
+              // value={email}
+              onChange={(e) => setForgotEmail(e.target.value)}
+              onKeyDown={handleKeyDown} // Detect Enter key press
+              className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
+            />
+          </div>
+          <Button
+            className="text-[#131314] font-medium h-[56px] bg-purple hover:bg-purple/70 max-w-[402px] w-full mx-auto rounded-[33px]"
+            disabled={loading}
+            onClick={handleUserForgotPassword}
+          >
+            {loading ? (
+              <AiOutlineLoading3Quarters className="animate-spin text-black" />
+            ) : (
+              "Send reset code"
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );
