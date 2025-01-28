@@ -113,14 +113,14 @@ function EmailVerify({
           Wrong code, please try again
         </p>
       </div>
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
+      {/* <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
         <Link href="/terms_of_use" className="">
           Terms of use
         </Link>
         <Link href="/privacy_policy" className="">
           Privacy Policy
         </Link>
-      </div>
+      </div> */}
     </main>
   );
 }
