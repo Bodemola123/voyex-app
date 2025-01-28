@@ -71,12 +71,12 @@ function Signing({
                       htmlFor="email"
                       className="text-fontlight font-normal"
                     >
-                      Org Email
+                      Organization Email
                     </Label>
                     <Input
                       id="email"
                       type="email"
-                      placeholder="Organization email"
+                      placeholder="Email address"
                       onChange={emailInput}
                       className={`rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus-visible:ring-0 focus:ring-offset-0 focus:border-none focus-within:border-none`}
                     />
