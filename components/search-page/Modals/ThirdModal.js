@@ -78,13 +78,7 @@ const ThirdModal = ({ closeModal, openModal }) => {
           ))}
         </ul>
 
-        <div className="flex justify-between items-center gap-4">
-          <button
-            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 focus:ring focus:ring-[#c088fb]"
-            onClick={() => openModal('second')}
-          >
-            Intelligence
-          </button>
+        <div className="flex justify-end items-center gap-4">
           <button
             className="bg-[#ff1e1e] text-[#0a0a0b] font-medium rounded-3xl border border-[#FFFFFF26] px-[21px] py-2.5 hover:bg-red-700"
             onClick={() => setIsClearAllModalOpen(true)}

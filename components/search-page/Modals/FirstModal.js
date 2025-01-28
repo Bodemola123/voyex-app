@@ -146,19 +146,19 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
                 {showToolDropdown && (
                   <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2">
                     <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                       onClick={() => handleDropdownSelect("Tool 1", "tool")}
                     >
                       Tool 1
                     </li>
                     <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                       onClick={() => handleDropdownSelect("Tool 2", "tool")}
                     >
                       Tool 2
                     </li>
                     <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                       onClick={() => handleDropdownSelect("Tool 3", "tool")}
                     >
                       Tool 3
@@ -185,7 +185,7 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
                 {showFrameworkDropdown && (
                   <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2">
                     <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                       onClick={() => handleDropdownSelect("Framework 1", "framework")}
                     >
                       Framework 1
@@ -197,7 +197,7 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
                       Framework 2
                     </li>
                     <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                       onClick={() => handleDropdownSelect("Framework 3", "framework")}
                     >
                       Framework 3

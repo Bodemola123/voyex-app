@@ -94,7 +94,7 @@ const SecondModal = ({ closeModal, openModal }) => {
                 {toneOptions.map((option) => (
                   <li
                     key={option}
-                    className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                    className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                     onClick={() => handleDropdownSelect(option, 'tone')}
                   >
                     {option}
@@ -121,7 +121,7 @@ const SecondModal = ({ closeModal, openModal }) => {
                 {formatOptions.map((option) => (
                   <li
                     key={option}
-                    className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                    className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                     onClick={() => handleDropdownSelect(option, 'format')}
                   >
                     {option}
@@ -148,7 +148,7 @@ const SecondModal = ({ closeModal, openModal }) => {
                 {depthOptions.map((option) => (
                   <li
                     key={option}
-                    className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
+                    className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
                     onClick={() => handleDropdownSelect(option, 'depth')}
                   >
                     {option}
