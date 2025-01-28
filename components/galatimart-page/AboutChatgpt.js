@@ -11,7 +11,7 @@ const AboutChatgpt = () => {
       ];
 
   return (
-    <div className='text-[#F4F4F4] gap-4 flex flex-col px-4 py-6 bg-custom-gradient backdrop-blur-custom rounded-3xl'>
+    <div className='text-[#F4F4F4] gap-4 flex flex-col px-4 py-6 bg-[#131314] rounded-3xl'>
     <p className='text-base font-normal'>Information</p>
     <div className='bg-[#6D6D6D] border'></div>
     <div className='flex flex-col gap-6 h-[417.24px]'>

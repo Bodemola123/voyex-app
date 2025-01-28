@@ -12,7 +12,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
         {/* Toggle History Button */}
         <button
           onClick={toggleHistoryVisibility}
-          className="bg-[#000000] border-[0.5px] rounded-[12px] w-8 flex items-center justify-center text-[20px] font-black text-transparent"
+          className="bg-[#000000] border-[0.5px] border-[#FFFFFF52] rounded-[12px] w-8 flex items-center justify-center text-[20px] font-black text-transparent"
         >
           <p className="bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF]">
             {isHistoryVisible ? 'V' : 'V'}
