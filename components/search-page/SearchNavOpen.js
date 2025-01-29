@@ -8,7 +8,7 @@ import FirstModal from './Modals/FirstModal';
 import SecondModal from './Modals/SecondModal';
 import ThirdModal from './Modals/ThirdModal';
 
-const History = () => {
+const SearchNavOpen = () => {
   const [activeModal, setActiveModal] = useState(null);
 
   // State for modal inputs
@@ -28,7 +28,7 @@ const History = () => {
 
   return (
     <>
-      <nav className='flex flex-col w-full bg-[#131314] items-center justify-between h-screen pt-12'>
+      <nav className='flex flex-col w-full bg-[#131314] items-center justify-between h-screen pt-6'>
         <div className='flex flex-col gap-6 justify-center'>
           <div className='flex px-6 gap-4 flex-row items-center'>
             <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
@@ -85,4 +85,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default SearchNavOpen;

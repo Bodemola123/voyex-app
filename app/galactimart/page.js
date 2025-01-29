@@ -5,7 +5,7 @@ import Card1 from "../../components/galatimart-page/Card1";
 import BenFooter from "@/components/common/BenFooter";
 import BenNavbar from "@/components/common/BenNavbar";
 import "../../app/globals.css";
-import Visible from "@/components/galatimart-page/Visible";
+import GalactimartNavOpen from "@/components/galatimart-page/GalactimartNavOpen";
 
 function GalactiMart() {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
@@ -37,7 +37,7 @@ function GalactiMart() {
           isHistoryVisible ? "w-[300px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
-        {isHistoryVisible && <Visible />}
+        {isHistoryVisible && <GalactimartNavOpen />}
       </div>
       <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container ">
         <Header />

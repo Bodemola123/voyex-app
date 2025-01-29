@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import RoleCombobox from "./RoleCombobox"; // Import the RoleCombobox component
 import Image from "next/image";
 import { FaCaretDown } from "react-icons/fa";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
   // Handler to update specific input fields
@@ -12,41 +21,12 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
       [name]: value,
     }));
   };
-
   // Handler to update selected roles
   const handleRoleChange = (roles) => {
     setModalData((prev) => ({
       ...prev,
       roles, // Save the selected roles
     }));
-  };
-
-  // State for the dropdown menus
-  const [showToolDropdown, setShowToolDropdown] = useState(false);
-  const [showFrameworkDropdown, setShowFrameworkDropdown] = useState(false);
-  const [selectedTool, setSelectedTool] = useState(modalData.preferredTool || "");
-  const [selectedFramework, setSelectedFramework] = useState(modalData.preferredFramework || "");
-
-  // Toggle dropdown visibility
-  const toggleDropdown = (dropdown) => {
-    if (dropdown === "tool") {
-      setShowToolDropdown(!showToolDropdown);
-    } else if (dropdown === "framework") {
-      setShowFrameworkDropdown(!showFrameworkDropdown);
-    }
-  };
-
-  // Handle selection of an item from dropdown
-  const handleDropdownSelect = (item, type) => {
-    if (type === "tool") {
-      setSelectedTool(item);
-      setShowToolDropdown(false);
-      setModalData((prev) => ({ ...prev, preferredTool: item }));
-    } else if (type === "framework") {
-      setSelectedFramework(item);
-      setShowFrameworkDropdown(false);
-      setModalData((prev) => ({ ...prev, preferredFramework: item }));
-    }
   };
 
   return (
@@ -132,80 +112,46 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Custom Dropdown for Preferred Tool */}
-            <div className="relative">
-              <label className="block text-sm text-gray-400 mb-2">Preferred Tool</label>
-              <div className="relative">
-                <div
-                  className="w-full py-3 px-4 bg-[#0A0A0B] text-gray-300 rounded-[68px] cursor-pointer flex items-center justify-between"
-                  onClick={() => toggleDropdown("tool")}
-                >
-                  <span>{selectedTool || "Select Tool"}</span>
-                  <FaCaretDown />
-                </div>
+            <div className="flex flex-col gap-1">
+      <label className="text-sm font-medium mb-1 text-left">
+        Select Tool
+      </label>
 
-                {showToolDropdown && (
-                  <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2">
-                    <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
-                      onClick={() => handleDropdownSelect("Tool 1", "tool")}
-                    >
-                      Tool 1
-                    </li>
-                    <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
-                      onClick={() => handleDropdownSelect("Tool 2", "tool")}
-                    >
-                      Tool 2
-                    </li>
-                    <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
-                      onClick={() => handleDropdownSelect("Tool 3", "tool")}
-                    >
-                      Tool 3
-                    </li>
-                  </ul>
-                )}
-              </div>
-            </div>
+      <Select>
+        <SelectTrigger className="w-full h-14 bg-[#0a0a0b] rounded-full outline-none border-none">
+          <SelectValue placeholder="Select Tool" />
+        </SelectTrigger>
+        <SelectContent className="bg-[#0a0a0b] text-fontlight border-none rounded-3xl">
+          <SelectGroup>
+            <SelectLabel>Select Tool</SelectLabel>
+            <SelectItem value="Tool 1">Tool 1</SelectItem>
+            <SelectItem value="Tool 2">Tool 2</SelectItem>
+            <SelectItem value="Tool 3">Tool 3</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
 
             {/* Custom Dropdown for Preferred Framework */}
-            <div className="relative">
-              <label className="block text-sm text-gray-400 mb-2">
-                Preferred Framework (if applicable)
-              </label>
-              <div className="relative">
-                <div
-                  className="w-full py-3 px-4 bg-[#0A0A0B] text-gray-300 rounded-[68px] cursor-pointer flex items-center justify-between"
-                  onClick={() => toggleDropdown("framework")}
-                >
-                  <span>{selectedFramework || "Select Framework"}</span>
-                  <FaCaretDown />
-                </div>
+            <div className="flex flex-col gap-1">
+      <label className="text-sm font-medium mb-1 text-left ">
+        Preferred Framework (If Applicable)
+      </label>
 
-                {showFrameworkDropdown && (
-                  <ul className="absolute w-full bg-[#0A0A0B] text-gray-300 rounded-xl mt-2">
-                    <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
-                      onClick={() => handleDropdownSelect("Framework 1", "framework")}
-                    >
-                      Framework 1
-                    </li>
-                    <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#6b46c1]"
-                      onClick={() => handleDropdownSelect("Framework 2", "framework")}
-                    >
-                      Framework 2
-                    </li>
-                    <li
-                      className="px-4 py-2 cursor-pointer hover:bg-[#c088fb]"
-                      onClick={() => handleDropdownSelect("Framework 3", "framework")}
-                    >
-                      Framework 3
-                    </li>
-                  </ul>
-                )}
-              </div>
-            </div>
+      <Select>
+        <SelectTrigger className="w-full h-14 bg-[#0a0a0b] rounded-full outline-none border-none">
+          <SelectValue placeholder="Select Framework" />
+        </SelectTrigger>
+        <SelectContent className="bg-[#0a0a0b] text-fontlight  border-none rounded-3xl">
+          <SelectGroup>
+            <SelectLabel>Preferred Framework (If Applicable)</SelectLabel>
+            <SelectItem value="Framework 1">Framework 1</SelectItem>
+            <SelectItem value="Framework 2">Framework 2</SelectItem>
+            <SelectItem value="Framework 3">Framework 3</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
           </div>
         </div>
 

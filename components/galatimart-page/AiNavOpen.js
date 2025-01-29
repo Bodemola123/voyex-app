@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Usecard from './Usecard'
 import Image from 'next/image'
 
-const AiVisible = () => {
+const AiNavOpen = () => {
 
         const [usecases] = useState([
             { id: 1, title: 'Use Case 1', rating: 5, },
@@ -12,7 +12,7 @@ const AiVisible = () => {
         ])
   return (
       
-      <div className={`flex flex-col gap-[54px] py-12 px-4 h-screen w-full justify-start`}>
+      <div className={`flex flex-col gap-[54px] py-6 px-4 h-screen w-full justify-start`}>
                 <div className='flex gap-4 flex-row items-center'>
                   <Image src={'/Crown.svg'} alt='crown' width={32} height={32}/>
                   <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
@@ -33,4 +33,5 @@ const AiVisible = () => {
   )
 }
 
-export default AiVisible
+export default AiNavOpen
+

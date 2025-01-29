@@ -5,8 +5,9 @@ import Body from './Body'
 import '../../../app/globals.css'
 import BenNavbar from '@/components/common/BenNavbar'
 import BenFooter from '@/components/common/BenFooter'
-import AiVisible from '@/components/galatimart-page/AiVisible'
+import AiVisible from '@/components/galatimart-page/AiNavOpen'
 import { useState } from 'react'
+import AiNavOpen from '@/components/galatimart-page/AiNavOpen'
 
 const Aidescription = () => {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
@@ -38,7 +39,7 @@ const Aidescription = () => {
           isHistoryVisible ? 'w-[320px]' : 'w-0'
         } bg-[#131314] overflow-hidden`}
       >
-        {isHistoryVisible && <AiVisible />}
+        {isHistoryVisible && <AiNavOpen />}
         </div>
       <div className='text-white relative flex flex-grow flex-col gap-10 p-6 justify-between w-full h-full overflow-y-scroll scrollbar-hide scroll-container'>
       <Header/>

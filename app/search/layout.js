@@ -1,11 +1,8 @@
 "use client";
-import BenFooter from "@/components/common/BenFooter";
 import BenNavbar from "@/components/common/BenNavbar";
-import Footer from "@/components/common/Footer";
-import Navbar from "@/components/common/Navbar";
-import History from "@/components/search-page/History";
 import React, { useEffect, useState } from "react";
 import "../../app/globals.css";
+import SearchNavOpen from "@/components/search-page/SearchNavOpen";
 
 function SearchLayout({ children }) {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
@@ -41,7 +38,7 @@ function SearchLayout({ children }) {
           isHistoryVisible ? "w-[360px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
-        {isHistoryVisible && <History />}
+        {isHistoryVisible && <SearchNavOpen />}
       </div>
       <main className="flex-grow relative flex h-full w-full flex-col gap-10 p-10 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
         {children}
