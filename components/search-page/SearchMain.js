@@ -26,6 +26,8 @@ import { GrMicrophone } from "react-icons/gr";
 import { IoArrowUp } from "react-icons/io5";
 import { HiXMark } from "react-icons/hi2"; // Import HiXMark from react-icons
 import '../../app/globals.css';
+import BenNavbar from "../common/BenNavbar";
+import BenFooter from "../common/BenFooter";
 
 function SearchMain({
   messages,
@@ -164,7 +166,9 @@ function SearchMain({
       );
     }
   return (
-    <div className="flex flex-col items-center justify-center w-full gap-10">
+    <div className="flex items-center w-full h-screen">
+      <BenNavbar/>
+      <div className="flex flex-col items-center justify-center w-full h-full gap-10">
           <div className='flex flex-col gap-[25px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center'>
   <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] text-[48px] leading-[57.6px] font-bold'>
@@ -349,6 +353,7 @@ function SearchMain({
     </button>
         </div>
     </div>
+    <BenFooter/>
       {showTrendingModal && (
         <>
           <TrendingModal
@@ -364,7 +369,9 @@ function SearchMain({
           onClose={closeRecentlyAddedModal}
         />
       )}
+      </div>
     </div>
+
   );
 }
 

@@ -8,9 +8,8 @@ import Image from 'next/image';
 const PlansFeatures = () => {
   return (
     <div className=" text-[#F4F4F4] p-6 gap-6 flex flex-col bg-[#131314] rounded-3xl">
-    <div className='flex flex-row justify-between items-center'>
+    <div className='flex justify-start items-center'>
         <p className='font-bold text-[22.46px] leading-[33.7px]'>Deal Terms and Conditions</p>
-        <button className='py-4 px-4 flex flex-row items-center gap-[5.62px] text-[19.66px] leading-[28.08px] font-bold'>See all reviews <MdKeyboardArrowRight/> </button>
     </div>
     <div className='grid grid-cols-3 gap-4'>
     <span className='flex flex-row gap-2 items-center text-base leading-[26px] font-medium'><Image src={'/Icon.svg'} alt='recycle' width={20} height={20}/>Lifetime Access to ChatGPT</span>

@@ -47,8 +47,8 @@ const ThirdModal = ({ closeModal, openModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-[#000000] text-white rounded-lg w-9/12 p-[27px] relative">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+      <div className="bg-[#000000] text-white rounded-[41px] w-9/12 p-[27px] relative">
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">
           <h2 className="text-2xl font-bold">VOYEX INTELLIGENCE</h2>

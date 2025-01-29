@@ -67,7 +67,7 @@ const ReviewForm = ({ rating, onPrevious, onNext }) => {
   };
 
   return (
-    <div className="flex flex-col p-6 rounded-3xl gap-[22.46px]">
+    <div className="flex flex-col p-6 rounded-3xl gap-[22.46px] bg-[#131314]">
       <h1 className="text-[22.46px] leading[33.7px] font-bold">Leave Review</h1>
       <div className='grid grid-cols-3 gap-[22px]'>
         <div className='flex flex-col col-span-2 gap-[22px]'>
@@ -144,7 +144,7 @@ const FinalPage = ({ onPrevious }) => {
       </span>
     ));
     return (
-        <div className="rounded-3xl p-6 gap-[35px] flex flex-col">
+        <div className="rounded-3xl p-6 gap-[35px] flex flex-col bg-[#131314]">
         <div className='flex flex-col gap-[11.23px]'>
             <h1 className='font-bold text-2xl text-[#F4F4F4]'>Rate Use Cases</h1>
             <p className='text-base font-normal text-[#c6c6c6]'>Use stars to rate how efficient Product use cases are</p>

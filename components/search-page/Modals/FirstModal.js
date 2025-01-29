@@ -30,7 +30,7 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <div className="bg-[#000000] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl max-h-[637px] h-[90%] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">
@@ -44,12 +44,12 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
             <Image src={"/close-square.svg"} alt="X" width={58} height={58} />
           </button>
         </div>
-
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          <p className="text-sm md:text-base text-gray-300">
+        <p className="text-sm md:text-base text-gray-300">
             What do you want Voyex to know about you?
           </p>
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto py-6 pr-6 space-y-6">
 
           {/* Role Combobox */}
           <div className="flex flex-col gap-2.5">
@@ -156,10 +156,10 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex p-6 justify-between items-center">
+        <div className="flex py-6 pr-6 justify-between items-center">
           <button
-            onClick={() => openModal("first")}
-            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 focus:ring focus:ring-[#c088fb]"
+            onClick={() => openModal("third")}
+            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 hover:border-[#c088fb] outline-none focus:ring-none"
           >
             Intelligence
           </button>

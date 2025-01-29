@@ -45,12 +45,12 @@ const SecondModal = ({ closeModal, openModal }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
       aria-labelledby="second-modal-title"
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-[#000000] text-white rounded-lg w-[794px] p-[26px] relative">
+      <div className="bg-[#000000] text-white rounded-[41px] w-[794px] p-[26px] relative">
         {/* Header */}
         <div className="flex justify-between items-center">
           <h2
@@ -76,7 +76,7 @@ const SecondModal = ({ closeModal, openModal }) => {
         </p>
 
         {/* Custom Dropdowns */}
-        <div className="space-y-6">
+        <div className="space-y-6 mt-3">
           {/* Tone of Response */}
           <div className="relative">
             <label className="text-base font-medium mb-2 block" htmlFor="tone-dropdown">
@@ -162,14 +162,14 @@ const SecondModal = ({ closeModal, openModal }) => {
         {/* Footer Buttons */}
         <div className="flex justify-between items-center mt-6">
           <button
-            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 focus:ring focus:ring-[#c088fb]"
-            onClick={() => openModal('first')}
+            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 outline-none focus:ring-none hover:border-[#c088fb]"
+            onClick={() => openModal('third')}
           >
             Intelligence
           </button>
           <button
             className="px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] focus:ring focus:ring-[#c088fb]"
-            onClick={() => openModal('third')}
+            onClick={closeModal}
           >
             Save Changes
           </button>

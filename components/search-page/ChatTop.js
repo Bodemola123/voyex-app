@@ -30,18 +30,7 @@ function ChatTop({ messages, setShowChat,  handleNewConversation }) {
   }, [setShowChat]);
 
   return (
-    <div className="sticky top-0 flex items-center justify-between">
-      <div className="flex items-center gap-4">
-        <button
-          onClick={handleBackClick}
-          className={`text-base text-center text-fontlight font-medium rounded-md bg-[#c088fb] px-2 py-1`}
-        >
-          <IoMdArrowRoundBack />
-        </button>
-        <h1 className="">
-          {messages[0]?.text || "Begin chatting with Voyex AI..."}
-        </h1>
-      </div>
+    <div className="sticky top-0 flex items-center justify-end border-b border-[#3A3A40] pb-3">
       <button className='flex flex-row items-center justify-center gap-1' onClick={handleNewConversation}>
           <MdOutlineRestartAlt className='text-[16px] text-white/60'/>
           <p className='text-white/60 text-sm'>Clear Chat</p>
