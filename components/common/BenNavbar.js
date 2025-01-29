@@ -17,7 +17,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
   const isActive = (href) => pathname === href; // Function to check active link
 
   return (
-    <nav className="h-screen z-10 w-16 bg-[#131314] flex flex-col justify-between items-center py-12 text-white">
+    <nav className="h-screen z-10 w-16 bg-[#131314] flex flex-col justify-between items-center py-6 text-white">
       <div className="flex flex-col gap-8 justify-center items-center">
         {/* Toggle History Button */}
         <button

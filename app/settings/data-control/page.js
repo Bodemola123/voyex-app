@@ -3,12 +3,7 @@ import DataControl from "@/components/settings-page/DataControl";
 import React from "react";
 
 function DataControlPage() {
-  return (
-    <>
-      <DataControl />
-      <FlexibleFooter />
-    </>
-  );
+  return <DataControl />;
 }
 
 export default DataControlPage;

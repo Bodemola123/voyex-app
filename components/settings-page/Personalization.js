@@ -4,7 +4,7 @@ import Image from "next/image";
 
 function Personalization() {
   return (
-    <div className="w-full rounded-[25px] py-10 px-11 bg-gradient-to-r from-[#00A7661A] to-[#9999991A] border border-card backdrop-blur-[6.8px] mb-9">
+    <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
       <h1 className="text-fontlight text-3xl font-normal capitalize">
         personalization
       </h1>
@@ -28,7 +28,7 @@ function Personalization() {
         <h2 className="text-xl font-normal text-fontlight capitalize">
           Username
         </h2>
-        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
+        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
           <span className="text-xl font-normal text-fontlight">Henryjnr9</span>
           <Image src="/edit.png" alt="edit" width={20} height={20} />
         </button>
@@ -54,7 +54,7 @@ function Personalization() {
             this process
           </p>
         </div>
-        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
+        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
           <span className="text-xl font-normal text-fontlight capitalize">
             disabled
           </span>

@@ -3,7 +3,7 @@ import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 
 function DataControl() {
   return (
-    <div className="w-full rounded-[25px] py-10 px-11 bg-gradient-to-r from-[#00A7661A] to-[#9999991A] border border-card backdrop-blur-[6.8px] mb-9">
+    <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
       <h1 className="text-fontlight text-3xl font-normal capitalize">
         data control
       </h1>
@@ -20,7 +20,7 @@ function DataControl() {
             your privacy. Learn more
           </p>
         </div>
-        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
+        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
           <span className="text-xl font-normal text-fontlight capitalize">
             allowed
           </span>
@@ -37,7 +37,7 @@ function DataControl() {
             Enable dropdown and tab-complete suggestions while typing a query
           </p>
         </div>
-        <button className="flex items-center gap-3 px-4 py-3">
+        <button className="flex items-center gap-3 px-4 py-3 hover:underline transition-all">
           <span className="text-xl font-normal text-fontlight capitalize">
             see links
           </span>
@@ -54,7 +54,7 @@ function DataControl() {
             The language used in the user interface
           </p>
         </div>
-        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
+        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
           <span className="text-xl font-normal text-fontlight capitalize">
             manage
           </span>
@@ -70,7 +70,7 @@ function DataControl() {
             Delete user account
           </p>
         </div>
-        <button className="flex items-center gap-3 px-9 py-3 rounded-[36px] border border-card bg-red-500">
+        <button className="flex items-center gap-3 px-9 py-3 rounded-[36px] border border-card bg-red-500 hover:bg-red-500/50 transition-all">
           <span className="text-xl font-normal text-fontlight capitalize">
             delete
           </span>
