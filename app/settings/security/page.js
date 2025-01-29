@@ -3,12 +3,7 @@ import Security from "@/components/settings-page/Security";
 import React from "react";
 
 function SecurityPage() {
-  return (
-    <>
-      <Security />
-      <FlexibleFooter />
-    </>
-  );
+  return <Security />;
 }
 
 export default SecurityPage;

@@ -3,7 +3,7 @@ import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 
 function Security() {
   return (
-    <div className="w-full rounded-[25px] py-10 px-11 bg-gradient-to-r from-[#00A7661A] to-[#9999991A] border border-card backdrop-blur-[6.8px] mb-9">
+    <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
       <h1 className="text-fontlight text-3xl font-normal capitalize">
         security
       </h1>
