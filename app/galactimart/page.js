@@ -4,7 +4,7 @@ import Header from "../../components/galatimart-page/Header";
 import Card1 from "../../components/galatimart-page/Card1";
 import BenFooter from "@/components/common/BenFooter";
 import BenNavbar from "@/components/common/BenNavbar";
-import '../../app/globals.css'
+import "../../app/globals.css";
 import Visible from "@/components/galatimart-page/Visible";
 
 function GalactiMart() {
@@ -12,7 +12,7 @@ function GalactiMart() {
 
   // On component mount, retrieve state from localStorage
   useEffect(() => {
-    const savedState = localStorage.getItem('isHistoryVisible');
+    const savedState = localStorage.getItem("isHistoryVisible");
     if (savedState !== null) {
       setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
     }
@@ -22,7 +22,7 @@ function GalactiMart() {
   const toggleHistoryVisibility = () => {
     setIsHistoryVisible((prev) => {
       const newState = !prev;
-      localStorage.setItem('isHistoryVisible', JSON.stringify(newState));
+      localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
       return newState;
     });
   };
@@ -32,17 +32,17 @@ function GalactiMart() {
         toggleHistoryVisibility={toggleHistoryVisibility}
         isHistoryVisible={isHistoryVisible}
       />
-        <div
+      <div
         className={`transition-all duration-300 ${
-          isHistoryVisible ? 'w-[266px]' : 'w-0'
+          isHistoryVisible ? "w-[300px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <Visible />}
-        </div>
+      </div>
       <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container ">
-        <Header/>
-        <Card1/>
-        <BenFooter/>
+        <Header />
+        <Card1 />
+        <BenFooter />
       </div>
     </div>
   );

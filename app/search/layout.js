@@ -1,20 +1,18 @@
-'use client'
+"use client";
 import BenFooter from "@/components/common/BenFooter";
 import BenNavbar from "@/components/common/BenNavbar";
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import History from "@/components/search-page/History";
 import React, { useEffect, useState } from "react";
-import '../../app/globals.css'
-
+import "../../app/globals.css";
 
 function SearchLayout({ children }) {
-
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
   // On component mount, retrieve state from localStorage
   useEffect(() => {
-    const savedState = localStorage.getItem('isHistoryVisible');
+    const savedState = localStorage.getItem("isHistoryVisible");
     if (savedState !== null) {
       setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
     }
@@ -24,13 +22,13 @@ function SearchLayout({ children }) {
   const toggleHistoryVisibility = () => {
     setIsHistoryVisible((prev) => {
       const newState = !prev;
-      localStorage.setItem('isHistoryVisible', JSON.stringify(newState));
+      localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
       return newState;
     });
   };
 
   return (
-    <div className="flex items-center w-full h-screen bg-black bg-[url('/stars.svg.svg')] bg-cover bg-no-repeat bg-fixed bg-center">
+    <div className="flex items-center w-full h-screen">
       {/* Navbar */}
       <BenNavbar
         toggleHistoryVisibility={toggleHistoryVisibility}
@@ -40,7 +38,7 @@ function SearchLayout({ children }) {
       {/* History with Smooth Transition */}
       <div
         className={`transition-all duration-300 ${
-          isHistoryVisible ? 'w-[360px]' : 'w-0'
+          isHistoryVisible ? "w-[360px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <History />}
