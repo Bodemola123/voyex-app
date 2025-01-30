@@ -154,11 +154,11 @@ function Container() {
           console.log("response", response);
           if (response.status === 201) {
             setCurrentSlide("user-signup-success");
-            toast.success(response.data.message);
+            toast(response.data.message);
           }
           if (response.status === 400) {
             setCurrentSlide("signing");
-            toast.error(response.data?.error);
+            toast(response.data?.error);
           }
           dispatch(
             updateGoogleUserDetails({
@@ -169,13 +169,13 @@ function Container() {
             })
           );
           // router.push("/search");
-          // toast.success("Login Sucessfull");
+          // toast("Login Sucessfull");
         }
       } catch (err) {
         console.log(err);
         if (err.response.data?.error) {
-          toast.error(err.response.data.error);
-        } else toast.error(err.message);
+          toast(err.response.data.error);
+        } else toast(err.message);
       } finally {
         setLoadingGoogle(false);
       }
@@ -209,7 +209,7 @@ function Container() {
           // console.log("response", response);
           if (response.status === 200 && response.data.exists === true) {
             setCurrentSlide("signin-success");
-            toast.success("Login successful");
+            toast("Login successful");
             // Cookies.set("voyexUserName", res.data.name, { expires: 7 });
           }
           if (response.status === 200 && response.data.exists === false) {
@@ -225,7 +225,7 @@ function Container() {
             })
           );
           // router.push("/search");
-          // toast.success("Login Sucessfull");
+          // toast("Login Sucessfull");
         }
       } catch (err) {
         console.log(err);
@@ -292,7 +292,7 @@ function Container() {
           check_available_email.status === 200 &&
           check_available_email.data.exists === false
         ) {
-          // toast.success("Name available");
+          // toast("Name available");
           localStorage.setItem("user_email", userEmail);
           localStorage.setItem("user_password", userPassword);
           const send_otp = await axios.post(
@@ -312,8 +312,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
+        toast(error.response.data);
+      } else toast(error.message);
       if (error.message) {
         setCurrentSlide("signing");
       }
@@ -353,7 +353,7 @@ function Container() {
         }
         if (acceptEmailPassword.status === 201) {
           setLoading(false);
-          toast.success(acceptEmailPassword.data.message);
+          toast(acceptEmailPassword.data.message);
           setCurrentSlide("user-signup-success");
           localStorage.setItem("userId", acceptEmailPassword.data.user_id);
         }
@@ -365,8 +365,8 @@ function Container() {
       console.log(error);
       setOtpError(true);
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else toast.error(error.message);
+        toast(error.response.data.message);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
@@ -397,11 +397,11 @@ function Container() {
       console.log("user signin response", response);
       if (response.status === 200 && response.data.valid === false) {
         setCurrentSlide("signing");
-        toast.error("user not found");
+        toast("user not found");
       }
       if (response.status === 200 && response.data.valid === true) {
         setCurrentSlide("user-signin-success");
-        toast.success("signin successful");
+        toast("signin successful");
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
       }
       if (response.status === 404) {
@@ -411,11 +411,11 @@ function Container() {
     } catch (error) {
       console.log("user_signin_error", error);
       if (error.response.data) {
-        toast.error(error.response.data.message);
+        toast(error.response.data.message);
         setCurrentSlide("signing");
-      } else toast.error(error.message);
+      } else toast(error.message);
       if (error.message.includes("network error")) {
-        toast.error("network error, try again!");
+        toast("network error, try again!");
       }
     } finally {
       setLoading(false);
@@ -471,8 +471,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
+        toast(error.response.data);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
@@ -499,8 +499,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
+        toast(error.response.data);
+      } else toast(error.message);
       if (error.message) {
         setCurrentSlide("signing");
       }
@@ -530,8 +530,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else toast.error(error.message);
+        toast(error.response.data.message);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
@@ -560,8 +560,8 @@ function Container() {
       console.log(error);
       setOtpError(true);
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else toast.error(error.message);
+        toast(error.response.data.message);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }

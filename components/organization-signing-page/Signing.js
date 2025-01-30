@@ -27,6 +27,8 @@ function Signing({
   passwordInput,
   emailInput,
   handleSignup,
+  signupPasswordError,
+  signupEmailError,
   // referralInput,
   handleOrgSignin,
   orgEmailInput1,
@@ -80,11 +82,11 @@ function Signing({
                       onChange={emailInput}
                       className={`rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus-visible:ring-0 focus:ring-offset-0 focus:border-none focus-within:border-none`}
                     />
-                    {/* {border ? (
-                    <FaCheck className="absolute right-4 top-1/2 text-green-500" />
-                  ) : (
-                    <RxCross2 className="absolute right-4 top-[45px] text-red-500" />
-                  )} */}
+                    {signupEmailError && (
+                      <span className="text-red-500 text-sm">
+                        {signupEmailError}
+                      </span>
+                    )}
                   </div>
                   <div className="relative space-y-1">
                     <Label
@@ -107,6 +109,12 @@ function Signing({
                     >
                       {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                     </button>
+
+                    {signupPasswordError && (
+                      <span className="text-red-500 text-sm">
+                        {signupPasswordError}
+                      </span>
+                    )}
                   </div>
                 </CardContent>
                 <CardFooter className="w-full justify-center mt-10 p-0">
