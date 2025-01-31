@@ -27,6 +27,10 @@ import ForgotPassword from "./ForgotPasswordHome";
 import VerifyEmailAuthentication from "./ResetVerifyOTP";
 import ResetPassword from "./ResetPasswordHome";
 import PasswordChanged from "./PasswordChangedHome";
+import {
+  validateEmailInput,
+  validatePasswordInput,
+} from "@/helpers/orgSignupValidateInput";
 
 const emailKey = process.env.EMAIL_KEY;
 
@@ -50,6 +54,9 @@ function Container() {
   const [orgAudience, setOrgAudience] = useState("");
   const [orgService, setOrgService] = useState("");
   const [orgTechUsed, setOrgTechUsed] = useState("");
+  const [signupPasswordError, setSignupPasswordError] = useState("");
+  const [signupEmailError, setSignupEmailError] = useState("");
+
   //////////////////////// SIGN IN INPUTS
   const [orgEmail, setOrgEmail] = useState("");
   const [orgPassword1, setOrgPassword1] = useState(false);
@@ -196,7 +203,7 @@ function Container() {
           console.log("response", response);
           if (response.status === 201) {
             setCurrentSlide("org-signup-success");
-            toast.success(response.data.message);
+            toast(response.data.message);
             localStorage.setItem("orgId", response.data.org_id);
             dispatch(
               updateGoogleUserDetails({
@@ -209,7 +216,7 @@ function Container() {
           }
           if (response.status === 200) {
             setCurrentSlide("signing");
-            toast.warn(response.data.message);
+            toast(response.data.message);
           }
           if (response.status === 400) {
             setCurrentSlide("signing");
@@ -221,8 +228,8 @@ function Container() {
           setCurrentSlide("signing");
         }
         if (err.response?.data?.message) {
-          toast.warn(err.response.data.message);
-        } else toast.warn(err.message);
+          toast(err.response.data.message);
+        } else toast(err.message);
       } finally {
         setLoadingGoogle(false);
       }
@@ -255,7 +262,7 @@ function Container() {
           // console.log("response", response);
           if (response.status === 200) {
             setCurrentSlide("org-signin-success");
-            toast.success("Signin successful");
+            toast("Signin successful");
             dispatch(
               updateGoogleUserDetails({
                 email: res.data?.email,
@@ -274,8 +281,8 @@ function Container() {
       } catch (err) {
         console.log(err);
         if (err.response?.data?.message) {
-          toast.warn(err.response.data.message);
-        } else toast.warn(err.message);
+          toast(err.response.data.message);
+        } else toast(err.message);
       } finally {
         setLoadingGoogle(false);
       }
@@ -285,17 +292,16 @@ function Container() {
   //////////////// ORGANIZATION SIGNUP /////////////////////////////////
   //----- authenticate email
   const signing = async () => {
-    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
+    // const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
+    const emailInputValidation = validateEmailInput(email);
+    const passwordInputValidation = validatePasswordInput(orgPassword);
     try {
-      if (!email || !orgPassword) {
-        toast.warn("all fields are required");
+      if (emailInputValidation) {
+        setSignupEmailError(emailInputValidation);
         return;
       }
-
-      if (!passwordRegex.test(orgPassword)) {
-        toast(
-          "Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!"
-        );
+      if (passwordInputValidation) {
+        setSignupPasswordError(passwordInputValidation);
         return;
       }
       setLoading(true);
@@ -305,14 +311,14 @@ function Container() {
       );
       console.log(check_legit_email.data);
       if (check_legit_email.data.is_valid_format.value === false) {
-        toast.warn("Email format unacceptable");
+        toast("Email format unacceptable");
         return;
       }
       if (
         check_legit_email.data.is_smtp_valid.value === false &&
         check_legit_email.data.deliverability === "UNDELIVERABLE"
       ) {
-        toast.warn("Email broken, try another");
+        toast("Email broken, try another");
         return;
       }
       if (
@@ -336,7 +342,7 @@ function Container() {
           check_available_email.status === 200 &&
           check_available_email.data.exists === "no"
         ) {
-          // toast.success("Name available");
+          // toast("Name available");
           localStorage.setItem("email", email);
           localStorage.setItem("password", orgPassword);
           const send_otp = await axios.post(
@@ -356,8 +362,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
+        toast(error.response.data);
+      } else toast(error.message);
       if (error.message) {
         setCurrentSlide("signing");
       }
@@ -393,7 +399,7 @@ function Container() {
         console.log("sign up res👉", acceptEmailPassword);
         if (acceptEmailPassword.status === 201) {
           setLoading(false);
-          toast.success(acceptEmailPassword.data.message);
+          toast(acceptEmailPassword.data.message);
           setCurrentSlide("org-signup-success");
           localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
         }
@@ -405,8 +411,8 @@ function Container() {
       console.log(error);
       setOtpError(true);
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else toast.error(error.message);
+        toast(error.response.data.message);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
@@ -419,20 +425,20 @@ function Container() {
   //////////////// ORGANIZATION UPLOAD DETAILS /////////////////////////////////
   const handleBasicInfoSlide = () => {
     if (!orgname || !orgWebsite || !orgIndustry || !orgLocation) {
-      toast.error("complete all fields!!!");
+      toast("complete all fields!!!");
       return;
     } else setCurrentSlide("contact-details");
   };
   const handleContactDetailsSlide = () => {
     if (!orgPoc || !orgTwitter || !orgLinkedin) {
-      toast.error("complete all fields!!!");
+      toast("complete all fields!!!");
       return;
     } else setCurrentSlide("operational-details");
   };
   const uploadDetails = async () => {
     try {
       if (!orgAudience || !orgTechUsed || !orgService) {
-        toast.error("complete all fields!!!");
+        toast("complete all fields!!!");
         return;
       }
       setLoading(true);
@@ -460,7 +466,7 @@ function Container() {
       );
       // console.log("response", response);
       if (response.status === 200) {
-        toast.success(response.data);
+        toast(response.data);
         setCurrentSlide("org-upload-success");
       }
       if (response.status !== 200) {
@@ -469,8 +475,8 @@ function Container() {
     } catch (error) {
       // console.log(error);
       if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
+        toast(error.response.data);
+      } else toast(error.message);
       if (error.message) {
         setCurrentSlide("signing");
       }
@@ -494,7 +500,7 @@ function Container() {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
       if (!orgEmail || !orgPassword1) {
-        toast.error("All input fields required!");
+        toast("All input fields required!");
         return;
       }
       setLoading(true);
@@ -509,7 +515,7 @@ function Container() {
       // console.log("org signin response", response);
       if (response.status === 200) {
         setCurrentSlide("org-signin-success");
-        toast.success("Signin successful");
+        toast("Signin successful");
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
       }
       if (response.status === 404) {
@@ -519,11 +525,11 @@ function Container() {
     } catch (error) {
       // console.log(error);
       if (error.response.data) {
-        toast.error(error.response.data.message);
+        toast(error.response.data.message);
         setCurrentSlide("signing");
-      } else toast.error(error.message);
+      } else toast(error.message);
       if (error.message.includes("Network Error")) {
-        toast.error("Network Error, Try again!");
+        toast("Network Error, Try again!");
       }
     } finally {
       setLoading(false);
@@ -536,7 +542,7 @@ function Container() {
   ////////////// ORG FORGOT PASSWORD /////////////////
   const forgotPassword = async () => {
     if (!forgotEmail) {
-      toast.warn("provide email address");
+      toast("provide email address");
       return;
     }
     try {
@@ -547,14 +553,14 @@ function Container() {
       );
       console.log(check_legit_email.data);
       if (check_legit_email.data.is_valid_format.value === false) {
-        toast.warn("invalid email format");
+        toast("invalid email format");
         return;
       }
       if (
         check_legit_email.data.is_smtp_valid.value === false &&
         check_legit_email.data.deliverability === "UNDELIVERABLE"
       ) {
-        toast.warn("email broken, try another");
+        toast("email broken, try another");
         return;
       }
       if (
@@ -579,8 +585,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
+        toast(error.response.data);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
@@ -608,8 +614,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
+        toast(error.response.data);
+      } else toast(error.message);
       if (error.message) {
         setCurrentSlide("signing");
       }
@@ -640,8 +646,8 @@ function Container() {
     } catch (error) {
       console.log(error);
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else toast.error(error.message);
+        toast(error.response.data.message);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
@@ -670,8 +676,8 @@ function Container() {
       console.log(error);
       setOtpError(true);
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else toast.error(error.message);
+        toast(error.response.data.message);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
@@ -689,6 +695,8 @@ function Container() {
           passwordInput={passwordInput}
           emailInput={emailInput}
           handleSignup={handleSignup}
+          signupEmailError={signupEmailError}
+          signupPasswordError={signupPasswordError}
           // referralInput={referralInput}
           ////////////////////////////////////////////////
           handleOrgSignin={handleOrgSignin}
@@ -798,6 +806,8 @@ function Container() {
           passwordInput={passwordInput}
           emailInput={emailInput}
           handleSignup={handleSignup}
+          signupEmailError={signupEmailError}
+          signupPasswordError={signupPasswordError}
           // referralInput={referralInput}
           ////////////////////////////////////////////////
           handleOrgSignin={handleOrgSignin}

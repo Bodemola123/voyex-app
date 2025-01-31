@@ -50,13 +50,13 @@ function ResetPassword({ setCurrentSlide }) {
       // Validate the password
       if (validationError) {
         // setError(validationError);
-        toast.warn(validationError);
+        toast(validationError);
         return;
       }
       // Confirm passwords match
       if (password !== confirmPassword) {
         // setError("Passwords do not match.");
-        toast.warn("Passwords do not match");
+        toast("Passwords do not match");
         return;
       }
 
@@ -75,15 +75,15 @@ function ResetPassword({ setCurrentSlide }) {
       );
       console.log("PasswordReset 🚨🚨🚨", response);
       if (response.status === 200) {
-        // toast.success(response.data.message);
-        toast.success("Password reset");
+        // toast(response.data.message);
+        toast("Password reset");
         setCurrentSlide("password-changed"); // Navigate to PasswordChangedHome
       }
     } catch (error) {
       console.log(error);
       if (error.response?.data?.error) {
-        toast.error(error.response.data.error);
-      } else toast.error(error.message);
+        toast(error.response.data.error);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }

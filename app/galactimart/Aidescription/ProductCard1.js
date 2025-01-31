@@ -11,7 +11,7 @@ const ProductCard = ( {product} ) => {
     const [hovered, setHovered] = useState(false);
 
   return (
-    <div className='w-[341px] flex-shrink-0 rounded-3xl flex flex-col gap-4 p-6 bg-custom-gradient backdrop-blur-custom'
+    <div className='w-[341px] flex-shrink-0 rounded-3xl flex flex-col gap-4 p-6 bg-[#131314]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >

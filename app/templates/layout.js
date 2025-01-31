@@ -1,4 +1,3 @@
-import Footer from "@/components/common/Footer";
 import TemplateAside from "@/components/templates-page/TemplateAside";
 import TemplatesNav from "@/components/templates-page/TemplatesNav";
 
@@ -10,7 +9,6 @@ export default function TemplateLayout({ children }) {
         <div className="relative w-full h-full">{children}</div>
         <TemplateAside />
       </div>
-      <Footer />
     </div>
   );
 }

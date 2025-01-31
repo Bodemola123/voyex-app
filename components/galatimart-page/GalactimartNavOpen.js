@@ -3,9 +3,9 @@ import React from 'react'
 import { IoCube } from "react-icons/io5";
 import '../../app/globals.css'
 
-const Visible = () => {
+const GalactimartNavOpen = () => {
   return (
-    <nav className='flex flex-col w-full bg-[#131314] h-screen pt-12'>
+    <nav className='flex flex-col w-full bg-[#131314] h-screen pt-6'>
         <div className='flex px-6 gap-4 flex-row items-center'>
           <Image src={'/Crown.svg'} alt='crown' width={32} height={32}/>
           <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
@@ -33,4 +33,4 @@ const Visible = () => {
   )
 }
 
-export default Visible
+export default GalactimartNavOpen

@@ -19,11 +19,11 @@ function MenuDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="bg-none hover:bg-btnlime">
+        <Button className="bg-none hover:bg-[#c088fb]">
           <BsThreeDots className="text-xl" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 bg-[#1C1C1C] text-fontlight rounded-2xl border-none p-4">
+      <DropdownMenuContent className="w-56 bg-[#0a0a0b] text-fontlight rounded-2xl border-none p-4">
         <DropdownMenuGroup>
           {menuDropdownItem.map((item, i) => (
             <DropdownMenuItem

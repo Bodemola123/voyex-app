@@ -32,7 +32,7 @@ const DeleteMemory = ({ detail, onClose, onDelete }) => {
           </button>
           <button
             onClick={onDelete}
-            className="px-5 py-2.5 bg-[#ff1e1e] text-[#0a0a0b] rounded-[25px] hover:bg-red-700 border border-[#FFFFFF26] transition"
+            className="px-5 py-2.5 bg-[#ff1e1e] text-[#0a0a0b] rounded-[25px] hover:bg-red-700  transition"
           >
             Yes, Delete
           </button>

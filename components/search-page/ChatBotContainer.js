@@ -1,8 +1,12 @@
+"use client"
 import ChatInput from "@/components/search-page/ChatInput";
 import ChatTop from "@/components/search-page/ChatTop";
 import ChatBotMessage from "@/components/search-page/ChatBotMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../app/globals.css";
+import BenFooter from "../common/BenFooter";
+import BenNavbar from "../common/BenNavbar";
+import SearchNavOpen from "./SearchNavOpen";
 
 function ChatBotContainer({
   messages,
@@ -16,8 +20,41 @@ function ChatBotContainer({
 }) {
   const [isBotTyping, setIsBotTyping] = useState(false);
 
+    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+  
+    // On component mount, retrieve state from localStorage
+    useEffect(() => {
+      const savedState = localStorage.getItem("isHistoryVisible");
+      if (savedState !== null) {
+        setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
+      }
+    }, []);
+  
+    // Update localStorage whenever the state changes
+    const toggleHistoryVisibility = () => {
+      setIsHistoryVisible((prev) => {
+        const newState = !prev;
+        localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
+        return newState;
+      });
+    };
+
   return (
-    <div className="relative flex flex-col justify-between w-full h-screen">
+    <div className="flex items-center w-full h-screen">
+      <BenNavbar
+        toggleHistoryVisibility={toggleHistoryVisibility}
+        isHistoryVisible={isHistoryVisible}
+      />
+
+      {/* History with Smooth Transition */}
+      <div
+        className={`transition-all duration-300 ${
+          isHistoryVisible ? "w-[360px]" : "w-0"
+        } bg-[#131314] overflow-hidden`}
+      >
+        {isHistoryVisible && <SearchNavOpen />}
+      </div>
+    <div className="relative flex flex-col justify-between w-full gap-3 h-screen px-10 pt-10 overflow-y-auto">
       {/* Top section for chat header */}
       <ChatTop
         messages={messages}
@@ -42,6 +79,9 @@ function ChatBotContainer({
         isLoading={isLoading}
         isBotTyping={isBotTyping}
       />
+
+      <BenFooter/>
+    </div>
     </div>
   );
 }

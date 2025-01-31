@@ -8,27 +8,27 @@ import { PiLightbulb } from 'react-icons/pi'
 
 const NavOpen = () => {
   return (
-    <nav className='flex flex-col w-full bg-[#131314] items-center justify-between h-screen pt-12'>
+    <nav className='flex flex-col w-full bg-[#131314] items-center justify-between h-screen pt-6'>
     <div className='flex flex-col gap-6 justify-center'>
       <div className='flex px-6 gap-4 flex-row items-center'>
         <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
         <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
       </div>
-      <div className='flex flex-col border-b border-[#3A3A40] justify-center'>
+      <div className='flex flex-col gap-2 border-b border-[#3A3A40] justify-center'>
         <button className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 px-20 items-center justify-center'>
           <FaPlus className='text-[10px] text-white/40' />
           <p className='text-xs text-white/60'>New model</p>
         </button>
-        <button className='py-4 px-3 flex flex-row gap-2.5 bg-transparent items-center'>
+        <button className='py-4 px-3 flex flex-row gap-2.5 bg-transparent  hover:bg-[#c088fb] items-center'>
           <IoCube className='text-[#ffffff] text-[24px]'/>
           <p className='font-bold text-lg text-[#f4f4f4]'>My Models</p>
         </button>
-        <Link href='/galactimart' className='py-4 px-3 flex flex-row gap-2.5 bg-transparent items-center'>
-          <FiShoppingCart className='text-[18px] text-[#94a3b8]' />
+        <Link href='/galactimart' className='py-4 px-3 flex flex-row gap-2.5 bg-transparent hover:bg-[#c088fb] items-center'>
+          <FiShoppingCart className='text-[18px] text-[#f4f4f4] ' />
           <p className='font-bold text-lg text-[#f4f4f4]'>Galactimart</p>
         </Link>
-        <button className='py-4 px-3 flex flex-row gap-2.5 bg-transparent items-center'>
-          <PiLightbulb className='text-[18px] text-[#94a3b8]' />
+        <button className='py-4 px-3 flex flex-row gap-2.5  bg-transparent hover:bg-[#c088fb] items-center'>
+          <PiLightbulb className='text-[18px] text-[#f4f4f4]' />
           <p className='font-bold text-lg text-[#f4f4f4]'>Billing</p>
         </button>
       </div>
