@@ -119,7 +119,7 @@ function WorkSpace() {
         </>
       ) : (
         // Product Creation Layout (when at least one product is created)
-        <div className="flex flex-col gap-4 w-full h-full">
+        <div className="flex flex-col gap-4 w-full h-screen">
           {/* Workspace Header */}
           <WorkSpaceHeader openModal={() => openModal("first")} />
 
@@ -136,7 +136,7 @@ function WorkSpace() {
           </div>
 
           {/* Scrollable Product Grid */}
-          <div className="grid grid-cols-4 w-full gap-4">
+          <div className="grid grid-cols-4 w-full gap-4 h-full overflow-y-auto scrollbar-hide">
             {filteredProducts.map((product, index) => (
               <Product
                 key={index}
