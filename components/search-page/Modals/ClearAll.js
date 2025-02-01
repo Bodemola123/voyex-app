@@ -25,13 +25,13 @@ const ClearAll = ({ onClose, onClearAll }) => {
         {/* Buttons */}
         <div className="flex justify-between items-center">
           <button
-            className="px-5 py-2.5 bg-transparent text-white rounded-[25px] border border-[#FFFFFF26] transition"
+            className="px-5 py-2.5 bg-transparent text-white rounded-[25px] border border-[#FFFFFF26] transition hover:scale-105"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="px-5 py-2.5 bg-[#ff1e1e] text-[#0a0a0b] rounded-[25px] hover:bg-red-700  transition"
+            className="px-5 py-2.5 bg-[#ff1e1e] text-[#0a0a0b] rounded-[25px] hover:bg-red-700  transition hover:scale-105"
             onClick={onClearAll}
           >
             Yes, Clear All
