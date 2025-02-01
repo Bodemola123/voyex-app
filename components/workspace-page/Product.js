@@ -5,8 +5,14 @@ import WorkspaceMenuDropdown from "./MenuDropdown";
 function Product({ modalData, deleteProduct }) {
   console.log("Product ModalData:", modalData); // Debugging
 
+  
   // Safely access modalData properties with fallback values
-  const { name = "", description = "", category = [], image = null, rating = "9/10", users = "5m+" } = modalData;
+  const { name = "", description = "", image = null, rating = "9/10", users = "5m+" } = modalData;
+  const categories = modalData.first?.categories || []; // Ensure categories is an array
+
+
+
+
 
   return (
     <div
@@ -58,21 +64,23 @@ function Product({ modalData, deleteProduct }) {
 
       {/* Dynamic Categories from FirstModal */}
       <div className="flex flex-wrap gap-2 mt-4">
-        {category.length > 0 ? (
-          category.map((cat, index) => (
-            <span
-              key={index}
-              className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card"
-            >
-              {cat}
-            </span>
-          ))
-        ) : (
-          <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
-            No categories selected
-          </span>
-        )}
-      </div>
+  {categories?.length > 0 ? (
+    categories.map((cat, index) => (
+      <span
+        key={cat + index} // Using both category and index ensures a unique key
+        className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card"
+      >
+        {cat}
+      </span>
+    ))
+  ) : (
+    <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
+      No categories selected
+    </span>
+  )}
+</div>
+
+
     </div>
   );
 }

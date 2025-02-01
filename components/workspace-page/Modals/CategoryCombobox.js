@@ -30,25 +30,20 @@ const availableCategories = [
   "Finance"
 ];
 
-const CategoryCombobox = ({ setSelectedCategories }) => {
+const CategoryCombobox = ({ selectedCategories = [], setSelectedCategories }) => {
   const [open, setOpen] = useState(false); // State to manage popover open/close
-  const [selectedCategories, setLocalSelectedCategories] = useState([]); // State to manage selected categories
 
   // Function to handle category selection
   const handleCategorySelect = (category) => {
-    if (selectedCategories.length < 4 && !selectedCategories.includes(category)) {
-      const updatedCategories = [...selectedCategories, category];
-      setLocalSelectedCategories(updatedCategories);
-      setSelectedCategories(updatedCategories); // Pass updated categories to parent component
+    if (Array.isArray(selectedCategories) && selectedCategories.length < 4 && !selectedCategories.includes(category)) {
+      setSelectedCategories([...selectedCategories, category]); // Update parent state
     }
   };
 
   // Function to handle category removal
   const handleCategoryRemove = (e, category) => {
-    e.stopPropagation(); // Prevent the popover from closing
-    const updatedCategories = selectedCategories.filter((c) => c !== category);
-    setLocalSelectedCategories(updatedCategories);
-    setSelectedCategories(updatedCategories); // Pass updated categories to parent component
+    e.stopPropagation();
+    setSelectedCategories(selectedCategories.filter((c) => c !== category)); // Update parent state
   };
 
   return (
@@ -61,7 +56,7 @@ const CategoryCombobox = ({ setSelectedCategories }) => {
           aria-expanded={open}
           className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
         >
-          {selectedCategories.length > 0 ? (
+          {Array.isArray(selectedCategories) && selectedCategories.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {selectedCategories.map((category) => (
                 <div
@@ -125,4 +120,3 @@ const CategoryCombobox = ({ setSelectedCategories }) => {
 };
 
 export default CategoryCombobox;
-

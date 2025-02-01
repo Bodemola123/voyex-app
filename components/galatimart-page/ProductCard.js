@@ -11,7 +11,7 @@ const ProductCard = ( {product} ) => {
     const [hovered, setHovered] = useState(false);
 
   return (
-    <div className='w-auto rounded-3xl flex flex-col gap-4 p-6 bg-[#131314]'
+    <div className='w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
@@ -38,20 +38,20 @@ const ProductCard = ( {product} ) => {
             <p className='truncate'>next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
         </div>
         {!hovered && (
-        <div className='flex flex-row items-center gap-2 w-full truncate mt-4'>
-         <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
+        <div className='flex flex-row items-center justify-center gap-2 w-full mt-4'>
+         <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
           chatbot
         </span>
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
+        <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
           writing
         </span>
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
+        <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
           sales
         </span>
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
+        <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
           models
         </span>
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
+        <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
           Research
         </span>
         </div>

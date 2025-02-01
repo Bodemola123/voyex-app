@@ -27,7 +27,7 @@ const Header = () => {
       <div className="flex flex-row justify-between">
         <div className='flex flex-row gap-4'>
           <Link href={'/galactimart/ContentPage'} passHref>
-            <button className='border border-card gap-2.5 flex items-center justify-center rounded-lg'>
+            <button className='border border-card gap-2.5 w-12 h-8 flex items-center justify-center rounded-lg'>
               <MdKeyboardArrowLeft className='text-white text-[24px]' />
             </button>
           </Link>

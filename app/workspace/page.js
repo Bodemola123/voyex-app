@@ -17,21 +17,22 @@ function WorkSpace() {
   const [products, setProducts] = useState([]); // Store all created products
   const [searchQuery, setSearchQuery] = useState(""); // Track search input
 
+  // Initialize modalData with default values
   const [modalData, setModalData] = useState({
-    first: {}, // Data from FirstModal (name, description, categories)
-    second: {}, // Data from SecondModal
-    third: {}, // Data from ThirdModal
-    fourth: {}, // Data from FourthModal (image)
+    first: { categories: [], name: "", description: "" }, // Ensure first modal has name, description, and categories
+    second: {},
+    third: {},
+    fourth: { image: "" },
   });
 
   const openModal = (modalName) => setActiveModal(modalName);
 
   const closeModal = () => {
     setModalData({
-      first: {},
+      first: { categories: [], name: "", description: "" }, // Reset the modal data when closing
       second: {},
       third: {},
-      fourth: {},
+      fourth: { image: "" },
     });
     setActiveModal(null);
   };
@@ -65,12 +66,14 @@ function WorkSpace() {
     switch (activeModal) {
       case "first":
         return (
-          <FirstModal
-            closeModal={closeModal}
-            openModal={() => openModal("second")}
-            modalData={modalData.first}
-            setModalData={(data) => setModalData((prev) => ({ ...prev, first: data }))}
-          />
+      <FirstModal
+      closeModal={closeModal}
+      openModal={() => openModal("second")}
+      modalData={modalData.first} // Pass the entire first modal data
+      setModalData={(data) => setModalData((prev) => ({ ...prev, first: data }))}
+      categories={modalData.first.categories} // Pass the categories to the child
+/>
+
         );
       case "second":
         return (
@@ -136,7 +139,7 @@ function WorkSpace() {
           </div>
 
           {/* Scrollable Product Grid */}
-          <div className="grid grid-cols-4 w-full gap-4 h-full overflow-y-auto scrollbar-hide">
+          <div className="grid grid-cols-4 w-full gap-4 overflow-y-auto scrollbar-hide">
             {filteredProducts.map((product, index) => (
               <Product
                 key={index}
