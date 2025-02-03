@@ -55,7 +55,7 @@ function ChatBotContainer({
       >
         {isHistoryVisible && <SearchNavOpen />}
       </div>
-    <div className="flex-grow relative flex h-full w-full flex-col gap-10  justify-between items-center scrollbar-hide scroll-container px-10 pt-10 overflow-y-auto ">
+    <div className="flex-grow relative flex h-full w-full flex-col gap-10 justify-between items-center scrollbar-hide scroll-container px-10 pt-10 overflow-y-auto ">
       {/* Top section for chat header */}
       <ChatTop
         messages={messages}

@@ -6,7 +6,7 @@ import { MdKeyboardArrowLeft } from 'react-icons/md'
 const AnalyticsHeader = () => {
   return (
     <div className='flex flex-row justify-between items-center h-full w-full'>
-      <div className='flex flex-row w-[697px] h-[94px] gap-4'>
+      <div className='flex flex-row gap-4'>
       <Link href={'/workspace'} passHref>
         <button className='w-[48px] h-[32px] border border-card gap-2.5 flex items-center justify-center rounded-lg'>
           <MdKeyboardArrowLeft className='text-white text-[24px]'/>

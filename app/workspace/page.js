@@ -9,7 +9,7 @@ import ThirdModal from "@/components/workspace-page/Modals/ThirdModal";
 import FourthModal from "@/components/workspace-page/Modals/FourthModal";
 import Product from "@/components/workspace-page/Product";
 import { FiSearch } from "react-icons/fi"; // Import the search icon
-import '../../app/globals.css';
+import "../../app/globals.css";
 
 function WorkSpace() {
   const [activeModal, setActiveModal] = useState(null);
@@ -22,7 +22,7 @@ function WorkSpace() {
     first: { categories: [], name: "", description: "" }, // Ensure first modal has name, description, and categories
     second: {},
     third: {},
-    fourth: { image: "" },
+    fourth: { image: null }, // Ensure image is stored here
   });
 
   const openModal = (modalName) => setActiveModal(modalName);
@@ -126,16 +126,15 @@ function WorkSpace() {
 
           {/* Search Input */}
           <div className="relative w-[198px]">
-  <FiSearch className="absolute top-2 left-2 w-6 h-6 text-white" />
-  <input
-    type="text"
-    placeholder="Search models"
-    className="pl-10 pr-4 py-2 bg-transparent rounded-3xl border border-card w-48 text-white placeholder-white outline-none focus:ring-0 focus:border-card"
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-  />
-</div>
-
+            <FiSearch className="absolute top-2 left-2 w-6 h-6 text-white" />
+            <input
+              type="text"
+              placeholder="Search models"
+              className="pl-10 pr-4 py-2 bg-transparent rounded-3xl border border-card w-48 text-white placeholder-white outline-none focus:ring-0 focus:border-card"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
           {/* Scrollable Product Grid */}
           <div className="w-full h-full overflow-y-auto scrollbar-hide">

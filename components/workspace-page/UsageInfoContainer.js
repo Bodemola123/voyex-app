@@ -9,7 +9,7 @@ import { TbEdit } from "react-icons/tb";
 function UsageInfoContainer() {
   return (
     <>
-      <div className="flex items-center justify-between -mt-8">
+      <div className="flex items-center justify-between mt-8">
         <div className="flex items-center gap-4">
           <Image src="/gpt-big.png" alt="chatgpt" width={66} height={66} />
           <div className="flex flex-col gap-1">

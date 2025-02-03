@@ -7,22 +7,33 @@ function Product({ modalData, deleteProduct }) {
   console.log("Product ModalData:", modalData); // Debugging
 
   // Safely access modalData properties with fallback values
-  const { name = "Model Name", description = "No description provided.", image = null, categories = [],  rating = "9/10", users = "5m+"  } = modalData;
+  const {
+    name = "Model Name",
+    description = "No description provided.",
+    image = null,
+    categories = [],
+    rating = "9/10",
+    users = "5m+",
+  } = modalData;
 
   const [imageSrc, setImageSrc] = useState("/gpt.png"); // Default image
 
   useEffect(() => {
     if (image instanceof File) {
+      // If image is a File object, create a URL for it
       const objectUrl = URL.createObjectURL(image);
       setImageSrc(objectUrl);
 
-      return () => URL.revokeObjectURL(objectUrl); // Cleanup when component unmounts
-    } else if (typeof image === "string") {
-      setImageSrc(image); // Use existing image URL
+      // Cleanup when component unmounts
+      return () => URL.revokeObjectURL(objectUrl);
+    } else if (typeof image === "string" && image.trim() !== "") {
+      // If image is a valid string URL, use it
+      setImageSrc(image);
+    } else {
+      // Fallback to default image if image is invalid
+      setImageSrc("/gpt.png");
     }
   }, [image]);
-
-
 
   return (
     <div
@@ -32,19 +43,18 @@ function Product({ modalData, deleteProduct }) {
       {/* Image and Menu Dropdown */}
       <div className="flex items-start justify-between gap-3">
         <Image
-        src={imageSrc}
-        alt={name}
-        width={50}
-        height={50}
-        className="object-cover rounded-[14px]"
-      />
+          src={imageSrc}
+          alt={name}
+          width={50}
+          height={50}
+          className="object-cover rounded-[14px]"
+          onError={() => setImageSrc("/gpt.png")} // Fallback if image fails to load
+        />
         <WorkspaceMenuDropdown deleteProduct={deleteProduct} /> {/* Pass deleteProduct */}
       </div>
 
       {/* Model Name */}
-      <h3 className="text-fontlight font-bold text-base mt-3">
-        {name}
-      </h3>
+      <h3 className="text-fontlight font-bold text-base mt-3">{name}</h3>
 
       {/* Rating and Users Section */}
       <div className="flex items-center gap-3 mt-4">
@@ -58,14 +68,9 @@ function Product({ modalData, deleteProduct }) {
       </div>
 
       {/* Model Description */}
-      <div className="w-full max-h-[56px] overflow-clip text-ellipsis">
-  <p className="text-sm font-normal text-fontlight mt-4 line-clamp-2 text-ellipsis">
-    {description}
-  </p>
-</div>
-
-
-
+      <p className="text-sm font-normal text-fontlight mt-4 line-clamp-2 text-ellipsis">
+        {description}
+      </p>
 
       {/* Dynamic Categories */}
       <div className="flex flex-wrap justify-center items-center gap-2 mt-4">
