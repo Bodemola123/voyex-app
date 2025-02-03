@@ -1,47 +1,95 @@
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import WorkspaceMenuDropdown from "./MenuDropdown";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 
-function Product() {
+function Product({ modalData, deleteProduct }) {
+  console.log("Product ModalData:", modalData); // Debugging
+
+  // Safely access modalData properties with fallback values
+  const {
+    name = "Model Name",
+    description = "No description provided.",
+    image = null,
+    categories = [],
+    rating = "9/10",
+    users = "5m+",
+  } = modalData;
+
+  const [imageSrc, setImageSrc] = useState("/gpt.png"); // Default image
+
+  useEffect(() => {
+    if (image instanceof File) {
+      // If image is a File object, create a URL for it
+      const objectUrl = URL.createObjectURL(image);
+      setImageSrc(objectUrl);
+
+      // Cleanup when component unmounts
+      return () => URL.revokeObjectURL(objectUrl);
+    } else if (typeof image === "string" && image.trim() !== "") {
+      // If image is a valid string URL, use it
+      setImageSrc(image);
+    } else {
+      // Fallback to default image if image is invalid
+      setImageSrc("/gpt.png");
+    }
+  }, [image]);
+
   return (
-    <Link
-      href="/workspace/analytics"
-      className="rounded-[25px] bg-gradient-to-r from-[#00a766]/10 to-gray/10 border border-card backdrop-blur-[6.8px] p-6"
+    <div
+      className="rounded-[25px] bg-gradient-to-r from-[#00a766]/10 to-gray/10 border border-card backdrop-blur-[6.8px] p-6 transition-all"
+      aria-label={`View details for ${name}`}
     >
+      {/* Image and Menu Dropdown */}
       <div className="flex items-start justify-between gap-3">
-        <Image src="/gpt.png" alt="gpt" width={50} height={50} />
-        <WorkspaceMenuDropdown />
+        <Image
+          src={imageSrc}
+          alt={name}
+          width={50}
+          height={50}
+          className="object-cover rounded-[14px]"
+          onError={() => setImageSrc("/gpt.png")} // Fallback if image fails to load
+        />
+        <WorkspaceMenuDropdown deleteProduct={deleteProduct} /> {/* Pass deleteProduct */}
       </div>
-      <h3 className="text-fontlight font-bold text-base mt-3">ChatGPT</h3>
+
+      {/* Model Name */}
+      <h3 className="text-fontlight font-bold text-base mt-3">{name}</h3>
+
+      {/* Rating and Users Section */}
       <div className="flex items-center gap-3 mt-4">
         <FaStar className="text-yellow-500" />
         <p className="capitalize">
-          Rating: <span>9/10</span>
+          Rating: <span>{rating}</span>
         </p>
         <p className="capitalize">
-          users: <span>5m+</span>
+          Users: <span>{users}</span>
         </p>
       </div>
-      <p className="text-sm font-normal text-fontlight mt-4">
-        {`Supports GPT-4 and GPT-3.5. OpenAI's next-generation conversational
-            AI, usi...`}
+
+      {/* Model Description */}
+      <p className="text-sm font-normal text-fontlight mt-4 line-clamp-2 text-ellipsis">
+        {description}
       </p>
-      <div className="flex items-center gap-2 mt-4">
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
-          chatbot
-        </span>
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
-          writing
-        </span>
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
-          sales
-        </span>
-        <span className="text-xs capitalize px-2 py-1 rounded-[21px] border border-card">
-          models
-        </span>
+
+      {/* Dynamic Categories */}
+      <div className="flex flex-wrap justify-center items-center gap-2 mt-4">
+        {categories.length > 0 ? (
+          categories.map((cat, index) => (
+            <span
+              key={`${cat}-${index}`} // Unique key combining category and index
+              className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card"
+            >
+              {cat}
+            </span>
+          ))
+        ) : (
+          <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
+            No categories selected
+          </span>
+        )}
       </div>
-    </Link>
+    </div>
   );
 }
 

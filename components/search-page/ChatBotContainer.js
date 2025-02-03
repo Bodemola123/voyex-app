@@ -7,6 +7,7 @@ import "../../app/globals.css";
 import BenFooter from "../common/BenFooter";
 import BenNavbar from "../common/BenNavbar";
 import SearchNavOpen from "./SearchNavOpen";
+import '../../app/globals.css'
 
 function ChatBotContainer({
   messages,
@@ -54,7 +55,7 @@ function ChatBotContainer({
       >
         {isHistoryVisible && <SearchNavOpen />}
       </div>
-    <div className="relative flex flex-col justify-between w-full gap-3 h-screen px-10 pt-10 overflow-y-auto">
+    <div className="flex-grow relative flex h-full w-full flex-col gap-10 justify-between items-center scrollbar-hide scroll-container px-10 pt-10 overflow-y-auto ">
       {/* Top section for chat header */}
       <ChatTop
         messages={messages}

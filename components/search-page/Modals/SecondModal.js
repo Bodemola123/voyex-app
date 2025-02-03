@@ -162,13 +162,13 @@ const SecondModal = ({ closeModal, openModal }) => {
         {/* Footer Buttons */}
         <div className="flex justify-between items-center mt-6">
           <button
-            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 outline-none focus:ring-none hover:border-[#c088fb]"
+            className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 outline-none focus:ring-none hover:border-[#c088fb] hover:scale-105 transition-all"
             onClick={() => openModal('third')}
           >
             Intelligence
           </button>
           <button
-            className="px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] focus:ring focus:ring-[#c088fb]"
+            className="px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] focus:ring focus:ring-[#c088fb] hover:scale-105 transition-all"
             onClick={closeModal}
           >
             Save Changes

@@ -5,7 +5,7 @@ import { FaStar, FaStarHalfAlt } from 'react-icons/fa'
 
 const ReviewCard = ( {review} ) => {
   return (
-    <div className='w-[530.88px] flex-shrink-0 rounded-2xl flex flex-col gap-4 p-6 bg-custom-gradient backdrop-blur-custom'>
+    <div className='w-[530.88px] flex-shrink-0 rounded-2xl flex flex-col gap-4 p-6 bg-[#0a0a0b]'>
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row gap-[22.46px]'>
                 <Image src={'/Ellipse.svg'} alt='image' width={47.74} height={47.74}/>

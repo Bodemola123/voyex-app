@@ -45,9 +45,9 @@ const chartConfig = {
 
 function UniqueClicks() {
   return (
-    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border border-card w-full h-full">
+    <Card className="text-white rounded-3xl bg-[#131314] border border-card w-full h-full">
       <CardHeader>
-        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+        <CardTitle className="text-2xl text-white font-medium capitalize">
           unique clicks
         </CardTitle>
         <CardDescription className="text-base font-medium text-fontlight">
@@ -91,7 +91,7 @@ function UniqueClicks() {
             <Line
               dataKey="desktop"
               type="linear"
-              stroke="#00a766"
+              stroke="#c088fb"
               strokeWidth={2}
               dot={true}
             />

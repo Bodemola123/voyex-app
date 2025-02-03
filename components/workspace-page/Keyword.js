@@ -9,9 +9,9 @@ import React from "react";
 
 function Keyword() {
   return (
-    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-gray/10 backdrop-blur-[9.3px] border-none">
+    <Card className="text-white rounded-3xl bg-[#131314] border-none">
       <CardHeader>
-        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+        <CardTitle className="text-2xl text-white font-medium capitalize">
           keyword
         </CardTitle>
         <CardDescription className="text-base font-medium text-fontlight">
@@ -22,7 +22,7 @@ function Keyword() {
         {Array.from({ length: 16 }).map((_, i) => (
           <div
             key={i}
-            className="text-sm text-center font-medium text-btnlime px-2 py-1 rounded-2xl bg-[#84DE7C40]"
+            className="text-sm text-center font-medium text-[#c088fb] px-2 py-1 rounded-2xl bg-[#9747FF3D]"
           >
             Theme {i + 1}
           </div>

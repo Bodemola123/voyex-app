@@ -44,9 +44,9 @@ const chartConfig = {
 
 export default function ConversationRate() {
   return (
-    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-gray/10 backdrop-blur-[9.3px] border border-card">
+    <Card className="text-white rounded-3xl bg-[#131314] border border-card">
       <CardHeader>
-        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+        <CardTitle className="text-2xl text-[#ffffff] font-medium capitalize">
           conversation rate
         </CardTitle>
         <CardDescription className="text-base font-medium text-fontlight">
@@ -83,7 +83,7 @@ export default function ConversationRate() {
             <Line
               dataKey="desktop"
               type="linear"
-              stroke="#00a766"
+              stroke="#c088fb"
               strokeWidth={2}
               dot={true}
             />

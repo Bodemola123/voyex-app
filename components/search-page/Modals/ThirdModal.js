@@ -80,7 +80,7 @@ const ThirdModal = ({ closeModal, openModal }) => {
 
         <div className="flex justify-end items-center gap-4">
           <button
-            className="bg-[#ff1e1e] text-[#0a0a0b] font-medium rounded-3xl border border-[#FFFFFF26] px-[21px] py-2.5 hover:bg-red-700"
+            className="bg-[#ff1e1e] text-[#0a0a0b] font-medium rounded-3xl border border-[#FFFFFF26] px-[21px] py-2.5 hover:bg-red-700 hover:scale-105 transition-all"
             onClick={() => setIsClearAllModalOpen(true)}
           >
             Cause Amnesia

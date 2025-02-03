@@ -9,21 +9,21 @@ function AnalyticsNavbar() {
   const pathname = usePathname();
   const handleActiveTab = () => {
     if (pathname.includes("conversation")) {
-      return "text-btnlime font-bold";
+      return "text-[#c088fb] font-bold";
     } else if (pathname.includes("conversation")) {
-      return "text-btnlime font-bold";
+      return "text-[#c088fb] font-bold";
     }
   };
 
   return (
-    <div className="flex items-center justify-start gap-7 mt-8 mb-7 px-4 py-2 rounded-2xl text-fontlight bg-gradient-to-r from-[#00a766]/10 to-gray/10 backdrop-blur-[9.3px]">
+    <div className="flex items-center justify-start gap-7 mt-8 mb-7 px-4 py-2 rounded-2xl text-fontlight bg-[#131314]">
       {analyticsNav.map((nav, i) => (
         <Link
           href={nav.link}
           key={i}
-          className={`flex items-center gap-2 text-base capitalize hover:text-btnlime transition-all ${
+          className={`flex items-center gap-2 text-base capitalize hover:text-[#c088fb] transition-all ${
             pathname === nav.link
-              ? "text-btnlime font-bold"
+              ? "text-[#c088fb] font-bold"
               : "text-fontlight font-normal"
           }
           `}

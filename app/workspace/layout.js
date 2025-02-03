@@ -1,7 +1,7 @@
 "use client";
 import BenFooter from "@/components/common/BenFooter";
 import BenNavbar from "@/components/common/BenNavbar";
-import WorkSpaceHeader from "@/components/workspace-page/Header";
+
 import NavOpen from "@/components/workspace-page/NavOpen";
 import React, { useEffect, useState } from "react";
 
@@ -38,12 +38,8 @@ function WorkSpaceLayout({ children }) {
       >
         {isHistoryVisible && <NavOpen />}
       </div>
-      <div className="relative flex-grow w-full h-full py-5 px-11 overflow-y-scroll flex flex-col justify-between gap-4 tracking-wide">
-        <div className="flex flex-col">
-          <WorkSpaceHeader />
-          {children}
-        </div>
-        <BenFooter />
+      <div className="relative flex-grow w-full h-full p-6 overflow-y-scroll flex flex-col justify-between gap-4 tracking-wide">
+        {children}
       </div>
     </div>
   );

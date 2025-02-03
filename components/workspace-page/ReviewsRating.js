@@ -8,7 +8,7 @@ function ReviewsRating() {
       {/*////////// RATING 1  ////////*/}
       <div className="flex items-center gap-3 w-full">
         <div className="relative block rounded-full w-full h-3 bg-[#F5E6FA]">
-          <span className="absolute top-0 left-0 bg-btnlime w-[80%] h-3 rounded-full"></span>
+          <span className="absolute top-0 left-0 bg-[#c088fb] w-[80%] h-3 rounded-full"></span>
         </div>
         <div className="flex items-start gap-2 text-yellow-500">
           <FaStar />
@@ -21,7 +21,7 @@ function ReviewsRating() {
       {/*////////// RATING 2  ////////*/}
       <div className="flex items-center gap-3 w-full">
         <div className="relative block rounded-full w-full h-3 bg-[#F5E6FA]">
-          <span className="absolute top-0 left-0 bg-btnlime w-[90%] h-3 rounded-full"></span>
+          <span className="absolute top-0 left-0 bg-[#c088fb] w-[90%] h-3 rounded-full"></span>
         </div>
         <div className="flex items-start gap-2 text-yellow-500">
           <FaStar />
@@ -34,7 +34,7 @@ function ReviewsRating() {
       {/*////////// RATING 3  ////////*/}
       <div className="flex items-center gap-3 w-full">
         <div className="relative block rounded-full w-full h-3 bg-[#F5E6FA]">
-          <span className="absolute top-0 left-0 bg-btnlime w-[70%] h-3 rounded-full"></span>
+          <span className="absolute top-0 left-0 bg-[#c088fb] w-[70%] h-3 rounded-full"></span>
         </div>
         <div className="flex items-start gap-2 text-yellow-500">
           <FaStar />
@@ -47,7 +47,7 @@ function ReviewsRating() {
       {/*////////// RATING 4  ////////*/}
       <div className="flex items-center gap-3 w-full">
         <div className="relative block rounded-full w-full h-3 bg-[#F5E6FA]">
-          <span className="absolute top-0 left-0 bg-btnlime w-[5%] h-3 rounded-full"></span>
+          <span className="absolute top-0 left-0 bg-[#c088fb] w-[5%] h-3 rounded-full"></span>
         </div>
         <div className="flex items-start gap-2 text-yellow-500">
           <FaStar />
@@ -60,7 +60,7 @@ function ReviewsRating() {
       {/*////////// RATING 5  ////////*/}
       <div className="flex items-center gap-3 w-full">
         <div className="relative block rounded-full w-full h-3 bg-[#F5E6FA]">
-          <span className="absolute top-0 left-0 bg-btnlime w-[5%] h-3 rounded-full"></span>
+          <span className="absolute top-0 left-0 bg-[#c088fb] w-[5%] h-3 rounded-full"></span>
         </div>
         <div className="flex items-start gap-2 text-yellow-500">
           <FaStar />
