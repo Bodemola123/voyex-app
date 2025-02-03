@@ -19,10 +19,12 @@ const NavOpen = () => {
           <FaPlus className='text-[10px] text-white/40' />
           <p className='text-xs text-white/60'>New model</p>
         </button>
-        <button className='py-4 px-3 flex flex-row gap-2.5 bg-transparent  hover:bg-[#c088fb] items-center'>
+        <Link
+        href={'/workspace'}
+         className='py-4 px-3 flex flex-row gap-2.5 bg-transparent  hover:bg-[#c088fb] items-center'>
           <IoCube className='text-[#ffffff] text-[24px]'/>
           <p className='font-bold text-lg text-[#f4f4f4]'>My Models</p>
-        </button>
+        </Link>
         <Link href='/galactimart' className='py-4 px-3 flex flex-row gap-2.5 bg-transparent hover:bg-[#c088fb] items-center'>
           <FiShoppingCart className='text-[18px] text-[#f4f4f4] ' />
           <p className='font-bold text-lg text-[#f4f4f4]'>Galactimart</p>

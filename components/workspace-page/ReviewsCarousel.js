@@ -25,9 +25,9 @@ function ReviewsCarousel() {
             {reveiwCarouselCards.map((card, i) => (
               <Card
                 key={i}
-                className="text-fontlight border-none rounded-[14px] bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] overflow-hidden p-6 w-full"
+                className="text-fontlight border-none rounded-[14px] bg-[#0a0a0b] overflow-hidden p-6 w-full"
               >
-                <CardContent className="flex flex-col aspect-[5/2] items-center justify-center -p-6">
+                <CardContent className="flex flex-col aspect-[5/2] items-center justify-center p-6">
                   <div className="flex items-end justify-between w-full">
                     <div className="flex items-center gap-2">
                       <Image

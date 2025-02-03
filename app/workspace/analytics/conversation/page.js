@@ -5,7 +5,7 @@ import React from "react";
 
 function Conversation() {
   return (
-    <div className="flex flex-col gap-5 w-full">
+    <div className="flex flex-col justify-between gap-5 w-full">
       <ConversationRate />
       <div className="grid grid-cols-2 gap-5 w-full max-h-min">
         <UniqueClicks />

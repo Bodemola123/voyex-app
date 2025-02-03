@@ -45,7 +45,7 @@ export const columns = [
     header: ({ column }) => {
       return (
         <button
-          className="flex items-center gap-2 hover:text-btnlime"
+          className="flex items-center gap-2 hover:text-[#c088fb]"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Rank
@@ -59,8 +59,8 @@ export const columns = [
     accessorKey: "socialMedia",
     header: "Social Media",
     cell: ({ row }) => (
-      <div className="flex items-center justify-start text-btnlime text-center text-sm font-medium capitalize">
-        <span className="py-2 px-3 rounded-2xl bg-[#84DE7C40]">
+      <div className="flex items-center justify-start text-[#c088fb] text-center text-sm font-medium capitalize">
+        <span className="py-2 px-3 rounded-2xl bg-[#9747FF3D]">
           {row.getValue("socialMedia")}
         </span>
       </div>
@@ -72,7 +72,7 @@ export const columns = [
     header: ({ column }) => {
       return (
         <button
-          className="flex items-center gap-2 hover:text-btnlime"
+          className="flex items-center gap-2 hover:text-[#c088fb]"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Usage(%)
@@ -112,9 +112,9 @@ function SocialSignals() {
   });
 
   return (
-    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border-none">
+    <Card className="text-white rounded-3xl bg-[#131314] border-none">
       <CardHeader>
-        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+        <CardTitle className="text-2xl text-white font-medium capitalize">
           Social Signals
         </CardTitle>
         <CardDescription className="text-base font-medium text-fontlight">
@@ -129,7 +129,7 @@ function SocialSignals() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}
-                    className="border-b-0 hover:bg-btnlime/20 data-[state=selected]:bg-btnlime/30"
+                    className="border-b-0 hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
                   >
                     {headerGroup.headers.map((header) => {
                       return (
@@ -153,7 +153,7 @@ function SocialSignals() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      className="border-b border-b-btnlime/10 hover:bg-btnlime/20 data-[state=selected]:bg-btnlime/30"
+                      className="border-b border-b-[#9747FF2D] hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>

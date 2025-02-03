@@ -34,7 +34,7 @@ const chartData = [
 const chartConfig = {
   facebook: {
     label: "Facebook",
-    color: "#46BA3C",
+    color: "#C088FB",
   },
   twitter: {
     label: "Twitter",
@@ -50,7 +50,7 @@ export default function SocialShares() {
   return (
     <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border border-card">
       <CardHeader>
-        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+        <CardTitle className="text-2xl text-white font-medium capitalize">
           Social Shares
         </CardTitle>
         <CardDescription className="text-base font-medium text-fontlight">

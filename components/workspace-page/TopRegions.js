@@ -56,9 +56,9 @@ const chartConfig = {
 
 export default function TopRegions() {
   return (
-    <Card className="flex flex-col justify-between text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border border-card w-full h-full">
+    <Card className="flex flex-col justify-between text-white rounded-3xl bg-[#131314] border border-card w-full h-full">
       <CardHeader>
-        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+        <CardTitle className="text-2xl text-white font-medium capitalize">
           top regions
         </CardTitle>
         <CardDescription className="text-base font-medium text-fontlight">

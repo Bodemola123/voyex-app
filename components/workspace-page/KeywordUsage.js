@@ -69,8 +69,8 @@ export const columns = [
     accessorKey: "seoSets",
     header: "SEO sets",
     cell: ({ row }) => (
-      <div className="flex items-center justify-start text-btnlime text-center text-sm font-medium   capitalize">
-        <span className="py-2 px-3 rounded-2xl bg-[#84DE7C40]">
+      <div className="flex items-center justify-start text-[#c088fb] text-center text-sm font-medium   capitalize">
+        <span className="py-2 px-3 rounded-2xl bg-[#9747FF3D]">
           {row.getValue("seoSets")}
         </span>
       </div>
@@ -81,7 +81,7 @@ export const columns = [
     header: ({ column }) => {
       return (
         <button
-          className="flex items-center gap-2 hover:text-btnlime"
+          className="flex items-center gap-2 hover:text-[#c088fb]"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Top searches
@@ -98,7 +98,7 @@ export const columns = [
     header: ({ column }) => {
       return (
         <button
-          className="flex items-center gap-2 hover:text-btnlime"
+          className="flex items-center gap-2 hover:text-[#c088fb]"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Average Clicks
@@ -154,9 +154,9 @@ function KeywordUsage() {
   });
 
   return (
-    <Card className="text-white rounded-3xl bg-transparent bg-gradient-to-r from-[#00a766]/10 to-gray/10 backdrop-blur-[9.3px] border-none col-span-2">
+    <Card className="text-white rounded-3xl bg-[#131314] border-none col-span-2">
       <CardHeader>
-        <CardTitle className="text-2xl text-btnlime font-medium capitalize">
+        <CardTitle className="text-2xl text-white font-medium capitalize">
           Keyword Usage
         </CardTitle>
         <CardDescription className="text-base font-medium text-fontlight">
@@ -176,7 +176,7 @@ function KeywordUsage() {
             />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="ml-auto bg-btnlime hover:bg-btnlime">
+                <Button className="ml-auto bg-[#c088fb] hover:bg-[#c088fb]">
                   Columns <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -210,7 +210,7 @@ function KeywordUsage() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}
-                    className="border-b-0 hover:bg-btnlime/20 data-[state=selected]:bg-btnlime/30"
+                    className="border-b-0 hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
                   >
                     {headerGroup.headers.map((header) => {
                       return (
@@ -234,7 +234,7 @@ function KeywordUsage() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      className="border-b-0 hover:bg-btnlime/20 data-[state=selected]:bg-btnlime/30"
+                      className="border-b-0 hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>

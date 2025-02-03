@@ -32,7 +32,7 @@ function WorkSpace() {
       first: { categories: [], name: "", description: "" }, // Reset the modal data when closing
       second: {},
       third: {},
-      fourth: { image: "" },
+      fourth: { image: null },
     });
     setActiveModal(null);
   };
@@ -66,14 +66,12 @@ function WorkSpace() {
     switch (activeModal) {
       case "first":
         return (
-      <FirstModal
-      closeModal={closeModal}
-      openModal={() => openModal("second")}
-      modalData={modalData.first} // Pass the entire first modal data
-      setModalData={(data) => setModalData((prev) => ({ ...prev, first: data }))}
-      categories={modalData.first.categories} // Pass the categories to the child
-/>
-
+          <FirstModal
+            closeModal={closeModal}
+            openModal={() => openModal("second")}
+            modalData={modalData.first} // Pass the entire first modal data
+            setModalData={(data) => setModalData((prev) => ({ ...prev, first: data }))}
+          />
         );
       case "second":
         return (
@@ -128,25 +126,28 @@ function WorkSpace() {
 
           {/* Search Input */}
           <div className="relative w-[198px]">
-            <FiSearch className="absolute top-2 left-2 w-6 h-6 text-white" />
-            <input
-              type="text"
-              placeholder="Search models"
-              className="pl-10 pr-4 py-2 bg-transparent rounded-3xl border border-card w-48 text-white placeholder-white"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+  <FiSearch className="absolute top-2 left-2 w-6 h-6 text-white" />
+  <input
+    type="text"
+    placeholder="Search models"
+    className="pl-10 pr-4 py-2 bg-transparent rounded-3xl border border-card w-48 text-white placeholder-white outline-none focus:ring-0 focus:border-card"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+  />
+</div>
+
 
           {/* Scrollable Product Grid */}
-          <div className="grid grid-cols-4 w-full gap-4 overflow-y-auto scrollbar-hide">
-            {filteredProducts.map((product, index) => (
-              <Product
-                key={index}
-                modalData={product}
-                deleteProduct={() => deleteProduct(index)} // Pass delete function with index
-              />
-            ))}
+          <div className="w-full h-full overflow-y-auto scrollbar-hide">
+            <div className="grid grid-cols-3 w-full gap-4">
+              {filteredProducts.map((product, index) => (
+                <Product
+                  key={index}
+                  modalData={product}
+                  deleteProduct={() => deleteProduct(index)} // Pass delete function with index
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}

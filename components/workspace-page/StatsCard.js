@@ -8,7 +8,7 @@ function StatsCard() {
       {usageCards.map((card, i) => (
         <div
           key={i}
-          className={`flex flex-col gap-3 text-fontlight bg-gradient-to-r from-[#00a766]/10 to-[#999999]/10 backdrop-blur-[9.3px] border border-card w-auto rounded-3xl px-6 py-3`}
+          className={`flex flex-col gap-3 text-fontlight bg-[#131314] border border-card w-auto rounded-3xl px-6 py-3`}
         >
           <h1 className="text-base font-medium">{card.name}</h1>
           <h3 className="text-4xl font-bold">{card.count}</h3>

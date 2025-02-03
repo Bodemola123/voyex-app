@@ -42,11 +42,11 @@ function MenuDropdown({ deleteProduct }) {
                 <p className="text-base font-normal group-hover:text-[#0a0a0b]">Edit Product</p>
               </button>
               <button
-                className="flex flex-row gap-2.5 rounded-[10px] w-full p-2 group hover:bg-[#c088fb] justify-start items-center"
+                className="flex flex-row gap-2.5 rounded-[10px] w-full p-2 group hover:bg-[#FF1E1E] justify-start items-center"
                 onClick={deleteProduct} // Trigger delete function
               >
-                <FaRegTrashCan className="text-[36px] text-red-900 group-hover:text-white" />
-                <p className="text-base font-medium">Delete</p>
+                <FaRegTrashCan className="text-[36px] text-red-900 group-hover:text-[#ffffff]" />
+                <p className="text-base font-medium group-hover:text-[#ffffff]">Delete</p>
               </button>
             </DropdownMenuItem>
         </DropdownMenuGroup>
