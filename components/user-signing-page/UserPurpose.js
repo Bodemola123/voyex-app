@@ -1,5 +1,6 @@
 import React from "react";
 import { IoIosAdd } from "react-icons/io";
+import DynamicCard from "../common/DynamicCard";
 
 function UserPurpose({
   usage,
@@ -8,8 +9,9 @@ function UserPurpose({
   handleUploadDetails,
 }) {
   return (
-    <main className="relative max-w-[714px] w-full h-[600px] z-[2] px-2 py-6 rounded-[29px] bg-black overflow-y-scroll">
-      <section className=" flex flex-col items-center max-w-[650px] w-full mx-auto">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden ">
+      <DynamicCard/>
+      <section className=" flex flex-col items-center max-w-[650px] w-full mx-auto px-2 py-6 rounded-[29px] bg-black overflow-y-scroll">
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
           <span className="w-[35px] h-[9px] rounded-[28px] bg-purple"></span>
@@ -42,12 +44,12 @@ function UserPurpose({
         </div>
 
         <div className="flex items-center justify-between max-w-[500px] py-6 w-full">
-          {/* <button
+           <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border border-card"
             onClick={() => router.push("/search")}
           >
             Skip
-          </button> */}
+          </button>
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple hover:bg-purple/70 transition-all ml-auto"
             onClick={() => handleUploadDetails()}

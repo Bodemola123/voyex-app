@@ -16,15 +16,15 @@ function SignupAccountSuccess({ setCurrentSlide }) {
           Your account has been created
           <br /> successfully
         </p>
-        <div className="flex items-center justify-center max-w-[400px] w-full">
-          {/* <button className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card">
+        <div className="flex items-center max-w-[400px] justify-between w-full">
+           <button className="text-base text-fontlight font-medium rounded-[25px] px-5 py-2.5 border  border-card" onClick={() => router.push("/search")}>
             Skip
-          </button> */}
+          </button>
           <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple hover:bg-purple/70 transition-all"
+            className="text-base text-black font-medium rounded-[25px] px-5 py-2.5 bg-purple hover:bg-purple/70 transition-all"
             onClick={() => setCurrentSlide("user-upload-details")}
           >
-            Continue
+            Upload Info
           </button>
         </div>
       </div>

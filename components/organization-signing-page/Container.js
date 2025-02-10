@@ -31,6 +31,9 @@ import {
   validateEmailInput,
   validatePasswordInput,
 } from "@/helpers/orgSignupValidateInput";
+import ComplianceandCert from "./ComplianceandCert";
+import FinancialInformation from "./FinancialInformation";
+import LeadershipAndTeam from "./LeadershipAndTeam";
 
 const emailKey = process.env.EMAIL_KEY;
 
@@ -47,15 +50,28 @@ function Container() {
   const [orgWebsite, setOrgWebsite] = useState("");
   const [orgIndustry, setOrgIndustry] = useState("");
   const [orgLocation, setOrgLocation] = useState("");
+  const [orgPcpName, setOrgPcpName] = useState("");
+  const [orgNumber, setOrgNumber] = useState("");
   const [orgTwitter, setOrgTwitter] = useState("");
   const [orgLinkedin, setOrgLinkedin] = useState("");
   const [orgPoc, setOrgPoc] = useState("");
   const [orgLogo, setOrgLogo] = useState("");
   const [orgAudience, setOrgAudience] = useState("");
   const [orgService, setOrgService] = useState("");
+  const [orgSpecialization, setOrgSpecialization] = useState("")
   const [orgTechUsed, setOrgTechUsed] = useState("");
   const [signupPasswordError, setSignupPasswordError] = useState("");
   const [signupEmailError, setSignupEmailError] = useState("");
+  const [orgFounder, setOrgFounder]= useState("");
+  const [orgTeamsize, setOrgTeamsize]= useState("");
+  const [orgExco, setOrgExcos]=useState("");
+  const [orgCareerspage, setOrgCareerspage]=useState("");
+  const [orgFundingInfo, setOrgFundingInfo]=useState("");
+  const [orgRevenueMode, setOrgRevenueMode]= useState("");
+  const [orgClient, setOrgClient]= useState("");
+  const [orgPrivacyInput, setOrgPrivacyInput]= useState("");
+  const [orgCertifications, setOrgCertifications]= useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   //////////////////////// SIGN IN INPUTS
   const [orgEmail, setOrgEmail] = useState("");
@@ -137,12 +153,13 @@ function Container() {
   const orgNameInput = (e) => {
     setOrgname(e.target.value);
   };
-  const industryInput = (e) => {
-    setOrgIndustry(e.target.value);
-    console.log(orgIndustry);
+  const industryInput = (newValue) => {
+    setOrgIndustry(newValue); // Use the selected value directly
+    console.log(newValue); // Debugging
   };
-  const locationInput = (e) => {
-    setOrgLocation(e.target.value);
+  const locationInput = (selectedLocation) => {
+    setOrgLocation(selectedLocation); // Update state with the selected location
+    console.log("Selected Location:", selectedLocation);
   };
   const websiteInput = (e) => {
     setOrgWebsite(e.target.value);
@@ -162,12 +179,62 @@ function Container() {
   const audienceInput = (e) => {
     setOrgAudience(e.target.value);
   };
+  const pcpName = (e) => {
+    setOrgPcpName(e.target.value);
+  };
+  const NumberInput = (e) => {
+    setOrgNumber(e.target.value);
+  };
   const serviceInput = (e) => {
     setOrgService(e.target.value);
   };
   const techUsedInput = (e) => {
     setOrgTechUsed(e.target.value);
   };
+  const setSpecialization = (e) => {
+    setOrgSpecialization(e.target.value)
+  }
+  const founderInput=(e)=>{
+    setOrgFounder(e.target.value)
+  }
+  const excoInput=(e)=>{
+    setOrgExcos(e.target.value)
+  }
+  const setTeamsize=(e)=>{
+    setOrgTeamsize(e.target.value)
+  }
+  const setCareerspage=(e)=>{
+    setOrgCareerspage(e.target.value)
+  }
+  const revenueInput=(newValue) => {
+    setRevenue(newValue);
+    console.log("Selected Revenue:", newValue); // Debugging
+  };
+  // The function passed to the dropdown to handle the input change
+  const fundingInput = (newValue) => {
+    setFunding(newValue);
+    console.log("Funding selected:", newValue); // Debugging the selected funding
+  };
+  const clientInput = (selectedValue) =>{
+    setOrgClient(selectedValue)
+    console.log("Selected Client:", selectedValue);
+  }
+  const privacyInput =(newValue) => {
+    setOrgPrivacyInput(newValue)
+  }
+  const certificationsInput=(newValue) => {
+    setOrgCertifications(newValue)
+    
+  }
+      // Handle file upload
+      const handleIndividualFileUpload = (file) => {
+        setUploadedFile(file); // Store file in state
+      };
+    
+      // Handle file removal
+      const handleIndividualFileRemove = () => {
+        setUploadedFile(null); // Clear the file
+      };
   ////////////////// SIGN IN VALUES
   const orgEmailInput1 = (e) => {
     setOrgEmail(e.target.value);
@@ -425,24 +492,47 @@ function Container() {
   //////////////// ORGANIZATION UPLOAD DETAILS /////////////////////////////////
   const handleBasicInfoSlide = () => {
     if (!orgname || !orgWebsite || !orgIndustry || !orgLocation) {
-      toast("complete all fields!!!");
+      toast.warn("complete all fields!!!");
       return;
     } else setCurrentSlide("contact-details");
   };
   const handleContactDetailsSlide = () => {
-    if (!orgPoc || !orgTwitter || !orgLinkedin) {
-      toast("complete all fields!!!");
+    if (!orgEmail || !orgPcpName || !orgNumber || !orgTwitter) {
+      toast.warn("complete all fields!!!");
       return;
     } else setCurrentSlide("operational-details");
   };
+  const handleOperationDetailsSlide = () => {
+    if (!orgAudience || !orgTechUsed || !orgService || !orgSpecialization) {
+      toast.warn("Complete all fields!!!");
+      return;
+    } else setCurrentSlide("leadership-team");
+
+  };
+  const handleLeadershipAndTeamSlide = () => {
+    if (!orgFounder || !orgCareerspage || !orgExco || !orgTeamsize){
+      toast.warn("Complete all fields!!!");
+      return;
+    
+    } else setCurrentSlide("financial-info");
+    
+  };
+  const handleFinancialInformationSlide = () => {
+    if (!orgClient || !orgFundingInfo || !orgRevenueMode){
+      toast.warn("Complete all fields!!");
+      return;
+
+    } else setCurrentSlide("compliance-certification")
+  };
   const uploadDetails = async () => {
     try {
-      if (!orgAudience || !orgTechUsed || !orgService) {
-        toast("complete all fields!!!");
+      if (!orgPrivacyInput || !orgCertifications || !uploadedFile ) {
+        toast.warn("complete all fields!!!");
         return;
       }
       setLoading(true);
       setCurrentSlide("org-upload-loading");
+      // still need to set specialization in the api
       const response = await axios.put(
         `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
         {
@@ -466,19 +556,19 @@ function Container() {
       );
       // console.log("response", response);
       if (response.status === 200) {
-        toast(response.data);
+        toast.success(response.data);
         setCurrentSlide("org-upload-success");
       }
       if (response.status !== 200) {
-        setCurrentSlide("signing");
+        setCurrentSlide("basic-info");
       }
     } catch (error) {
       // console.log(error);
       if (error.response?.data) {
-        toast(error.response.data);
-      } else toast(error.message);
+        toast.error(error.response.data);
+      } else toast.error(error.message);
       if (error.message) {
-        setCurrentSlide("signing");
+        setCurrentSlide("basic-info");
       }
     } finally {
       setLoading(false);
@@ -715,25 +805,26 @@ function Container() {
       );
     } else if (currentSlide === "basic-info") {
       return (
-        <BasicInfoContainer
-          orgNameInput={orgNameInput}
-          websiteInput={websiteInput}
-          setOrgIndustry={setOrgIndustry}
-          locationInput={locationInput}
-          handleBasicInfoSlide={handleBasicInfoSlide}
-          setCurrentSlide={setCurrentSlide}
-          loading={loading}
-        />
+<BasicInfoContainer
+  orgNameInput={orgNameInput}
+  websiteInput={websiteInput}
+  industryInput={industryInput}  // ✅ Corrected
+  locationInput={locationInput}  // ✅ Corrected
+  handleBasicInfoSlide={handleBasicInfoSlide}
+  loading={loading}
+/>
       );
     } else if (currentSlide === "contact-details") {
       return (
         <ContactDetailsContainer
-          pocInput={pocInput}
+          EmailInput={EmailInput}
+          pcpName={pcpName}
+          NumberInput={NumberInput}
           twitterInput={twitterInput}
-          linkedinInput={linkedinInput}
           handleContactDetailsSlide={handleContactDetailsSlide}
           setCurrentSlide={setCurrentSlide}
           loading={loading}
+          linkedinInput={linkedinInput}
         />
       );
     } else if (currentSlide === "operational-details") {
@@ -743,8 +834,46 @@ function Container() {
           serviceInput={serviceInput}
           techUsedInput={techUsedInput}
           loading={loading}
-          handleUploadDetails={handleUploadDetails}
+          handleOperationDetailsSlide={handleOperationDetailsSlide}
           setCurrentSlide={setCurrentSlide}
+          setSpecialization={setSpecialization}
+        />
+      );
+    } else if (currentSlide === "leadership-team") {
+      return (
+        <LeadershipAndTeam
+        setCareerspage={setCareerspage}
+        setTeamsize={setTeamsize}
+        founderInput={founderInput}
+        excoInput={excoInput}
+        setCurrentSlide={setCurrentSlide}
+        handleLeadershipAndTeamSlide={handleLeadershipAndTeamSlide}
+        />
+      );
+    } else if (currentSlide === "financial-info") {
+      return (
+        <FinancialInformation
+        handleFinancialInformationSlide={handleFinancialInformationSlide}
+        revenueInput={revenueInput}
+        fundingInput={fundingInput}
+        clientInput={clientInput}
+        setCurrentSlide={setCurrentSlide}
+
+        />
+      );
+    } else if (currentSlide === "compliance-certification") {
+      return (
+        <ComplianceandCert
+        privacyInput={privacyInput}
+        certificationsInput={certificationsInput}
+        loading={loading}
+        currentSlide={currentSlide}
+        uploadedFile={uploadedFile}
+        handleUploadDetails={handleUploadDetails}
+        setCurrentSlide={setCurrentSlide}
+        handleIndividualFileUpload={handleIndividualFileUpload}
+        handleIndividualFileRemove={handleIndividualFileRemove}
+
         />
       );
     } else if (currentSlide === "org-signup-loading") {

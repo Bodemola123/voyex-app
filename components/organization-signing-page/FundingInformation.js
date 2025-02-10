@@ -20,33 +20,25 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-const industries = [
-  { value: "technology", label: "Technology" },
-  { value: "health", label: "Health" },
-  { value: "business", label: "Business" },
-  { value: "marketing", label: "Marketing" },
-  { value: "design", label: "Design" },
-  { value: "trading", label: "Trading" },
-  { value: "e-commerce", label: "E-commerce" },
-  { value: "agriculture", label: "Agriculture" },
+const fundingOptions = [
+  { value: "equity", label: "Equity Financing" },
+  { value: "debt", label: "Debt Financing" },
+  { value: "grants", label: "Grants" },
+  { value: "revenue", label: "Revenue-based Financing" },
+  { value: "hybrid", label: "Hybrid Financing" },
+  { value: "bootstrapping", label: "Bootstrapping" },
+  { value: "asset", label: "Asset-based Financing" },
 ];
 
-export function IndustryDropdown({ industryInput, initialValue = "" }) {
+export function FundingInformation({ fundingInput, initialValue = "" }) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(initialValue); // We manage this locally
+  const [value, setValue] = useState(initialValue);
 
-  const selectedIndustry = useMemo(
-    () => industries.find((industry) => industry.value === value)?.label,
+  // Memoize selected funding label based on selected value
+  const selectedFundingOption = useMemo(
+    () => fundingOptions.find((option) => option.value === value)?.label,
     [value]
   );
-
-  // This will handle the dropdown selection
-  const handleSelectIndustry = (currentValue) => {
-    const newValue = currentValue === value ? "" : currentValue;
-    setValue(newValue);
-    industryInput(newValue); // Call the passed industryInput to update parent state
-    setOpen(false); // Close dropdown after selection
-  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -54,36 +46,41 @@ export function IndustryDropdown({ industryInput, initialValue = "" }) {
         <Button
           variant="outline"
           role="combobox"
-          aria-label="Select Industry"
+          aria-label="Select Funding Option"
           aria-expanded={open}
           className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
         >
-          {selectedIndustry || "Select industry..."}
+          {selectedFundingOption || "Select funding option..."}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 p-0 text-fontlight border-none">
         <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
           <CommandInput
-            placeholder="Search for industry"
-            aria-label="Search Industry"
+            placeholder="Search for funding option"
+            aria-label="Search Funding Option"
             className="border border-gray/20 rounded-[28px]"
           />
           <CommandList className="mt-3">
-            <CommandEmpty>No industry found.</CommandEmpty>
+            <CommandEmpty>No funding option found.</CommandEmpty>
             <CommandGroup>
-              {industries.map((industry) => (
+              {fundingOptions.map((option) => (
                 <CommandItem
-                  key={industry.value}
-                  value={industry.value}
+                  key={option.value}
+                  value={option.value}
                   className="text-fontlight data-[selected='true']:bg-purple"
-                  onSelect={() => handleSelectIndustry(industry.value)} // Handle industry select
+                  onSelect={(currentValue) => {
+                    const newValue = currentValue === value ? "" : currentValue;
+                    setValue(newValue);
+                    fundingInput(newValue);
+                    setOpen(false);
+                  }}
                 >
-                  {industry.label}
+                  {option.label}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === industry.value
+                      value === option.value
                         ? "opacity-100 text-fontlight hover:text-black"
                         : "opacity-0"
                     )}

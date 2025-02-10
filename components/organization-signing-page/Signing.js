@@ -22,6 +22,8 @@ import { FaApple } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import DynamicCard from "../common/DynamicCard";
 
 function Signing({
   passwordInput,
@@ -43,9 +45,11 @@ function Signing({
   // border,
   setCurrentSlide,
 }) {
+  const router = useRouter();
   return (
-    <main className="max-w-[666px] w-full h-[600px] z-[2] rounded-[29px] bg-black overflow-y-hidden overflow-x-hidden shadow-1s">
-      <section className="relative p-6 h-full w-full overflow-y-scroll">
+    <main className="grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden scrollbar-hide">
+      <DynamicCard/>
+      <section className="relative p-6 h-full w-full rounded-[29px] bg-black overflow-y-scroll scrollbar-hide">
         <div className=" flex flex-col items-center h-full">
           <h1 className="text-3xl font-bold text-fontlight capitalize">
             voyex
@@ -65,6 +69,7 @@ function Signing({
                 sign in
               </TabsTrigger>
             </TabsList>
+            <p className="text-center"><button  onClick={() => router.push("/auth/user")} className="text-[#c088fb] text-base mt-10 "> Continue as single user</button></p>
             <TabsContent value="sign_up" className="mt-10">
               <Card className="rounded-none border-none">
                 <CardContent className="space-y-4 p-0">

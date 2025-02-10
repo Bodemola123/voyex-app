@@ -23,6 +23,8 @@ import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import ForgotPassword from "./ForgotPasswordHome";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import DynamicCard from "../common/DynamicCard";
 
 function Signing({
   emailInput,
@@ -42,9 +44,11 @@ function Signing({
   setCurrentSlide,
 }) {
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const router = useRouter();
   return (
-    <main className="max-w-[666px] w-full h-[600px] z-[2] rounded-[29px] bg-black overflow-y-hidden overflow-x-hidden shadow-1s">
-      <section className="relative p-6 h-full w-full overflow-y-scroll">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden ">
+      <DynamicCard/>
+      <section className="relative p-6 h-full w-full rounded-[29px] bg-black overflow-y-scroll">
         <div className=" flex flex-col items-center h-full">
           <h1 className="text-3xl font-bold text-fontlight capitalize">
             voyex
@@ -64,6 +68,7 @@ function Signing({
                 sign in
               </TabsTrigger>
             </TabsList>
+            <p className="text-sm font-normal mt-10 text-center">Want to list your AI? <button  onClick={() => router.push("/auth/organization")} className="text-[#c088fb] text-base"> Continue as Organization</button></p>
             <TabsContent value="sign_up" className="mt-10">
               <Card className="rounded-none border-none">
                 <CardContent className="space-y-4 p-0">

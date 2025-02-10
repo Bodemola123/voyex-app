@@ -4,41 +4,76 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import DynamicCard from "../common/DynamicCard";
+import { useState } from "react";
 
 function ContactDetailsContainer({
-  pocInput,
-  twitterInput,
-  linkedinInput,
+  EmailInput,
+  pcpName,
+  NumberInput,
   loading,
   setCurrentSlide,
   handleContactDetailsSlide,
+  twitterInput,
+  linkedinInput,
 }) {
+  const [showLinkedIn, setShowLinkedIn] = useState(false); // Manage visibility of LinkedIn input
   const router = useRouter();
+
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center justify-center h-full max-w-[444px] w-full mx-auto">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto scrollbar-hide overflow-x-hidden items-center">
+      <DynamicCard />
+      <div className=" flex flex-col items-center justify-start h-full max-w-[444px] py-[33px] w-full mx-auto rounded-[29px] bg-black overflow-y-scroll scrollbar-hide">
+      <p className="text-center font-bold text-5xl mb-10">Voyex</p>
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
           <span className="w-[35px] h-[9px] rounded-[28px] bg-purple"></span>
+          <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
+          <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
+          <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
         </div>
         <h1 className="text-fontlight text-3xl text-center font-bold capitalize my-4 tracking-wider">
           contact details
         </h1>
 
-        <div className="space-y-[6px] w-full mt-5">
-          <Label htmlFor="poc" className="text-fontlight font-normal">
-            Point of Contact
+        <div className="space-y-[6px] w-full mt-5 px-2">
+          <Label htmlFor="email" className="text-fontlight font-normal">
+            Email Address
           </Label>
           <Input
-            id="poc"
+            id="email"
             type="text"
-            placeholder="number/email"
-            onChange={pocInput}
+            placeholder="Email Address"
+            onChange={EmailInput}
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
           />
         </div>
-        <div className="space-y-[6px] w-full mt-5">
+        <div className="space-y-[6px] w-full mt-5 px-2">
+          <Label htmlFor="pcp_name" className="text-fontlight font-normal">
+            Primary Contact Person&apos;s Name
+          </Label>
+          <Input
+            id="pcp_name"
+            type="text"
+            placeholder="Your Name"
+            onChange={pcpName}
+            className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
+          />
+        </div>
+        <div className="space-y-[6px] w-full mt-5 px-2">
+          <Label htmlFor="phone_number" className="text-fontlight font-normal">
+            Phone number
+          </Label>
+          <Input
+            id="phonenumber"
+            type="text"
+            placeholder="Your Phone Number"
+            onChange={NumberInput}
+            className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
+          />
+        </div>
+        <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="social_media" className="text-fontlight font-normal">
             Social Media Links(twitter)
           </Label>
@@ -50,18 +85,34 @@ function ContactDetailsContainer({
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
           />
         </div>
-        <div className="space-y-[6px] w-full mt-5">
-          <Label htmlFor="social_media2" className="text-fontlight font-normal">
-            Social Media Link(linkedin)
-          </Label>
-          <Input
-            id="social_media2"
-            type="text"
-            placeholder="add url"
-            onChange={linkedinInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
-          />
-        </div>
+        
+        {/* Conditionally render the "Add more links" button or LinkedIn input */}
+        {!showLinkedIn && (
+          <p className="text-center">
+            <button
+              className="text-[#c088fb] text-base mt-5"
+              onClick={() => setShowLinkedIn(true)} // Show the LinkedIn input
+            >
+              Add more links
+            </button>
+          </p>
+        )}
+
+        {showLinkedIn && (
+          <div className="space-y-[6px] w-full mt-5 px-2">
+            <Label htmlFor="social_media2" className="text-fontlight font-normal">
+              Social Media Link(linkedin)
+            </Label>
+            <Input
+              id="social_media2"
+              type="text"
+              placeholder="add url"
+              onChange={linkedinInput}
+              className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
+            />
+          </div>
+        )}
+
         <div className="flex items-center justify-between max-w-[400px] mt-6 w-full">
           <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card"
@@ -71,7 +122,7 @@ function ContactDetailsContainer({
           </button>
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple hover:bg-purple/70 ml-auto transition-all"
-            onClick={() => handleContactDetailsSlide()}
+            onClick={handleContactDetailsSlide}
           >
             Next
           </button>

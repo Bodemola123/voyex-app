@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import SkillLevelDropdown from "./SkillLevelDropdown";
+import DynamicCard from "../common/DynamicCard";
 
 function BasicInfoContainer({
   setUserFullName,
@@ -13,8 +14,9 @@ function BasicInfoContainer({
   loading,
 }) {
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
-      <div className=" flex flex-col items-center max-w-[444px] w-full mx-auto">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden ">
+      <DynamicCard/>
+      <div className=" flex flex-col items-center max-w-[444px] w-full rounded-[29px] bg-black mx-auto overflow-y-scroll">
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
           <span className="w-[35px] h-[9px] rounded-[28px] bg-purple"></span>
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
@@ -55,7 +57,7 @@ function BasicInfoContainer({
         </div>
         <div className="space-y-[6px] w-full mt-5">
           <Label htmlFor="country" className="text-fontlight font-normal">
-            Country
+            Region/TimeZone
           </Label>
           <Input
             id="country"
@@ -66,12 +68,12 @@ function BasicInfoContainer({
           />
         </div>
         <div className="flex items-center justify-between max-w-[500px] py-6 w-full">
-          {/* <button
+          <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border border-card"
             onClick={() => router.push("/search")}
           >
             Skip
-          </button> */}
+          </button> 
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple ml-auto"
             onClick={() => handleBasicInfoSlide()}
