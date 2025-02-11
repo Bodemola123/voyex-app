@@ -241,7 +241,7 @@ function OrgSignupPopup({ setDisplay }) {
         <BasicInfoContainer
           orgNameInput={orgNameInput}
           websiteInput={websiteInput}
-          industryInput={industryInput}
+          setOrgIndustry={setOrgIndustry}
           locationInput={locationInput}
           handleBasicInfoSlide={handleBasicInfoSlide}
           setCurrentSlide={setCurrentSlide}
@@ -319,7 +319,7 @@ function OrgSignupPopup({ setDisplay }) {
 <BasicInfoContainer
   orgNameInput={orgNameInput}
   websiteInput={websiteInput}
-  industryInput={industryInput}  // ✅ Corrected
+  setOrgIndustry={setOrgIndustry}  // ✅ Corrected
   locationInput={locationInput}  // ✅ Corrected
   handleBasicInfoSlide={handleBasicInfoSlide}
   loading={loading}

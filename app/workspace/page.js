@@ -20,9 +20,14 @@ function WorkSpace() {
   // Initialize modalData with default values
   const [modalData, setModalData] = useState({
     first: { categories: [], name: "", description: "" }, // Ensure first modal has name, description, and categories
-    second: {},
-    third: {},
-    fourth: { image: null }, // Ensure image is stored here
+    second: { role: "", resourceType: "" }, // Structure for SecondModal,
+    third: {
+      individualFiles: [], // This will hold the list of individual files uploaded (array)
+      zipFile: null, // This will hold the zip file uploaded (can be null if no zip file)
+    },
+    fourth: {
+      image: uploadedImage || null,  // Holds the uploaded brand image file
+    }, // Ensure image is stored here
   });
 
   const openModal = (modalName) => setActiveModal(modalName);
@@ -30,7 +35,7 @@ function WorkSpace() {
   const closeModal = () => {
     setModalData({
       first: { categories: [], name: "", description: "" }, // Reset the modal data when closing
-      second: {},
+      second: { role: "", resourceType: ""},
       third: {},
       fourth: { image: null },
     });
@@ -50,17 +55,44 @@ function WorkSpace() {
     });
   };
 
-  const handleProductCreation = () => {
-    setProducts((prevProducts) => [
-      ...prevProducts,
-      {
-        ...modalData.first, // Name, description, categories
-        image: modalData.fourth.image, // Image from FourthModal
-      },
-    ]);
-    setIsProductCreated(true); // Switch to the product creation layout
-    closeModal();
+  const handleProductCreation = async () => {
+    try {
+      const response = await axios.put(
+        'https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2', {
+          Productname: modalData.first.name,
+          Productdescription: modalData.first.description,
+          ProductCategories: modalData.first.categories,
+          Productimage: modalData.fourth.image,
+          Productrole: modalData.second.role,
+          resourceType: modalData.second.resourceType,
+          ProductindividualFiles: modalData.third.individualFiles,
+          ProductzipFile: modalData.third.zipFile,
+        }
+      );
+  
+      // Handle response here
+      console.log('Product created successfully', response.data);
+  
+      // Assuming the response will return some success or product ID
+      console.log('Product created successfully', response.data);
+  
+      // After success, update the state (e.g., set products or trigger next steps)
+      setProducts((prevProducts) => [
+        ...prevProducts,
+        {
+          ...modalData.first, // Name, description, categories
+          image: modalData.fourth.image, // Image from FourthModal
+        },
+      ]);
+  
+      setIsProductCreated(true); // Switch to the product creation layout
+      closeModal(); // Close the modal
+    } catch (error) {
+      console.error('Error creating product:', error);
+      // Handle the error (e.g., show an error message)
+    }
   };
+  
 
   const renderModal = () => {
     switch (activeModal) {

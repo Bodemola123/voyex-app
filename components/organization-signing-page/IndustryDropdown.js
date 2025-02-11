@@ -1,8 +1,7 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { FaCaretDown } from "react-icons/fa";
-import { useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -19,34 +18,46 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useState } from "react";
 
-const industries = [
-  { value: "technology", label: "Technology" },
-  { value: "health", label: "Health" },
-  { value: "business", label: "Business" },
-  { value: "marketing", label: "Marketing" },
-  { value: "design", label: "Design" },
-  { value: "trading", label: "Trading" },
-  { value: "e-commerce", label: "E-commerce" },
-  { value: "agriculture", label: "Agriculture" },
+const indutries = [
+  {
+    value: "technology",
+    label: "Technology",
+  },
+  {
+    value: "health",
+    label: "Health",
+  },
+  {
+    value: "business",
+    label: "Business",
+  },
+  {
+    value: "marketing",
+    label: "Marketing",
+  },
+  {
+    value: "design",
+    label: "Design",
+  },
+  {
+    value: "trading",
+    label: "Trading",
+  },
+  {
+    value: "e-commerce",
+    label: "E-commerce",
+  },
+  {
+    value: "agriculture",
+    label: "Agriculture",
+  },
 ];
 
-export function IndustryDropdown({ industryInput, initialValue = "" }) {
+export function IndustryDropdown({ setOrgIndustry }) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(initialValue); // We manage this locally
-
-  const selectedIndustry = useMemo(
-    () => industries.find((industry) => industry.value === value)?.label,
-    [value]
-  );
-
-  // This will handle the dropdown selection
-  const handleSelectIndustry = (currentValue) => {
-    const newValue = currentValue === value ? "" : currentValue;
-    setValue(newValue);
-    industryInput(newValue); // Call the passed industryInput to update parent state
-    setOpen(false); // Close dropdown after selection
-  };
+  const [value, setValue] = useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -54,35 +65,39 @@ export function IndustryDropdown({ industryInput, initialValue = "" }) {
         <Button
           variant="outline"
           role="combobox"
-          aria-label="Select Industry"
           aria-expanded={open}
           className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
         >
-          {selectedIndustry || "Select industry..."}
+          {value
+            ? indutries.find((industry) => industry.value === value)?.label
+            : "Select industry..."}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
+        <Command className="bg-black text-fontlight p-3 border-none">
           <CommandInput
             placeholder="Search for industry"
-            aria-label="Search Industry"
-            className="border border-gray/20 rounded-[28px]"
+            className="border border-gray/20 rounded-[28px] "
           />
-          <CommandList className="mt-3">
+          <CommandList className=" mt-3">
             <CommandEmpty>No industry found.</CommandEmpty>
             <CommandGroup>
-              {industries.map((industry) => (
+              {indutries.map((industry) => (
                 <CommandItem
                   key={industry.value}
                   value={industry.value}
                   className="text-fontlight data-[selected='true']:bg-purple"
-                  onSelect={() => handleSelectIndustry(industry.value)} // Handle industry select
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOrgIndustry(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
                 >
                   {industry.label}
                   <Check
                     className={cn(
-                      "ml-auto",
+                      "ml-auto ",
                       value === industry.value
                         ? "opacity-100 text-fontlight hover:text-black"
                         : "opacity-0"

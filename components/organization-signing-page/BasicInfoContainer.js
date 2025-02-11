@@ -11,7 +11,7 @@ import { LocationDropdown } from "./LocationDropdown";
 function BasicInfoContainer({
   orgNameInput,
   websiteInput,
-  industryInput,
+  setOrgIndustry,
   locationInput,
   handleBasicInfoSlide,
   loading,
@@ -63,7 +63,7 @@ function BasicInfoContainer({
           <Label htmlFor="industry" className="text-fontlight font-normal">
             Industry
           </Label>
-          <IndustryDropdown industryInput={industryInput} />
+          <IndustryDropdown setOrgIndustry={setOrgIndustry} />
           {/* <div className="space-y-[6px] w-full mt-5">
           <Label htmlFor="industry" className="text-fontlight font-normal">
             Industry

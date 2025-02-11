@@ -6,15 +6,17 @@ import { useEffect, useState } from "react";
 function Product({ modalData, deleteProduct }) {
   console.log("Product ModalData:", modalData); // Debugging
 
-  // Safely access modalData properties with fallback values
-  const {
-    name = "Model Name",
-    description = "No description provided.",
-    image = null,
-    categories = [],
-    rating = "9/10",
-    users = "5m+",
-  } = modalData;
+// Destructure modalData properties with fallback values
+const {
+  name = "Model Name",
+  description = "No description provided.",
+  categories = [], // From modalData.first
+  rating = "9/10",  // Assuming rating comes from modalData.first
+  users = "5m+",   // Assuming users comes from modalData.first
+} = modalData; // Access name, description, categories, rating, and users from modalData.first
+
+const { image = null } = modalData.fourth; // Get image from modalData.fourth
+
 
   const [imageSrc, setImageSrc] = useState("/gpt.png"); // Default image
 
@@ -73,7 +75,7 @@ function Product({ modalData, deleteProduct }) {
       </p>
 
       {/* Dynamic Categories */}
-      <div className="flex flex-wrap justify-center items-center gap-2 mt-4">
+      <div className="flex flex-wrap justify-between items-center gap-2 mt-4">
         {categories.length > 0 ? (
           categories.map((cat, index) => (
             <span

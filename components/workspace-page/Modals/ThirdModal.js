@@ -20,25 +20,44 @@ const ThirdModal = ({ openModal, closeModal, modalData, setModalData }) => {
     closeModal(); // Close the modal and reset the data
   };
 
-  // Handle file upload for Individual Files
-  const handleIndividualFileUpload = (file) => {
-    setIndividualFiles((prevFiles) => [...prevFiles, file]);
-  };
+// Handle file upload for Individual Files
+const handleIndividualFileUpload = (file) => {
+  const updatedFiles = [...individualFiles, file];
+  setIndividualFiles(updatedFiles);
+  setModalData((prevData) => ({
+    ...prevData,
+    individualFiles: updatedFiles, // Save to modalData
+  }));
+};
 
-  // Handle file removal for Individual Files
-  const handleIndividualFileRemove = (file) => {
-    setIndividualFiles((prevFiles) => prevFiles.filter((f) => f !== file));
-  };
+// Handle file removal for Individual Files
+const handleIndividualFileRemove = (file) => {
+  const updatedFiles = individualFiles.filter((f) => f !== file);
+  setIndividualFiles(updatedFiles);
+  setModalData((prevData) => ({
+    ...prevData,
+    individualFiles: updatedFiles, // Save to modalData
+  }));
+};
 
-  // Handle file upload for Zip Files
-  const handleZipFileUpload = (file) => {
-    setZipFile(file);
-  };
+// Handle file upload for Zip Files
+const handleZipFileUpload = (file) => {
+  setZipFile(file);
+  setModalData((prevData) => ({
+    ...prevData,
+    zipFile: file, // Save to modalData
+  }));
+};
 
-  // Handle file removal for Zip Files
-  const handleZipFileRemove = () => {
-    setZipFile(null);
-  };
+// Handle file removal for Zip Files
+const handleZipFileRemove = () => {
+  setZipFile(null);
+  setModalData((prevData) => ({
+    ...prevData,
+    zipFile: null, // Remove from modalData
+  }));
+};
+
 
   // Validate and proceed to the next modal
   const handleNext = () => {

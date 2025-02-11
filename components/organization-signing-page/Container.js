@@ -161,6 +161,9 @@ function Container() {
     setOrgLocation(selectedLocation); // Update state with the selected location
     console.log("Selected Location:", selectedLocation);
   };
+  const EmailInput = (e) => {
+    setOrgEmail(e.target.value);
+  };
   const websiteInput = (e) => {
     setOrgWebsite(e.target.value);
   };
@@ -808,7 +811,7 @@ function Container() {
 <BasicInfoContainer
   orgNameInput={orgNameInput}
   websiteInput={websiteInput}
-  industryInput={industryInput}  // ✅ Corrected
+  setOrgIndustry={setOrgIndustry}  // ✅ Corrected
   locationInput={locationInput}  // ✅ Corrected
   handleBasicInfoSlide={handleBasicInfoSlide}
   loading={loading}

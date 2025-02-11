@@ -10,7 +10,7 @@ import ComplianceandCert from "./components/ComplianceandCert";
 import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
 
-const ParentContainer = () => {
+const OrgaSignupopop = () => {
   // Centralized state to store all form data
   const [formData, setFormData] = useState({
     orgName: "",
@@ -266,4 +266,4 @@ const ParentContainer = () => {
     </div>;
 };
 
-export default ParentContainer;
+export default OrgaSignupopop;
