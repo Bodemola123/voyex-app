@@ -26,7 +26,7 @@ function WorkSpace() {
       zipFile: null, // This will hold the zip file uploaded (can be null if no zip file)
     },
     fourth: {
-      image: uploadedImage || null,  // Holds the uploaded brand image file
+      image: null,  // Holds the uploaded brand image file
     }, // Ensure image is stored here
   });
 

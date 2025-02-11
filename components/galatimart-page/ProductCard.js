@@ -38,7 +38,7 @@ const ProductCard = ( {product} ) => {
             <p className='truncate'>next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
         </div>
         {!hovered && (
-        <div className='flex flex-row items-center justify-between gap-2 w-full mt-4'>
+        <div className='flex flex-row items-center justify-start gap-2 w-full mt-4'>
          <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
           chatbot
         </span>
