@@ -10,6 +10,7 @@ import FourthModal from "@/components/workspace-page/Modals/FourthModal";
 import Product from "@/components/workspace-page/Product";
 import { FiSearch } from "react-icons/fi"; // Import the search icon
 import "../../app/globals.css";
+import axios from "axios";
 
 function WorkSpace() {
   const [activeModal, setActiveModal] = useState(null);
@@ -56,42 +57,53 @@ function WorkSpace() {
   };
 
   const handleProductCreation = async () => {
+    
+    const productData = {
+      Tool_Name: modalData.first.name,
+      Tool_Category: modalData.first.categories.join(", "), // Convert array to string
+      Tool_URL: "https://example.com", // Replace with actual URL input
+      Tool_Short_Description: modalData.first.description,
+      Tool_Large_Description: "Detailed description here", // Update as needed
+      Tool_Assets_Metadata: {
+        asset1: "value1",
+        asset2: "value2",
+      },
+      added_by_entity_type: "org",
+      added_by_entity_id: 132,
+      Pricing_Model: "Free",
+      Rating: 4.5,
+      Approval_Status: true,
+      Partnership_Type: "Affiliate",
+      Special_Tags: ["tag1", "tag2"],
+      Use_Case_Tags: ["use1", "use2"],
+      Comments: ["Good tool", "Needs improvement"],
+      Social_Platforms: {
+        LinkedIn: "https://linkedin.com/company/example",
+        Twitter: "https://twitter.com/example",
+      },
+      metadata: {
+        additional_info: "Some extra info",
+      },
+    };
+  
     try {
-      const response = await axios.put(
-        'https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2', {
-          Productname: modalData.first.name,
-          Productdescription: modalData.first.description,
-          ProductCategories: modalData.first.categories,
-          Productimage: modalData.fourth.image,
-          Productrole: modalData.second.role,
-          resourceType: modalData.second.resourceType,
-          ProductindividualFiles: modalData.third.individualFiles,
-          ProductzipFile: modalData.third.zipFile,
-        }
+      const response = await axios.post(
+        "https://61iu6ly9s9.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_input",
+        productData
       );
   
-      // Handle response here
-      console.log('Product created successfully', response.data);
+      console.log("Product created successfully:", response.data);
   
-      // Assuming the response will return some success or product ID
-      console.log('Product created successfully', response.data);
-  
-      // After success, update the state (e.g., set products or trigger next steps)
-      setProducts((prevProducts) => [
-        ...prevProducts,
-        {
-          ...modalData.first, // Name, description, categories
-          image: modalData.fourth.image, // Image from FourthModal
-        },
-      ]);
-  
-      setIsProductCreated(true); // Switch to the product creation layout
-      closeModal(); // Close the modal
+      // Update local state after successful API call
+      setProducts((prevProducts) => [...prevProducts, { ...modalData.first, image: modalData.fourth.image }]);
+      setIsProductCreated(true);
+      closeModal();
     } catch (error) {
-      console.error('Error creating product:', error);
-      // Handle the error (e.g., show an error message)
-    }
+        console.error("Error creating product:", error.response?.data || error.message);
+      }
+      
   };
+  
   
 
   const renderModal = () => {
