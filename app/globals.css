@@ -258,3 +258,27 @@ a:hover .i {
 .we {
   background-color: rgba(192, 136, 251, 0.513);
 }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+.Toastify__toast-container {
+  padding-bottom: 0 !important; /* Prevent extra padding at the bottom */
+}
+
+.Toastify__toast-container--top-right {
+  top: 20px !important; /* You can adjust this value as needed */
+  right: 20px !important; /* Adjust for space from the right edge */
+}
+
+.Toastify__toast {
+  margin-bottom: 0 !important; /* Prevent margin between toasts */
+}

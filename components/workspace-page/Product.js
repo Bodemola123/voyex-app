@@ -21,22 +21,13 @@ const {
   const [imageSrc, setImageSrc] = useState("/gpt.png"); // Default image
 
   useEffect(() => {
-    if (image instanceof File) {
-      // If image is a File object, create a URL for it
-      const objectUrl = URL.createObjectURL(image);
-      setImageSrc(objectUrl);
-
-      // Cleanup when component unmounts
-      return () => URL.revokeObjectURL(objectUrl);
-    } else if (typeof image === "string" && image.trim() !== "") {
-      // If image is a valid string URL, use it
+    if (typeof image === "string" && image.trim() !== "") {
       setImageSrc(image);
     } else {
-      // Fallback to default image if image is invalid
-      setImageSrc("/gpt.png");
+      setImageSrc("/gpt.png"); // Fallback
     }
   }, [image]);
-
+  
   return (
     <div
       className="rounded-[25px] bg-[#131314] p-6 transition-all"

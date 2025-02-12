@@ -70,7 +70,7 @@ const handleZipFileRemove = () => {
 
   return (
     <div className='fixed inset-0 bg-black/80 flex items-center justify-center z-50'>
-      <div className='bg-[#000000] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-[794px] h-[99.9%] flex flex-col gap-[14px]'>
+      <div className='bg-[#000000] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-[794px] flex flex-col gap-[14px]'>
         <div className="flex justify-between items-center border-gray-700">
           <h2 className="text-xl md:text-2xl font-bold">Model Files</h2>
           <button onClick={handleClose} className="flex items-center justify-center">

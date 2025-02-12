@@ -11,12 +11,14 @@ import Product from "@/components/workspace-page/Product";
 import { FiSearch } from "react-icons/fi"; // Import the search icon
 import "../../app/globals.css";
 import axios from "axios";
+import { ImSpinner } from "react-icons/im"; // Import ImSpinner for loading animation
 
 function WorkSpace() {
   const [activeModal, setActiveModal] = useState(null);
   const [isProductCreated, setIsProductCreated] = useState(false); // Track if at least one product has been created
   const [products, setProducts] = useState([]); // Store all created products
   const [searchQuery, setSearchQuery] = useState(""); // Track search input
+  const [loading, setLoading] = useState(false); // Loading state for the API request
 
   // Initialize modalData with default values
   const [modalData, setModalData] = useState({
@@ -42,6 +44,10 @@ function WorkSpace() {
     });
     setActiveModal(null);
   };
+  const closeModalWithoutReset = () => {
+    setActiveModal(null); // Only close the modal without resetting modalData
+  };
+  
 
   const deleteProduct = (index) => {
     setProducts((prevProducts) => {
@@ -56,8 +62,11 @@ function WorkSpace() {
     });
   };
 
+
   const handleProductCreation = async () => {
-    
+
+    setLoading(true); // Show loading modal
+  
     const productData = {
       Tool_Name: modalData.first.name,
       Tool_Category: modalData.first.categories.join(", "), // Convert array to string
@@ -99,10 +108,12 @@ function WorkSpace() {
       setIsProductCreated(true);
       closeModal();
     } catch (error) {
-        console.error("Error creating product:", error.response?.data || error.message);
-      }
-      
+      console.error("Error creating product:", error.response?.data || error.message);
+    } finally {
+      setLoading(false); // Hide loading modal once API call is done
+    }
   };
+  
   
   
 
@@ -142,6 +153,7 @@ function WorkSpace() {
             modalData={modalData.fourth}
             setModalData={(data) => setModalData((prev) => ({ ...prev, fourth: data }))}
             createProduct={handleProductCreation} // Function to trigger product card display
+            closeModalWithoutReset={closeModalWithoutReset}
           />
         );
       default:
@@ -197,6 +209,16 @@ function WorkSpace() {
 
       {/* Footer */}
       <BenFooter />
+
+      {loading && (
+  <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+    <div className="flex justify-center items-center flex-col bg-[#131314] p-6 rounded-lg shadow-lg">
+      <ImSpinner className="animate-spin text-[#c088fb] text-4xl" />
+      <p className="mt-2 text-white">Please Wait...</p>
+    </div>
+  </div>
+)}
+
 
       {/* Render Active Modal */}
       {renderModal()}

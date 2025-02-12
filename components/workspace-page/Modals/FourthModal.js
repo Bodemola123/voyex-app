@@ -12,17 +12,19 @@ import { IoMdInformationCircle } from "react-icons/io";
 import "../../../app/globals.css";
 import ImageUpload from "./ImageUpload";
 
-const FourthModal = ({ closeModal, modalData, setModalData, createProduct }) => {
+const FourthModal = ({ closeModal, modalData, setModalData, createProduct,closeModalWithoutReset }) => {
   const [uploadedImage, setUploadedImage] = useState(modalData.image || null);
 
   // Handle image upload
   const handleImageUpload = (file) => {
+    console.log("Uploaded Image File:", file); // Debugging: Check if file is valid
     setUploadedImage(file);
     setModalData((prevData) => ({
       ...prevData,
       image: file, // Update modalData with the uploaded image
     }));
   };
+  
 
   // Handle image removal
   const handleImageRemove = () => {
@@ -39,7 +41,11 @@ const FourthModal = ({ closeModal, modalData, setModalData, createProduct }) => 
       alert("Please upload an image before proceeding.");
       return;
     }
-    createProduct(); // Trigger product creation in WorkSpace.js
+      // Close the modal without resetting the modal data
+  closeModalWithoutReset();
+
+  // Trigger product creation in WorkSpace.js, keeping the data intact
+  createProduct(); 
   };
 
   return (
