@@ -61,7 +61,7 @@ function FirstModal({ closeModal, openModal, modalData, setModalData }) {
       <div className="bg-[#000000] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl max-h-[637px] flex flex-col gap-[29px] overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">
-          <h2 className="text-xl md:text-2xl font-bold">Create New Model</h2>
+          <h2 className="text-2xl md:text-2xl font-bold">Create New Model</h2>
           <button onClick={closeModal} className="flex items-center justify-center">
             <Image src="/close-square.svg" alt="X" width={58} height={58} />
           </button>
