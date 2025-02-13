@@ -6,25 +6,29 @@ import { useEffect, useState } from "react";
 function Product({ modalData, deleteProduct }) {
   console.log("Product ModalData:", modalData); // Debugging
 
-// Destructure modalData properties with fallback values
-const {
-  name = "Model Name",
-  description = "No description provided.",
-  categories = [], // From modalData.first
-  rating = "9/10",  // Assuming rating comes from modalData.first
-  users = "5m+",
-  image= null   // Assuming users comes from modalData.first
-} = modalData; // Access name, description, categories, rating, and users from modalData.first
+  // Destructure modalData properties with fallback values
+  const {
+    name = "Model Name",
+    description = "No description provided.",
+    categories = [], // from modalData.first
+    rating = "9/10",  // Assuming rating comes from modalData.first
+    users = "5m+",
+    image = null    // Expecting image from modalData.fourth.image
+  } = modalData;
 
-
-
-  const [imageSrc, setImageSrc] = useState("/gpt.png"); // Default image
+  // Set a default image source
+  const [imageSrc, setImageSrc] = useState("/gpt.png");
 
   useEffect(() => {
     if (typeof image === "string" && image.trim() !== "") {
+      // If the image is a non-empty string, use it directly
       setImageSrc(image);
+    } else if (typeof image === "object" && image !== null && image.url) {
+      // If the image is an object with a URL property, use the URL
+      setImageSrc(image.url);
     } else {
-      setImageSrc("/gpt.png"); // Fallback
+      // Fallback to default image if no valid image is provided
+      setImageSrc("/gpt.png");
     }
   }, [image]);
   
@@ -43,7 +47,7 @@ const {
           className="object-cover rounded-[14px]"
           onError={() => setImageSrc("/gpt.png")} // Fallback if image fails to load
         />
-        <WorkspaceMenuDropdown deleteProduct={deleteProduct} /> {/* Pass deleteProduct */}
+        <WorkspaceMenuDropdown productName={name} deleteProduct={deleteProduct} />
       </div>
 
       {/* Model Name */}
@@ -70,7 +74,7 @@ const {
         {categories.length > 0 ? (
           categories.map((cat, index) => (
             <span
-              key={`${cat}-${index}`} // Unique key combining category and index
+              key={`${cat}-${index}`}
               className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card"
             >
               {cat}

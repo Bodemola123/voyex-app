@@ -12,6 +12,7 @@ import { FiSearch } from "react-icons/fi"; // Import the search icon
 import "../../app/globals.css";
 import axios from "axios";
 import { ImSpinner } from "react-icons/im"; // Import ImSpinner for loading animation
+import { toast } from "react-toastify"; // Import toast
 
 function WorkSpace() {
   const [activeModal, setActiveModal] = useState(null);
@@ -39,7 +40,10 @@ function WorkSpace() {
     setModalData({
       first: { categories: [], name: "", description: "" }, // Reset the modal data when closing
       second: { role: "", resourceType: ""},
-      third: {},
+      third: {
+        individualFiles: [], // This will hold the list of individual files uploaded (array)
+        zipFile: null,
+      },
       fourth: { image: null },
     });
     setActiveModal(null);
@@ -69,14 +73,21 @@ function WorkSpace() {
   
     const productData = {
       Tool_Name: modalData.first.name,
-      Tool_Category: modalData.first.categories.join(", "), // Convert array to string
+      Tool_Category: modalData.first.categories, // Convert array to string
       Tool_URL: "https://example.com", // Replace with actual URL input
       Tool_Short_Description: modalData.first.description,
       Tool_Large_Description: "Detailed description here", // Update as needed
       Tool_Assets_Metadata: {
-        asset1: "value1",
-        asset2: "value2",
+        // asset1: modalData.third.zipFile
+        //   ? modalData.third.zipFile.url // Use zip file URL if available
+        //   : modalData.third.individualFiles && modalData.third.individualFiles.length > 0
+        //   ? modalData.third.individualFiles.map(file => file.url).join(", ") // Join URLs of individual files
+        //   : "", // Fallback if no individual files
+        // asset2: modalData.fourth.image ? modalData.fourth.image.url : null, // Use image URL from fourth modal
+        asset1: "https://google.com",
+        asset2: "https://google.com"
       },
+      
       added_by_entity_type: "org",
       added_by_entity_id: 132,
       Pricing_Model: "Free",
@@ -91,24 +102,28 @@ function WorkSpace() {
         Twitter: "https://twitter.com/example",
       },
       metadata: {
-        additional_info: "Some extra info",
+        pythonDetails:modalData.second.role,
+        resourceType:modalData.second.resourceType
       },
     };
   
     try {
       const response = await axios.post(
-        "https://61iu6ly9s9.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_input",
+        "https://xklp1j7zp3.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tool_workspace",
         productData
       );
   
       console.log("Product created successfully:", response.data);
+      toast.success("Product creation successful 🎉")
   
       // Update local state after successful API call
       setProducts((prevProducts) => [...prevProducts, { ...modalData.first, image: modalData.fourth.image }]);
       setIsProductCreated(true);
       closeModal();
+
     } catch (error) {
       console.error("Error creating product:", error.response?.data || error.message);
+      toast.error(`Product creation failed: ${errorMessage}`);
     } finally {
       setLoading(false); // Hide loading modal once API call is done
     }

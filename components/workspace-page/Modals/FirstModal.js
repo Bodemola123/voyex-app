@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import axios from "axios";
 import MultiSelectInput from "./MultiSelectInput";
 import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
 import "../../../app/globals.css";
 import Image from "next/image";
 
 function FirstModal({ closeModal, openModal, modalData, setModalData }) {
   const [selectedCategories, setSelectedCategories] = useState(modalData.categories || []);
+  const [loading, setLoading] = useState(false);
 
   // Handle category selection
   const handleCategoryChange = (categories) => {
@@ -21,8 +24,8 @@ function FirstModal({ closeModal, openModal, modalData, setModalData }) {
     setModalData({ ...modalData, [name]: value });
   };
 
-  // Validate form before proceeding
-  const handleUpdateClick = () => {
+  // Validate tool name before proceeding
+  const handleUpdateClick = async () => {
     if (!modalData.name?.trim() || !modalData.description?.trim()) {
       alert("Please fill out all required fields.");
       return;
@@ -31,7 +34,26 @@ function FirstModal({ closeModal, openModal, modalData, setModalData }) {
       alert("Please select at least one category.");
       return;
     }
-    openModal(); // Proceed to the next modal
+
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://xklp1j7zp3.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tool_workspace?tool_name=${modalData.name}`
+      );
+      
+      if (response.status === 200) {
+        toast.error("Tool name already exists. Please choose a different name.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        // Tool name does not exist, proceed to next step
+        openModal();
+      } else {
+        toast.error("An error occurred while checking the tool name. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,10 +114,10 @@ function FirstModal({ closeModal, openModal, modalData, setModalData }) {
           </button>
           <button
             onClick={handleUpdateClick}
-            disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0}
-            className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && selectedCategories.length > 0 ? "" : "cursor-not-allowed"}`}
+            disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0 || loading}
+            className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && selectedCategories.length > 0 && !loading ? "" : "cursor-not-allowed"}`}
           >
-            Update Version Details
+            {loading ? "Checking..." : "Update Version Details"}
           </button>
         </div>
       </div>

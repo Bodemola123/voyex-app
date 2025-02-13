@@ -13,7 +13,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import Link from "next/link";
 import DeleteProduct from "./Modals/DeleteProduct";
 
-function MenuDropdown({ deleteProduct }) {
+function MenuDropdown({ productName, deleteProduct }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const openDeleteModal = () => setIsDeleteModalOpen(true);
@@ -53,6 +53,7 @@ function MenuDropdown({ deleteProduct }) {
       {/* Delete Modal */}
       {isDeleteModalOpen && (
         <DeleteProduct
+          toolName={productName} 
           onClose={closeDeleteModal}
           onDelete={() => {
             deleteProduct(); // Call delete function passed as prop

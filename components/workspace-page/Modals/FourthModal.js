@@ -21,9 +21,13 @@ const FourthModal = ({ closeModal, modalData, setModalData, createProduct,closeM
     setUploadedImage(file);
     setModalData((prevData) => ({
       ...prevData,
-      image: file, // Update modalData with the uploaded image
+      fourth: {
+        ...prevData.fourth,
+        image: file, // Store inside 'fourth' correctly
+      },
     }));
   };
+  
   
 
   // Handle image removal
@@ -31,9 +35,13 @@ const FourthModal = ({ closeModal, modalData, setModalData, createProduct,closeM
     setUploadedImage(null);
     setModalData((prevData) => ({
       ...prevData,
-      image: null, // Remove the image from modalData
+      fourth: {
+        ...prevData.fourth,
+        image: null, // Ensure it correctly updates
+      },
     }));
   };
+  
 
   // Validate and proceed to create the card
   const handleNext = () => {

@@ -1,7 +1,36 @@
 import React from 'react';
 import Image from 'next/image';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const DeleteProduct = ({ onClose, onDelete }) => {
+const DeleteProduct = ({ toolName, onClose, onDelete }) => {
+  // This function sends the DELETE request when the user confirms deletion.
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        "https://xklp1j7zp3.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tool_workspace",
+        {
+          data: { Tool_Name: toolName }, // Send data inside the `data` object
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+        }
+      );
+  
+      toast.success("Product deleted successfully!");
+      onDelete()
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting product:", error.response?.data || error.message);
+      toast.error("Product deletion failed. Please try again.");
+    } finally {
+      onClose();
+    }
+  };
+  
+  
+
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <div className="bg-[#000000] text-white rounded-[41px] p-6 w-[482px] relative">
@@ -17,7 +46,7 @@ const DeleteProduct = ({ onClose, onDelete }) => {
         </div>
         {/* Content */}
         <p className="mb-6 text-lg">
-          Do you wish to delete this model from GALACTIMART and every other places this model must have shown up?{" "}
+          Do you wish to delete <span className='text-xl font-bold'>{toolName}</span> from GALACTIMART and every other place this model might have shown up?{" "}
           <a href="#" className="text-[#c088fb] underline">
             Learn more
           </a>
@@ -31,7 +60,7 @@ const DeleteProduct = ({ onClose, onDelete }) => {
             Cancel
           </button>
           <button
-            onClick={onDelete}
+            onClick={handleDelete}
             className="px-5 py-2.5 bg-[#ff1e1e] text-[#0a0a0b] rounded-[25px] hover:bg-red-700 transition"
           >
             Yes, Delete
