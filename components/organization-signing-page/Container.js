@@ -627,65 +627,13 @@ function Container() {
   };
   const uploadDetails = async () => {
     try {
-      // Retrieve the access token and refresh token
-      let accessToken = localStorage.getItem("access_token");
-      let refreshToken = localStorage.getItem("refresh_token");
-  
-      if (!accessToken) {
-        toast.warn("No access token found. Please sign in again.");
-        setCurrentSlide("signing"); // Redirect user to sign-in page
+      if (!orgPrivacyInput || !orgCertifications || !uploadedFile ) {
+        toast.warn("complete all fields!!!");
         return;
       }
-  
-      // Perform an access check using the stored access token
-      const checkAccessResponse = await axios.post(
-        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-        {
-          action: "access_check",
-          access_token: accessToken, // Pass the stored access token
-        }
-      );
-  
-      // If the access token is invalid, attempt to refresh it
-      if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === false) {
-        if (refreshToken) {
-          // Attempt to refresh the access token using the refresh token
-          const refreshResponse = await axios.post(
-            `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-            {
-              action: "refresh_token",
-              refresh_token: refreshToken,
-            }
-          );
-  
-          if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
-            accessToken = refreshResponse.data.access_token;
-            localStorage.setItem("access_token", accessToken); // Save the new access token
-          } else {
-            toast("Session expired, please log in again.");
-            localStorage.removeItem("access_token"); // Clear the stored token
-            localStorage.removeItem("refresh_token"); // Clear the refresh token
-            setCurrentSlide("signing"); // Redirect to sign-in
-            return;
-          }
-        } else {
-          toast("Session expired, please log in again.");
-          localStorage.removeItem("access_token"); // Clear the stored token
-          setCurrentSlide("signing"); // Redirect to sign-in
-          return;
-        }
-      }
-  
-      // Proceed with uploading the organization details if access token is valid
-      if (!orgPrivacyInput || !orgCertifications || !uploadedFile) {
-        toast.warn("Complete all fields!!!");
-        return;
-      }
-  
       setLoading(true);
       setCurrentSlide("org-upload-loading");
-  
-      // Make the API call to upload the organization details
+      // still need to set specialization in the api
       const response = await axios.put(
         `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
         {
@@ -708,38 +656,38 @@ function Container() {
           },
           leadership_teams: {
             careers_page: orgCareerspage,
-            team_size: orgTeamsize,
-            founder: orgFounder,
-            executives: orgExco,
+            team_size:orgTeamsize,
+            founder:orgFounder,
+            executives:orgExco,
           },
           financial_info: {
             mode_of_revenue: orgRevenueMode,
             funding_info: orgFundingInfo,
             clients: orgClient,
-          },
+          }
         }
       );
-  
-      // Handle the response
+      // console.log("response", response);
       if (response.status === 200) {
         toast.success(response.data);
         setCurrentSlide("org-upload-success");
-      } else {
+      }
+      if (response.status !== 200) {
         setCurrentSlide("basic-info");
       }
     } catch (error) {
-      // Error handling
-      console.log("uploadDetails_error", error);
+      // console.log(error);
       if (error.response?.data) {
         toast.error(error.response.data);
       } else toast.error(error.message);
-  
-      // If there's an error, reset to the basic info slide
-      setCurrentSlide("basic-info");
+      if (error.message) {
+        setCurrentSlide("basic-info");
+      }
     } finally {
       setLoading(false);
     }
   };
+
   
   
   useEffect(() => {

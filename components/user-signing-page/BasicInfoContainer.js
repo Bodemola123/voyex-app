@@ -25,7 +25,7 @@ function BasicInfoContainer({
           Basic Information
         </h1>
 
-        <div className="space-y-1 w-full">
+        <div className="space-y-1 w-full px-2">
           <Label htmlFor="name" className="text-fontlight font-normal">
             Full name
           </Label>
@@ -37,7 +37,7 @@ function BasicInfoContainer({
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
           />
         </div>
-        <div className="space-y-[6px] w-full mt-5">
+        <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="language" className="text-fontlight font-normal">
             Primary Language
           </Label>
@@ -49,13 +49,13 @@ function BasicInfoContainer({
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
           />
         </div>
-        <div className="space-y-[6px] w-full mt-5">
+        <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="industry" className="text-fontlight font-normal">
             Skill Level
           </Label>
           <SkillLevelDropdown setSkillLevel={setSkillLevel} />
         </div>
-        <div className="space-y-[6px] w-full mt-5">
+        <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="country" className="text-fontlight font-normal">
             Region/TimeZone
           </Label>
@@ -67,7 +67,7 @@ function BasicInfoContainer({
             className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px]`}
           />
         </div>
-        <div className="flex items-center justify-between max-w-[500px] py-6 w-full">
+        <div className="flex items-center justify-between max-w-[500px] py-6 w-full px-2">
           <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border border-card"
             onClick={() => router.push("/search")}
