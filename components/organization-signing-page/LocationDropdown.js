@@ -38,7 +38,9 @@ export function LocationDropdown({ locationInput }) {
     setError(null); // Reset error
     setNoResults(false); // Reset no results state
 
-    const apiKey = AIzaSyB67dB1hldv7P7V9EQldwAlAAxcp0eeQpg; // Replace with your actual Google Places API key
+
+    const GOOGLE_PLACES_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
+    const apiKey = GOOGLE_PLACES_API_KEY; // Replace with your actual Google Places API key
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&key=${apiKey}`;
 
     try {
