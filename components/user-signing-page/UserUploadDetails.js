@@ -7,8 +7,10 @@ import axios from "axios";
 import UserUploadLoading from "./UserUploadLoading";
 import UserUploadSuccess from "./UserUploadSuccess";
 import UserPurpose from "./UserPurpose";
+import { useRouter } from "next/router";
 
 function UserUploadDetails({ setUserDisplay }) {
+  const router = useRouter(); 
   const [userFullName, setUserFullName] = useState("");
   const [userLanguage, setUserLanguage] = useState("");
   const [skillLevel, setSkillLevel] = useState("");
@@ -61,26 +63,30 @@ function UserUploadDetails({ setUserDisplay }) {
 
   // Token expiry and retry logic
   const uploadDetails = async () => {
+ // Use router for redirection
+  
     try {
       if (!clickedButtons || clickedButtons.length <= 1) {
         toast.warn("Must select more than one");
         return;
       }
-
+  
       setLoading(true);
       setCurrentSlide("user-upload-loading");
-
+  
       let accessToken = localStorage.getItem("access_token");
       const refreshToken = localStorage.getItem("refresh_token");
-
+  
       if (!accessToken || !refreshToken) {
         toast.warn("Session expired. Please sign in again.");
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        setCurrentSlide("basic-info");
+        
+        // Redirect to /auth/user instead of setting the current slide
+        router.push("/auth/user");
         return;
       }
-
+  
       // Step 1: Validate the access token
       try {
         const checkAccessResponse = await axios.post(
@@ -90,7 +96,7 @@ function UserUploadDetails({ setUserDisplay }) {
             access_token: accessToken,
           }
         );
-
+  
         if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === false) {
           // Step 2: Refresh token if access token is expired
           const refreshResponse = await axios.post(
@@ -100,7 +106,7 @@ function UserUploadDetails({ setUserDisplay }) {
               refresh_token: refreshToken,
             }
           );
-
+  
           if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
             accessToken = refreshResponse.data.access_token;
             localStorage.setItem("access_token", accessToken);
@@ -114,10 +120,12 @@ function UserUploadDetails({ setUserDisplay }) {
         toast.warn("Session expired. Please log in again.");
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        setCurrentSlide("basic-info");
+        
+        // Redirect to /auth/user on token refresh failure
+        router.push("/auth/user");
         return;
       }
-
+  
       // Step 3: Proceed with uploading details
       const response = await axios.put(
         `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
@@ -138,9 +146,9 @@ function UserUploadDetails({ setUserDisplay }) {
           },
         }
       );
-
+  
       console.log("response", response);
-
+  
       if (response.status === 200) {
         toast.success(response.data.message);
         setCurrentSlide("user-upload-success");
@@ -150,7 +158,7 @@ function UserUploadDetails({ setUserDisplay }) {
       }
     } catch (error) {
       console.error("Upload error:", error);
-
+  
       if (!navigator.onLine) {
         toast.error("No internet connection. Please check your network and try again.");
       } else if (error.response?.data?.message) {
@@ -158,7 +166,7 @@ function UserUploadDetails({ setUserDisplay }) {
       } else {
         toast.error("An unexpected error occurred. Please try again.");
       }
-
+  
       setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
