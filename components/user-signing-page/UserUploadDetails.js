@@ -1,4 +1,3 @@
-// DISPLAY THIS IF ORGANIZATION HASN'T PROVIDED ADDITIONAL DETAILS AFTER SIGNING UP
 "use client";
 
 import { useState } from "react";
@@ -20,63 +19,25 @@ function UserUploadDetails({ setUserDisplay }) {
   const [currentSlide, setCurrentSlide] = useState("basic-info");
 
   const usage = [
-    {
-      name: "conversation",
-    },
-    {
-      name: "business",
-    },
-    {
-      name: "exams",
-    },
-    {
-      name: "marketing",
-    },
-    {
-      name: "content creation",
-    },
-    {
-      name: "programming",
-    },
-    {
-      name: "writing",
-    },
-    {
-      name: "vocabulary",
-    },
-    {
-      name: "pronounciation",
-    },
-    {
-      name: "training",
-    },
-    {
-      name: "presentation",
-    },
-    {
-      name: "research",
-    },
-    {
-      name: "daily",
-    },
-    {
-      name: "formal",
-    },
-    {
-      name: "feedback",
-    },
-    {
-      name: "automation",
-    },
-    {
-      name: "experimentation",
-    },
-    {
-      name: "analysis",
-    },
-    {
-      name: "insights",
-    },
+    { name: "conversation" },
+    { name: "business" },
+    { name: "exams" },
+    { name: "marketing" },
+    { name: "content creation" },
+    { name: "programming" },
+    { name: "writing" },
+    { name: "vocabulary" },
+    { name: "pronounciation" },
+    { name: "training" },
+    { name: "presentation" },
+    { name: "research" },
+    { name: "daily" },
+    { name: "formal" },
+    { name: "feedback" },
+    { name: "automation" },
+    { name: "experimentation" },
+    { name: "analysis" },
+    { name: "insights" },
   ];
 
   ///////////////// HANDLE USER PURPOSE SELECT ///////////////
@@ -97,64 +58,71 @@ function UserUploadDetails({ setUserDisplay }) {
       return;
     } else setCurrentSlide("user-purpose");
   };
+
+  // Token expiry and retry logic
   const uploadDetails = async () => {
     try {
-      if (clickedButtons.length <= 1) {
+      if (!clickedButtons || clickedButtons.length <= 1) {
         toast.warn("Must select more than one");
         return;
       }
-  
+
       setLoading(true);
       setCurrentSlide("user-upload-loading");
-  
+
       let accessToken = localStorage.getItem("access_token");
       const refreshToken = localStorage.getItem("refresh_token");
-  
+
       if (!accessToken || !refreshToken) {
         toast.warn("Session expired. Please sign in again.");
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        setCurrentSlide("signing");
+        setCurrentSlide("basic-info");
         return;
       }
-  
+
       // Step 1: Validate the access token
-      const checkAccessResponse = await axios.post(
-        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
-        {
-          action: "access_check",
-          access_token: accessToken,
-        }
-      );
-  
-      if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === false) {
-        // Step 2: Refresh token if access token is expired
-        const refreshResponse = await axios.post(
+      try {
+        const checkAccessResponse = await axios.post(
           `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
           {
-            action: "refresh_token",
-            refresh_token: refreshToken,
+            action: "access_check",
+            access_token: accessToken,
           }
         );
-  
-        if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
-          accessToken = refreshResponse.data.access_token;
-          localStorage.setItem("access_token", accessToken);
-          toast("Session refreshed. Proceeding...");
-        } else {
-          toast.warn("Session expired. Please log in again.");
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("refresh_token");
-          setCurrentSlide("signing");
-          return;
+
+        if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === false) {
+          // Step 2: Refresh token if access token is expired
+          const refreshResponse = await axios.post(
+            `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
+            {
+              action: "refresh_token",
+              refresh_token: refreshToken,
+            }
+          );
+
+          if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
+            accessToken = refreshResponse.data.access_token;
+            localStorage.setItem("access_token", accessToken);
+            toast.success("Session refreshed. Proceeding...");
+          } else {
+            throw new Error("Session expired. Please log in again.");
+          }
         }
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        toast.warn("Session expired. Please log in again.");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        setCurrentSlide("basic-info");
+        return;
       }
-  
+
       // Step 3: Proceed with uploading details
       const response = await axios.put(
         `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
-          user_id: Number(localStorage.getItem("userId")),
+          user_id: Number(localStorage.getItem("user_id")), // Fixed key name
           fullname: userFullName,
           primary_language: userLanguage,
           skill_level: skillLevel,
@@ -170,9 +138,9 @@ function UserUploadDetails({ setUserDisplay }) {
           },
         }
       );
-  
+
       console.log("response", response);
-  
+
       if (response.status === 200) {
         toast.success(response.data.message);
         setCurrentSlide("user-upload-success");
@@ -181,77 +149,54 @@ function UserUploadDetails({ setUserDisplay }) {
         setCurrentSlide("basic-info");
       }
     } catch (error) {
-      console.log(error);
-      if (error.response?.data) {
-        toast.error(error.response.data);
+      console.error("Upload error:", error);
+
+      if (!navigator.onLine) {
+        toast.error("No internet connection. Please check your network and try again.");
+      } else if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
       } else {
-        toast.error(error.message);
+        toast.error("An unexpected error occurred. Please try again.");
       }
-  
+
       setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
     }
   };
-  
-  
+
   const handleUploadDetails = async () => {
     uploadDetails();
   };
 
   ////////////// HANDLE CURRENT SLIDE ////////////////////////
-  const handleCurrentSlide = () => {
-    if (currentSlide === "basic-info") {
-      return (
-        <BasicInfoContainer
-          setUserFullName={setUserFullName}
-          setUserLanguage={setUserLanguage}
-          setSkillLevel={setSkillLevel}
-          setUserCountry={setUserCountry}
-          handleBasicInfoSlide={handleBasicInfoSlide}
-          setCurrentSlide={setCurrentSlide}
-          loading={loading}
-        />
-      );
-    } else if (currentSlide === "user-purpose") {
-      return (
-        <UserPurpose
-          usage={usage}
-          clickedButtons={clickedButtons}
-          handleButtonClick={handleButtonClick}
-          handleUploadDetails={handleUploadDetails}
-        />
-      );
-    } else if (currentSlide === "user-upload-loading") {
-      return <UserUploadLoading />;
-    } else if (currentSlide === "user-upload-success") {
-      return <UserUploadSuccess />;
-    } else
-      return (
-        <BasicInfoContainer
-          setUserFullName={setUserFullName}
-          setUserLanguage={setUserLanguage}
-          setSkillLevel={setSkillLevel}
-          setUserCountry={setUserCountry}
-          handleBasicInfoSlide={handleBasicInfoSlide}
-          setCurrentSlide={setCurrentSlide}
-          loading={loading}
-        />
-      );
-  };
-  return (
-    <div
-      className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
-      // onClick={(e) => setUserDisplay(false) + e.stopPropagation()}
-    >
-      {handleCurrentSlide()}
-
-      {/* <UserPurpose
+  const slides = {
+    "basic-info": (
+      <BasicInfoContainer
+        setUserFullName={setUserFullName}
+        setUserLanguage={setUserLanguage}
+        setSkillLevel={setSkillLevel}
+        setUserCountry={setUserCountry}
+        handleBasicInfoSlide={handleBasicInfoSlide}
+        setCurrentSlide={setCurrentSlide}
+        loading={loading}
+      />
+    ),
+    "user-purpose": (
+      <UserPurpose
         usage={usage}
         clickedButtons={clickedButtons}
         handleButtonClick={handleButtonClick}
         handleUploadDetails={handleUploadDetails}
-      /> */}
+      />
+    ),
+    "user-upload-loading": <UserUploadLoading />,
+    "user-upload-success": <UserUploadSuccess />,
+  };
+
+  return (
+    <div className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm">
+      {slides[currentSlide] || <BasicInfoContainer {...props} />}
     </div>
   );
 }
