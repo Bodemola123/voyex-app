@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <body
-        className={`relative flex items-center justify-center text-fontlight h-screen w-screen overflow-hidden bg-black bg-[url('/stars.svg')] bg-no-repeat bg-center bg-origin-content bg-cover`}
+        className={`relative flex items-center justify-center text-fontlight h-screen w-screen overflow-hidden bg-black bg-[url('/stars.svg.svg')] bg-no-repeat bg-center bg-origin-content bg-cover`}
       >
         <StarsCanvas />
         <Animate />

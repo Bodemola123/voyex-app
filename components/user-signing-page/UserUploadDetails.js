@@ -99,32 +99,70 @@ function UserUploadDetails({ setUserDisplay }) {
   };
   const uploadDetails = async () => {
     try {
+      // Check if the user has selected more than one purpose
       if (clickedButtons.length <= 1) {
-        toast.warn("must select more than one");
+        toast.warn("Must select more than one purpose.");
         return;
       }
+  
       setLoading(true);
       setCurrentSlide("user-upload-loading");
+  
+      // Retrieve the access token from localStorage
+      let accessToken = localStorage.getItem("access_token");
+  
+      if (!accessToken) {
+        toast.warn("Please log in first.");
+        return;
+      }
+  
+      // Call the access check API to validate the access token
+      let accessCheckResponse = await axios.post(
+        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
+        {
+          action: "access_check",
+          access_token: accessToken,  // Pass the access token
+        }
+      );
+  
+      // If the access token is invalid, refresh it
+      if (accessCheckResponse.status !== 200 || accessCheckResponse.data.valid === false) {
+        accessToken = await refreshAccessToken(); // Call the function to refresh the token
+        if (!accessToken) {
+          toast.warn("Session expired, please log in again.");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("user_id");
+          return;
+        }
+      }
+  
+      // Proceed with uploading the details if the access token is valid
       const response = await axios.put(
         `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
-          user_id: Number(localStorage.getItem("userId")),
+          user_id: Number(localStorage.getItem("user_id")),  // Get the user ID from localStorage
           fullname: userFullName,
           primary_language: userLanguage,
           skill_level: skillLevel,
           country: userCountry,
           user_type: "Regular",
-          metadata: {
-            purpose: clickedButtons,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,  // Pass the access token in the header
+            "Content-Type": "application/json",
           },
         }
       );
+  
       console.log("response", response);
+  
       if (response.status === 200) {
         toast.success(response.data.message);
         setCurrentSlide("user-upload-success");
-        localStorage.removeItem("user_password");
+        localStorage.removeItem("user_password");  // Clear password from localStorage
       }
+  
       if (response.status !== 200) {
         setCurrentSlide("basic-info");
       }
@@ -133,13 +171,12 @@ function UserUploadDetails({ setUserDisplay }) {
       if (error.response?.data) {
         toast.error(error.response.data);
       } else toast.error(error.message);
-      if (error.message) {
-        setCurrentSlide("basic-info");
-      }
+      setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
     }
   };
+  
   const handleUploadDetails = async () => {
     uploadDetails();
   };
