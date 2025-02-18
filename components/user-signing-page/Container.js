@@ -135,9 +135,9 @@ function Container() {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
-          headers: {
-            Authorization: `Bearer ${response.access_token}`,
-          },
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
           }
         );
         console.log(res);
@@ -181,7 +181,7 @@ function Container() {
       }
     },
   });
-  
+
   ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
   const googleUserSignin = useGoogleLogin({
     onSuccess: async (response) => {
@@ -190,9 +190,9 @@ function Container() {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
-          headers: {
+            headers: {
               Authorization: `Bearer ${response.access_token}`,
-          },
+            },
           }
         );
         // console.log(res);
@@ -211,7 +211,7 @@ function Container() {
             setCurrentSlide("signin-success");
             toast("Login successful");
             // Cookies.set("voyexUserName", res.data.name, { expires: 7 });
-            }
+          }
           if (response.status === 200 && response.data.exists === false) {
             toast.warn("User doesn't exist!");
             return;
@@ -237,162 +237,197 @@ function Container() {
       }
     },
   });
-  
 
   ////////////////// USER SIGN UP /////////////////////////////////
   //----- authenticate email
   const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
-    
     try {
-      if (!userEmail || !userPassword) {
+      if (!email || !password) {
         toast.warn("All fields are required");
         return;
       }
-  
-      if (!passwordRegex.test(userPassword)) {
+
+      if (!passwordRegex.test(password)) {
         toast("Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!");
         return;
       }
-  
+
       setLoading(true);
-  
-      // Check if the email is legitimate
-      const check_legit_email = await axios.get(
-        `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${userEmail}`
-      );
-  
-      if (!check_legit_email.data.is_valid_format.value) {
-        toast.warn("Invalid email format");
+
+      // Step 2: Check if email is valid format and deliverable
+      const check_legit_email = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${email}`);
+      if (!check_legit_email.data.is_valid_format.value || check_legit_email.data.is_smtp_valid.value === false) {
+        toast.warn("Invalid email format or email is undeliverable");
         return;
       }
-  
-      if (!check_legit_email.data.is_smtp_valid.value && check_legit_email.data.deliverability === "UNDELIVERABLE") {
-        toast.warn("Email broken, try another");
-        return;
-      }
-  
-      // Check if email is already in use
-      const check_available_email = await axios.get(
-        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?email=${userEmail}`
-      );
-  
-      if (check_available_email.status === 200 && check_available_email.data.exists === true) {
+
+      // Step 3: Check if email is available
+      const check_available_email = await axios.get(`https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?email=${email}`);
+      if (check_available_email.data.exists) {
         toast.warn("Email already in use");
         return;
       }
-  
-      // If email is available, store user info and send OTP
-      localStorage.setItem("user_email", userEmail);
-      localStorage.setItem("user_password", userPassword);
-  
-      const send_otp = await axios.post(
-        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
-        { email: userEmail }
-      );
-  
+
+      // Step 4: Send OTP for email verification
+      localStorage.setItem("user_email", email);
+      localStorage.setItem("user_password", password);
+      const send_otp = await axios.post(`https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`, { email });
       if (send_otp.status === 200) {
         setCurrentSlide("email-verify");
         toast("OTP sent to email");
       }
+
     } catch (error) {
       console.log(error);
-      toast(error.response?.data || error.message);
-      setCurrentSlide("signing");
+      if (error.response?.data) {
+        toast(error.response.data);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
   };
-  
+
+ 
   const handleUserSignup = async () => {
-    await signing();
+    signing();
   };
-  
   //----- verify email, then signup
   const verifying = async () => {
     try {
       setLoading(true);
-  
-      const userEmail = localStorage.getItem("user_email");
-      const userPassword = localStorage.getItem("user_password");
-  
-      // OTP Verification
+      /////////////// check if otp is legit from email //////////////////
       const verify_otp = await axios.get(
-        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp?email=${userEmail}&otp=${value}`
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp?email=${localStorage.getItem(
+          "user_email"
+        )}&otp=${value}`
       );
-  
+      console.log("OTP Verifying⛔⛔⛔", verify_otp);
       if (verify_otp.status === 200) {
         setOtpError(false);
-  
-        // Proceed with user registration after OTP is verified
+        //////// OTP valid? accept org /////////////////
         const acceptEmailPassword = await axios.post(
           `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
           {
-            email: userEmail,
-            password: userPassword,
+            email: localStorage.getItem("user_email"),
+            password: localStorage.getItem("user_password"),
             action: "sign_up",
           }
         );
-  
+        console.log("sign up res👉", acceptEmailPassword);
         if (acceptEmailPassword.status === 200) {
           toast.warn("User already exists");
           setCurrentSlide("signing");
-          return;
         }
-  
         if (acceptEmailPassword.status === 201) {
-          // Store tokens after successful signup
-          const { access_token, refresh_token, user_id } = acceptEmailPassword.data;
-          localStorage.setItem("access_token", access_token);
-          localStorage.setItem("refresh_token", refresh_token);
-          localStorage.setItem("userId", user_id);
-  
-          toast.success(acceptEmailPassword.data.message);
+          setLoading(false);
+          toast(acceptEmailPassword.data.message);
           setCurrentSlide("user-signup-success");
-          return;
+          
+          // Store both access token and refresh token in localStorage
+          localStorage.setItem("userId", acceptEmailPassword.data.user_id);
+          localStorage.setItem("access_token", acceptEmailPassword.data.token); // Store access token
+          localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Store refresh token
+          
+          // Optionally check if the access token is valid right after signup
+          await checkAccessToken();
         }
-  
+        
         if (acceptEmailPassword.status === 409) {
           setCurrentSlide("signing");
+          toast("User already exists");
         }
       }
     } catch (error) {
       console.log(error);
       setOtpError(true);
-      toast(error.response?.data?.message || error.message);
+      if (error.response?.data?.message) {
+        toast(error.response.data.message);
+      } else toast(error.message);
     } finally {
       setLoading(false);
     }
   };
-  
-  
-  
-  
   useEffect(() => {
     value.length === 6 && verifying();
     value.length !== 6 && setOtpError(false);
   }, [value.length]);
 
   ////////////////// USER SIGN IN /////////////////////////////////
+
+// 2. Check Access Token Validity and Refresh If Expired
+const checkAccessToken = async () => {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    // No token, user is not authenticated
+    setCurrentSlide("signing");
+  }
+
+  try {
+    const response = await axios.post(
+      'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',  // Endpoint to validate access token
+      { access_token: token }
+    );
+
+    if (response.status === 200) {
+      // Token is valid
+      return token;
+    } else {
+      // Token is invalid, attempt to refresh it
+      return await refreshAccessToken();
+    }
+  } catch (error) {
+    console.error('Error validating token:', error);
+    // If token validation fails, refresh it or logout
+    return await refreshAccessToken();
+  }
+};
+
+
+// 3. Refresh Access Token using Refresh Token
+const refreshAccessToken = async () => {
+  try {
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (!refreshToken) {
+      throw new Error('Refresh token missing');
+    }
+
+    const response = await axios.post(
+      'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',
+      { refresh_token: refreshToken }
+    );
+
+    if (response.status === 200 && response.data.access_token) {
+      // Save new access and refresh tokens to localStorage
+      localStorage.setItem('access_token', response.data.access_token);
+      if (response.data.refresh_token) {
+        localStorage.setItem('refresh_token', response.data.refresh_token);
+      }
+      return response.data.access_token;
+    } else {
+      throw new Error('Unable to refresh token');
+    }
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+    logoutUser();
+  }
+};
+
+// 4. Logout User and Clear Tokens
+const logoutUser = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  setCurrentSlide("signing");  // Redirect to login page
+};
   const userSignin = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
       if (!emailAddress || !userPassword1) {
-        toast.warn("All input fields are required");
-        setLoading(false);
+        toast.warn("all input fields required");
         return;
       }
-  
-      if (!passwordRegex.test(userPassword1)) {
-        toast.warn("Password must be 8-16 characters with at least one uppercase letter, number, and special character.");
-        setLoading(false);
-        return;
-      }
-  
       setLoading(true);
       setCurrentSlide("user-signin-loading");
-  
-      // Attempt to sign in the user
       const response = await axios.post(
         `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
@@ -402,143 +437,40 @@ function Container() {
         }
       );
       console.log("user signin response", response);
-  
       if (response.status === 200 && response.data.valid === false) {
         setCurrentSlide("signing");
-        toast.warn("User not found");
-        setLoading(false);
+        toast("user not found");
+      }
+      if (response.status === 200 && response.data.valid === true) {
+              // Successful sign-in, save tokens in localStorage
+      localStorage.setItem('access_token', response.data.access_token);
+      localStorage.setItem('refresh_token', response.data.refresh_token);  // If provided
+        setCurrentSlide("user-signin-success");
+        toast("signin successful");
+        // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
+              // Check if the token is valid
+      await checkAccessToken();
+      }
+      if (response.status === 404) {
+        setCurrentSlide("signing");
         return;
       }
-  
-      if (response.status === 200 && response.data.valid === true) {
-        toast.success("Sign-in successful");
-  
-        // Store tokens securely
-        localStorage.setItem("access_token", response.data?.access_token || "");
-        localStorage.setItem("refresh_token", response.data?.refresh_token || "");
-        localStorage.setItem("user_id", response.data?.user_id || "");
-  
-        // Perform an access check
-        const checkAccessResponse = await axios.post(
-          `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
-          {
-            action: "access_check",
-            access_token: response.data?.access_token,
-          }
-        );
-  
-        if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === true) {
-          console.log("Access is valid.");
-          toast.success("Access is Valid");
-          setCurrentSlide("user-signin-success");
-          makeApiCallWithTokenRefresh();
-        } else {
-          toast.warn("Session expired, please log in again.");
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("user_id");
-        }
-      }
     } catch (error) {
-      console.error("user_signin_error", error);
-      if (!navigator.onLine) {
-        toast.error("No internet connection. Please check your network and try again.");
-      } else if (error.response?.status === 401) {
-        toast.warn("Invalid credentials. Please check your email and password.");
-      } else if (error.response?.status === 500) {
-        toast.error("Server error. Please try again later.");
-      } else {
-        toast.error(error.response?.data?.message || "An error occurred. Please try again.");
+      console.log("user_signin_error", error);
+      if (error.response.data) {
+        toast(error.response.data.message);
+        setCurrentSlide("signing");
+      } else toast(error.message);
+      if (error.message.includes("network error")) {
+        toast("network error, try again!");
       }
-      setCurrentSlide("signing");
     } finally {
       setLoading(false);
     }
   };
-  
-  
-  // Refresh token logic using your API's endpoint
-  const refreshAccessToken = async () => {
-    try {
-      const refreshToken = localStorage.getItem("refresh_token");
-  
-      if (!refreshToken) {
-        throw new Error("No refresh token found.");
-      }
-  
-      // Use the refresh token to request a new access token
-      const response = await axios.post(
-        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
-        {
-          refresh_token: refreshToken,  // Send the refresh token
-          action: "refresh_token",  // Make sure this action is correct based on your API's requirements
-        }
-      );
-  
-      if (response.status === 200 && response.data?.access_token) {
-        const newAccessToken = response.data.access_token;
-  
-        // Store the new access token
-        localStorage.setItem("access_token", newAccessToken);
-  
-        return newAccessToken;  // Return the new access token
-      } else {
-        throw new Error("Failed to refresh access token.");
-      }
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error;
-    }
-  };
-  
-  // Example of how to use the refresh logic when an API call fails
-  const makeApiCallWithTokenRefresh = async () => {
-    try {
-      let accessToken = localStorage.getItem("access_token");
-  
-      // Try to make the API call
-      const response = await axios.get(
-        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-  
-      // Handle response if the access token is valid
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    } catch (error) {
-      if (error.response?.status === 401) {
-        // Token expired, refresh token
-        try {
-          const newAccessToken = await refreshAccessToken();
-          // Retry the API call with the new token
-          const retryResponse = await axios.get(
-            "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
-            {
-              headers: {
-                Authorization: `Bearer ${newAccessToken}`,
-              },
-            }
-          );
-          console.log(retryResponse.data);
-        } catch (refreshError) {
-          console.error("Token refresh failed:", refreshError);
-        }
-      } else {
-        console.error("API call error:", error);
-      }
-    }
-  };
-  
-  // Trigger sign-in
   const handleUserSignin = async () => {
     userSignin();
   };
-  
-  
 
   ////////////// USER FORGOT PASSWORD /////////////////
   const forgotPassword = async () => {

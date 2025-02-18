@@ -275,14 +275,14 @@ function Container() {
             setCurrentSlide("org-signup-success");
             toast(response.data.message);
             localStorage.setItem("orgId", response.data.org_id);
-              dispatch(
-                updateGoogleUserDetails({
-                  email: res.data?.email,
-                  username: res.data?.name,
-                  picture: res.data?.picture,
-                  id: res.data?.sub,
-                })
-              );
+            dispatch(
+              updateGoogleUserDetails({
+                email: res.data?.email,
+                username: res.data?.name,
+                picture: res.data?.picture,
+                id: res.data?.sub,
+              })
+            );
           }
           if (response.status === 200) {
             setCurrentSlide("signing");
@@ -305,7 +305,7 @@ function Container() {
       }
     },
   });
-  
+
   ////////////////// GOOGLE ORG SIGNIN /////////////////////////////////
   const googleOrgSignin = useGoogleLogin({
     onSuccess: async (response) => {
@@ -333,14 +333,14 @@ function Container() {
           if (response.status === 200) {
             setCurrentSlide("org-signin-success");
             toast("Signin successful");
-              dispatch(
-                updateGoogleUserDetails({
-                  email: res.data?.email,
-                  username: res.data?.name,
-                  picture: res.data?.picture,
-                  id: res.data?.sub,
-                })
-              );
+            dispatch(
+              updateGoogleUserDetails({
+                email: res.data?.email,
+                username: res.data?.name,
+                picture: res.data?.picture,
+                id: res.data?.sub,
+              })
+            );
             Cookies.set("voyexEmail", orgEmail, { expires: 7 });
           }
           if (response.status === 404) {
@@ -358,16 +358,13 @@ function Container() {
       }
     },
   });
-  
 
   //////////////// ORGANIZATION SIGNUP /////////////////////////////////
   //----- authenticate email
   const signing = async () => {
+    const emailInputValidation = validateEmailInput(email);
+    const passwordInputValidation = validatePasswordInput(orgPassword);
     try {
-      // Validate the email and password input before proceeding
-      const emailInputValidation = validateEmailInput(email);
-      const passwordInputValidation = validatePasswordInput(orgPassword);
-  
       if (emailInputValidation) {
         setSignupEmailError(emailInputValidation);
         return;
@@ -376,14 +373,11 @@ function Container() {
         setSignupPasswordError(passwordInputValidation);
         return;
       }
-  
       setLoading(true);
-  
-      // Check if the email is valid using an external service
+      // Check if the email is valid
       const check_legit_email = await axios.get(
         `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${email}`
       );
-  
       if (check_legit_email.data.is_valid_format.value === false) {
         toast("Email format unacceptable");
         return;
@@ -396,43 +390,32 @@ function Container() {
         return;
       }
   
+      // Check if email exists
+      const check_available_email = await axios.get(
+        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?email=${email}&action=check_email`
+      );
       if (
-        check_legit_email.data.is_smtp_valid.value === true &&
-        check_legit_email.data.is_valid_format.value === true
+        check_available_email.status === 200 &&
+        check_available_email.data.exists === "yes"
       ) {
-        // Check if the email is already registered
-        const check_available_email = await axios.get(
-          `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?email=${email}&action=check_email`
+        toast("Email already in use");
+        return;
+      }
+  
+      // If email doesn't exist, send OTP verification
+      if (
+        check_available_email.status === 200 &&
+        check_available_email.data.exists === "no"
+      ) {
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", orgPassword);
+        const send_otp = await axios.post(
+          `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+          { email: localStorage.getItem("email") }
         );
-  
-        if (
-          check_available_email.status === 200 &&
-          check_available_email.data.exists === "yes"
-        ) {
-          toast("Email already in use");
-          return;
-        }
-  
-        // If email doesn't exist in the database, send OTP for verification
-        if (
-          check_available_email.status === 200 &&
-          check_available_email.data.exists === "no"
-        ) {
-          localStorage.setItem("email", email);
-          localStorage.setItem("password", orgPassword);
-  
-          // Send OTP
-          const send_otp = await axios.post(
-            `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
-            {
-              email: localStorage.getItem("email"),
-            }
-          );
-  
-          if (send_otp.status === 200) {
-            setCurrentSlide("email-verify");
-            toast("OTP sent to email");
-          }
+        if (send_otp.status === 200) {
+          setCurrentSlide("email-verify");
+          toast("OTP sent to email");
         }
       }
     } catch (error) {
@@ -445,28 +428,24 @@ function Container() {
       setLoading(false);
     }
   };
- 
-  
   
   const handleSignup = async () => {
     signing();
   };
-  //----- verify email, then signup
+  
   const verifying = async () => {
     try {
       setLoading(true);
-  
-      // Verify the OTP
+      // Verify OTP
       const verify_otp = await axios.get(
         `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp?email=${localStorage.getItem(
           "email"
         )}&otp=${value}`
       );
-  
       if (verify_otp.status === 200) {
         setOtpError(false);
   
-        // Proceed with email and password verification for sign-up
+        // OTP valid, proceed with org sign-up
         const acceptEmailPassword = await axios.post(
           `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
           {
@@ -476,13 +455,23 @@ function Container() {
           }
         );
   
+        // Handle response based on status
         if (acceptEmailPassword.status === 201) {
+          setLoading(false);
           toast(acceptEmailPassword.data.message);
           setCurrentSlide("org-signup-success");
+  
+          // Store org details and tokens in localStorage
           localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
+          localStorage.setItem("access_token", acceptEmailPassword.data.access_token); // Save access token
+          localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Save refresh token
+  
+          // Optional: Refresh access token if needed
+          await checkAccessToken();
         }
         if (acceptEmailPassword.status === 409) {
           setCurrentSlide("signing");
+          toast("Email already exists");
         }
       }
     } catch (error) {
@@ -495,8 +484,6 @@ function Container() {
       setLoading(false);
     }
   };
-  
-  
   
   useEffect(() => {
     value.length === 6 && verifying();
@@ -540,132 +527,86 @@ function Container() {
   };
   const uploadDetails = async () => {
     try {
+      // Ensure all fields are filled
+      if (!orgPrivacyInput || !orgCertifications || !uploadedFile) {
+        toast.warn("Complete all fields!");
+        return;
+      }
+  
       setLoading(true);
       setCurrentSlide("org-upload-loading");
   
-      // Step 1: Check for missing required fields
-      if (!orgPrivacyInput || !orgCertifications || !uploadedFile) {
-        toast.warn("Complete all fields!!!");
+      // Retrieve the access token from localStorage
+      const accessToken = localStorage.getItem("access_token"); // Or `accessToken` based on your previous naming convention
+  
+      if (!accessToken) {
+        toast.warn("Access token is missing. Please log in again.");
         return;
       }
   
-      // Step 2: Fetch stored tokens
-      let accessToken = localStorage.getItem("access_token");
-      const refreshToken = localStorage.getItem("refresh_token");
-  
-      // Check if tokens exist
-      if (!accessToken || !refreshToken) {
-        toast.warn("Session expired. Please sign in again.");
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        setCurrentSlide("signing");
-        return;
-      }
-  
-      // Step 3: Validate Access Token
-      const checkAccessResponse = await axios.post(
-        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-        {
-          action: "access_check",
-          access_token: accessToken,
+      // Prepare the data for the PUT request
+      const requestData = {
+        org_id: Number(localStorage.getItem("orgId")),
+        organization_name: orgname,
+        industry: orgIndustry,
+        location: orgLocation,
+        website_url: orgWebsite,
+        poc: orgPoc,
+        logo_url: orgLogo,
+        social_media: {
+          twitter: orgTwitter,
+          linkedin: orgLinkedin,
+        },
+        operational_details: {
+          target_audience: orgAudience,
+          service_offered: orgService,
+          tech_used: orgTechUsed,
+          specialization: orgSpecialization,
+        },
+        leadership_teams: {
+          careers_page: orgCareerspage,
+          team_size: orgTeamsize,
+          founder: orgFounder,
+          executives: orgExco,
+        },
+        financial_info: {
+          mode_of_revenue: orgRevenueMode,
+          funding_info: orgFundingInfo,
+          clients: orgClient,
         }
-      );
+      };
   
-      // If the access token is expired, try to refresh it
-      if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === false) {
-        const refreshResponse = await axios.post(
-          `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-          {
-            action: "refresh_token",
-            refresh_token: refreshToken,
-          }
-        );
-  
-        // Step 4: Check if refresh token was successful
-        if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
-          accessToken = refreshResponse.data.access_token;
-          localStorage.setItem("access_token", accessToken);
-          toast.success("Session refreshed. Proceeding...");
-        } else {
-          toast.warn("Session expired. Please log in again.");
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("refresh_token");
-          setCurrentSlide("signing");
-          return;
-        }
-      }
-  
-      // Step 5: Proceed with uploading organization details
+      // Make the PUT request to upload the organization details
       const response = await axios.put(
         `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-        {
-          org_id: Number(localStorage.getItem("orgId")),
-          organization_name: orgname,
-          industry: orgIndustry,
-          location: orgLocation,
-          website_url: orgWebsite,
-          poc: orgPoc,
-          logo_url: orgLogo,
-          social_media: {
-            twitter: orgTwitter,
-            linkedin: orgLinkedin,
-          },
-          operational_details: {
-            target_auience: orgAudience,
-            service_offered: orgService,
-            tech_used: orgTechUsed,
-            specialization: orgSpecialization,
-          },
-          leadership_teams: {
-            careers_page: orgCareerspage,
-            team_size: orgTeamsize,
-            founder: orgFounder,
-            executives: orgExco,
-          },
-          financial_info: {
-            mode_of_revenue: orgRevenueMode,
-            funding_info: orgFundingInfo,
-            clients: orgClient,
-          },
-        },
+        requestData,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`, // Attach the updated token
+            Authorization: `Bearer ${accessToken}`, // Include access token in Authorization header
           },
         }
       );
   
-      // Step 6: Handle Response
-      if (response.status === 200 && response.data?.success) {
-        toast.success("Upload Successful!");
+      // Handle response
+      if (response.status === 200) {
+        toast.success(response.data.message || "Organization details uploaded successfully!");
         setCurrentSlide("org-upload-success");
       } else {
-        toast.warn("Something went wrong with the upload.");
         setCurrentSlide("basic-info");
       }
-  
     } catch (error) {
-      console.error("uploadDetails_error", error);
-  
-      // Handle different error scenarios
+      // Handle errors
+      console.error(error);
       if (error.response?.data) {
-        toast.error(error.response.data.message || "Something went wrong.");
-      } else if (error.message) {
-        toast.error(error.message || "An unexpected error occurred.");
+        toast.error(error.response.data.message || error.response.data);
       } else {
-        toast.error("An unknown error occurred. Please try again.");
+        toast.error(error.message);
       }
-  
       setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
     }
   };
-  
-  
-  
-
-  
   
   useEffect(() => {
     if (border === true) {
@@ -679,6 +620,71 @@ function Container() {
   };
 
   ////////////////// ORGANIZATION SIGN IN /////////////////////////////
+
+// 2. Check Access Token Validity and Refresh If Expired
+const checkAccessToken = async () => {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    // No token, user is not authenticated
+    setCurrentSlide("signing");
+  }
+
+  try {
+    const response = await axios.post(
+      'https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api',  // Endpoint to validate access token
+      { access_token: token }
+    );
+
+    if (response.status === 200) {
+      // Token is valid
+      return token;
+    } else {
+      // Token is invalid, attempt to refresh it
+      return await refreshAccessToken();
+    }
+  } catch (error) {
+    console.error('Error validating token:', error);
+    // If token validation fails, refresh it or logout
+    return await refreshAccessToken();
+  }
+};
+
+
+// 3. Refresh Access Token using Refresh Token
+const refreshAccessToken = async () => {
+  try {
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (!refreshToken) {
+      throw new Error('Refresh token missing');
+    }
+
+    const response = await axios.post(
+      'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',
+      { refresh_token: refreshToken }
+    );
+
+    if (response.status === 200 && response.data.access_token) {
+      // Save new access and refresh tokens to localStorage
+      localStorage.setItem('access_token', response.data.access_token);
+      if (response.data.refresh_token) {
+        localStorage.setItem('refresh_token', response.data.refresh_token);
+      }
+      return response.data.access_token;
+    } else {
+      throw new Error('Unable to refresh token');
+    }
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+    logoutUser();
+  }
+};
+
+// 4. Logout User and Clear Tokens
+const logoutUser = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  setCurrentSlide("signing");  // Redirect to login page
+};
   const organizationSignin = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
@@ -686,16 +692,8 @@ function Container() {
         toast("All input fields required!");
         return;
       }
-  
-      // Validate password using regex
-      if (!passwordRegex.test(orgPassword1)) {
-        toast("Password must meet the criteria.");
-        return;
-      }
-  
       setLoading(true);
       setCurrentSlide("org-signin-loading");
-  
       const response = await axios.post(
         `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
         {
@@ -703,90 +701,36 @@ function Container() {
           password: orgPassword1,
         }
       );
-  
-      // Check for successful response
-      if (response.status === 200 && response.data) {
+      // console.log("org signin response", response);
+      if (response.status === 200) {
+                      // Successful sign-in, save tokens in localStorage
+      localStorage.setItem('access_token', response.data.access_token);
+      localStorage.setItem('refresh_token', response.data.refresh_token);  // If provided
+        setCurrentSlide("org-signin-success");
         toast("Signin successful");
-  
-        // Store the access token and refresh token in localStorage
-        const { access_token, refresh_token } = response.data;
-        if (access_token && refresh_token) {
-          localStorage.setItem("access_token", access_token);
-          localStorage.setItem("refresh_token", refresh_token);
-        } else {
-          toast("Failed to retrieve tokens.");
-          return;
-        }
-  
-        // Perform an access check using the stored access token
-        const checkAccessResponse = await axios.post(
-          `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-          {
-            action: "access_check",
-            access_token: access_token, // Pass the stored access token
-          }
-        );
-  
-        if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === true) {
-          toast("Access is valid.");
-          setCurrentSlide("org-signin-success"); // Example slide after successful login
-        } else {
-          // Attempt to refresh token if access token is invalid
-          if (refresh_token) {
-            const refreshResponse = await axios.post(
-              `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-              {
-                action: "refresh_token",
-                refresh_token: refresh_token,
-              }
-            );
-  
-            if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
-              const newAccessToken = refreshResponse.data.access_token;
-              localStorage.setItem("access_token", newAccessToken);
-              toast("Access token refreshed.");
-              setCurrentSlide("org-signin-success");
-            } else {
-              toast("Session expired, please log in again.");
-              localStorage.removeItem("access_token");
-              localStorage.removeItem("refresh_token");
-              setCurrentSlide("signing");
-            }
-          } else {
-            toast("Session expired, please log in again.");
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("refresh_token");
-            setCurrentSlide("signing");
-          }
-        }
-      } else if (response.status === 404) {
+        // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
+        await checkAccessToken();
+      }
+      if (response.status === 404) {
         setCurrentSlide("signing");
-        toast.warn("Organization not found!");
         return;
-      } else {
-        toast("Signin failed. Please try again.");
       }
     } catch (error) {
-      console.error("Signin error:", error);
-      if (error.response?.data) {
-        toast(error.response.data.message || JSON.stringify(error.response.data));
-      } else {
-        toast(error.message);
-      }
+      // console.log(error);
+      if (error.response.data) {
+        toast(error.response.data.message);
+        setCurrentSlide("signing");
+      } else toast(error.message);
       if (error.message.includes("Network Error")) {
-        toast("Network error, try again!");
+        toast("Network Error, Try again!");
       }
-      setCurrentSlide("signing");
     } finally {
       setLoading(false);
     }
   };
-  
-  
   const handleOrgSignin = async () => {
     organizationSignin();
   };
-  
 
   ////////////// ORG FORGOT PASSWORD /////////////////
   const forgotPassword = async () => {
