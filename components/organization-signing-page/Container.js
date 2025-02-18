@@ -627,13 +627,57 @@ function Container() {
   };
   const uploadDetails = async () => {
     try {
-      if (!orgPrivacyInput || !orgCertifications || !uploadedFile ) {
-        toast.warn("complete all fields!!!");
+      setLoading(true);
+  
+      let accessToken = localStorage.getItem("access_token");
+      const refreshToken = localStorage.getItem("refresh_token");
+  
+      if (!accessToken || !refreshToken) {
+        toast.warn("Session expired. Please sign in again.");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        setCurrentSlide("signing");
         return;
       }
-      setLoading(true);
-      setCurrentSlide("org-upload-loading");
-      // still need to set specialization in the api
+  
+      // Step 1: Check Access Token Validity
+      const checkAccessResponse = await axios.post(
+        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
+        {
+          action: "access_check",
+          access_token: accessToken,
+        }
+      );
+  
+      if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === false) {
+        // Step 2: Refresh Token If Access Token Expired
+        const refreshResponse = await axios.post(
+          `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
+          {
+            action: "refresh_token",
+            refresh_token: refreshToken,
+          }
+        );
+  
+        if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
+          accessToken = refreshResponse.data.access_token;
+          localStorage.setItem("access_token", accessToken);
+          toast("Session refreshed. Proceeding...");
+        } else {
+          toast("Session expired. Please log in again.");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          setCurrentSlide("signing");
+          return;
+        }
+      }
+  
+      // Step 3: Proceed with Uploading the Organization Details
+      if (!orgPrivacyInput || !orgCertifications || !uploadedFile) {
+        toast.warn("Complete all fields!!!");
+        return;
+      }
+  
       const response = await axios.put(
         `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
         {
@@ -656,37 +700,38 @@ function Container() {
           },
           leadership_teams: {
             careers_page: orgCareerspage,
-            team_size:orgTeamsize,
-            founder:orgFounder,
-            executives:orgExco,
+            team_size: orgTeamsize,
+            founder: orgFounder,
+            executives: orgExco,
           },
           financial_info: {
             mode_of_revenue: orgRevenueMode,
             funding_info: orgFundingInfo,
             clients: orgClient,
-          }
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Attach the refreshed token
+          },
         }
       );
-      // console.log("response", response);
+  
       if (response.status === 200) {
-        toast.success(response.data);
+        toast.success("Upload Successful!");
         setCurrentSlide("org-upload-success");
-      }
-      if (response.status !== 200) {
+      } else {
         setCurrentSlide("basic-info");
       }
     } catch (error) {
-      // console.log(error);
-      if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
-      if (error.message) {
-        setCurrentSlide("basic-info");
-      }
+      console.error("uploadDetails_error", error);
+      toast.error(error.response?.data || "Something went wrong.");
+      setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
     }
   };
+  
 
   
   

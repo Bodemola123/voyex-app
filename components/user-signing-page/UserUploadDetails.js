@@ -100,11 +100,57 @@ function UserUploadDetails({ setUserDisplay }) {
   const uploadDetails = async () => {
     try {
       if (clickedButtons.length <= 1) {
-        toast.warn("must select more than one");
+        toast.warn("Must select more than one");
         return;
       }
+  
       setLoading(true);
       setCurrentSlide("user-upload-loading");
+  
+      let accessToken = localStorage.getItem("access_token");
+      const refreshToken = localStorage.getItem("refresh_token");
+  
+      if (!accessToken || !refreshToken) {
+        toast.warn("Session expired. Please sign in again.");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        setCurrentSlide("signing");
+        return;
+      }
+  
+      // Step 1: Validate the access token
+      const checkAccessResponse = await axios.post(
+        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
+        {
+          action: "access_check",
+          access_token: accessToken,
+        }
+      );
+  
+      if (checkAccessResponse.status === 200 && checkAccessResponse.data.valid === false) {
+        // Step 2: Refresh token if access token is expired
+        const refreshResponse = await axios.post(
+          `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
+          {
+            action: "refresh_token",
+            refresh_token: refreshToken,
+          }
+        );
+  
+        if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
+          accessToken = refreshResponse.data.access_token;
+          localStorage.setItem("access_token", accessToken);
+          toast("Session refreshed. Proceeding...");
+        } else {
+          toast.warn("Session expired. Please log in again.");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          setCurrentSlide("signing");
+          return;
+        }
+      }
+  
+      // Step 3: Proceed with uploading details
       const response = await axios.put(
         `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
@@ -117,29 +163,37 @@ function UserUploadDetails({ setUserDisplay }) {
           metadata: {
             purpose: clickedButtons,
           },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Attach the updated token
+          },
         }
       );
+  
       console.log("response", response);
+  
       if (response.status === 200) {
         toast.success(response.data.message);
         setCurrentSlide("user-upload-success");
         localStorage.removeItem("user_password");
-      }
-      if (response.status !== 200) {
+      } else {
         setCurrentSlide("basic-info");
       }
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
         toast.error(error.response.data);
-      } else toast.error(error.message);
-      if (error.message) {
-        setCurrentSlide("basic-info");
+      } else {
+        toast.error(error.message);
       }
+  
+      setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
     }
   };
+  
   
   const handleUploadDetails = async () => {
     uploadDetails();
