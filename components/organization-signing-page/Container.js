@@ -263,7 +263,7 @@ function Container() {
         // console.log(res.data);
         if (res.status === 200) {
           const response = await axios.post(
-            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+            `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
             {
               email: res.data?.email,
               method: "sign_up",
@@ -323,7 +323,7 @@ function Container() {
         // console.log(res.data);
         if (res.status === 200) {
           const response = await axios.post(
-            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+            `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
             {
               email: res.data?.email,
               password: res.data?.sub,
@@ -397,7 +397,7 @@ function Container() {
       ) {
         ///////////// check if email is taken /////////////////////
         const check_available_email = await axios.get(
-          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?email=${email}&action=check_email`
+          `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?email=${email}.com&action=check_email`
         );
         /////////// if email exists, return/stop
         if (
@@ -459,7 +459,7 @@ function Container() {
         setOtpError(false);
         //////// OTP valid? accept org /////////////////
         const acceptEmailPassword = await axios.post(
-          `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+          `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
           {
             email: localStorage.getItem("email"),
             method: "sign_up",
@@ -537,7 +537,7 @@ function Container() {
       setCurrentSlide("org-upload-loading");
       // still need to set specialization in the api
       const response = await axios.put(
-        `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
         {
           org_id: Number(localStorage.getItem("orgId")),
           organization_name: orgname,
@@ -554,7 +554,19 @@ function Container() {
             target_auience: orgAudience,
             service_offered: orgService,
             tech_used: orgTechUsed,
+            specialization: orgSpecialization,
           },
+          leadership_teams: {
+            careers_page: orgCareerspage,
+            team_size:orgTeamsize,
+            founder:orgFounder,
+            executives:orgExco,
+          },
+          financial_info: {
+            mode_of_revenue: orgRevenueMode,
+            funding_info: orgFundingInfo,
+            clients: orgClient,
+          }
         }
       );
       // console.log("response", response);
@@ -599,7 +611,7 @@ function Container() {
       setLoading(true);
       setCurrentSlide("org-signin-loading");
       const response = await axios.post(
-        `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2`,
+        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
         {
           email: orgEmail,
           password: orgPassword1,

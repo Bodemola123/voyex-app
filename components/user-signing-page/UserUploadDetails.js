@@ -106,7 +106,7 @@ function UserUploadDetails({ setUserDisplay }) {
       setLoading(true);
       setCurrentSlide("user-upload-loading");
       const response = await axios.put(
-        `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
           user_id: Number(localStorage.getItem("userId")),
           fullname: userFullName,

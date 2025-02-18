@@ -277,7 +277,7 @@ function Container() {
       ) {
         ///////////// check if email is taken /////////////////////
         const check_available_email = await axios.get(
-          `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex?email=${userEmail}`
+          `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?email=${userEmail}`
         );
         /////////// if email exists, return/stop
         if (
@@ -339,7 +339,7 @@ function Container() {
         setOtpError(false);
         //////// OTP valid? accept org /////////////////
         const acceptEmailPassword = await axios.post(
-          `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+          `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
           {
             email: localStorage.getItem("user_email"),
             password: localStorage.getItem("user_password"),
@@ -387,7 +387,7 @@ function Container() {
       setLoading(true);
       setCurrentSlide("user-signin-loading");
       const response = await axios.post(
-        `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
           email: emailAddress,
           password: userPassword1,

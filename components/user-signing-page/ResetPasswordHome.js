@@ -66,7 +66,7 @@ function ResetPassword({ setCurrentSlide }) {
       setLoading(true);
       /////////////// check if otp is legit from email //////////////////
       const response = await axios.put(
-        `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
           email: localStorage.getItem("reset_password_email"),
           password: confirmPassword,

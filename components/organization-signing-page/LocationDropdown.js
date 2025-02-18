@@ -20,6 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import axios from "axios";
 
 export function LocationDropdown({ locationInput }) {
   const [open, setOpen] = useState(false);
@@ -29,16 +30,7 @@ export function LocationDropdown({ locationInput }) {
   const [loading, setLoading] = useState(false); // Loading state for API calls
   const [noResults, setNoResults] = useState(false); // State for handling no results
 
-  // Default locations
-  const defaultLocations = [
-    { value: "1", label: "Janpath Lane, Connaught Place, New Delhi, Delhi, 110001" },
-    { value: "2", label: "Ahmadu Bello Way, Near Federal Secretariat, Abuja, FCT, 900001" },
-    { value: "3", label: "Nanjing Road, Near People's Square, Huangpu District, Shanghai, 200001" },
-    { value: "4", label: "George Street, Near Sydney Town Hall, Sydney, New South Wales, 2000" },
-    { value: "5", label: "Gran Vía, Near Plaza de España, Madrid, 28013, Spain" },
-  ];
-
-  // Fetch locations from TomTom API
+  // Fetch locations from Google Places API
   const fetchLocations = useCallback(async (query) => {
     if (!query) return;
 
@@ -46,28 +38,27 @@ export function LocationDropdown({ locationInput }) {
     setError(null); // Reset error
     setNoResults(false); // Reset no results state
 
-    const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY; // Use environment variable for the API key
-    const url = `https://api.tomtom.com/search/2/search/${query}.json?key=${apiKey}&limit=5`;
+    const apiKey = AIzaSyB67dB1hldv7P7V9EQldwAlAAxcp0eeQpg; // Replace with your actual Google Places API key
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&key=${apiKey}`;
 
     try {
-      const response = await fetch(url);
-      const data = await response.json();
+      const response = await axios.get(url);
+      const data = response.data.predictions;
 
-      if (data.results) {
-        if (data.results.length === 0) {
-          setNoResults(true);
-        } else {
-          setLocations(
-            data.results.map((location) => ({
-              value: location.id,
-              label: location.address.freeformAddress,
-            }))
-          );
-        }
+      if (data && data.length > 0) {
+        setLocations(data.map((location) => ({
+          value: location.place_id,
+          label: location.description,
+        })));
+        setNoResults(false);
+      } else {
+        setNoResults(true);
+        setLocations([]);
       }
     } catch (error) {
       console.error("Error fetching locations:", error);
       setError("Failed to fetch locations. Please try again.");
+      setLocations([]);
     } finally {
       setLoading(false);
     }
@@ -121,36 +112,8 @@ export function LocationDropdown({ locationInput }) {
               </CommandEmpty>
             )}
 
-            {/* Default locations */}
-            {locations.length === 0 && !loading && !noResults && (
-              <CommandGroup>
-                {defaultLocations.map((location) => (
-                  <CommandItem
-                    key={location.value}
-                    value={location.value}
-                    className="text-fontlight data-[selected='true']:bg-purple"
-                    onSelect={() => {
-                      setValue(location.label); // Update the selected value
-                      locationInput(location.label); // Update the organization location
-                      setOpen(false); // Close the dropdown
-                    }}
-                  >
-                    {location.label}
-                    <Check
-                      className={cn(
-                        "ml-auto",
-                        value === location.label
-                          ? "opacity-100 text-fontlight hover:text-black"
-                          : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-
             {/* Search result locations */}
-            {locations.length > 0 && (
+            {locations.length > 0 && !loading && !noResults && (
               <CommandGroup>
                 {locations.map((location) => (
                   <CommandItem
@@ -159,7 +122,7 @@ export function LocationDropdown({ locationInput }) {
                     className="text-fontlight data-[selected='true']:bg-purple"
                     onSelect={() => {
                       setValue(location.label); // Update the selected value
-                      locationInput(location.label); // Update the organization location
+                      locationInput(location.label); // Pass selected location to parent
                       setOpen(false); // Close the dropdown
                     }}
                   >
