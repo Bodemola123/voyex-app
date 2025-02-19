@@ -541,6 +541,7 @@ function Container() {
   
       if (!accessToken) {
         toast.warn("Access token is missing. Please log in again.");
+        setCurrentSlide("signing")
         return;
       }
   
