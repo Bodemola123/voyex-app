@@ -152,6 +152,7 @@ function UserUploadDetails({ setUserDisplay }) {
       }
     } finally {
       setLoading(false);
+      router.push("/search");
     }
   };
   

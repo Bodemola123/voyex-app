@@ -465,6 +465,7 @@ const logoutUser = () => {
         toast("network error, try again!");
       }
     } finally {
+      router.push("/search");
       setLoading(false);
     }
   };

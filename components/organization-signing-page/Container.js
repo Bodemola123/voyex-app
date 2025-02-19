@@ -606,6 +606,7 @@ function Container() {
       setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
+      router.push("/search");
     }
   };
   
@@ -727,6 +728,7 @@ const logoutUser = () => {
       }
     } finally {
       setLoading(false);
+      router.push("/search");
     }
   };
   const handleOrgSignin = async () => {
