@@ -255,12 +255,12 @@ function Container() {
 
       setLoading(true);
 
-      // // Step 2: Check if email is valid format and deliverable
-      // const check_legit_email = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${email}`);
-      // if (!check_legit_email.data.is_valid_format.value || check_legit_email.data.is_smtp_valid.value === false) {
-      //   toast.warn("Invalid email format or email is undeliverable");
-      //   return;
-      // }
+      // Step 2: Check if email is valid format and deliverable
+      const check_legit_email = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${email}`);
+      if (!check_legit_email.data.is_valid_format.value || check_legit_email.data.is_smtp_valid.value === false) {
+        toast.warn("Invalid email format or email is undeliverable");
+        return;
+      }
 
       // Step 3: Check if email is available
       const check_available_email = await axios.get(`https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?email=${email}`);
