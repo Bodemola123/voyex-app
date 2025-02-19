@@ -712,7 +712,7 @@ const logoutUser = () => {
         toast("Signin successful");
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
-        await checkAccessToken();
+        // await checkAccessToken();
       }
       if (response.status === 404) {
         setCurrentSlide("signing");

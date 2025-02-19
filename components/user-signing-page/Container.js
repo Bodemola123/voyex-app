@@ -360,7 +360,6 @@ const checkAccessToken = async () => {
   const token = localStorage.getItem('access_token');
   if (!token) {
     // No token, user is not authenticated
-    toast("There is no token, Please Log in again")
     return null;
   }
 
@@ -451,7 +450,7 @@ const logoutUser = () => {
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
               // Check if the token is valid
-      await checkAccessToken();
+      // await checkAccessToken();
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
@@ -467,7 +466,6 @@ const logoutUser = () => {
         toast("network error, try again!");
       }
     } finally {
-      
       setLoading(false);
     }
   };
