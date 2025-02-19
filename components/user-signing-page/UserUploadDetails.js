@@ -8,6 +8,7 @@ import axios from "axios";
 import UserUploadLoading from "./UserUploadLoading";
 import UserUploadSuccess from "./UserUploadSuccess";
 import UserPurpose from "./UserPurpose";
+import { useRouter } from "next/navigation";
 
 function UserUploadDetails({ setUserDisplay }) {
   const [userFullName, setUserFullName] = useState("");
@@ -15,7 +16,7 @@ function UserUploadDetails({ setUserDisplay }) {
   const [skillLevel, setSkillLevel] = useState("");
   const [userCountry, setUserCountry] = useState("");
   const [clickedButtons, setClickedButtons] = useState([]);
-
+  const router = useRouter()
   const [loading, setLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState("basic-info");
 
@@ -111,6 +112,7 @@ function UserUploadDetails({ setUserDisplay }) {
   
       if (!accessToken) {
         toast.warn("Access token is missing. Please log in again.");
+        router.push("/auth/user")
         return;
       }
   
