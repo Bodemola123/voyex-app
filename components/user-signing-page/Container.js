@@ -248,10 +248,10 @@ function Container() {
         return;
       }
 
-      if (!passwordRegex.test(password)) {
-        toast("Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!");
-        return;
-      }
+      // if (!passwordRegex.test(password)) {
+      //   toast("Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!");
+      //   return;
+      // }
 
       setLoading(true);
 
