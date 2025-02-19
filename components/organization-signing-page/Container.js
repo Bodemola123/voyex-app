@@ -627,14 +627,15 @@ const checkAccessToken = async () => {
   const token = localStorage.getItem('access_token');
   if (!token) {
     // No token, user is not authenticated
-    toast("There is no token")
     return null;
   }
 
   try {
     const response = await axios.post(
       'https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api',  // Endpoint to validate access token
-      { access_token: token }
+      { 
+        action: "access_check",
+        access_token: token }
     );
 
     if (response.status === 200) {
@@ -662,7 +663,9 @@ const refreshAccessToken = async () => {
 
     const response = await axios.post(
       'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',
-      { refresh_token: refreshToken }
+      { 
+        action: "refresh",
+        refresh_token: refreshToken }
     );
 
     if (response.status === 200 && response.data.access_token) {
@@ -712,7 +715,7 @@ const logoutUser = () => {
         toast("Signin successful");
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
-        // await checkAccessToken();
+        await checkAccessToken();
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
@@ -734,6 +737,10 @@ const logoutUser = () => {
   const handleOrgSignin = async () => {
     organizationSignin();
   };
+  useEffect(() => {
+    console.log("Current Slide:", currentSlide);
+  }, [currentSlide]);
+  
 
   ////////////// ORG FORGOT PASSWORD /////////////////
   const forgotPassword = async () => {

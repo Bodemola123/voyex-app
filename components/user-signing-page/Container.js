@@ -366,7 +366,10 @@ const checkAccessToken = async () => {
   try {
     const response = await axios.post(
       'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',  // Endpoint to validate access token
-      { access_token: token }
+      { 
+        action: "access_check",
+        access_token: token 
+      }
     );
 
     if (response.status === 200) {
@@ -394,7 +397,9 @@ const refreshAccessToken = async () => {
 
     const response = await axios.post(
       'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',
-      { refresh_token: refreshToken }
+      { 
+        action: "refresh",
+        refresh_token: refreshToken }
     );
 
     if (response.status === 200 && response.data.access_token) {
@@ -450,7 +455,7 @@ const logoutUser = () => {
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
               // Check if the token is valid
-      // await checkAccessToken();
+      await checkAccessToken();
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
