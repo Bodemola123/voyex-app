@@ -447,9 +447,11 @@ const logoutUser = () => {
       localStorage.setItem('refresh_token', response.data.refresh_token);  // If provided
         setCurrentSlide("user-signin-success");
         toast("signin successful");
+
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
               // Check if the token is valid
       await checkAccessToken();
+      router.push("/search");
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
@@ -467,7 +469,6 @@ const logoutUser = () => {
     } finally {
       
       setLoading(false);
-      router.push("/search");
     }
   };
   const handleUserSignin = async () => {

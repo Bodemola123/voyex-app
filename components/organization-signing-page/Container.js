@@ -592,6 +592,7 @@ function Container() {
       if (response.status === 200) {
         toast.success(response.data.message || "Organization details uploaded successfully!");
         setCurrentSlide("org-upload-success");
+        router.push("/search");
       } else {
         setCurrentSlide("basic-info");
       }
@@ -606,7 +607,7 @@ function Container() {
       setCurrentSlide("basic-info");
     } finally {
       setLoading(false);
-      router.push("/search");
+
     }
   };
   
@@ -710,8 +711,10 @@ const logoutUser = () => {
       localStorage.setItem('refresh_token', response.data.refresh_token);  // If provided
         setCurrentSlide("org-signin-success");
         toast("Signin successful");
+
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
         await checkAccessToken();
+        router.push("/search");
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
@@ -728,7 +731,6 @@ const logoutUser = () => {
       }
     } finally {
       setLoading(false);
-      router.push("/search");
     }
   };
   const handleOrgSignin = async () => {
