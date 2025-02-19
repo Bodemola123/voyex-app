@@ -330,11 +330,6 @@ function Container() {
           localStorage.setItem("access_token", acceptEmailPassword.data.token); // Store access token
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Store refresh token
           
-          // Optionally check if the access token is valid right after signup
-  // Wait 3 seconds before running checkAccessToken to prevent interference
-  setTimeout(() => {
-    checkAccessToken();
-  }, 10000);
         }
         
         if (acceptEmailPassword.status === 409) {
@@ -358,76 +353,6 @@ function Container() {
   }, [value.length]);
 
   ////////////////// USER SIGN IN /////////////////////////////////
-
-// 2. Check Access Token Validity and Refresh If Expired
-const checkAccessToken = async () => {
-  const token = localStorage.getItem('access_token');
-  if (!token) {
-    // No token, user is not authenticated
-    return null;
-  }
-
-  try {
-    const response = await axios.post(
-      'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',  // Endpoint to validate access token
-      { 
-        action: "access_check",
-        access_token: token 
-      }
-    );
-
-    if (response.status === 200) {
-      // Token is valid
-      return token;
-    } else {
-      // Token is invalid, attempt to refresh it
-      return await refreshAccessToken();
-    }
-  } catch (error) {
-    console.error('Error validating token:', error);
-    // If token validation fails, refresh it or logout
-    return await refreshAccessToken();
-  }
-};
-
-
-// 3. Refresh Access Token using Refresh Token
-const refreshAccessToken = async () => {
-  try {
-    const refreshToken = localStorage.getItem('refresh_token');
-    if (!refreshToken) {
-      throw new Error('Refresh token missing');
-    }
-
-    const response = await axios.post(
-      'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',
-      { 
-        action: "refresh",
-        refresh_token: refreshToken }
-    );
-
-    if (response.status === 200 && response.data.access_token) {
-      // Save new access and refresh tokens to localStorage
-      localStorage.setItem('access_token', response.data.access_token);
-      if (response.data.refresh_token) {
-        localStorage.setItem('refresh_token', response.data.refresh_token);
-      }
-      return response.data.access_token;
-    } else {
-      throw new Error('Unable to refresh token');
-    }
-  } catch (error) {
-    console.error('Error refreshing token:', error);
-    logoutUser();
-  }
-};
-
-// 4. Logout User and Clear Tokens
-const logoutUser = () => {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
-  setCurrentSlide("signing");  // Redirect to login page
-};
   const userSignin = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
@@ -458,11 +383,6 @@ const logoutUser = () => {
         toast("signin successful");
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
-              // Check if the token is valid
-       // Wait 3 seconds before running checkAccessToken to prevent interference
-  setTimeout(() => {
-    checkAccessToken();
-  }, 10000);
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
