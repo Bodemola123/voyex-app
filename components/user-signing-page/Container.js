@@ -55,6 +55,7 @@ function Container() {
   const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
   const [mins, setMins] = useState("");
   const [secs, setSecs] = useState("");
+  
 
   //////// forgot password section
   const [forgotEmail, setForgotEmail] = useState("");
@@ -330,7 +331,10 @@ function Container() {
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Store refresh token
           
           // Optionally check if the access token is valid right after signup
-          await checkAccessToken();
+  // Wait 3 seconds before running checkAccessToken to prevent interference
+  setTimeout(() => {
+    checkAccessToken();
+  }, 10000);
         }
         
         if (acceptEmailPassword.status === 409) {
@@ -455,7 +459,10 @@ const logoutUser = () => {
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
               // Check if the token is valid
-      await checkAccessToken();
+       // Wait 3 seconds before running checkAccessToken to prevent interference
+  setTimeout(() => {
+    checkAccessToken();
+  }, 10000);
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
