@@ -22,12 +22,12 @@ function SigninAccountSuccess() {
           {/* <button className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card">
             Skip
           </button> */}
-          {/* <button
+          <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple hover:bg-purple/70 transition-all"
             onClick={() => router.push("/search")}
           >
             Continue
-          </button> */}
+          </button>
         </div>
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">

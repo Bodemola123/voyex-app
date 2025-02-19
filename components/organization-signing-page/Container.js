@@ -591,7 +591,6 @@ function Container() {
       if (response.status === 200) {
         toast.success(response.data.message || "Organization details uploaded successfully!");
         setCurrentSlide("org-upload-success");
-        router.push("/search");
       } else {
         setCurrentSlide("basic-info");
       }
@@ -628,7 +627,8 @@ const checkAccessToken = async () => {
   const token = localStorage.getItem('access_token');
   if (!token) {
     // No token, user is not authenticated
-    setCurrentSlide("signing");
+    toast("There is no token")
+    return null;
   }
 
   try {
@@ -713,7 +713,6 @@ const logoutUser = () => {
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
         await checkAccessToken();
-        router.push("/search");
       }
       if (response.status === 404) {
         setCurrentSlide("signing");

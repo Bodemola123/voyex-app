@@ -138,7 +138,6 @@ function UserUploadDetails({ setUserDisplay }) {
         toast.success(response.data.message);
         setCurrentSlide("user-upload-success");
         localStorage.removeItem("user_password");
-        router.push("/search");
       }
       if (response.status !== 200) {
         setCurrentSlide("basic-info");
