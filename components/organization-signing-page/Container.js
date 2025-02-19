@@ -465,7 +465,6 @@ function Container() {
           localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
           localStorage.setItem("access_token", acceptEmailPassword.data.access_token); // Save access token
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Save refresh token
-  
           // Optional: Refresh access token if needed
           await checkAccessToken();
         }
