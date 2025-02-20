@@ -1,3 +1,4 @@
+"use client"
 import { Separator } from "@/components/ui/separator";
 import { FaChevronDown } from "react-icons/fa";
 import FlexibleFooter from "../common/FlexibleFooter";

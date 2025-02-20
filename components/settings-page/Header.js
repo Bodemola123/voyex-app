@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { RiSearch2Line } from "react-icons/ri";
 import { GoChevronLeft } from "react-icons/go";
