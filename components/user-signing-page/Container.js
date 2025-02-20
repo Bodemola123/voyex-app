@@ -244,50 +244,59 @@ function Container() {
   const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
-      if (!email || !password) {
-        toast.warn("All fields are required");
-        return;
-      }
+        if (!email || !password) {
+            toast.warn("All fields are required");
+            return;
+        }
 
-      // if (!passwordRegex.test(password)) {
-      //   toast("Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!");
-      //   return;
-      // }
+        // if (!passwordRegex.test(password)) {
+        //   toast("Password must be 8-16 characters, contain at least one special character, one number, and one uppercase letter!");
+        //   return;
+        // }
 
-      setLoading(true);
+        setLoading(true);
 
-      // Step 2: Check if email is valid format and deliverable
-      const check_legit_email = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${email}`);
-      if (!check_legit_email.data.is_valid_format.value || check_legit_email.data.is_smtp_valid.value === false) {
-        toast.warn("Invalid email format or email is undeliverable");
-        return;
-      }
+        // Step 2: Check if email is valid format and deliverable (Commented out for now)
+        // const check_legit_email = await axios.get(
+        //     `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${email}`
+        // );
+        // if (!check_legit_email.data.is_valid_format.value || check_legit_email.data.is_smtp_valid.value === false) {
+        //     toast.warn("Invalid email format or email is undeliverable");
+        //     return;
+        // }
 
-      // Step 3: Check if email is available
-      const check_available_email = await axios.get(`https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?email=${email}`);
-      if (check_available_email.data.exists) {
-        toast.warn("Email already in use");
-        return;
-      }
+        // Step 3: Check if email is available
+        const check_available_email = await axios.get(
+            `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?email=${email}`
+        );
+        if (check_available_email.data.exists) {
+            toast.warn("Email already in use");
+            return;
+        }
 
-      // Step 4: Send OTP for email verification
-      localStorage.setItem("user_email", email);
-      localStorage.setItem("user_password", password);
-      const send_otp = await axios.post(`https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`, { email });
-      if (send_otp.status === 200) {
-        setCurrentSlide("email-verify");
-        toast("OTP sent to email");
-      }
+        // Step 4: Send OTP for email verification
+        localStorage.setItem("user_email", email);
+        localStorage.setItem("user_password", password);
+        const send_otp = await axios.post(
+            `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+            { email }
+        );
+
+        if (send_otp.status === 200) {
+            setCurrentSlide("email-verify");
+            toast("OTP sent to email");
+        }
 
     } catch (error) {
-      console.log(error);
-      if (error.response?.data) {
-        toast(error.response.data);
-      } else toast(error.message);
+        console.log(error);
+        if (error.response?.data) {
+            toast(error.response.data);
+        } else toast(error.message);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
 
  
   const handleUserSignup = async () => {
@@ -353,6 +362,69 @@ function Container() {
   }, [value.length]);
 
   ////////////////// USER SIGN IN /////////////////////////////////
+  const checkAccessToken = async () => {
+    const token = localStorage.getItem('access_token');
+    console.log("Checking Access Token:", token); // Debugging log
+    if (!token) return null;
+  
+    try {
+        const response = await axios.post(
+            'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',
+            { action: "access_check", access_token: token }
+        );
+        console.log("Access Token Check Response:", response); // Log full response
+  
+        if (response.status === 200) {
+            return token;
+        } else {
+            return await refreshAccessToken();
+        }
+    } catch (error) {
+        console.error("Error validating token:", error);
+        return await refreshAccessToken();
+    }
+  };
+  
+  
+  
+  // 2. Refresh Access Token
+  const refreshAccessToken = async () => {
+    try {
+        const refreshToken = localStorage.getItem('refresh_token');
+        console.log("Refreshing Access Token with Refresh Token:", refreshToken);
+  
+        const response = await axios.post(
+            'https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api',
+            { action: "refresh", refresh_token: refreshToken }
+        );
+        console.log("Refresh Token Response:", response.data); // Log full response
+  
+        if (response.status === 200 && response.data.access_token) {
+            localStorage.setItem('access_token', response.data.access_token);
+            if (response.data.refresh_token) {
+                localStorage.setItem('refresh_token', response.data.refresh_token);
+            }
+            return response.data.access_token;
+        } else {
+            throw new Error("Unable to refresh token");
+        }
+    } catch (error) {
+        console.error("Error refreshing token:", error);;
+        logoutUser()
+    }
+  };
+  
+  
+  
+  // 3. Logout User and Redirect to Login
+  const logoutUser = () => {
+      //  console.warn("Logout triggered but temporarily disabled for debugging.");
+      // console.log("Access Token Before Logout:", localStorage.getItem('access_token'));
+      // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");; 
+    window.location.href = "/auth/user"// Redirect to login page
+  };
   const userSignin = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
@@ -383,6 +455,10 @@ function Container() {
         toast("signin successful");
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
+          // Wait 10 seconds before running checkAccessToken to prevent interference
+  setTimeout(() => {
+    checkAccessToken();
+  }, 10000);
       }
       if (response.status === 404) {
         setCurrentSlide("signing");
@@ -399,6 +475,7 @@ function Container() {
       }
     } finally {
       setLoading(false);
+
     }
   };
   const handleUserSignin = async () => {
