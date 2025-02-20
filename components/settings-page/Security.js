@@ -1,9 +1,8 @@
 import { Separator } from "@/components/ui/separator";
 import { FaChevronDown } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function Security() {
-  const router = useRouter();
-
   const logoutUser = () => {
     // Clear tokens and user details from localStorage
     localStorage.removeItem("access_token");
@@ -13,6 +12,7 @@ function Security() {
     localStorage.removeItem("user_password");
 
     console.log("User logged out");
+    toast("You are now Logged out")
 
     window.location.href = "/auth"// Redirect to login page
   };
