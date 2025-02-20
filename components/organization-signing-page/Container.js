@@ -565,7 +565,6 @@ const signing = async () => {
           tech_used: orgTechUsed,
           specialization: orgSpecialization,
         },
-        access_token: accessToken,
         leadership_teams: {
           careers_page: orgCareerspage,
           team_size: orgTeamsize,
@@ -577,7 +576,7 @@ const signing = async () => {
           funding_info: orgFundingInfo,
           clients: orgClient,
         },
-
+        access_token: accessToken,
       };
   
       // Make the PUT request to upload the organization details
