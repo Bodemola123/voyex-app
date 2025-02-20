@@ -1,3 +1,4 @@
+"use cient"
 import Personalization from "@/components/settings-page/Personalization";
 import React from "react";
 

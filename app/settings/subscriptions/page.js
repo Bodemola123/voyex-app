@@ -1,3 +1,4 @@
+"use cient"
 import React from "react";
 
 function SubscriptionPage() {
