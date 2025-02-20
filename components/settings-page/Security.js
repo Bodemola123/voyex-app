@@ -1,23 +1,41 @@
+import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-import { FaChevronDown, FaChevronRight } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
 
 function Security() {
+  const router = useRouter();
+
+  const logoutUser = () => {
+    // Clear tokens and user details from localStorage
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("user_email");
+    localStorage.removeItem("user_password");
+
+    console.log("User logged out");
+
+    // Redirect to login page
+    router.push("/auth");
+  };
+
   return (
     <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
       <h1 className="text-fontlight text-3xl font-normal capitalize">
         security
       </h1>
       <Separator className="my-5 bg-[#6D6D6D]" />
-      {/*////////////*/}
+      
+      {/* Multi-factor authentication */}
       <div className="flex items-center justify-between gap-5">
-        <div className="">
+        <div>
           <h2 className="text-xl font-normal text-fontlight">
             Multi-factor authentication
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
             Require an extra security challenge when logging in. If you are
             unable to pass this challenge, you will have the option to recover
-            your account via emai
+            your account via email.
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
@@ -27,9 +45,10 @@ function Security() {
           <FaChevronDown />
         </button>
       </div>
-      {/*////////////*/}
+
+      {/* Log out of all devices */}
       <div className="flex items-center justify-between gap-5 mt-6">
-        <div className="">
+        <div>
           <h2 className="text-xl font-normal text-fontlight capitalize">
             Log out of all devices
           </h2>
@@ -43,9 +62,10 @@ function Security() {
           Log out all
         </button>
       </div>
-      {/*////////////*/}
+
+      {/* Active account section with Log out button */}
       <div className="flex items-center justify-between mt-6">
-        <div className="">
+        <div>
           <h2 className="text-xl font-normal text-fontlight capitalize">
             Active account
           </h2>
@@ -53,7 +73,10 @@ function Security() {
             You are signed in as henryjnr96486
           </p>
         </div>
-        <button className="flex items-center gap-3 px-9 py-3 rounded-[36px] border border-card bg-red-500">
+        <button
+          onClick={logoutUser}
+          className="flex items-center gap-3 px-9 py-3 rounded-[36px] border border-card bg-red-500"
+        >
           <span className="text-xl font-normal text-fontlight">Log out</span>
         </button>
       </div>
