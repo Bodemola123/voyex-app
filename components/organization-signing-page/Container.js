@@ -563,19 +563,19 @@ const signing = async () => {
           target_audience: orgAudience,
           service_offered: orgService,
           tech_used: orgTechUsed,
-          specialization: orgSpecialization,
+          // specialization: orgSpecialization,
         },
-        leadership_teams: {
-          careers_page: orgCareerspage,
-          team_size: orgTeamsize,
-          founder: orgFounder,
-          executives: orgExco,
-        },
-        financial_info: {
-          mode_of_revenue: orgRevenueMode,
-          funding_info: orgFundingInfo,
-          clients: orgClient,
-        },
+        // leadership_teams: {
+        //   careers_page: orgCareerspage,
+        //   team_size: orgTeamsize,
+        //   founder: orgFounder,
+        //   executives: orgExco,
+        // },
+        // financial_info: {
+        //   mode_of_revenue: orgRevenueMode,
+        //   funding_info: orgFundingInfo,
+        //   clients: orgClient,
+        // },
         access_token: accessToken,
       };
   

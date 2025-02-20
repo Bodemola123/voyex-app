@@ -244,7 +244,7 @@ function Container() {
   const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
-        if (!email || !password) {
+        if (!email || !userPassword) {
             toast.warn("All fields are required");
             return;
         }
@@ -276,7 +276,7 @@ function Container() {
 
         // Step 4: Send OTP for email verification
         localStorage.setItem("user_email", email);
-        localStorage.setItem("user_password", password);
+        localStorage.setItem("user_password", userPassword);
         const send_otp = await axios.post(
             `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
             { email }
@@ -455,6 +455,9 @@ function Container() {
         }
       );
       console.log("user signin response", response);
+        
+      console.log("Full response from API:", response); // Log full response
+      console.log("Response data:", response.data); // Log response data
       if (response.status === 200 && response.data.valid === false) {
         setCurrentSlide("signing");
         toast("user not found");
