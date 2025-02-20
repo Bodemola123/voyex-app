@@ -14,7 +14,7 @@ function BasicInfoContainer({
   loading,
 }) {
   return (
-    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden ">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden items-center justify-center">
       <DynamicCard/>
       <div className=" flex flex-col items-center max-w-[444px] w-full rounded-[29px] bg-black mx-auto overflow-y-scroll">
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">

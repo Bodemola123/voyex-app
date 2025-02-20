@@ -362,7 +362,7 @@ function Container() {
 
   //////////////// ORGANIZATION SIGNUP /////////////////////////////////
   //----- authenticate email
-  const signing = async () => {
+const signing = async () => {
     const emailInputValidation = validateEmailInput(email);
     const passwordInputValidation = validatePasswordInput(orgPassword);
     try {
@@ -482,9 +482,6 @@ function Container() {
         toast(error.response.data.message);
       } else toast(error.message);
     } finally {
-      console.log("Access Token Stored:", localStorage.getItem("access_token"));
-      console.log("Refresh Token Stored:", localStorage.getItem("refresh_token"));
-
       setLoading(false);
     }
   };
@@ -568,6 +565,7 @@ function Container() {
           tech_used: orgTechUsed,
           specialization: orgSpecialization,
         },
+        access_token: accessToken,
         leadership_teams: {
           careers_page: orgCareerspage,
           team_size: orgTeamsize,
@@ -578,18 +576,14 @@ function Container() {
           mode_of_revenue: orgRevenueMode,
           funding_info: orgFundingInfo,
           clients: orgClient,
-        }
+        },
+
       };
   
       // Make the PUT request to upload the organization details
       const response = await axios.put(
         `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
         requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // Include access token in Authorization header
-          },
-        }
       );
   
       // Handle response

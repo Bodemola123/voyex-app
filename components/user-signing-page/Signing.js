@@ -46,7 +46,7 @@ function Signing({
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const router = useRouter();
   return (
-    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden ">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden items-center">
       <DynamicCard/>
       <section className="relative p-6 h-full w-full rounded-[29px] bg-black overflow-y-scroll">
         <div className=" flex flex-col items-center h-full">

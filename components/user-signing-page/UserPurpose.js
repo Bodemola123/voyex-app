@@ -9,7 +9,7 @@ function UserPurpose({
   handleUploadDetails,
 }) {
   return (
-    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden ">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden items-center justify-center">
       <DynamicCard/>
       <section className=" flex flex-col items-center max-w-[650px] w-full mx-auto px-2 py-6 rounded-[29px] bg-black overflow-y-scroll">
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">

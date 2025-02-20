@@ -100,61 +100,71 @@ function UserUploadDetails({ setUserDisplay }) {
   };
   const uploadDetails = async () => {
     try {
-      if (clickedButtons.length <= 1) {
-        toast.warn("Must select more than one option.");
-        return;
-      }
-  
-      setLoading(true);
-      setCurrentSlide("user-upload-loading");
-  
-      const accessToken = localStorage.getItem("access_token"); // Retrieve the access token from localStorage
-  
-      if (!accessToken) {
-        toast.warn("Access token is missing. Please log in again.");
-        router.push("/auth/user")
-        return;
-      }
-  
-      const response = await axios.put(
-        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
-        {
-          user_id: Number(localStorage.getItem("userId")),
-          fullname: userFullName,
-          primary_language: userLanguage,
-          skill_level: skillLevel,
-          country: userCountry,
-          user_type: "Regular",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // Pass the access token in the Authorization header
-          },
+        if (clickedButtons.length <= 1) {
+            toast.warn("Must select more than one option.");
+            return;
         }
-      );
-  
-      console.log("response", response);
-      if (response.status === 200) {
-        toast.success(response.data.message);
-        setCurrentSlide("user-upload-success");
-        localStorage.removeItem("user_password");
-      }
-      if (response.status !== 200) {
-        setCurrentSlide("basic-info");
-      }
+
+        setLoading(true);
+        setCurrentSlide("user-upload-loading");
+
+        const accessToken = localStorage.getItem("access_token");
+        console.log("Checking Access Token:", accessToken);  // Get token from localStorage
+
+        if (!accessToken) {
+            toast.warn("Access token is missing. Please log in again.");
+            window.location.href = "/auth/user"// Redirect to login page
+            return;
+        }
+
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+            toast.warn("User ID is missing.");
+            return;
+        }
+
+        const requestBody = {
+            user_id: Number(userId),
+            fullname: userFullName,
+            primary_language: userLanguage,
+            skill_level: skillLevel,
+            country: userCountry,
+            user_type: "Regular",
+            access_token: accessToken, // ✅ Token only in body
+        };
+
+        console.log("Uploading details with request body:", requestBody);
+
+        const response = await axios.put(
+            `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
+            requestBody
+        );
+
+        console.log("Response:", response);
+
+        if (response.status === 200) {
+            toast.success(response.data.message);
+            setCurrentSlide("user-upload-success");
+            localStorage.removeItem("user_password"); // Remove sensitive data
+        } else {
+            setCurrentSlide("basic-info");
+        }
     } catch (error) {
-      console.log(error);
-      if (error.response?.data) {
-        toast.error(error.response.data);
-      } else toast.error(error.message);
-      if (error.message) {
+        console.error("Upload error:", error);
+
+        if (error.response?.data) {
+            toast.error(error.response.data);
+        } else {
+            toast.error(error.message);
+        }
+
         setCurrentSlide("basic-info");
-      }
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
-  
+};
+
   const handleUploadDetails = async () => {
     uploadDetails();
   };

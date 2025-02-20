@@ -31,7 +31,7 @@ function Container() {
   const { googleUserDetails } = useSelector((state) => state.auth);
 
   /// sign up section
-  const [userEmail, setUserEmail] = useState("");
+  const [email, setUserEmail] = useState("");
   const [value, setValue] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -49,7 +49,7 @@ function Container() {
   const [border, setBorder] = useState(false);
   const [allowed, setAllowed] = useState(false);
   const [currentSlide, setCurrentSlide] = useState("signing");
-  const debouncedValue = useDebounce(userEmail, 500);
+  const debouncedValue = useDebounce(email, 500);
 
   const [otpError, setOtpError] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
@@ -324,27 +324,38 @@ function Container() {
             action: "sign_up",
           }
         );
-        console.log("sign up res👉", acceptEmailPassword);
+        
+        console.log("Sign up response 👉", acceptEmailPassword);
+        
         if (acceptEmailPassword.status === 200) {
           toast.warn("User already exists");
           setCurrentSlide("signing");
         }
+        
         if (acceptEmailPassword.status === 201) {
           setLoading(false);
           toast(acceptEmailPassword.data.message);
           setCurrentSlide("user-signup-success");
-          
-          // Store both access token and refresh token in localStorage
+        
+          // ✅ Log tokens from the response
+          console.log("Access Token from API:", acceptEmailPassword.data.access_token);
+          console.log("Refresh Token from API:", acceptEmailPassword.data.refresh_token);
+        
+          // ✅ Save both access and refresh tokens in localStorage
           localStorage.setItem("userId", acceptEmailPassword.data.user_id);
-          localStorage.setItem("access_token", acceptEmailPassword.data.token); // Store access token
-          localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Store refresh token
-          
+          localStorage.setItem("access_token", acceptEmailPassword.data.access_token);
+          localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token);
+        
+          // ✅ Confirm tokens were saved in localStorage
+          console.log("Access Token in localStorage:", localStorage.getItem("access_token"));
+          console.log("Refresh Token in localStorage:", localStorage.getItem("refresh_token"));
         }
         
         if (acceptEmailPassword.status === 409) {
           setCurrentSlide("signing");
           toast("User already exists");
         }
+        
       }
     } catch (error) {
       console.log(error);
@@ -354,6 +365,7 @@ function Container() {
       } else toast(error.message);
     } finally {
       setLoading(false);
+      
     }
   };
   useEffect(() => {
