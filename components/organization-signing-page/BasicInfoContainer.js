@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import { IndustryDropdown } from "./IndustryDropdown";
 import DynamicCard from "../common/DynamicCard";
 import '../../app/globals.css';
-
-import { LoadScript } from "@react-google-maps/api";
 import { LocationDropdown } from "./LocationDropdown";
 
 
