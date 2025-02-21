@@ -75,12 +75,12 @@ function TargetAudienceDropdown({ setOrgAudience }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 h-full p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
+        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
           <CommandInput
             placeholder="Search for audience"
             className="border border-gray/20 rounded-[28px] "
           />
-          <CommandList className="mt-3">
+          <CommandList className="mt-3 scrollbar-hide">
             <CommandEmpty>No audience found.</CommandEmpty>
             <CommandGroup>
               {audiences.map((audience) => (

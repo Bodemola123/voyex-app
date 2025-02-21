@@ -18,14 +18,14 @@ import {
 } from "@/components/ui/popover";
 
 const clientPartnerTypes = [
-  { value: "b2b", label: "Business-to-Business (B2B)" },
-  { value: "b2c", label: "Business-to-Consumer (B2C)" },
-  { value: "government", label: "Government" },
-  { value: "non_profit", label: "Non-profit Organizations" },
-  { value: "strategic", label: "Strategic Partners" },
-  { value: "equity", label: "Equity Partners" },
-  { value: "channel", label: "Channel Partners" },
-  { value: "affiliate", label: "Affiliate Partners" },
+  { value: "Business-to-Business (B2B)" , label: "Business-to-Business (B2B)" },
+  { value: "Business-to-Consumer (B2C)", label: "Business-to-Consumer (B2C)" },
+  { value: "Government", label: "Government" },
+  { value: "Non-profit Organizations", label: "Non-profit Organizations" },
+  { value: "Strategic Partners", label: "Strategic Partners" },
+  { value: "Equity Partners", label: "Equity Partners" },
+  { value: "Channel Partners", label: "Channel Partners" },
+  { value: "Affiliate Partners", label: "Affiliate Partners" },
 ];
 
 export function ClientPartnerDropdown({ clientInput, initialValue = "" }) {
@@ -65,13 +65,13 @@ export function ClientPartnerDropdown({ clientInput, initialValue = "" }) {
         side="top"
         align="center"
       >
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
+        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
           <CommandInput
             placeholder="Search for Client/Partner types"
             aria-label="Search Client/Partner types"
             className="border border-gray/20 rounded-[28px]"
           />
-          <CommandList className="mt-3">
+          <CommandList className="mt-3 scrollbar-hide">
             {/* No options found */}
             {clientPartnerTypes.length === 0 && (
               <CommandEmpty>No options found.</CommandEmpty>

@@ -27,9 +27,9 @@ function FinancialInformation ({
 }) {
   
   return (
-    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden items-center scrollbar-hide">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden items-center justify-center scrollbar-hide">
     <DynamicCard/>
-    <div className=" flex flex-col items-center justify-start h-full max-w-[444px] py-[33px] w-full mx-auto rounded-[29px] bg-black overflow-y-scroll scrollbar-hide">
+    <div className=" flex flex-col items-center justify-center h-full max-w-[444px] py-[33px] w-full mx-auto rounded-[29px] bg-black overflow-y-scroll scrollbar-hide">
     <p className="text-center font-bold text-5xl mb-10">Voyex</p>
       <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
         <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>

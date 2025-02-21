@@ -8,6 +8,20 @@ import React from "react";
 import { BiLogOutCircle } from "react-icons/bi";
 
 function Collapsible() {
+
+    const logoutUser = () => {
+      // Clear tokens and user details from localStorage
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("user_email");
+      localStorage.removeItem("user_password");
+  
+      console.log("User logged out");
+      toast("You are now Logged out");
+  
+      window.location.href = "/auth";// Redirect to login page
+    };
   const pathname = usePathname(); // Get the current path
 
   const isActive = (href) => pathname === href; // Function to check active link
@@ -33,7 +47,9 @@ function Collapsible() {
         ))}
       </div>
 
-      <button className="py-2 px-3 mx-2 mt-[66px] flex items-center gap-2 text-[20px] rounded-[123px] transition-all duration-300 capitalize hover:bg-purple/70">
+      <button
+      onClick={logoutUser} 
+      className="py-2 px-3 mx-2 mt-[66px] flex items-center gap-2 text-[20px] rounded-[123px] transition-all duration-300 capitalize hover:bg-purple/70">
         <BiLogOutCircle className="rotate-180 text-2xl" />
         log out
       </button>

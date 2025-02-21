@@ -141,53 +141,64 @@ function Container() {
             },
           }
         );
-        console.log(res);
-        console.log(res.data);
+  
         if (res.status === 200) {
-          const response = await axios.post(
-            `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+          const apiResponse = await axios.post(
+            "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
             {
               email: res.data?.email,
               password: res.data?.sub,
               action: "sign_up",
             }
           );
-          console.log("response", response);
-          if (response.status === 201) {
+  
+          if (apiResponse.status === 201) {
             setCurrentSlide("user-signup-success");
-            toast(response.data.message);
-          }
-          if (response.status === 400) {
+            toast(apiResponse.data.message);
+  
+            // ✅ Store Access & Refresh Tokens if provided
+            if (apiResponse.data.access_token) {
+              localStorage.setItem("access_token", apiResponse.data.access_token);
+            }
+            if (apiResponse.data.refresh_token) {
+              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            }
+  
+            // Store User Details
+            dispatch(
+              updateGoogleUserDetails({
+                email: res.data?.email,
+                username: res.data?.name,
+                picture: res.data?.picture,
+                id: res.data?.sub,
+              })
+            );
+          } else if (apiResponse.status === 400) {
             setCurrentSlide("signing");
-            toast(response.data?.error);
+            toast(apiResponse.data?.error);
           }
-          dispatch(
-            updateGoogleUserDetails({
-              email: res.data?.email,
-              username: res.data?.name,
-              picture: res.data?.picture,
-              id: res.data?.sub,
-            })
-          );
-          // router.push("/search");
-          // toast("Login Sucessfull");
         }
       } catch (err) {
-        console.log(err);
-        if (err.response.data?.error) {
+        console.error(err);
+        setCurrentSlide("signing");
+        if (err.response?.data?.error) {
           toast(err.response.data.error);
-        } else toast(err.message);
+        } else {
+          toast(err.message);
+        }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
 
   ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
   const googleUserSignin = useGoogleLogin({
     onSuccess: async (response) => {
       setLoadingGoogle(true);
       try {
+        // Fetch Google user info
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
@@ -196,48 +207,62 @@ function Container() {
             },
           }
         );
-        // console.log(res);
-        // console.log(res.data);
+  
         if (res.status === 200) {
-          const response = await axios.post(
-            `https://ek251cvxyd.execute-api.eu-north-1.amazonaws.com/default/users_voyex`,
+          // Sign in to your API
+          const apiResponse = await axios.post(
+            "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
             {
               email: res.data?.email,
               password: res.data?.sub,
               action: "sign_in",
             }
           );
-          // console.log("response", response);
-          if (response.status === 200 && response.data.exists === true) {
+  
+          if (apiResponse.status === 200 && apiResponse.data.exists === true) {
             setCurrentSlide("signin-success");
             toast("Login successful");
-            // Cookies.set("voyexUserName", res.data.name, { expires: 7 });
-          }
-          if (response.status === 200 && response.data.exists === false) {
+  
+            // ✅ Store tokens if provided
+            if (apiResponse.data.access_token) {
+              localStorage.setItem("access_token", apiResponse.data.access_token);
+            }
+            if (apiResponse.data.refresh_token) {
+              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            }
+  
+            // Store User Details
+            dispatch(
+              updateGoogleUserDetails({
+                email: res.data?.email,
+                username: res.data?.name,
+                picture: res.data?.picture,
+                id: res.data?.sub,
+              })
+            );
+  
+            // ✅ Check & refresh token if needed
+            await checkAccessToken();
+          } 
+          
+          else if (apiResponse.status === 200 && apiResponse.data.exists === false) {
             toast.warn("User doesn't exist!");
             return;
           }
-          dispatch(
-            updateGoogleUserDetails({
-              email: res.data?.email,
-              username: res.data?.name,
-              picture: res.data?.picture,
-              id: res.data?.sub,
-            })
-          );
-          // router.push("/search");
-          // toast("Login Sucessfull");
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
         if (err.response?.data?.message) {
           toast.warn(err.response.data.message);
-        } else toast.warn(err.message);
+        } else {
+          toast.warn(err.message);
+        }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
 
   ////////////////// USER SIGN UP /////////////////////////////////
   //----- authenticate email
@@ -500,55 +525,49 @@ function Container() {
   ////////////// USER FORGOT PASSWORD /////////////////
   const forgotPassword = async () => {
     if (!forgotEmail) {
-      toast.warn("provide email address");
+      toast.warn("Provide email address");
       return;
     }
+  
     try {
       setLoading(true);
-      /////////////// check if email is legit //////////////////
-      const check_legit_email = await axios.get(
-        `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${forgotEmail}`
+  
+      // 1️⃣ Check if email exists in the database
+      const checkEmailResponse = await axios.get(
+        `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?email=${forgotEmail}`
       );
-      console.log(check_legit_email.data);
-      if (check_legit_email.data.is_valid_format.value === false) {
-        toast.warn("invalid email format");
+  
+      if (!checkEmailResponse.data.exists) {
+        toast.warn("Email not registered");
+        setLoading(false);
         return;
       }
-      if (
-        check_legit_email.data.is_smtp_valid.value === false &&
-        check_legit_email.data.deliverability === "UNDELIVERABLE"
-      ) {
-        toast.warn("email broken, try another");
-        return;
-      }
-      if (
-        check_legit_email.data.is_smtp_valid.value === true &&
-        check_legit_email.data.is_valid_format.value === true
-      ) {
-        ///// if email is legit? send otp
-        const send_otp = await axios.post(
-          `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
-          {
-            email: forgotEmail,
-          }
-        );
-        console.log("OTP response", send_otp);
-        if (send_otp.status === 200) {
-          localStorage.setItem("reset_password_email", forgotEmail);
-          setLoading(false);
-          setCurrentSlide("reset-verifyotp");
-          toast("OTP sent to email");
+  
+      // 2️⃣ If email exists, send OTP
+      const sendOtpResponse = await axios.post(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+        {
+          email: forgotEmail,
         }
+      );
+  
+      if (sendOtpResponse.status === 200) {
+        localStorage.setItem("reset_password_email", forgotEmail);
+        setCurrentSlide("reset-verifyotp");
+        toast("OTP sent to email");
       }
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast(error.response.data);
-      } else toast(error.message);
+        toast.warn(error.response.data);
+      } else {
+        toast.warn(error.message);
+      }
     } finally {
       setLoading(false);
     }
   };
+  
   const handleUserForgotPassword = async () => {
     forgotPassword();
   };

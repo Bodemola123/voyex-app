@@ -21,22 +21,22 @@ import {
 } from "@/components/ui/popover";
 
 const revenueModels = [
-  { value: "sales", label: "Sales Revenue" },
-  { value: "subscription", label: "Subscription" },
-  { value: "freemium", label: "Freemium" },
-  { value: "licensing", label: "Licensing" },
-  { value: "advertising", label: "Advertising" },
-  { value: "transactionFee", label: "Transaction Fee" },
-  { value: "affiliate", label: "Affiliate" },
-  { value: "data", label: "Data Revenue" },
-  { value: "franchise", label: "Franchise" },
-  { value: "commission", label: "Commission" },
-  { value: "leasing", label: "Leasing" },
-  { value: "crowdfunding", label: "Crowdfunding" },
-  { value: "payPerUse", label: "Pay-Per-Use" },
-  { value: "donation", label: "Donation" },
-  { value: "auction", label: "Auction" },
-  { value: "professionalServices", label: "Professional Services" },
+  { value: "Sales Revenue", label: "Sales Revenue" },
+  { value: "Subscription", label: "Subscription" },
+  { value: "Freemium", label: "Freemium" },
+  { value: "Licensing", label: "Licensing" },
+  { value: "Advertising", label: "Advertising" },
+  { value: "Transaction Fee", label: "Transaction Fee" },
+  { value: "Affiliate", label: "Affiliate" },
+  { value: "Data Revenue", label: "Data Revenue" },
+  { value: "Franchise", label: "Franchise" },
+  { value: "Commission", label: "Commission" },
+  { value: "Leasing", label: "Leasing" },
+  { value: "Crowdfunding", label: "Crowdfunding" },
+  { value: "PayPerUse", label: "Pay-Per-Use" },
+  { value: "Donation", label: "Donation" },
+  { value: "Auction", label: "Auction" },
+  { value: "Professional Services", label: "Professional Services" },
 ];
 
 export function RevenueMode({ revenueInput, initialValue = "" }) {
@@ -56,31 +56,31 @@ export function RevenueMode({ revenueInput, initialValue = "" }) {
           role="combobox"
           aria-label="Select Revenue Model"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
         >
           {selectedRevenueModel || "Select revenue model..."}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
+      <PopoverContent className="w-96 p-0 text-white border-none">
+        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
           <CommandInput
             placeholder="Search for revenue model"
             aria-label="Search Revenue Model"
             className="border border-gray/20 rounded-[28px]"
           />
-          <CommandList className="mt-3">
+          <CommandList className="mt-3 scrollbar-hide">
             <CommandEmpty>No revenue model found.</CommandEmpty>
             <CommandGroup>
               {revenueModels.map((model) => (
                 <CommandItem
                   key={model.value}
                   value={model.value}
-                  className="text-fontlight data-[selected='true']:bg-purple"
+                  className="text-white data-[selected='true']:bg-[#c088fb]"
                   onSelect={(currentValue) => {
                     const newValue = currentValue === value ? "" : currentValue;
                     setValue(newValue);
-                    revenueInput(newValue); // This will send the selected model to the parent component
+                    revenueInput(newValue); // ✅ Send selected revenue model to parent
                     setOpen(false);
                   }}
                 >
@@ -89,7 +89,7 @@ export function RevenueMode({ revenueInput, initialValue = "" }) {
                     className={cn(
                       "ml-auto",
                       value === model.value
-                        ? "opacity-100 text-fontlight hover:text-black"
+                        ? "opacity-100 text-white hover:text-black"
                         : "opacity-0"
                     )}
                   />

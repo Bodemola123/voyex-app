@@ -46,7 +46,7 @@ function Container() {
   const [email, setEmail] = useState("");
   const [orgPassword, setOrgPassword] = useState("");
   const [value, setValue] = useState("");
-  const [orgname, setOrgname] = useState("");
+  const [orgName, setOrgName] = useState("");
   const [orgWebsite, setOrgWebsite] = useState("");
   const [orgIndustry, setOrgIndustry] = useState("");
   const [orgLocation, setOrgLocation] = useState("");
@@ -72,7 +72,20 @@ function Container() {
   const [orgPrivacyInput, setOrgPrivacyInput]= useState("");
   const [orgCertifications, setOrgCertifications]= useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const handleLocationSelection = async (location) => {
+    setSelectedLocation(location); // Update state with selected location
+  }
+  const [selectedFunding, setSelectedFunding] = useState("");
 
+  const handleFundingSelect = (fundingValue) => {
+    setSelectedFunding(fundingValue);
+  };
+  const [selectedRevenueModel, setSelectedRevenueModel] = useState("");
+
+const handleRevenueSelect = (revenueValue) => {
+  setSelectedRevenueModel(revenueValue);
+};
   //////////////////////// SIGN IN INPUTS
   const [orgEmail, setOrgEmail] = useState("");
   const [orgPassword1, setOrgPassword1] = useState(false);
@@ -159,7 +172,7 @@ function Container() {
     console.log(newValue); // Debugging
   };
   const locationInput = (selectedLocation) => {
-    setOrgLocation(selectedLocation); // Update state with the selected location
+    setOrgLocation(selectedLocation.description); // Update state with the selected location
     console.log("Selected Location:", selectedLocation);
   };
   const EmailInput = (e) => {
@@ -260,22 +273,33 @@ function Container() {
             },
           }
         );
-        console.log(res);
-        // console.log(res.data);
+        
         if (res.status === 200) {
-          const response = await axios.post(
-            `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
+          const apiResponse = await axios.post(
+            "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
             {
               email: res.data?.email,
               method: "sign_up",
               password: res.data?.sub,
             }
           );
-          console.log("response", response);
-          if (response.status === 201) {
+  
+          if (apiResponse.status === 201) {
             setCurrentSlide("org-signup-success");
-            toast(response.data.message);
-            localStorage.setItem("orgId", response.data.org_id);
+            toast(apiResponse.data.message);
+  
+            // Store Org ID
+            localStorage.setItem("orgId", apiResponse.data.org_id);
+  
+            // ✅ Store Access & Refresh Tokens if API provides them
+            if (apiResponse.data.access_token) {
+              localStorage.setItem("access_token", apiResponse.data.access_token);
+            }
+            if (apiResponse.data.refresh_token) {
+              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            }
+  
+            // Store User Details
             dispatch(
               updateGoogleUserDetails({
                 email: res.data?.email,
@@ -284,34 +308,32 @@ function Container() {
                 id: res.data?.sub,
               })
             );
-          }
-          if (response.status === 200) {
+          } else if (apiResponse.status === 200 || apiResponse.status === 400) {
             setCurrentSlide("signing");
-            toast(response.data.message);
-          }
-          if (response.status === 400) {
-            setCurrentSlide("signing");
+            toast(apiResponse.data.message);
           }
         }
       } catch (err) {
-        console.log(err);
-        if (err.message) {
-          setCurrentSlide("signing");
-        }
+        console.error(err);
+        setCurrentSlide("signing");
         if (err.response?.data?.message) {
           toast(err.response.data.message);
-        } else toast(err.message);
+        } else {
+          toast(err.message);
+        }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
 
   ////////////////// GOOGLE ORG SIGNIN /////////////////////////////////
   const googleOrgSignin = useGoogleLogin({
     onSuccess: async (response) => {
       setLoadingGoogle(true);
       try {
+        // Fetch Google user info
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
@@ -320,20 +342,30 @@ function Container() {
             },
           }
         );
-        console.log(res);
-        // console.log(res.data);
+  
         if (res.status === 200) {
-          const response = await axios.post(
-            `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
+          // Sign in to your API
+          const apiResponse = await axios.post(
+            "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
             {
               email: res.data?.email,
               password: res.data?.sub,
             }
           );
-          // console.log("response", response);
-          if (response.status === 200) {
+  
+          if (apiResponse.status === 200) {
+            // ✅ Store tokens if provided
+            if (apiResponse.data.access_token) {
+              localStorage.setItem("access_token", apiResponse.data.access_token);
+            }
+            if (apiResponse.data.refresh_token) {
+              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            }
+  
             setCurrentSlide("org-signin-success");
             toast("Signin successful");
+  
+            // Store User Details
             dispatch(
               updateGoogleUserDetails({
                 email: res.data?.email,
@@ -342,23 +374,33 @@ function Container() {
                 id: res.data?.sub,
               })
             );
-            Cookies.set("voyexEmail", orgEmail, { expires: 7 });
-          }
-          if (response.status === 404) {
+  
+            // ✅ Store email in cookies for future sessions
+            Cookies.set("voyexEmail", res.data.email, { expires: 7 });
+  
+            // ✅ Validate access token after signin
+            await checkAccessToken();
+          } 
+          
+          else if (apiResponse.status === 404) {
             setCurrentSlide("signing");
             return;
           }
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
         if (err.response?.data?.message) {
           toast(err.response.data.message);
-        } else toast(err.message);
+        } else {
+          toast(err.message);
+        }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
+  
 
   //////////////// ORGANIZATION SIGNUP /////////////////////////////////
   //----- authenticate email
@@ -492,6 +534,23 @@ const signing = async () => {
   }, [value.length]);
 
   //////////////// ORGANIZATION UPLOAD DETAILS /////////////////////////////////
+        // Function to check if the organization name exists
+        const checkOrgNameExists = async (name) => {
+          if (!name.trim()) return; // Avoid empty queries
+      
+          try {
+            const response = await fetch(
+              `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_name=${encodeURIComponent(name)}`
+            );
+            const data = await response.json();
+      
+            if (data.exists) {
+              toast.warning("Organization name already exists. Try another name.");
+            }
+          } catch (error) {
+            console.error("Error checking org name:", error);
+          }
+        };
   const handleBasicInfoSlide = () => {
     if (!orgname || !orgWebsite || !orgIndustry || !orgLocation) {
       toast.warn("complete all fields!!!");
@@ -520,7 +579,7 @@ const signing = async () => {
     
   };
   const handleFinancialInformationSlide = () => {
-    if (!orgClient || !orgFundingInfo || !orgRevenueMode){
+    if (!orgClient || !selectedFunding|| !selectedRevenueModel){
       toast.warn("Complete all fields!!");
       return;
 
@@ -549,9 +608,9 @@ const signing = async () => {
       // Prepare the data for the PUT request
       const requestData = {
         org_id: Number(localStorage.getItem("orgId")),
-        organization_name: orgname,
+        organization_name: orgName,
         industry: orgIndustry,
-        location: orgLocation,
+        location: selectedLocation,
         website_url: orgWebsite,
         poc: orgPoc,
         logo_url: orgLogo,
@@ -762,55 +821,49 @@ const signing = async () => {
   ////////////// ORG FORGOT PASSWORD /////////////////
   const forgotPassword = async () => {
     if (!forgotEmail) {
-      toast("provide email address");
+      toast.warn("Provide email address");
       return;
     }
+  
     try {
       setLoading(true);
-      /////////////// check if email is legit //////////////////
-      const check_legit_email = await axios.get(
-        `https://emailvalidation.abstractapi.com/v1/?api_key=${emailKey}&email=${forgotEmail}`
+  
+      // 1️⃣ Check if email exists in the database
+      const checkEmailResponse = await axios.get(
+        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?email=${forgotEmail}&action=check_email`
       );
-      console.log(check_legit_email.data);
-      if (check_legit_email.data.is_valid_format.value === false) {
-        toast("invalid email format");
+  
+      if (!checkEmailResponse.data.exists) {
+        toast.warn("Email not registered");
+        setLoading(false);
         return;
       }
-      if (
-        check_legit_email.data.is_smtp_valid.value === false &&
-        check_legit_email.data.deliverability === "UNDELIVERABLE"
-      ) {
-        toast("email broken, try another");
-        return;
-      }
-      if (
-        check_legit_email.data.is_smtp_valid.value === true &&
-        check_legit_email.data.is_valid_format.value === true
-      ) {
-        ///// if email is legit? send otp
-        const send_otp = await axios.post(
-          `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
-          {
-            email: forgotEmail,
-          }
-        );
-        console.log("OTP response", send_otp);
-        if (send_otp.status === 200) {
-          localStorage.setItem("reset_password_email", forgotEmail);
-          setLoading(false);
-          setCurrentSlide("reset-verifyotp");
-          toast("OTP sent to email");
+  
+      // 2️⃣ If email exists, send OTP
+      const sendOtpResponse = await axios.post(
+        `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
+        {
+          email: forgotEmail,
         }
+      );
+  
+      if (sendOtpResponse.status === 200) {
+        localStorage.setItem("reset_password_email", forgotEmail);
+        setCurrentSlide("reset-verifyotp");
+        toast("OTP sent to email");
       }
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast(error.response.data);
-      } else toast(error.message);
+        toast.warn(error.response.data);
+      } else {
+        toast.warn(error.message);
+      }
     } finally {
       setLoading(false);
     }
   };
+  
   const handleOrgForgotPassword = async () => {
     forgotPassword();
   };
@@ -936,12 +989,15 @@ const signing = async () => {
     } else if (currentSlide === "basic-info") {
       return (
 <BasicInfoContainer
-  orgNameInput={orgNameInput}
-  websiteInput={websiteInput}
-  setOrgIndustry={setOrgIndustry}  // ✅ Corrected
-  locationInput={locationInput}  // ✅ Corrected
-  handleBasicInfoSlide={handleBasicInfoSlide}
-  loading={loading}
+        orgName={orgName}
+        setOrgName={setOrgName}
+        checkOrgNameExists={checkOrgNameExists} // Passing function as prop
+          websiteInput={websiteInput}
+          setOrgIndustry={setOrgIndustry}
+          locationInput={handleLocationSelection}
+          handleBasicInfoSlide={handleBasicInfoSlide}
+          setCurrentSlide={setCurrentSlide}
+          loading={loading}
 />
       );
     } else if (currentSlide === "contact-details") {
@@ -984,8 +1040,8 @@ const signing = async () => {
       return (
         <FinancialInformation
         handleFinancialInformationSlide={handleFinancialInformationSlide}
-        revenueInput={revenueInput}
-        fundingInput={fundingInput}
+        revenueInput={handleRevenueSelect} // ✅ Capture revenue model selection
+        fundingInput={handleFundingSelect}
         clientInput={clientInput}
         setCurrentSlide={setCurrentSlide}
 

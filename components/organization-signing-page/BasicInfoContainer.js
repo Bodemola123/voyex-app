@@ -2,53 +2,27 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IndustryDropdown } from "./IndustryDropdown";
 import DynamicCard from "../common/DynamicCard";
 import '../../app/globals.css';
+
+import { LoadScript } from "@react-google-maps/api";
 import { LocationDropdown } from "./LocationDropdown";
-import axios from "axios"; // Import axios
+
+
+
 
 function BasicInfoContainer({
-  orgNameInput,
+  orgName, setOrgName, checkOrgNameExists,
   websiteInput,
   setOrgIndustry,
   locationInput,
   handleBasicInfoSlide,
   loading,
 }) {
-  const [orgName, setOrgName] = useState("");
-  const [orgNameError, setOrgNameError] = useState("");
   const router = useRouter();
-
-  // Check if organization name exists via the API
-  const checkOrgNameAvailability = async (orgName) => {
-    if (!orgName) return;
-
-    try {
-      const response = await axios.get(
-        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_name=${orgName}`
-      );
-      
-      if (response.status === 200) {
-        setOrgNameError("This organization name already exists.");
-      } else if (response.status === 404) {
-        setOrgNameError(""); // Clear error if name doesn't exist
-      }
-    } catch (error) {
-      // Handle network or other errors
-      setOrgNameError("Failed to check organization name availability.");
-    }
-  };
-
-  // Update org name and check availability on input change
-  const handleOrgNameChange = (e) => {
-    const name = e.target.value;
-    setOrgName(name);
-    orgNameInput(name);
-    checkOrgNameAvailability(name); // Check availability as the user types
-  };
+  
 
   return (
     <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden scrollbar-hide items-center">
@@ -72,19 +46,15 @@ function BasicInfoContainer({
             Organization Name
           </Label>
           <Input
-            id="orgName"
-            type="text"
-            placeholder="Your organization's name"
-            value={orgName}
-            onChange={handleOrgNameChange}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
-          />
-          {/* Show error message if organization name already exists */}
-          {orgNameError && (
-            <p className="text-red-500 text-sm">{orgNameError}</p>
-          )}
+        id="orgName"
+        type="text"
+        placeholder="Your organization's name"
+        value={orgName}
+        onChange={(e) => setOrgName(e.target.value)}
+        onBlur={() => checkOrgNameExists(orgName)} // Call parent function onBlur
+        className="rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
+      />
         </div>
-
         <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="website" className="text-white font-normal">
             Website URL
@@ -107,7 +77,8 @@ function BasicInfoContainer({
           <Label htmlFor="location" className="text-white font-normal">
             Location
           </Label>
-          <LocationDropdown locationInput={locationInput} />
+          {/* Wrap LocationDropdown with LoadScript for Google Maps API */}
+            <LocationDropdown locationInput={locationInput} />
         </div>
 
         <div className="flex items-center justify-between max-w-[500px] py-6 w-full">
@@ -116,11 +87,10 @@ function BasicInfoContainer({
             onClick={() => router.push("/search")}
           >
             Skip
-          </button>
+          </button> 
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-[#c088fb] ml-auto"
             onClick={handleBasicInfoSlide}
-            disabled={!!orgNameError} // Disable the Next button if there is an error
           >
             Next
           </button>

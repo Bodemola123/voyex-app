@@ -90,7 +90,7 @@ export function LocationDropdown({ locationInput }) {
           role="combobox"
           aria-label="Select Location"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px] scrollbar-hide"
         >
           {value || "Select location..."}
           <FaCaretDown className="opacity-50" />
@@ -101,7 +101,7 @@ export function LocationDropdown({ locationInput }) {
         side="top"
         align="center"
       >
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
+        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
           <CommandInput
             placeholder="Search for location"
             aria-label="Search Location"
@@ -113,7 +113,7 @@ export function LocationDropdown({ locationInput }) {
             Start typing to search for locations.
           </div>
 
-          <CommandList className="mt-3">
+          <CommandList className="mt-3 scrollbar-hide">
             {/* Loading indicator */}
             {loading && <div className="text-fontlight">Loading...</div>}
 
@@ -137,7 +137,7 @@ export function LocationDropdown({ locationInput }) {
                     className="text-fontlight data-[selected='true']:bg-purple"
                     onSelect={() => {
                       setValue(location.label);
-                      locationInput(location.label);
+                      locationInput(location.label); // Send the selected location to parent
                       setOpen(false);
                     }}
                   >

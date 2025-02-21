@@ -21,13 +21,13 @@ import {
 } from "@/components/ui/popover";
 
 const fundingOptions = [
-  { value: "equity", label: "Equity Financing" },
-  { value: "debt", label: "Debt Financing" },
-  { value: "grants", label: "Grants" },
-  { value: "revenue", label: "Revenue-based Financing" },
+  { value: "Equity Financing", label: "Equity Financing" },
+  { value: "Debt Financing", label: "Debt Financing" },
+  { value: "Grants", label: "Grants" },
+  { value: "Revenue-based Financing", label: "Revenue-based Financing" },
   { value: "hybrid", label: "Hybrid Financing" },
-  { value: "bootstrapping", label: "Bootstrapping" },
-  { value: "asset", label: "Asset-based Financing" },
+  { value: "Bootstrapping", label: "Bootstrapping" },
+  { value: "Asset-based Financing", label: "Asset-based Financing" },
 ];
 
 export function FundingInformation({ fundingInput, initialValue = "" }) {
@@ -48,31 +48,31 @@ export function FundingInformation({ fundingInput, initialValue = "" }) {
           role="combobox"
           aria-label="Select Funding Option"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
         >
           {selectedFundingOption || "Select funding option..."}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
+      <PopoverContent className="w-96 p-0 text-white border-none">
+        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
           <CommandInput
             placeholder="Search for funding option"
             aria-label="Search Funding Option"
             className="border border-gray/20 rounded-[28px]"
           />
-          <CommandList className="mt-3">
+          <CommandList className="mt-3 scrollbar-hide">
             <CommandEmpty>No funding option found.</CommandEmpty>
             <CommandGroup>
               {fundingOptions.map((option) => (
                 <CommandItem
                   key={option.value}
                   value={option.value}
-                  className="text-fontlight data-[selected='true']:bg-purple"
+                  className="text-white data-[selected='true']:bg-[#c088fb]"
                   onSelect={(currentValue) => {
                     const newValue = currentValue === value ? "" : currentValue;
                     setValue(newValue);
-                    fundingInput(newValue);
+                    fundingInput(newValue); // ✅ Send selected funding to parent
                     setOpen(false);
                   }}
                 >
@@ -81,7 +81,7 @@ export function FundingInformation({ fundingInput, initialValue = "" }) {
                     className={cn(
                       "ml-auto",
                       value === option.value
-                        ? "opacity-100 text-fontlight hover:text-black"
+                        ? "opacity-100 text-white hover:text-black"
                         : "opacity-0"
                     )}
                   />
