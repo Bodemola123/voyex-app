@@ -263,7 +263,12 @@ const handleRevenueSelect = (revenueValue) => {
   ////////////////// GOOGLE ORG SIGNUP /////////////////////////////////
   const googleOrgSignup = useGoogleLogin({
     onSuccess: async (response) => {
+      if (!response?.access_token) {
+        toast("Google authentication failed. Please try again.");
+        return;
+      }
       setLoadingGoogle(true);
+      toast("Processing your signup...");
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -273,7 +278,9 @@ const handleRevenueSelect = (revenueValue) => {
             },
           }
         );
-        
+        if (res.status !== 200) {
+          throw new Error("Failed to retrieve Google user info.");
+        }
         if (res.status === 200) {
           const apiResponse = await axios.post(
             "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
@@ -331,7 +338,12 @@ const handleRevenueSelect = (revenueValue) => {
   ////////////////// GOOGLE ORG SIGNIN /////////////////////////////////
   const googleOrgSignin = useGoogleLogin({
     onSuccess: async (response) => {
+      if (!response?.access_token) {
+        toast("Google authentication failed. Please try again.");
+        return;
+      }
       setLoadingGoogle(true);
+      toast("Signing in...");
       try {
         // Fetch Google user info
         const res = await axios.get(
@@ -342,6 +354,9 @@ const handleRevenueSelect = (revenueValue) => {
             },
           }
         );
+        if (res.status !== 200) {
+          throw new Error("Failed to retrieve Google user info.");
+        }
   
         if (res.status === 200) {
           // Sign in to your API
@@ -376,10 +391,12 @@ const handleRevenueSelect = (revenueValue) => {
             );
   
             // ✅ Store email in cookies for future sessions
-            Cookies.set("voyexEmail", res.data.email, { expires: 7 });
+            // Cookies.set("voyexEmail", res.data.email, { expires: 7 });
   
             // ✅ Validate access token after signin
-            await checkAccessToken();
+            setTimeout(() => {
+              checkAccessToken();
+            }, 100);
           } 
           
           else if (apiResponse.status === 404) {

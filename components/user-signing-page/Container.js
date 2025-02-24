@@ -131,7 +131,12 @@ function Container() {
   ////////////////// GOOGLE USER SIGNUP /////////////////////////////////
   const googleUserSignup = useGoogleLogin({
     onSuccess: async (response) => {
+      if (!response?.access_token) {
+        toast("Google authentication failed. Please try again.");
+        return;
+      }
       setLoadingGoogle(true);
+      toast("Processing your signup...");
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -141,6 +146,9 @@ function Container() {
             },
           }
         );
+        if (res.status !== 200) {
+          throw new Error("Failed to retrieve Google user info.");
+        }
   
         if (res.status === 200) {
           const apiResponse = await axios.post(
@@ -196,7 +204,12 @@ function Container() {
   ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
   const googleUserSignin = useGoogleLogin({
     onSuccess: async (response) => {
+      if (!response?.access_token) {
+        toast("Google authentication failed. Please try again.");
+        return;
+      }
       setLoadingGoogle(true);
+      toast("Signing in...");
       try {
         // Fetch Google user info
         const res = await axios.get(
@@ -207,7 +220,9 @@ function Container() {
             },
           }
         );
-  
+        if (res.status !== 200) {
+          throw new Error("Failed to retrieve Google user info.");
+        }
         if (res.status === 200) {
           // Sign in to your API
           const apiResponse = await axios.post(
@@ -242,7 +257,9 @@ function Container() {
             );
   
             // ✅ Check & refresh token if needed
-            await checkAccessToken();
+            setTimeout(() => {
+              checkAccessToken();
+            }, 100);
           } 
           
           else if (apiResponse.status === 200 && apiResponse.data.exists === false) {
