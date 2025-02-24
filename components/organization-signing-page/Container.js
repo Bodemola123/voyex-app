@@ -286,8 +286,7 @@ const handleRevenueSelect = (revenueValue) => {
             "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
             {
               email: res.data?.email,
-              method: "sign_up",
-              password: res.data?.sub,
+              method: "google_auth",
             }
           );
   
@@ -364,7 +363,7 @@ const handleRevenueSelect = (revenueValue) => {
             "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
             {
               email: res.data?.email,
-              password: res.data?.sub,
+              method: "google_auth",
             }
           );
   
