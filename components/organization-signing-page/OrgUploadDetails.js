@@ -18,6 +18,7 @@ import FinancialInformation from "./FinancialInformation";
 import ComplianceandCert from "./ComplianceandCert";
 import OrgUploadLoading from "./OrgUploadLoading";
 import OrgUploadSuccess from "./OrgUploadSuccess";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function OrgUploadDetails({ setDisplay }) {
