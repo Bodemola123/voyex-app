@@ -18,13 +18,13 @@ import {
 } from "@/components/ui/popover";
 
 const certificationOptions = [
-  { value: "professional", label: "Professional Certifications (e.g., PMP, CPA)" },
-  { value: "product", label: "Product Certifications (e.g., CE Marking, UL Certification)" },
-  { value: "environmental", label: "Environmental and Sustainability Certifications (e.g., LEED)" },
-  { value: "quality", label: "Quality Certifications (e.g., ISO 9001, Six Sigma)" },
-  { value: "industrySpecific", label: "Industry-Specific Certifications (e.g., HIPAA, PCI DSS)" },
-  { value: "safety", label: "Safety Certifications (e.g., OSHA, First Aid)" },
-  { value: "technology", label: "Technology Certifications (e.g., AWS, CCNA)" },
+  { value: "Professional Certifications (e.g., PMP, CPA)", label: "Professional Certifications (e.g., PMP, CPA)" },
+  { value: "Product Certifications (e.g., CE Marking, UL Certification)", label: "Product Certifications (e.g., CE Marking, UL Certification)" },
+  { value: "Environmental and Sustainability Certifications (e.g., LEED)", label: "Environmental and Sustainability Certifications (e.g., LEED)" },
+  { value: "Quality Certifications (e.g., ISO 9001, Six Sigma)", label: "Quality Certifications (e.g., ISO 9001, Six Sigma)" },
+  { value: "Industry-Specific Certifications (e.g., HIPAA, PCI DSS)", label: "Industry-Specific Certifications (e.g., HIPAA, PCI DSS)" },
+  { value: "Safety Certifications (e.g., OSHA, First Aid)", label: "Safety Certifications (e.g., OSHA, First Aid)" },
+  { value: "Technology Certifications (e.g., AWS, CCNA)", label: "Technology Certifications (e.g., AWS, CCNA)" },
 ];
 
 export function Certifications({ certificationsInput }) {
@@ -46,14 +46,14 @@ export function Certifications({ certificationsInput }) {
           role="combobox"
           aria-label="Select Certification Type"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
         >
           {value || "Select Certification Type..."}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll">
+      <PopoverContent className="w-96 p-0 text-white border-none">
+        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll">
           <CommandInput
             placeholder="Search for Certifications"
             aria-label="Search for Certifications"
@@ -64,7 +64,7 @@ export function Certifications({ certificationsInput }) {
               <CommandItem
                 key={option.value}
                 value={option.value}
-                className="text-fontlight data-[selected='true']:bg-purple"
+                className="text-white data-[selected='true']:bg-[#c088fb]"
                 onSelect={() => handleSelect(option.value)}
               >
                 {option.label}

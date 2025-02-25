@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/popover";
 
 const clientPartnerTypes = [
-  { value: "Business-to-Business (B2B)" , label: "Business-to-Business (B2B)" },
+  { value: "Business-to-Business (B2B)", label: "Business-to-Business (B2B)" },
   { value: "Business-to-Consumer (B2C)", label: "Business-to-Consumer (B2C)" },
   { value: "Government", label: "Government" },
   { value: "Non-profit Organizations", label: "Non-profit Organizations" },
@@ -54,24 +54,24 @@ export function ClientPartnerDropdown({ clientInput, initialValue = "" }) {
           role="combobox"
           aria-label="Select Client/Partner Type"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
         >
           {selectedOption}
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-96 p-0 text-fontlight border-none"
+        className="w-96 p-0 text-white border-none"
         side="top"
         align="center"
       >
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
+        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll">
           <CommandInput
             placeholder="Search for Client/Partner types"
             aria-label="Search Client/Partner types"
             className="border border-gray/20 rounded-[28px]"
           />
-          <CommandList className="mt-3 scrollbar-hide">
+          <CommandList className="mt-3">
             {/* No options found */}
             {clientPartnerTypes.length === 0 && (
               <CommandEmpty>No options found.</CommandEmpty>
@@ -83,7 +83,7 @@ export function ClientPartnerDropdown({ clientInput, initialValue = "" }) {
                 <CommandItem
                   key={item.value}
                   value={item.value}
-                  className="text-fontlight data-[selected='true']:bg-purple"
+                  className="text-white data-[selected='true']:bg-[#c088fb]"
                   onSelect={() => handleSelect(item.value)}
                 >
                   {item.label}

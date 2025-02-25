@@ -21,13 +21,13 @@ import {
 } from "@/components/ui/popover";
 
 const fundingOptions = [
-  { value: "Equity Financing", label: "Equity Financing" },
-  { value: "Debt Financing", label: "Debt Financing" },
-  { value: "Grants", label: "Grants" },
-  { value: "Revenue-based Financing", label: "Revenue-based Financing" },
+  { value: "equity", label: "Equity Financing" },
+  { value: "debt", label: "Debt Financing" },
+  { value: "grants", label: "Grants" },
+  { value: "revenue", label: "Revenue-based Financing" },
   { value: "hybrid", label: "Hybrid Financing" },
-  { value: "Bootstrapping", label: "Bootstrapping" },
-  { value: "Asset-based Financing", label: "Asset-based Financing" },
+  { value: "bootstrapping", label: "Bootstrapping" },
+  { value: "asset", label: "Asset-based Financing" },
 ];
 
 export function FundingInformation({ fundingInput, initialValue = "" }) {
@@ -55,13 +55,13 @@ export function FundingInformation({ fundingInput, initialValue = "" }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 p-0 text-white border-none">
-        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
+        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll">
           <CommandInput
             placeholder="Search for funding option"
             aria-label="Search Funding Option"
             className="border border-gray/20 rounded-[28px]"
           />
-          <CommandList className="mt-3 scrollbar-hide">
+          <CommandList className="mt-3">
             <CommandEmpty>No funding option found.</CommandEmpty>
             <CommandGroup>
               {fundingOptions.map((option) => (

@@ -66,7 +66,7 @@ function TargetAudienceDropdown({ setOrgAudience }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
         >
           {value
             ? audiences.find((audience) => audience.value === value)?.label
@@ -74,8 +74,8 @@ function TargetAudienceDropdown({ setOrgAudience }) {
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 h-full p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
+      <PopoverContent className="w-96 h-full p-0 text-white border-none">
+        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
           <CommandInput
             placeholder="Search for audience"
             className="border border-gray/20 rounded-[28px] "
@@ -87,7 +87,7 @@ function TargetAudienceDropdown({ setOrgAudience }) {
                 <CommandItem
                   key={audience.value}
                   value={audience.value}
-                  className="text-fontlight data-[selected='true']:bg-purple"
+                  className="text-white data-[selected='true']:bg-[#c088fb]"
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOrgAudience(currentValue === value ? "" : currentValue);
@@ -99,7 +99,7 @@ function TargetAudienceDropdown({ setOrgAudience }) {
                     className={cn(
                       "ml-auto ",
                       value === audience.value
-                        ? "opacity-100 text-fontlight hover:text-black"
+                        ? "opacity-100 text-white hover:text-black"
                         : "opacity-0"
                     )}
                   />

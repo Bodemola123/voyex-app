@@ -126,7 +126,7 @@ const DocumentUploader = ({ onFileUpload, onFileRemove, uploadedFile }) => {
         </>
       )}
       <button
-        className="border-b border-[0.48px] flex items-center justify-center rounded-[26px] py-2.5 px-5 bg-[#C088FB] text-[#0a0a0b] text-sm font-black hover:bg-purple/50"
+        className="border-b border-[0.48px] flex items-center justify-center rounded-[26px] py-2.5 px-5 bg-[#C088FB] text-[#0a0a0b] text-sm font-black hover:bg-[#c088fb]/50"
         onClick={(e) => {
           e.stopPropagation();
           fileInputRef.current.click();

@@ -66,7 +66,7 @@ export function IndustryDropdown({ setOrgIndustry }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
         >
           {value
             ? indutries.find((industry) => industry.value === value)?.label
@@ -74,8 +74,8 @@ export function IndustryDropdown({ setOrgIndustry }) {
           <FaCaretDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none">
+      <PopoverContent className="w-96 p-0 text-white border-none">
+        <Command className="bg-black text-white p-3 border-none">
           <CommandInput
             placeholder="Search for industry"
             className="border border-gray/20 rounded-[28px] "
@@ -87,7 +87,7 @@ export function IndustryDropdown({ setOrgIndustry }) {
                 <CommandItem
                   key={industry.value}
                   value={industry.value}
-                  className="text-fontlight data-[selected='true']:bg-purple"
+                  className="text-white data-[selected='true']:bg-[#c088fb]"
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOrgIndustry(currentValue === value ? "" : currentValue);
@@ -99,7 +99,7 @@ export function IndustryDropdown({ setOrgIndustry }) {
                     className={cn(
                       "ml-auto ",
                       value === industry.value
-                        ? "opacity-100 text-fontlight hover:text-black"
+                        ? "opacity-100 text-white hover:text-black"
                         : "opacity-0"
                     )}
                   />

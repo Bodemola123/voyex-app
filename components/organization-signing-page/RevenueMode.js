@@ -21,22 +21,22 @@ import {
 } from "@/components/ui/popover";
 
 const revenueModels = [
-  { value: "Sales Revenue", label: "Sales Revenue" },
-  { value: "Subscription", label: "Subscription" },
-  { value: "Freemium", label: "Freemium" },
-  { value: "Licensing", label: "Licensing" },
-  { value: "Advertising", label: "Advertising" },
-  { value: "Transaction Fee", label: "Transaction Fee" },
-  { value: "Affiliate", label: "Affiliate" },
-  { value: "Data Revenue", label: "Data Revenue" },
-  { value: "Franchise", label: "Franchise" },
-  { value: "Commission", label: "Commission" },
-  { value: "Leasing", label: "Leasing" },
-  { value: "Crowdfunding", label: "Crowdfunding" },
-  { value: "PayPerUse", label: "Pay-Per-Use" },
-  { value: "Donation", label: "Donation" },
-  { value: "Auction", label: "Auction" },
-  { value: "Professional Services", label: "Professional Services" },
+  { value: "sales", label: "Sales Revenue" },
+  { value: "subscription", label: "Subscription" },
+  { value: "freemium", label: "Freemium" },
+  { value: "licensing", label: "Licensing" },
+  { value: "advertising", label: "Advertising" },
+  { value: "transactionFee", label: "Transaction Fee" },
+  { value: "affiliate", label: "Affiliate" },
+  { value: "data", label: "Data Revenue" },
+  { value: "franchise", label: "Franchise" },
+  { value: "commission", label: "Commission" },
+  { value: "leasing", label: "Leasing" },
+  { value: "crowdfunding", label: "Crowdfunding" },
+  { value: "payPerUse", label: "Pay-Per-Use" },
+  { value: "donation", label: "Donation" },
+  { value: "auction", label: "Auction" },
+  { value: "professionalServices", label: "Professional Services" },
 ];
 
 export function RevenueMode({ revenueInput, initialValue = "" }) {
@@ -63,13 +63,13 @@ export function RevenueMode({ revenueInput, initialValue = "" }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 p-0 text-white border-none">
-        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll scrollbar-hide">
+        <Command className="bg-black text-white p-3 border-none max-h-[250px] overflow-y-scroll">
           <CommandInput
             placeholder="Search for revenue model"
             aria-label="Search Revenue Model"
             className="border border-gray/20 rounded-[28px]"
           />
-          <CommandList className="mt-3 scrollbar-hide">
+          <CommandList className="mt-3">
             <CommandEmpty>No revenue model found.</CommandEmpty>
             <CommandGroup>
               {revenueModels.map((model) => (

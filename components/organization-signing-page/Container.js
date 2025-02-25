@@ -11,7 +11,7 @@ import Signing from "./Signing";
 import EmailVerify from "./EmailVerify";
 import SignupSuccess from "./SignupSuccess";
 import { useDebounce } from "@/hooks/useDebounce";
-import BasicInfoContainer from "./BasicInfoContainer";
+
 import ContactDetailsContainer from "./ContactDetailsContainer";
 import AccountError from "./AccountError";
 import OrgLoading from "./OrgSignupLoading";
@@ -34,10 +34,11 @@ import {
 import ComplianceandCert from "./ComplianceandCert";
 import FinancialInformation from "./FinancialInformation";
 import LeadershipAndTeam from "./LeadershipAndTeam";
+import BasicInfoContainer from "./BasicInfoContainer";
 
 const emailKey = process.env.EMAIL_KEY;
 
-function Container() {
+const Container = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { googleUserDetails } = useSelector((state) => state.auth);
@@ -74,7 +75,7 @@ function Container() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("");
   const handleLocationSelection = async (location) => {
-    setSelectedLocation(location); // Update state with selected location
+    setSelectedLocation(location.label); // Update state with selected location
   }
   const [selectedFunding, setSelectedFunding] = useState("");
 
@@ -172,7 +173,7 @@ const handleRevenueSelect = (revenueValue) => {
     console.log(newValue); // Debugging
   };
   const locationInput = (selectedLocation) => {
-    setOrgLocation(selectedLocation.description); // Update state with the selected location
+    setOrgLocation(selectedLocation.label); // Update state with the selected location
     console.log("Selected Location:", selectedLocation);
   };
   const EmailInput = (e) => {
@@ -521,6 +522,7 @@ const signing = async () => {
           setLoading(false);
           toast(acceptEmailPassword.data.message);
           setCurrentSlide("org-signup-success");
+          console.log(acceptEmailPassword.data)
   
           // Store org details and tokens in localStorage
           localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
@@ -549,149 +551,6 @@ const signing = async () => {
     value.length !== 6 && setOtpError(false);
   }, [value.length]);
 
-  //////////////// ORGANIZATION UPLOAD DETAILS /////////////////////////////////
-        // Function to check if the organization name exists
-        const checkOrgNameExists = async (name) => {
-          if (!name.trim()) return; // Avoid empty queries
-      
-          try {
-            const response = await fetch(
-              `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_name=${encodeURIComponent(name)}`
-            );
-            const data = await response.json();
-      
-            if (data.exists) {
-              toast.warning("Organization name already exists. Try another name.");
-            }
-          } catch (error) {
-            console.error("Error checking org name:", error);
-          }
-        };
-  const handleBasicInfoSlide = () => {
-    if (!orgname || !orgWebsite || !orgIndustry || !orgLocation) {
-      toast.warn("complete all fields!!!");
-      return;
-    } else setCurrentSlide("contact-details");
-  };
-  const handleContactDetailsSlide = () => {
-    if (!orgEmail || !orgPcpName || !orgNumber || !orgTwitter) {
-      toast.warn("complete all fields!!!");
-      return;
-    } else setCurrentSlide("operational-details");
-  };
-  const handleOperationDetailsSlide = () => {
-    if (!orgAudience || !orgTechUsed || !orgService || !orgSpecialization) {
-      toast.warn("Complete all fields!!!");
-      return;
-    } else setCurrentSlide("leadership-team");
-
-  };
-  const handleLeadershipAndTeamSlide = () => {
-    if (!orgFounder || !orgCareerspage || !orgExco || !orgTeamsize){
-      toast.warn("Complete all fields!!!");
-      return;
-    
-    } else setCurrentSlide("financial-info");
-    
-  };
-  const handleFinancialInformationSlide = () => {
-    if (!orgClient || !selectedFunding|| !selectedRevenueModel){
-      toast.warn("Complete all fields!!");
-      return;
-
-    } else setCurrentSlide("compliance-certification")
-  };
-  const uploadDetails = async () => {
-    try {
-      // Ensure all fields are filled
-      if (!orgPrivacyInput || !orgCertifications || !uploadedFile) {
-        toast.warn("Complete all fields!");
-        return;
-      }
-  
-      setLoading(true);
-      setCurrentSlide("org-upload-loading");
-  
-      // Retrieve the access token from localStorage
-      const accessToken = localStorage.getItem("access_token"); // Or `accessToken` based on your previous naming convention
-  
-      if (!accessToken) {
-        toast.warn("Access token is missing. Please log in again.");
-        setCurrentSlide("signing")
-        return;
-      }
-  
-      // Prepare the data for the PUT request
-      const requestData = {
-        org_id: Number(localStorage.getItem("orgId")),
-        organization_name: orgName,
-        industry: orgIndustry,
-        location: selectedLocation,
-        website_url: orgWebsite,
-        poc: orgPoc,
-        logo_url: orgLogo,
-        social_media: {
-          twitter: orgTwitter,
-          linkedin: orgLinkedin,
-        },
-        operational_details: {
-          target_audience: orgAudience,
-          service_offered: orgService,
-          tech_used: orgTechUsed,
-          // specialization: orgSpecialization,
-        },
-        // leadership_teams: {
-        //   careers_page: orgCareerspage,
-        //   team_size: orgTeamsize,
-        //   founder: orgFounder,
-        //   executives: orgExco,
-        // },
-        // financial_info: {
-        //   mode_of_revenue: orgRevenueMode,
-        //   funding_info: orgFundingInfo,
-        //   clients: orgClient,
-        // },
-        access_token: accessToken,
-      };
-  
-      // Make the PUT request to upload the organization details
-      const response = await axios.put(
-        `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api`,
-        requestData,
-      );
-  
-      // Handle response
-      if (response.status === 200) {
-        toast.success(response.data.message || "Organization details uploaded successfully!");
-        setCurrentSlide("org-upload-success");
-      } else {
-        setCurrentSlide("basic-info");
-      }
-    } catch (error) {
-      // Handle errors
-      console.error(error);
-      if (error.response?.data) {
-        toast.error(error.response.data.message || error.response.data);
-      } else {
-        toast.error(error.message);
-      }
-      setCurrentSlide("basic-info");
-    } finally {
-      setLoading(false);
-
-    }
-  };
-  
-  useEffect(() => {
-    if (border === true) {
-      setAllowed(true);
-    } else {
-      setAllowed(false);
-    }
-  }, [border]);
-  const handleUploadDetails = async () => {
-    allowed && uploadDetails();
-  };
 
   ////////////////// ORGANIZATION SIGN IN /////////////////////////////
   const checkAccessToken = async () => {
@@ -1002,88 +861,6 @@ const signing = async () => {
           setCurrentSlide={setCurrentSlide}
         />
       );
-    } else if (currentSlide === "basic-info") {
-      return (
-<BasicInfoContainer
-        orgName={orgName}
-        setOrgName={setOrgName}
-        checkOrgNameExists={checkOrgNameExists} // Passing function as prop
-          websiteInput={websiteInput}
-          setOrgIndustry={setOrgIndustry}
-          locationInput={handleLocationSelection}
-          handleBasicInfoSlide={handleBasicInfoSlide}
-          setCurrentSlide={setCurrentSlide}
-          loading={loading}
-/>
-      );
-    } else if (currentSlide === "contact-details") {
-      return (
-        <ContactDetailsContainer
-          EmailInput={EmailInput}
-          pcpName={pcpName}
-          NumberInput={NumberInput}
-          twitterInput={twitterInput}
-          handleContactDetailsSlide={handleContactDetailsSlide}
-          setCurrentSlide={setCurrentSlide}
-          loading={loading}
-          linkedinInput={linkedinInput}
-        />
-      );
-    } else if (currentSlide === "operational-details") {
-      return (
-        <OperationalDetails
-          setOrgAudience={setOrgAudience}
-          serviceInput={serviceInput}
-          techUsedInput={techUsedInput}
-          loading={loading}
-          handleOperationDetailsSlide={handleOperationDetailsSlide}
-          setCurrentSlide={setCurrentSlide}
-          setSpecialization={setSpecialization}
-        />
-      );
-    } else if (currentSlide === "leadership-team") {
-      return (
-        <LeadershipAndTeam
-        setCareerspage={setCareerspage}
-        setTeamsize={setTeamsize}
-        founderInput={founderInput}
-        excoInput={excoInput}
-        setCurrentSlide={setCurrentSlide}
-        handleLeadershipAndTeamSlide={handleLeadershipAndTeamSlide}
-        />
-      );
-    } else if (currentSlide === "financial-info") {
-      return (
-        <FinancialInformation
-        handleFinancialInformationSlide={handleFinancialInformationSlide}
-        revenueInput={handleRevenueSelect} // ✅ Capture revenue model selection
-        fundingInput={handleFundingSelect}
-        clientInput={clientInput}
-        setCurrentSlide={setCurrentSlide}
-
-        />
-      );
-    } else if (currentSlide === "compliance-certification") {
-      return (
-        <ComplianceandCert
-        privacyInput={privacyInput}
-        certificationsInput={certificationsInput}
-        loading={loading}
-        currentSlide={currentSlide}
-        uploadedFile={uploadedFile}
-        handleUploadDetails={handleUploadDetails}
-        setCurrentSlide={setCurrentSlide}
-        handleIndividualFileUpload={handleIndividualFileUpload}
-        handleIndividualFileRemove={handleIndividualFileRemove}
-
-        />
-      );
-    } else if (currentSlide === "org-signup-loading") {
-      return <OrgLoading />;
-    } else if (currentSlide === "org-signin-loading") {
-      return <OrgSigninLoading />;
-    } else if (currentSlide === "org-upload-loading") {
-      return <OrgUploadLoading />;
     } else if (currentSlide === "email-verify") {
       return (
         <EmailVerify
@@ -1096,16 +873,16 @@ const signing = async () => {
           handleOrgResendOtp={handleOrgResendOtp}
         />
       );
+    } else if (currentSlide === "org-signup-loading") {
+      return <OrgLoading />;
+    } else if (currentSlide === "org-signin-loading") {
+      return <OrgSigninLoading />;
     } else if (currentSlide === "org-signup-success") {
       return <SignupSuccess setCurrentSlide={setCurrentSlide} />;
     } else if (currentSlide === "org-signin-success") {
       return <SigninSuccess />;
     } else if (currentSlide === "org-upload-details") {
       return <OrgUploadDetails />;
-    } else if (currentSlide === "org-upload-success") {
-      return <OrgUploadSuccess />;
-    } else if (currentSlide === "error") {
-      return <AccountError setCurrentSlide={setCurrentSlide} />;
     } else if (currentSlide === "forgot-password-home") {
       return (
         <ForgotPassword

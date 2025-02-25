@@ -6,10 +6,8 @@ import { useRouter } from "next/navigation";
 import { IndustryDropdown } from "./IndustryDropdown";
 import DynamicCard from "../common/DynamicCard";
 import '../../app/globals.css';
+
 import { LocationDropdown } from "./LocationDropdown";
-
-
-
 
 function BasicInfoContainer({
   orgName, setOrgName, checkOrgNameExists,
@@ -20,10 +18,12 @@ function BasicInfoContainer({
   loading,
 }) {
   const router = useRouter();
-  
+
+  // Check if any required field is empty
+  const isDisabled = !orgName || !websiteInput || !setOrgIndustry || !locationInput;
 
   return (
-    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden scrollbar-hide items-center">
+    <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden scrollbar-hide items-center justify-center">
       <DynamicCard />
       <div className="flex flex-col items-center justify-start h-full max-w-[494px] py-[33px] w-full mx-auto pt-6 px-2 rounded-[29px] bg-black text-white overflow-y-scroll scrollbar-hide basic">
         <p className="text-center font-bold text-5xl mb-10">Voyex</p>
@@ -36,7 +36,7 @@ function BasicInfoContainer({
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
         </div>
         <h1 className="text-white text-3xl text-center font-bold capitalize my-4 tracking-wider">
-          basic organization information
+          Basic Organization Information
         </h1>
 
         <div className="space-y-[6px] w-full px-2">
@@ -44,14 +44,14 @@ function BasicInfoContainer({
             Organization Name
           </Label>
           <Input
-        id="orgName"
-        type="text"
-        placeholder="Your organization's name"
-        value={orgName}
-        onChange={(e) => setOrgName(e.target.value)}
-        onBlur={() => checkOrgNameExists(orgName)} // Call parent function onBlur
-        className="rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
-      />
+            id="orgName"
+            type="text"
+            placeholder="Your organization's name"
+            value={orgName}
+            onChange={(e) => setOrgName(e.target.value)}
+            onBlur={() => checkOrgNameExists(orgName)}
+            className="rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
+          />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="website" className="text-white font-normal">
@@ -62,7 +62,7 @@ function BasicInfoContainer({
             type="text"
             placeholder="Add url"
             onChange={websiteInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
+            className="rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
@@ -75,8 +75,7 @@ function BasicInfoContainer({
           <Label htmlFor="location" className="text-white font-normal">
             Location
           </Label>
-          {/* Wrap LocationDropdown with LoadScript for Google Maps API */}
-            <LocationDropdown locationInput={locationInput} />
+          <LocationDropdown locationInput={locationInput} />
         </div>
 
         <div className="flex items-center justify-between max-w-[500px] py-6 w-full">
@@ -87,8 +86,11 @@ function BasicInfoContainer({
             Skip
           </button> 
           <button
-            className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-[#c088fb] ml-auto"
+            className={`text-base font-medium rounded-[25px] px-6 py-3 bg-[#c088fb] ml-auto ${
+              isDisabled ? "opacity-50 cursor-not-allowed" : "text-black"
+            }`}
             onClick={handleBasicInfoSlide}
+            disabled={isDisabled}
           >
             Next
           </button>
