@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         <StarsCanvas />
         <Animate />
         <StoreProvider>
-          <GoogleOAuthProvider clientId="674221708942-scpkfslkcl6b1h6pgqam7j77es9s50nk.apps.googleusercontent.com">
+          <GoogleOAuthProvider clientId="302027099331-aoihcqn8e4441l4nts3iuisu6fm73198.apps.googleusercontent.com">
             <div className="relative w-full h-full z-[10]">{children}</div>
           </GoogleOAuthProvider>
         </StoreProvider>
