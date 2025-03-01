@@ -150,7 +150,7 @@ useEffect(() => {
           {
             email: res.data?.email,
             password: res.data?.sub, // Using Google ID as password?
-            action: "sign_up",
+            action: "sign_in",
           }
         );
   
