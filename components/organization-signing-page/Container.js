@@ -873,7 +873,7 @@ const signing = async () => {
     } else if (currentSlide === "org-signin-success") {
       return <SigninSuccess />;
     } else if (currentSlide === "org-upload-details") {
-      return <OrgUploadDetails />;
+      return <OrgUploadDetails/>;
     } else if (currentSlide === "forgot-password-home") {
       return (
         <ForgotPassword

@@ -100,12 +100,12 @@ function Container() {
     currentSlide === "reset-verifyotp" && formatTime();
   }, [timeLeft, currentSlide]);
 
-  useEffect(() => {
-    if (googleUserDetails) {
-      toast("Google details saved successfully! ✅");
-    }
-  }, [googleUserDetails]);
-  
+useEffect(() => {
+  if (googleUserDetails) {
+    toast("Google details saved successfully! ✅");
+  }
+}, [googleUserDetails]);
+
 
   const emailInput = (e) => {
     setUserEmail(e.target.value);

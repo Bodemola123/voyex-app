@@ -29,7 +29,10 @@ function SignupSuccess({ setCurrentSlide }) {
         <div className="flex items-center justify-between max-w-[400px] w-full">
            <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card"
-            onClick={() => router.push("/search")}
+            onClick={() => {
+              setCurrentSlide(""); // Reset to default or an initial state
+              router.push("/search");
+            }}
           >
             Skip
           </button> 

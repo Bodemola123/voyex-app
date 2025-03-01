@@ -211,7 +211,7 @@ function UserUploadDetails({ setUserDisplay }) {
   };
   return (
     <div
-      className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
+      className="w-full h-full flex items-center justify-center"
       // onClick={(e) => setUserDisplay(false) + e.stopPropagation()}
     >
       {handleCurrentSlide()}

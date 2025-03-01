@@ -21,7 +21,7 @@ import OrgUploadSuccess from "./OrgUploadSuccess";
 import "react-toastify/dist/ReactToastify.css";
 
 
-function OrgUploadDetails({ setDisplay }) {
+function OrgUploadDetails() {
   // const [email, setEmail] = useState("");
   // const [orgPassword, setOrgPassword] = useState("");
   const [orgName, setOrgName] = useState("");
@@ -372,7 +372,7 @@ const handleRevenueSelect = (revenueValue) => {
   
   return (
     <div
-      className="fixed z-10 w-full h-full inset-0 flex items-center justify-center backdrop-blur-sm"
+      className="w-full h-full"
       // onClick={(e) => setDisplay(false) + e.stopPropagation()}
     >
       {handleCurrentSlide()}
