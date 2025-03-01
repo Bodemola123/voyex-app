@@ -129,41 +129,47 @@ useEffect(() => {
   const googleUserSignup = useGoogleLogin({
     onSuccess: async (response) => {
       if (!response?.access_token) {
-        toast.error("Google authentication failed. Please try again.");
+        toast("Google authentication failed. Please try again.");
         return;
       }
-  
       setLoadingGoogle(true);
-      toast.info("Processing your signup...");
-  
+      toast("Processing your signup...");
       try {
-        // Fetch Google user info
-        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${response.access_token}` },
-        });
-  
-        if (res.status !== 200) throw new Error("Failed to retrieve Google user info.");
-  
-        // Attempt to sign up the user
-        const apiResponse = await axios.post(
-          "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
           {
-            email: res.data?.email,
-            password: res.data?.sub, // Using Google ID as password?
-            action: "sign_up",
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
           }
         );
+        if (res.status !== 200) {
+          throw new Error("Failed to retrieve Google user info.");
+        }
   
-        switch (apiResponse.status) {
-          case 201: // ✅ Signup successful
+        if (res.status === 200) {
+          const apiResponse = await axios.post(
+            "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
+            {
+              email: res.data?.email,
+              password: res.data?.sub,
+              action: "sign_up",
+            }
+          );
+  
+          if (apiResponse.status === 201) {
             setCurrentSlide("user-signup-success");
-            toast.success(apiResponse.data.message || "Signup successful!");
+            toast(apiResponse.data.message);
   
             // ✅ Store Access & Refresh Tokens if provided
-            apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
-            apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            if (apiResponse.data.access_token) {
+              localStorage.setItem("access_token", apiResponse.data.access_token);
+            }
+            if (apiResponse.data.refresh_token) {
+              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            }
   
-            // ✅ Store User Details
+            // Store User Details
             dispatch(
               updateGoogleUserDetails({
                 email: res.data?.email,
@@ -172,132 +178,104 @@ useEffect(() => {
                 id: res.data?.sub,
               })
             );
-            break;
-  
-          case 409: // ❌ User already exists
-          case 400: // 🟡 Some APIs return 400 with a message like "User already exists"
-            if (apiResponse.data?.error?.includes("already exists")) {
-              toast.warn("This email is already registered. Please sign in instead.");
-              setCurrentSlide("signing"); // Redirect to sign-in
-            } else {
-              toast.warn(apiResponse.data?.error || "Signup failed. Please try again.");
-              setCurrentSlide("signing");
-            }
-            break;
-
-            case 200: // 🟡 Edge case - already signed up?
-              toast.info(apiResponse.data.message || "Already signed up?");
-              setCurrentSlide("signing");
-              break;
-  
-          default:
+          } else if (apiResponse.status === 400) {
             setCurrentSlide("signing");
-            toast.error("An unexpected error occurred. Please try again.");
-            break;
+            toast(apiResponse.data?.error);
+          }
         }
       } catch (err) {
         console.error(err);
         setCurrentSlide("signing");
-  
-        // Handle different error cases
-        if (err.response?.status === 409 || err.response?.data?.error?.includes("already exists")) {
-          toast.warn("This email is already registered. Please sign in instead.");
-        } else if (err.response?.data?.error) {
-          toast.warn(err.response.data.error);
-        } else if (err.message) {
-          toast.error(err.message);
+        if (err.response?.data?.error) {
+          toast(err.response.data.error);
         } else {
-          toast.error("Something went wrong. Please try again.");
+          toast(err.message);
         }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
-  
-  
   
 
   ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
   const googleUserSignin = useGoogleLogin({
     onSuccess: async (response) => {
       if (!response?.access_token) {
-        toast.error("Google authentication failed. Please try again.");
+        toast("Google authentication failed. Please try again.");
         return;
       }
-  
       setLoadingGoogle(true);
-      toast.info("Signing in...");
-  
+      toast("Signing in...");
       try {
         // Fetch Google user info
-        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${response.access_token}` },
-        });
-  
-        if (res.status !== 200) throw new Error("Failed to retrieve Google user info.");
-  
-        // Sign in to your API
-        const apiResponse = await axios.post(
-          "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
           {
-            email: res.data?.email,
-            password: res.data?.sub, // Using Google ID as password?
-            action: "sign_in",
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
           }
         );
-  
-        switch (apiResponse.status) {
-          case 200:
-            if (apiResponse.data.exists) {
-              // ✅ User exists, proceed with login
-              setCurrentSlide("signin-success");
-              toast.success("Login successful");
-  
-              // ✅ Store tokens if provided
-              apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
-              apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
-               setCurrentSlide("user-signin-success");
-              toast.success("Signin successful!");
-              // Store User Details
-              dispatch(
-                updateGoogleUserDetails({
-                  email: res.data?.email,
-                  username: res.data?.name,
-                  picture: res.data?.picture,
-                  id: res.data?.sub,
-                })
-              );
-  
-              // ✅ Check & refresh token if needed
-              setTimeout(() => {
-                checkAccessToken();
-              }, 100);
-            } else {
-              // 🚨 User does not exist
-              toast.warn("User doesn't exist. Please sign up.");
-              setCurrentSlide("signing"); // Redirect to signup
+        if (res.status !== 200) {
+          throw new Error("Failed to retrieve Google user info.");
+        }
+        if (res.status === 200) {
+          // Sign in to your API
+          const apiResponse = await axios.post(
+            "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
+            {
+              email: res.data?.email,
+              password: res.data?.sub,
+              action: "sign_in",
             }
-            break;
+          );
   
-          case 404:
-            toast.warn("User not found. Please sign up.");
-            setCurrentSlide("signing");
-            break;
+          if (apiResponse.status === 200 && apiResponse.data.exists === true) {
+            setCurrentSlide("signin-success");
+            toast("Login successful");
   
-          default:
-            toast.error("An unexpected error occurred. Please try again.");
-            break;
+            // ✅ Store tokens if provided
+            if (apiResponse.data.access_token) {
+              localStorage.setItem("access_token", apiResponse.data.access_token);
+            }
+            if (apiResponse.data.refresh_token) {
+              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            }
+  
+            // Store User Details
+            dispatch(
+              updateGoogleUserDetails({
+                email: res.data?.email,
+                username: res.data?.name,
+                picture: res.data?.picture,
+                id: res.data?.sub,
+              })
+            );
+  
+            // ✅ Check & refresh token if needed
+            setTimeout(() => {
+              checkAccessToken();
+            }, 100);
+          } 
+          
+          else if (apiResponse.status === 200 && apiResponse.data.exists === false) {
+            toast.warn("User doesn't exist!");
+            return;
+          }
         }
       } catch (err) {
         console.error(err);
-        toast.error(err.response?.data?.message || "Something went wrong!");
+        if (err.response?.data?.message) {
+          toast.warn(err.response.data.message);
+        } else {
+          toast.warn(err.message);
+        }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
-  
   
 
   ////////////////// USER SIGN UP /////////////////////////////////
