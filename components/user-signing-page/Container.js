@@ -245,7 +245,7 @@ useEffect(() => {
           console.log("Access Token:", apiResponse.data.access_token );
           console.log("Refresh Token:", apiResponse.data.refresh_token );
 
-          if (apiResponse.status === 200 && apiResponse.data.exists === true) {
+          if (apiResponse.status === 200 && apiResponse.data.valid === true) {
             setCurrentSlide("signin-success");
             toast("Login successful");
   
@@ -273,7 +273,7 @@ useEffect(() => {
             }, 1000);
           } 
           
-          else if (apiResponse.status === 200 && apiResponse.data.exists === false) {
+          else if (apiResponse.status === 200 && apiResponse.data.valid === false) {
             toast.warn("User doesn't exist!");
             return;
           }
