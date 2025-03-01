@@ -150,7 +150,7 @@ useEffect(() => {
           {
             email: res.data?.email,
             password: res.data?.sub, // Using Google ID as password?
-            action: "sign_in",
+            action: "sign_up",
           }
         );
   
@@ -242,7 +242,8 @@ useEffect(() => {
           "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
           {
             email: res.data?.email,
-            method: "google_auth"
+            password: res.data?.sub, // Using Google ID as password?
+            action: "sign_in",
           }
         );
   
