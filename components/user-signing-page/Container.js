@@ -271,7 +271,7 @@ useEffect(() => {
           // ✅ Check & refresh token if needed
           setTimeout(() => {
             checkAccessToken();
-          }, 100);
+          }, 1000);
         } 
         else if (apiResponse.status === 200 && !apiResponse.data.access_token) {
           toast.warn("Login failed. No access token received.");
