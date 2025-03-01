@@ -871,7 +871,7 @@ const signing = async () => {
     } else if (currentSlide === "org-signup-success") {
       return <SignupSuccess setCurrentSlide={setCurrentSlide} />;
     } else if (currentSlide === "org-signin-success") {
-      return <SigninSuccess />;
+      return <SigninSuccess setCurrentSlide={setCurrentSlide}  />;
     } else if (currentSlide === "org-upload-details") {
       return <OrgUploadDetails/>;
     } else if (currentSlide === "forgot-password-home") {
