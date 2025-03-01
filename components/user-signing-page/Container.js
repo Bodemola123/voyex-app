@@ -202,80 +202,81 @@ useEffect(() => {
   const googleUserSignin = useGoogleLogin({
     onSuccess: async (response) => {
       if (!response?.access_token) {
-        toast("Google authentication failed. Please try again.");
+        toast.error("Google authentication failed. Please try again.");
         return;
       }
+  
       setLoadingGoogle(true);
-      toast("Signing in...");
+      toast.info("Signing in...");
+  
       try {
         // Fetch Google user info
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
+        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${response.access_token}` },
+        });
+  
+        if (res.status !== 200) throw new Error("Failed to retrieve Google user info.");
+  
+        // Sign in to your API
+        const apiResponse = await axios.post(
+          "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
           {
-            headers: {
-              Authorization: `Bearer ${response.access_token}`,
-            },
+            email: res.data?.email,
+            password: res.data?.sub, // Using Google ID as password?
+            action: "sign_in",
           }
         );
-        if (res.status !== 200) {
-          throw new Error("Failed to retrieve Google user info.");
-        }
-        if (res.status === 200) {
-          // Sign in to your API
-          const apiResponse = await axios.post(
-            "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
-            {
-              email: res.data?.email,
-              password: res.data?.sub,
-              action: "sign_in",
+  
+        switch (apiResponse.status) {
+          case 200:
+            if (apiResponse.data.exists) {
+              // ✅ User exists, proceed with login
+              setCurrentSlide("signin-success");
+              toast.success("Login successful");
+  
+              // ✅ Store tokens if provided
+              apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
+              apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+  
+              // Store User Details
+              dispatch(
+                updateGoogleUserDetails({
+                  email: res.data?.email,
+                  username: res.data?.name,
+                  picture: res.data?.picture,
+                  id: res.data?.sub,
+                })
+              );
+  
+              // ✅ Check & refresh token if needed
+              setTimeout(() => {
+                checkAccessToken();
+              }, 100);
+            } else {
+              // 🚨 User does not exist
+              toast.warn("User doesn't exist. Please sign up.");
+              setCurrentSlide("signing"); // Redirect to signup
             }
-          );
+            break;
   
-          if (apiResponse.status === 200 && apiResponse.data.exists === true) {
-            setCurrentSlide("signin-success");
-            toast("Login successful");
+          case 404:
+            toast.warn("User not found. Please sign up.");
+            setCurrentSlide("signing");
+            break;
   
-            // ✅ Store tokens if provided
-            if (apiResponse.data.access_token) {
-              localStorage.setItem("access_token", apiResponse.data.access_token);
-            }
-            if (apiResponse.data.refresh_token) {
-              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
-            }
-  
-            // Store User Details
-            dispatch(
-              updateGoogleUserDetails({
-                email: res.data?.email,
-                username: res.data?.name,
-                picture: res.data?.picture,
-                id: res.data?.sub,
-              })
-            );
-  
-            // ✅ Check & refresh token if needed
-            setTimeout(() => {
-              checkAccessToken();
-            }, 100);
-          } 
-          
-          else if (apiResponse.status === 200 && apiResponse.data.exists === false) {
-            toast.warn("User doesn't exist!");
-            return;
-          }
+          default:
+            toast.error("An unexpected error occurred. Please try again.");
+            break;
         }
       } catch (err) {
         console.error(err);
-        if (err.response?.data?.message) {
-          toast.warn(err.response.data.message);
-        } else {
-          toast.warn(err.message);
-        }
+        toast.error(err.response?.data?.message || "Something went wrong!");
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
   
 
   ////////////////// USER SIGN UP /////////////////////////////////

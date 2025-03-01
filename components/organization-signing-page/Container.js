@@ -390,8 +390,8 @@ const handleRevenueSelect = (revenueValue) => {
             break;
   
           case 404:
-            toast.warn("User doesn't exist, please sign up.");
-            setCurrentSlide("signing");
+            toast.warn("User not registered. Please Sign up.");
+            setCurrentSlide("signing"); // Redirect to signup slide
             break;
   
           default:
@@ -406,6 +406,7 @@ const handleRevenueSelect = (revenueValue) => {
       }
     },
   });
+  
   
   
   
