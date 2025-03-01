@@ -18,42 +18,42 @@ export default function StoreProvider({ children }) {
   }
 
   ///////////// CHECK ORG CREDENTIALS //////////////////////
-  useEffect(() => {
-    const id = localStorage.getItem("orgId")
-      ? JSON.parse(localStorage.getItem("orgId"))
-      : null;
+  // useEffect(() => {
+  //   const id = localStorage.getItem("orgId")
+  //     ? JSON.parse(localStorage.getItem("orgId"))
+  //     : null;
 
-    if (!id) {
-      return;
-    } else {
-      const uploadOrgInfoOverlay = async () => {
-        try {
-          const response = await axios.get(
-            `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?org_id=${id}`
-          );
-          // console.log("checked id🚨:", response);
-          // if credentials not complete, display form
-          if (
-            response.status === 200 &&
-            response.data?.organization_name === null
-          ) {
-            setDisplay(true);
-          }
-          if (
-            response.status === 200 &&
-            response.data?.organization_name !== null
-          ) {
-            setDisplay(false);
-          }
-        } catch (error) {
-          if (error.response?.data) {
-            // toast.error(error.response.data);
-          } else toast.error(error.message);
-        }
-      };
-      uploadOrgInfoOverlay();
-    }
-  }, []);
+  //   if (!id) {
+  //     return;
+  //   } else {
+  //     const uploadOrgInfoOverlay = async () => {
+  //       try {
+  //         const response = await axios.get(
+  //           `https://cc7zo6pwqb.execute-api.ap-southeast-2.amazonaws.com/default/voyex_orgV2?org_id=${id}`
+  //         );
+  //         // console.log("checked id🚨:", response);
+  //         // if credentials not complete, display form
+  //         if (
+  //           response.status === 200 &&
+  //           response.data?.organization_name === null
+  //         ) {
+  //           setDisplay(true);
+  //         }
+  //         if (
+  //           response.status === 200 &&
+  //           response.data?.organization_name !== null
+  //         ) {
+  //           setDisplay(false);
+  //         }
+  //       } catch (error) {
+  //         if (error.response?.data) {
+  //           // toast.error(error.response.data);
+  //         } else toast.error(error.message);
+  //       }
+  //     };
+  //     uploadOrgInfoOverlay();
+  //   }
+  // }, []);
 
   return (
     <Provider store={storeRef.current}>
