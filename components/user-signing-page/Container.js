@@ -156,7 +156,8 @@ useEffect(() => {
               action: "sign_up",
             }
           );
-  
+          console.log("API Response:",apiResponse.data);
+
           if (apiResponse.status === 201) {
             setCurrentSlide("user-signup-success");
             toast(apiResponse.data.message);
