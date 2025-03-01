@@ -240,6 +240,13 @@ useEffect(() => {
           }
         );
   
+        // ✅ Console log the full response
+        console.log("API Response:", apiResponse.data);
+  
+        // ✅ Console log access & refresh tokens (if they exist)
+        console.log("Access Token:", apiResponse.data.access_token || "Not received");
+        console.log("Refresh Token:", apiResponse.data.refresh_token || "Not received");
+  
         // ✅ Ensure API returns access token for successful login
         if (apiResponse.status === 200 && apiResponse.data.access_token) {
           setCurrentSlide("signin-success");
@@ -275,7 +282,10 @@ useEffect(() => {
           setCurrentSlide("signing");
         }
       } catch (err) {
-        console.error(err);
+        console.error("Error during sign-in:", err);
+        if (err.response?.data) {
+          console.log("Error Response Data:", err.response.data);
+        }
         if (err.response?.data?.message) {
           toast.warn(err.response.data.message);
         } else {
@@ -286,6 +296,7 @@ useEffect(() => {
       }
     },
   });
+  
   
   
 
