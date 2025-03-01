@@ -144,7 +144,7 @@ useEffect(() => {
   
         if (res.status !== 200) throw new Error("Failed to retrieve Google user info.");
   
-        // Send user info to backend for signup
+        // Attempt to sign up the user
         const apiResponse = await axios.post(
           "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
           {
@@ -155,7 +155,7 @@ useEffect(() => {
         );
   
         switch (apiResponse.status) {
-          case 201:
+          case 201: // ✅ Signup successful
             setCurrentSlide("user-signup-success");
             toast.success(apiResponse.data.message || "Signup successful!");
   
@@ -174,10 +174,21 @@ useEffect(() => {
             );
             break;
   
-          case 400:
-            setCurrentSlide("signing");
-            toast.warn(apiResponse.data?.error || "Signup failed. Please try again.");
+          case 409: // ❌ User already exists
+          case 400: // 🟡 Some APIs return 400 with a message like "User already exists"
+            if (apiResponse.data?.error?.includes("already exists")) {
+              toast.warn("This email is already registered. Please sign in instead.");
+              setCurrentSlide("signing"); // Redirect to sign-in
+            } else {
+              toast.warn(apiResponse.data?.error || "Signup failed. Please try again.");
+              setCurrentSlide("signing");
+            }
             break;
+
+            case 200: // 🟡 Edge case - already signed up?
+              toast.info(apiResponse.data.message || "Already signed up?");
+              setCurrentSlide("signing");
+              break;
   
           default:
             setCurrentSlide("signing");
@@ -189,7 +200,9 @@ useEffect(() => {
         setCurrentSlide("signing");
   
         // Handle different error cases
-        if (err.response?.data?.error) {
+        if (err.response?.status === 409 || err.response?.data?.error?.includes("already exists")) {
+          toast.warn("This email is already registered. Please sign in instead.");
+        } else if (err.response?.data?.error) {
           toast.warn(err.response.data.error);
         } else if (err.message) {
           toast.error(err.message);
@@ -201,6 +214,7 @@ useEffect(() => {
       }
     },
   });
+  
   
   
 
@@ -228,8 +242,7 @@ useEffect(() => {
           "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
           {
             email: res.data?.email,
-            password: res.data?.sub, // Using Google ID as password?
-            action: "sign_in",
+            method: "google_auth"
           }
         );
   
@@ -243,7 +256,8 @@ useEffect(() => {
               // ✅ Store tokens if provided
               apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
               apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
-  
+               setCurrentSlide("user-signin-success");
+              toast.success("Signin successful!");
               // Store User Details
               dispatch(
                 updateGoogleUserDetails({

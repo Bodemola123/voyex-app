@@ -357,6 +357,8 @@ const handleRevenueSelect = (revenueValue) => {
         const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
           headers: { Authorization: `Bearer ${response.access_token}` },
         });
+
+        if (res.status !== 200) throw new Error("Failed to retrieve Google user info.");
   
         // Sign in to your API
         const apiResponse = await axios.post(
