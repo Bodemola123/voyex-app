@@ -226,8 +226,7 @@ useEffect(() => {
             "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
             {
               email: res.data?.email,
-              password: res.data?.sub,
-              action: "sign_in",
+              method: "google_auth" 
             }
           );
   
