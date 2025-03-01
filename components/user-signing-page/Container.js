@@ -246,7 +246,7 @@ useEffect(() => {
           console.log("Refresh Token:", apiResponse.data.refresh_token );
 
           if (apiResponse.status === 200 && apiResponse.data.valid === true) {
-            setCurrentSlide("signin-success");
+            setCurrentSlide("user-signin-success");
             toast("Login successful");
   
             // ✅ Store tokens if provided
