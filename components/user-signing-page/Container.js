@@ -129,47 +129,41 @@ useEffect(() => {
   const googleUserSignup = useGoogleLogin({
     onSuccess: async (response) => {
       if (!response?.access_token) {
-        toast("Google authentication failed. Please try again.");
+        toast.error("Google authentication failed. Please try again.");
         return;
       }
+  
       setLoadingGoogle(true);
-      toast("Processing your signup...");
+      toast.info("Processing your signup...");
+  
       try {
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
+        // Fetch Google user info
+        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${response.access_token}` },
+        });
+  
+        if (res.status !== 200) throw new Error("Failed to retrieve Google user info.");
+  
+        // Send user info to backend for signup
+        const apiResponse = await axios.post(
+          "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
           {
-            headers: {
-              Authorization: `Bearer ${response.access_token}`,
-            },
+            email: res.data?.email,
+            password: res.data?.sub, // Using Google ID as password?
+            action: "sign_up",
           }
         );
-        if (res.status !== 200) {
-          throw new Error("Failed to retrieve Google user info.");
-        }
   
-        if (res.status === 200) {
-          const apiResponse = await axios.post(
-            "https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api",
-            {
-              email: res.data?.email,
-              password: res.data?.sub,
-              action: "sign_up",
-            }
-          );
-  
-          if (apiResponse.status === 201) {
+        switch (apiResponse.status) {
+          case 201:
             setCurrentSlide("user-signup-success");
-            toast(apiResponse.data.message);
+            toast.success(apiResponse.data.message || "Signup successful!");
   
             // ✅ Store Access & Refresh Tokens if provided
-            if (apiResponse.data.access_token) {
-              localStorage.setItem("access_token", apiResponse.data.access_token);
-            }
-            if (apiResponse.data.refresh_token) {
-              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
-            }
+            apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
+            apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
   
-            // Store User Details
+            // ✅ Store User Details
             dispatch(
               updateGoogleUserDetails({
                 email: res.data?.email,
@@ -178,24 +172,36 @@ useEffect(() => {
                 id: res.data?.sub,
               })
             );
-          } else if (apiResponse.status === 400) {
+            break;
+  
+          case 400:
             setCurrentSlide("signing");
-            toast(apiResponse.data?.error);
-          }
+            toast.warn(apiResponse.data?.error || "Signup failed. Please try again.");
+            break;
+  
+          default:
+            setCurrentSlide("signing");
+            toast.error("An unexpected error occurred. Please try again.");
+            break;
         }
       } catch (err) {
         console.error(err);
         setCurrentSlide("signing");
+  
+        // Handle different error cases
         if (err.response?.data?.error) {
-          toast(err.response.data.error);
+          toast.warn(err.response.data.error);
+        } else if (err.message) {
+          toast.error(err.message);
         } else {
-          toast(err.message);
+          toast.error("Something went wrong. Please try again.");
         }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
   
 
   ////////////////// GOOGLE USER SIGNIN /////////////////////////////////
