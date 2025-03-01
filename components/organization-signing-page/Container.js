@@ -151,12 +151,10 @@ const handleRevenueSelect = (revenueValue) => {
 
   useEffect(() => {
     if (googleUserDetails) {
-      toast("redirecting to /search");
-      setTimeout(() => {
-        router.push("/search");
-      }, 5500);
+      toast("Google details saved successfully! ✅");
     }
-  }, [router, googleUserDetails]);
+  }, [googleUserDetails]);
+  
 
   ///////////////// SIGN UP VALUES
   const emailInput = (e) => {
@@ -265,46 +263,40 @@ const handleRevenueSelect = (revenueValue) => {
   const googleOrgSignup = useGoogleLogin({
     onSuccess: async (response) => {
       if (!response?.access_token) {
-        toast("Google authentication failed. Please try again.");
+        toast.error("Google authentication failed. Please try again.");
         return;
       }
-      setLoadingGoogle(true);
-      toast("Processing your signup...");
-      try {
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${response.access_token}`,
-            },
-          }
-        );
-        if (res.status !== 200) {
-          throw new Error("Failed to retrieve Google user info.");
-        }
-        if (res.status === 200) {
-          const apiResponse = await axios.post(
-            "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
-            {
-              email: res.data?.email,
-              method: "google_auth",
-            }
-          );
   
-          if (apiResponse.status === 201) {
+      setLoadingGoogle(true);
+      toast.info("Processing your signup...");
+  
+      try {
+        // Fetch Google user info
+        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${response.access_token}` },
+        });
+  
+        if (res.status !== 200) throw new Error("Failed to retrieve Google user info.");
+  
+        // ✅ Send user info to your backend
+        const apiResponse = await axios.post(
+          "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
+          { email: res.data?.email, method: "google_auth" }
+        );
+  
+        switch (apiResponse.status) {
+          case 201: // ✅ Signup successful
             setCurrentSlide("org-signup-success");
-            toast(apiResponse.data.message);
+            toast.success(apiResponse.data.message || "Signup successful!");
   
             // Store Org ID
-            localStorage.setItem("orgId", apiResponse.data.org_id);
+            if (apiResponse.data.org_id) {
+              localStorage.setItem("orgId", apiResponse.data.org_id);
+            }
   
-            // ✅ Store Access & Refresh Tokens if API provides them
-            if (apiResponse.data.access_token) {
-              localStorage.setItem("access_token", apiResponse.data.access_token);
-            }
-            if (apiResponse.data.refresh_token) {
-              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
-            }
+            // ✅ Store tokens
+            apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
+            apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
   
             // Store User Details
             dispatch(
@@ -315,70 +307,71 @@ const handleRevenueSelect = (revenueValue) => {
                 id: res.data?.sub,
               })
             );
-          } else if (apiResponse.status === 200 || apiResponse.status === 400) {
+            break;
+  
+          case 400: // ❌ Bad request (User might already exist)
+            toast.warn(apiResponse.data.message || "Signup failed, please try again.");
             setCurrentSlide("signing");
-            toast(apiResponse.data.message);
-          }
+            break;
+  
+          case 200: // 🟡 Edge case - already signed up?
+            toast.info(apiResponse.data.message || "Already signed up?");
+            setCurrentSlide("signing");
+            break;
+  
+          default: // ❌ Any other unexpected response
+            toast.error("An unexpected error occurred.");
+            setCurrentSlide("signing");
+            break;
         }
       } catch (err) {
         console.error(err);
         setCurrentSlide("signing");
+  
         if (err.response?.data?.message) {
-          toast(err.response.data.message);
+          toast.error(err.response.data.message);
         } else {
-          toast(err.message);
+          toast.error(err.message || "Something went wrong. Please try again.");
         }
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
   
 
   ////////////////// GOOGLE ORG SIGNIN /////////////////////////////////
   const googleOrgSignin = useGoogleLogin({
     onSuccess: async (response) => {
       if (!response?.access_token) {
-        toast("Google authentication failed. Please try again.");
+        toast.error("Google authentication failed. Please try again.");
         return;
       }
+  
       setLoadingGoogle(true);
       toast("Signing in...");
+  
       try {
         // Fetch Google user info
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${response.access_token}`,
-            },
-          }
+        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${response.access_token}` },
+        });
+  
+        // Sign in to your API
+        const apiResponse = await axios.post(
+          "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
+          { email: res.data?.email, method: "google_auth" }
         );
-        if (res.status !== 200) {
-          throw new Error("Failed to retrieve Google user info.");
-        }
   
-        if (res.status === 200) {
-          // Sign in to your API
-          const apiResponse = await axios.post(
-            "https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api",
-            {
-              email: res.data?.email,
-              method: "google_auth",
-            }
-          );
-  
-          if (apiResponse.status === 200) {
+        switch (apiResponse.status) {
+          case 200:
             // ✅ Store tokens if provided
-            if (apiResponse.data.access_token) {
-              localStorage.setItem("access_token", apiResponse.data.access_token);
-            }
-            if (apiResponse.data.refresh_token) {
-              localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
-            }
+            apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
+            apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
   
             setCurrentSlide("org-signin-success");
-            toast("Signin successful");
+            toast.success("Signin successful!");
   
             // Store User Details
             dispatch(
@@ -390,32 +383,30 @@ const handleRevenueSelect = (revenueValue) => {
               })
             );
   
-            // ✅ Store email in cookies for future sessions
-            // Cookies.set("voyexEmail", res.data.email, { expires: 7 });
-  
             // ✅ Validate access token after signin
             setTimeout(() => {
               checkAccessToken();
             }, 100);
-          } 
-          
-          else if (apiResponse.status === 404) {
+            break;
+  
+          case 404:
+            toast.warn("User doesn't exist, please sign up.");
             setCurrentSlide("signing");
-            return;
-          }
+            break;
+  
+          default:
+            toast.error("An unexpected error occurred. Please try again.");
+            break;
         }
       } catch (err) {
         console.error(err);
-        if (err.response?.data?.message) {
-          toast(err.response.data.message);
-        } else {
-          toast(err.message);
-        }
+        toast.error(err.response?.data?.message || "Something went wrong!");
       } finally {
         setLoadingGoogle(false);
       }
     },
   });
+  
   
   
 

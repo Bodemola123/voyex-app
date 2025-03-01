@@ -101,14 +101,11 @@ function Container() {
   }, [timeLeft, currentSlide]);
 
   useEffect(() => {
-    //navigate to /search if googleUserDetails exists
     if (googleUserDetails) {
-      toast("Navigating to Search");
-      setTimeout(() => {
-        router.push("/search");
-      }, 5500);
+      toast("Google details saved successfully! ✅");
     }
-  }, [router, googleUserDetails]);
+  }, [googleUserDetails]);
+  
 
   const emailInput = (e) => {
     setUserEmail(e.target.value);
