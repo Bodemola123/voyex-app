@@ -25,3 +25,5 @@ export const navbar = [
     img: "/shopping-bag.png",
   },
 ];
+
+
