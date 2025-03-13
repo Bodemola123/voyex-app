@@ -6,7 +6,7 @@ import BenNavbar from "@/components/common/BenNavbar";
 
 function SearchLayout({ children }) {
   return (
-    <div className="flex items-center w-full h-full bg-black bg-[url('/stars.svg.svg')] bg-cover bg-no-repeat bg-fixed bg-center">
+    <div className="flex items-center w-full h-full">
         {children}
     </div>
   );

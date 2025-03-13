@@ -16,17 +16,17 @@ const GalactimartNavOpen = () => {
         </div>
         <div className='flex flex-col px-2 gap-[9px] border-b border-[#FFFFFF26] overflow-y-scroll scrollbar-hide scroll-container'>
 
-        <button className='flex gap-2.5 py-5 px-6'>Ads</button>
-        <button className='flex gap-2.5 py-5 px-6'>AI</button>
-        <button className='flex gap-2.5 py-5 px-6'>Content</button>
-        <button className='flex gap-2.5 py-5 px-6'>Education</button>
-        <button className='flex gap-2.5 py-5 px-6'>Marketing</button>
-        <button className='flex gap-2.5 py-5 px-6'>Product</button>
-        <button className='flex gap-2.5 py-5 px-6'>Research</button>
-        <button className='flex gap-2.5 py-5 px-6'>Scripts</button>
-        <button className='flex gap-2.5 py-5 px-6'>Social Media</button>
-        <button className='flex gap-2.5 py-5 px-6'>Video Editor</button>
-        <button className='flex gap-2.5 py-5 px-6'>Video Editor</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Ads</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>AI</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Content</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Education</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Marketing</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Product</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Research</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Scripts</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Social Media</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Video Editor</button>
+        <button className='flex gap-2.5 py-5 px-6 hover:bg-[#c088fb] hover:text-[#0a0a0b]'>Video Editor</button>
 
         </div>     
     </nav>

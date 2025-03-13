@@ -3,19 +3,36 @@
 
 // const TemplatesCollapsible = () => {
 //   return (
-//     <nav className='flex flex-col w-full bg-[#131314] items-center justify-between h-screen pt-6'>
-//       <div className='flex px-6 gap-4 flex-row items-start justify-start'>
-//         <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
-//         <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
-//       </div>
-//     <button className='flex flex-row py-4 px-6 gap-4 items-start justify-start'>
-//       <Image src={'/IconContainer.svg'} alt='icon' width={40} height={40} />
-//       <div className='flex flex-col gap-2 items-start'>
-//         <p className='text-base text-[#f4f4f4] '>Upgrade Plan</p>
-//         <p className='text-sm text-[#475569]'>Get GPT-8 and more</p>
-//       </div>
-//     </button>
-//   </nav>
+//   <nav className="flex flex-col w-[260px] bg-[#131314] h-screen pt-6 px-6">
+//   {/* Logo Section */}
+//   <div className="flex items-center gap-3">
+//     <Image src="/Crown.svg" alt="crown" width={32} height={32} />
+//     <p className="font-extrabold text-3xl text-[#f4f4f4]">Voyex</p>
+//   </div>
+
+//   {/* Categories Section */}
+
+//     <div className='flex flex-row gap-2.5 mt-5'>
+//         <IoCube className='text-[#ffffff] text-[24px]'/>
+//         <p className='text-[20px] font-bold'>Categories</p>
+//     </div>
+
+//     <div className="flex flex-col px-2 gap-[9px] overflow-y-scroll scrollbar-hide scroll-container mt-2">
+//       {categories.map((category) => (
+//         <button
+//           key={category.name}
+//           href={category.href}
+//           className={`flex gap-2.5 py-4 px-2 hover:bg-[#c088fb] hover:text-[#0a0a0b]${
+//             pathname === category.href ? "bg-purple-500 text-white" : "hover:bg-gray-800"
+//           }`}
+//         >
+//           {category.name}
+//         </button>
+//       ))}
+//     </div>
+
+
+// </nav>
 //   )
 // }
 
@@ -28,16 +45,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const categories = [
-  { name: "Ads", href: "/templates/ads" },
-  { name: "AI", href: "/templates/ai" },
-  { name: "Content", href: "/templates/content" },
-  { name: "Education", href: "/templates/education" },
-  { name: "Marketing", href: "/templates/marketing" },
-  { name: "Product", href: "/templates/product" },
-  { name: "Research", href: "/templates/research" },
-  { name: "Scripts", href: "/templates/scripts" },
-  { name: "Social Media", href: "/templates/social-media" },
-  { name: "Video Editor", href: "/templates/video-editor" },
+  { name: "Ads", },
+  { name: "AI", },
+  { name: "Content", },
+  { name: "Education", },
+  { name: "Marketing",},
+  { name: "Product", },
+  { name: "Research", },
+  { name: "Scripts", },
+  { name: "Social Media", },
+  { name: "Video Editor",},
 ];
 
 const TemplatesCollapsible = () => {
@@ -61,7 +78,7 @@ const TemplatesCollapsible = () => {
 
         <div className="mt-4 flex flex-col space-y-2">
           {categories.map((category) => (
-            <Link
+            <button
               key={category.name}
               href={category.href}
               className={`block py-2 px-4 rounded-lg text-gray-300 ${
@@ -69,19 +86,19 @@ const TemplatesCollapsible = () => {
               }`}
             >
               {category.name}
-            </Link>
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Upgrade Plan Section */}
+      {/* Upgrade Plan Section (This section is not in the Figma)
       <button className="flex flex-row py-4 px-6 gap-4 mt-auto mb-6 items-start">
         <Image src={"/IconContainer.svg"} alt="icon" width={40} height={40} />
         <div className="flex flex-col gap-1 items-start">
           <p className="text-base text-[#f4f4f4]">Upgrade Plan</p>
           <p className="text-sm text-[#475569] whitespace-nowrap">Get GPT-8 and more</p>
         </div>
-      </button>
+      </button> */}
     </nav>
   );
 };

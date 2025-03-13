@@ -1,7 +1,9 @@
 "use client"
+import BenNavbar from "@/components/common/BenNavbar";
 import Modal from "@/components/templates-page/Modals/Modal";
 import ProductCard from "@/components/templates-page/ProductCard";
-import React, { useState } from "react";
+import TemplatesCollapsible from "@/components/templates-page/TemplatesCollapsible";
+import React, { useEffect, useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { GrTag } from "react-icons/gr";
@@ -10,6 +12,24 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { TbFilter } from "react-icons/tb";
 
 function Templates() {
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+
+  // On component mount, retrieve state from localStorage
+  useEffect(() => {
+    const savedState = localStorage.getItem("isHistoryVisible");
+    if (savedState !== null) {
+      setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
+    }
+  }, []);
+
+  // Update localStorage whenever the state changes
+  const toggleHistoryVisibility = () => {
+    setIsHistoryVisible((prev) => {
+      const newState = !prev;
+      localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
+      return newState;
+    });
+  };
   const [selectedProduct, setSelectedProduct] = useState(null);
     const [products] = useState([
       {
@@ -28,7 +48,19 @@ function Templates() {
         buttonText: "See Template",
       },
     ]);
-  return <div className="flex-grow relative flex h-screen w-full flex-col gap-10 justify-start items-center overflow-y-scroll">
+  return     <div className="flex flex-row items-center w-screen h-screen">
+  <BenNavbar
+    toggleHistoryVisibility={toggleHistoryVisibility}
+    isHistoryVisible={isHistoryVisible}
+  />
+  <div
+    className={`transition-all duration-300 ${
+      isHistoryVisible ? "w-[360px]" : "w-0"
+    } bg-[#131314] overflow-hidden`}
+  >
+    {isHistoryVisible && <TemplatesCollapsible />}
+  </div>
+    <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 justify-start items-center overflow-y-scroll scrollbar-hide scroll-container">
     <div className="flex flex-col gap-2">
       <div className="flex flex-row justify-between gap-10">
         <h1 className="font-semibold text-5xl">Experience some prebuilt templates to help you navigate your goals faster</h1>
@@ -73,6 +105,7 @@ function Templates() {
             </div>
             {selectedProduct && <Modal product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
       </div>
+  </div>
   </div>;
 }
 
