@@ -148,7 +148,7 @@ const Main = () => {
                     <p className="text-sm text-gray-400 font-semibold">$4.00 - $8.00 / Free</p>
                   </div>
                   <p className="text-xs text-gray-400 mt-2">
-                    Supports GPT-4 and GPT-3.5, OpenAI's next-generation conversational AI...
+                    Supports GPT-4 and GPT-3.5, OpenAI&apos;s next-generation conversational AI...
                   </p>
                 </div>
               ))}
