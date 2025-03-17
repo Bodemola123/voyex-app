@@ -2,18 +2,38 @@
 
 import { navbar } from "@/constants/settings-page";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BiLogOutCircle } from "react-icons/bi";
 
 function Collapsible() {
-  const pathname = usePathname(); // Get the current path
-  const isActive = (href) => pathname === href; // Function to check active link
+  const [activeSection, setActiveSection] = useState(""); // Track the active section
 
-  // Function to smoothly scroll to a section
+  // Scroll to the section when clicking a nav item
   const handleScroll = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Detect which section is currently in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.6 } // Adjust for better accuracy
+    );
+
+    // Observe all settings sections
+    navbar.forEach((nav) => {
+      const section = document.getElementById(nav.id);
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect(); // Cleanup observer on unmount
+  }, []);
 
   // Logout function
   const logoutUser = () => {
@@ -41,9 +61,9 @@ function Collapsible() {
         {navbar.map((nav, i) => (
           <button
             key={i}
-            onClick={() => handleScroll(nav.id)} // Scroll instead of link navigation
+            onClick={() => handleScroll(nav.id)}
             className={`py-2 px-3 flex items-center gap-2.5 text-[16px] rounded-[123px] transition-all duration-300 capitalize ${
-              isActive(`${nav.link}`)
+              activeSection === nav.id
                 ? "bg-purple text-fontlight"
                 : "hover:bg-purple/70 text-fontlight"
             }`}
