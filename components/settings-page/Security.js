@@ -21,7 +21,7 @@ function Security() {
 
   return (
     <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
-      <h1 className="text-fontlight text-3xl font-normal capitalize">
+      <h1 className="text-fontlight text-base font-normal capitalize">
         security
       </h1>
       <Separator className="my-5 bg-[#6D6D6D]" />
@@ -29,7 +29,7 @@ function Security() {
       {/* Multi-factor authentication */}
       <div className="flex items-center justify-between gap-5">
         <div>
-          <h2 className="text-xl font-normal text-fontlight">
+          <h2 className="text-base font-normal text-fontlight">
             Multi-factor authentication
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -39,7 +39,7 @@ function Security() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
-          <span className="text-xl font-normal text-fontlight capitalize">
+          <span className="text-base font-normal text-fontlight capitalize">
             enabled
           </span>
           <FaChevronDown />
@@ -49,7 +49,7 @@ function Security() {
       {/* Log out of all devices */}
       <div className="flex items-center justify-between gap-5 mt-6">
         <div>
-          <h2 className="text-xl font-normal text-fontlight capitalize">
+          <h2 className="text-base font-normal text-fontlight capitalize">
             Log out of all devices
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -58,7 +58,7 @@ function Security() {
             be logged out.
           </p>
         </div>
-        <button className="block text-xl font-normal text-fontlight w-[170px] py-3 rounded-[36px] border border-card bg-card/20">
+        <button className="block text-base font-normal text-fontlight w-[170px] py-3 rounded-[36px] border border-card bg-card/20">
           Log out all
         </button>
       </div>
@@ -66,7 +66,7 @@ function Security() {
       {/* Active account section with Log out button */}
       <div className="flex items-center justify-between mt-6">
         <div>
-          <h2 className="text-xl font-normal text-fontlight capitalize">
+          <h2 className="text-base font-normal text-fontlight capitalize">
             Active account
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -75,7 +75,7 @@ function Security() {
         </div>
         <button
           onClick={logoutUser}
-          className="flex items-center gap-3 px-9 py-3 rounded-[36px] border border-card bg-red-500 text-xl font-normal text-fontlight"
+          className="flex items-center gap-3 px-9 py-3 rounded-[36px] border border-card bg-red-500 text-base font-normal text-fontlight"
         >
           Log out
         </button>

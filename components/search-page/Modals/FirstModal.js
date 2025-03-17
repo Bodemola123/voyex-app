@@ -30,7 +30,7 @@ const FirstModal = ({ closeModal, openModal, modalData, setModalData }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-[#111111]/30 flex items-center justify-center z-50">
       <div className="bg-[#000000] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl max-h-[637px] h-[90%] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center">

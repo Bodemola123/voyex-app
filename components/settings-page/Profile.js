@@ -7,13 +7,13 @@ import { Input } from "@/components/ui/input";
 function Profile() {
   return (
     <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
-      <h1 className="text-fontlight text-3xl font-normal capitalize">
+      <h1 className="text-fontlight text-base font-normal capitalize">
         personalization
       </h1>
       <Separator className="my-5 bg-[#6D6D6D]" />
       {/*////////////*/}
       <div className="">
-        <h2 className="text-xl font-normal text-fontlight">
+        <h2 className="text-base font-normal text-fontlight">
           Introduce yourself for personalized answers. Share any information or
           instructions that the AI should know.
         </h2>
@@ -28,19 +28,19 @@ function Profile() {
           Introduce yourself, share what you like
         </h3>
         <Textarea
-          className="max-w-[619px] min-h-[105px] rounded-3xl bg-[#171920] border-none px-4 py-4 mt-2"
+          className="max-w-[619px] min-h-[105px] rounded-3base bg-[#171920] border-none px-4 py-4 mt-2"
           placeholder="Type your message here."
         />
       </div>
       {/*////////////*/}
       <div className="flex items-end justify-between mt-6 w-full">
         <div className="w-full">
-          <h2 className="text-xl font-normal text-fontlight capitalize">
+          <h2 className="text-base font-normal text-fontlight capitalize">
             location
           </h2>
           <Input
             type="text"
-            className="max-w-[619px] w-full rounded-3xl bg-[#171920] border-none py-4 mt-2 placeholder:capitalize"
+            className="max-w-[619px] w-full rounded-3base bg-[#171920] border-none py-4 mt-2 placeholder:capitalize"
             placeholder="current location"
           />
         </div>

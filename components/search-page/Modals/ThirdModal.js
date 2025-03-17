@@ -47,7 +47,7 @@ const ThirdModal = ({ closeModal, openModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-[#111111]/30 flex items-center justify-center z-50">
       <div className="bg-[#000000] text-white rounded-[41px] w-9/12 p-[27px] relative">
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">

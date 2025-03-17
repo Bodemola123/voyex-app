@@ -45,7 +45,7 @@ const SecondModal = ({ closeModal, openModal }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-[#111111]/30 bg-opacity-50 flex items-center justify-center z-50"
       aria-labelledby="second-modal-title"
       role="dialog"
       aria-modal="true"

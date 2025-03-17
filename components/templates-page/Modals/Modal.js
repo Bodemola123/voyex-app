@@ -6,7 +6,7 @@
 
 // const Modal = ({ product, onClose }) => {
 //     return (
-//         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+//         <div className="fixed inset-0 bg-[#111111]/30 flex items-center justify-center z-50">
 //             <div className="bg-[#000000] rounded-3xl p-6 max-w-[902px] gap-[60px] flex flex-col justify-between items-center text-[#f4f4f4]">
 //                 <div className="flex flex-row justify-between items-start gap-10">
 //                     <div className='flex flex-col gap-2'>
@@ -68,7 +68,7 @@ const Modal = ({ product, onClose }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[#111111]/30 flex items-center justify-center z-50">
             <div className="bg-[#000000] rounded-3xl p-6 max-w-[902px] gap-[60px] flex flex-col justify-between items-center text-[#f4f4f4]">
                 <div className="flex flex-row justify-between items-start gap-10">
                     <div className='flex flex-col gap-2'>

@@ -6,20 +6,20 @@ import FlexibleFooter from "../common/FlexibleFooter";
 function General() {
   return (
     <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
-      <h1 className="text-fontlight text-3xl font-normal capitalize">
+      <h1 className="text-fontlight text-base font-normal capitalize">
         General
       </h1>
       <Separator className="my-5 bg-[#6D6D6D]" />
       {/*////////////*/}
       <div className="flex items-center justify-between">
         <div className="">
-          <h2 className="text-xl font-medium text-fontlight">Language</h2>
+          <h2 className="text-base font-medium text-fontlight">Language</h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
             The language used in the user interface
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-medium text-fontlight capitalize">
+          <span className="text-base font-medium text-fontlight capitalize">
             auto detect
           </span>
           <FaChevronDown />
@@ -28,7 +28,7 @@ function General() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-medium text-fontlight capitalize">
+          <h2 className="text-base font-medium text-fontlight capitalize">
             Enable Auto suggestions
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -36,7 +36,7 @@ function General() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-medium text-fontlight capitalize">
+          <span className="text-base font-medium text-fontlight capitalize">
             enabled
           </span>
           <FaChevronDown />
@@ -45,7 +45,7 @@ function General() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-medium text-fontlight capitalize">
+          <h2 className="text-base font-medium text-fontlight capitalize">
             Archived Chats
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -53,7 +53,7 @@ function General() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-medium text-fontlight capitalize">
+          <span className="text-base font-medium text-fontlight capitalize">
             manage
           </span>
         </button>
@@ -61,7 +61,7 @@ function General() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-medium text-fontlight capitalize">
+          <h2 className="text-base font-medium text-fontlight capitalize">
             Archive Chats
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -69,7 +69,7 @@ function General() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-medium text-fontlight capitalize">
+          <span className="text-base font-medium text-fontlight capitalize">
             Archive all
           </span>
         </button>
@@ -77,7 +77,7 @@ function General() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-medium text-fontlight capitalize">
+          <h2 className="text-base font-medium text-fontlight capitalize">
             Delete all Chats
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -85,7 +85,7 @@ function General() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-red-500 hover:bg-red-500/50 transition-all">
-          <span className="text-xl font-medium text-fontlight capitalize">
+          <span className="text-base font-medium text-fontlight capitalize">
             delete all
           </span>
         </button>

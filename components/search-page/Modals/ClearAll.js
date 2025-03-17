@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const ClearAll = ({ onClose, onClearAll }) => {
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-[#111111]/30 flex items-center justify-center z-50">
       <div className="bg-[#000000] text-white rounded-[41px] w-[482px] p-6 relative">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">

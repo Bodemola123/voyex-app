@@ -5,14 +5,14 @@ import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 function DataControl() {
   return (
     <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
-      <h1 className="text-fontlight text-3xl font-normal capitalize">
+      <h1 className="text-fontlight text-base font-normal capitalize">
         data control
       </h1>
       <Separator className="my-5 bg-[#6D6D6D]" />
       {/*////////////*/}
       <div className="flex items-center justify-between gap-5">
         <div className="">
-          <h2 className="text-xl font-normal text-fontlight">
+          <h2 className="text-base font-normal text-fontlight">
             Improve the model for everyone
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -22,7 +22,7 @@ function DataControl() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-normal text-fontlight capitalize">
+          <span className="text-base font-normal text-fontlight capitalize">
             allowed
           </span>
           <FaChevronDown />
@@ -31,7 +31,7 @@ function DataControl() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-normal text-fontlight capitalize">
+          <h2 className="text-base font-normal text-fontlight capitalize">
             Shared links
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -39,7 +39,7 @@ function DataControl() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 hover:underline transition-all">
-          <span className="text-xl font-normal text-fontlight capitalize">
+          <span className="text-base font-normal text-fontlight capitalize">
             see links
           </span>
           <FaChevronRight />
@@ -48,7 +48,7 @@ function DataControl() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-normal text-fontlight capitalize">
+          <h2 className="text-base font-normal text-fontlight capitalize">
             Export data
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -56,7 +56,7 @@ function DataControl() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-normal text-fontlight capitalize">
+          <span className="text-base font-normal text-fontlight capitalize">
             manage
           </span>
         </button>
@@ -64,7 +64,7 @@ function DataControl() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-normal text-fontlight capitalize">
+          <h2 className="text-base font-normal text-fontlight capitalize">
             Delete Account
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -72,7 +72,7 @@ function DataControl() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-9 py-3 rounded-[36px] border border-card bg-red-500 hover:bg-red-500/50 transition-all">
-          <span className="text-xl font-normal text-fontlight capitalize">
+          <span className="text-base font-normal text-fontlight capitalize">
             delete
           </span>
         </button>

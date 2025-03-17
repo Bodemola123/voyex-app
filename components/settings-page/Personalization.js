@@ -6,39 +6,39 @@ import Image from "next/image";
 function Personalization() {
   return (
     <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
-      <h1 className="text-fontlight text-3xl font-normal capitalize">
+      <h1 className="text-fontlight text-base font-normal capitalize">
         personalization
       </h1>
       <Separator className="my-5 bg-[#6D6D6D]" />
       {/*////////////*/}
       <div className="flex items-center justify-between">
         <div className="">
-          <h2 className="text-xl font-normal text-fontlight">Avatar</h2>
+          <h2 className="text-base font-normal text-fontlight">Avatar</h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
             The language used in the user interface
           </p>
         </div>
         <button className="relative h-[4.88rem] w-[4.88rem] rounded-full border-[4px] border-[#0075FF] bg-[#d9d9d9]">
-          <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs font-light text-white capitalize bg-[#0075FF] w-[4.5rem] py-1 rounded-2xl">
+          <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs font-light text-white capitalize bg-[#0075FF] w-[4.5rem] py-1 rounded-2base">
             free user
           </span>
         </button>
       </div>
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
-        <h2 className="text-xl font-normal text-fontlight capitalize">
+        <h2 className="text-base font-normal text-fontlight capitalize">
           Username
         </h2>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-normal text-fontlight">Henryjnr9</span>
+          <span className="text-base font-normal text-fontlight">Henryjnr9</span>
           <Image src="/edit.png" alt="edit" width={20} height={20} />
         </button>
       </div>
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
-        <h2 className="text-xl font-normal text-fontlight capitalize">email</h2>
+        <h2 className="text-base font-normal text-fontlight capitalize">email</h2>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
-          <span className="text-xl font-normal text-fontlight">
+          <span className="text-base font-normal text-fontlight">
             henryjnr9@gmail.com
           </span>
         </button>
@@ -46,7 +46,7 @@ function Personalization() {
       {/*////////////*/}
       <div className="flex items-center justify-between mt-6">
         <div className="">
-          <h2 className="text-xl font-normal text-fontlight capitalize">
+          <h2 className="text-base font-normal text-fontlight capitalize">
             AI Data Retention
           </h2>
           <p className="text-sm font-thin text-[#d9d9d9] mt-2">
@@ -56,7 +56,7 @@ function Personalization() {
           </p>
         </div>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-xl font-normal text-fontlight capitalize">
+          <span className="text-base font-normal text-fontlight capitalize">
             disabled
           </span>
         </button>
