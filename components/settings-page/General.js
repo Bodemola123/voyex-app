@@ -14,7 +14,7 @@ function General() {
       <div className="flex items-center justify-between">
         <div className="">
           <h2 className="text-base font-medium text-fontlight">Language</h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             The language used in the user interface
           </p>
         </div>
@@ -31,7 +31,7 @@ function General() {
           <h2 className="text-base font-medium text-fontlight capitalize">
             Enable Auto suggestions
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Enable dropdown and tab-complete suggestions while typing a query
           </p>
         </div>
@@ -48,7 +48,7 @@ function General() {
           <h2 className="text-base font-medium text-fontlight capitalize">
             Archived Chats
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             View and edit archived chats
           </p>
         </div>
@@ -64,7 +64,7 @@ function General() {
           <h2 className="text-base font-medium text-fontlight capitalize">
             Archive Chats
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Move selected chats to archive
           </p>
         </div>
@@ -80,7 +80,7 @@ function General() {
           <h2 className="text-base font-medium text-fontlight capitalize">
             Delete all Chats
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Empty all previous chats permanently
           </p>
         </div>

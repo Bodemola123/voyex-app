@@ -15,7 +15,7 @@ function DataControl() {
           <h2 className="text-base font-normal text-fontlight">
             Improve the model for everyone
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Allow your content to be used to train our models, which makes VOYEX
             better for you and everyone who uses it. We take steps to protect
             your privacy. Learn more
@@ -34,7 +34,7 @@ function DataControl() {
           <h2 className="text-base font-normal text-fontlight capitalize">
             Shared links
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Enable dropdown and tab-complete suggestions while typing a query
           </p>
         </div>
@@ -51,7 +51,7 @@ function DataControl() {
           <h2 className="text-base font-normal text-fontlight capitalize">
             Export data
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             The language used in the user interface
           </p>
         </div>
@@ -67,7 +67,7 @@ function DataControl() {
           <h2 className="text-base font-normal text-fontlight capitalize">
             Delete Account
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Delete user account
           </p>
         </div>

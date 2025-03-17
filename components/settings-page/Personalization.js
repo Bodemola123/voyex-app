@@ -14,7 +14,7 @@ function Personalization() {
       <div className="flex items-center justify-between">
         <div className="">
           <h2 className="text-base font-normal text-fontlight">Avatar</h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             The language used in the user interface
           </p>
         </div>
@@ -49,7 +49,7 @@ function Personalization() {
           <h2 className="text-base font-normal text-fontlight capitalize">
             AI Data Retention
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             AI Data Retention allows Perplexity to use your searches to improve
             AI models. Enable this setting if you wish to exclude your data from
             this process

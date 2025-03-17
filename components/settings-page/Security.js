@@ -32,7 +32,7 @@ function Security() {
           <h2 className="text-base font-normal text-fontlight">
             Multi-factor authentication
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Require an extra security challenge when logging in. If you are
             unable to pass this challenge, you will have the option to recover
             your account via email.
@@ -52,7 +52,7 @@ function Security() {
           <h2 className="text-base font-normal text-fontlight capitalize">
             Log out of all devices
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             Log out of all active sessions across all devices, including your
             current session. It may take up to 30 minutes for other devices to
             be logged out.
@@ -69,7 +69,7 @@ function Security() {
           <h2 className="text-base font-normal text-fontlight capitalize">
             Active account
           </h2>
-          <p className="text-sm font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-thin text-[#d9d9d9] mt-2">
             You are signed in as henryjnr96486
           </p>
         </div>

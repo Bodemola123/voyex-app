@@ -182,7 +182,7 @@ const Main = () => {
     <div
       key={step.id}
       className={`p-6 rounded-xl transition-all duration-300 backdrop-blur-md border border-[#222222] hover:border-4 hover:border-[#C088FB] hover:shadow-lg ${
-        currentStep === step.id ? "bg-[#111111]/50" : "bg-[#111111]/30"
+        currentStep === step.id ? "bg-[#111111]/50" : "bg-[rgba(19,19,20,0.6)] backdrop-blur-[300px]"
       }`}
     >
       <div className="flex justify-between items-start">
