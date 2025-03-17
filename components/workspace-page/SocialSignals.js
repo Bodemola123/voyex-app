@@ -129,7 +129,7 @@ function SocialSignals() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}
-                    className="border-b-0 hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
+                    className="border-b-0 hover:bg-[#0a0a0b] data-[state=selected]:bg-[#9747FF]"
                   >
                     {headerGroup.headers.map((header) => {
                       return (
@@ -153,7 +153,7 @@ function SocialSignals() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      className="border-b border-b-[#9747FF2D] hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
+                      className="border-b border-b-[#9747FF2D] hover:bg-[#0a0a0b] data-[state=selected]:bg-[#9747FF]"
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>

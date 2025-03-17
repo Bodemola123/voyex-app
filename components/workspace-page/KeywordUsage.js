@@ -176,7 +176,7 @@ function KeywordUsage() {
             />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="ml-auto bg-[#c088fb] hover:bg-[#c088fb]">
+                <Button className="ml-auto bg-[#0a0a0b] focus:ring-0 focus:outline-0 focus:shadow-none">
                   Columns <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -210,7 +210,7 @@ function KeywordUsage() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}
-                    className="border-b-0 hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
+                    className="border-b-0 hover:bg-[#0a0a0b] data-[state=selected]:bg-[#9747FF]"
                   >
                     {headerGroup.headers.map((header) => {
                       return (
@@ -234,7 +234,7 @@ function KeywordUsage() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      className="border-b-0 hover:bg-[#9747FF3D] data-[state=selected]:bg-[#9747FF]"
+                      className="border-b-0 hover:bg-[#0a0a0b] data-[state=selected]:bg-[#9747FF]"
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>

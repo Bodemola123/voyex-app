@@ -2,6 +2,8 @@ import { FaChevronRight } from "react-icons/fa";
 import ReviewsNumber from "./ReviewsNumber";
 import ReviewsRating from "./ReviewsRating";
 import ReviewsCarousel from "./ReviewsCarousel";
+import Reviewed from "@/app/galactimart/Aidescription/Reviewed";
+import '@/app/galactimart/Aidescription/CardsSection.css'
 
 function Reviews() {
   return (
@@ -20,8 +22,8 @@ function Reviews() {
         <ReviewsNumber />
         <ReviewsRating />
       </div>
-      <div className="">
-        <ReviewsCarousel />
+      <div className="scroll-container mt-8">
+        <Reviewed/>
       </div>
     </section>
   );

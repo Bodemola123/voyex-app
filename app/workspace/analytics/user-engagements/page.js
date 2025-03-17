@@ -6,7 +6,10 @@ function UserEngagement() {
   return (
     <div className="flex flex-col gap-5 w-full">
       <Reviews />
+      <div className="h-[500px]">
       <SocialShares />
+      </div>
+      
     </div>
   );
 }

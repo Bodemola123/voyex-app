@@ -60,29 +60,29 @@ export default function SocialShares() {
       </CardHeader>
       <CardContent className="mt-5">
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} horizontal={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={true}
-              tickMargin={10}
-              axisLine={true}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  // indicator="dashed"
-                  className=" text-[#00a766]"
-                />
-              }
-            />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="facebook" fill="var(--color-facebook)" radius={2} />
-            <Bar dataKey="twitter" fill="var(--color-twitter)" radius={2} />
-            <Bar dataKey="instagram" fill="var(--color-instagram)" radius={2} />
-          </BarChart>
+  <BarChart accessibilityLayer data={chartData} width="100%" height={215}>
+    <CartesianGrid vertical={false} horizontal={false} />
+    <XAxis
+      dataKey="month"
+      tickLine={true}
+      tickMargin={10}
+      axisLine={true}
+      tickFormatter={(value) => value.slice(0, 3)}
+    />
+    <ChartTooltip
+      cursor={false}
+      content={
+        <ChartTooltipContent className=" text-[#00a766]" />
+      }
+    />
+    <ChartLegend content={<ChartLegendContent />} />
+    
+    {/* ✅ Set barSize={10} to control bar width */}
+    <Bar dataKey="facebook" fill="var(--color-facebook)" radius={2} barSize={10} />
+    <Bar dataKey="twitter" fill="var(--color-twitter)" radius={2} barSize={10} />
+    <Bar dataKey="instagram" fill="var(--color-instagram)" radius={2} barSize={10} />
+  </BarChart>
+
         </ChartContainer>
       </CardContent>
       {/* <CardFooter className="flex-col items-start gap-2 text-sm">
