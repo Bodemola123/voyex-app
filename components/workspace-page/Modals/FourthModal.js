@@ -57,7 +57,7 @@ const FourthModal = ({ closeModal, modalData, setModalData, createProduct,closeM
   };
 
   return (
-    <div className="fixed inset-0 bg-[rgba(19,19,20,0.6)] backdrop-blur-[300px] flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)]  flex items-center justify-center z-50">
       <div className="bg-[#000000] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-[794px] flex flex-col gap-[14px]">
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">
