@@ -176,47 +176,47 @@ const Main = () => {
       </div>
 
       <div className="mt-8 flex gap-8">
-       {/* Steps List */}
-<div className="w-2/3 space-y-4">
-  {steps.map((step) => (
-    <div
-      key={step.id}
-      className={`p-6 rounded-xl transition-all duration-300 backdrop-blur-md border border-[#222222] hover:border-4 hover:border-[#C088FB] hover:shadow-lg ${
-        currentStep === step.id ? "bg-[#111111]/50" : "bg-[#111111]/30"
-      }`}
-    >
-      <div className="flex justify-between items-start">
-        <div>
-          <p className="text-sm text-gray-400">Step {step.id}</p>
-          <h3 className="text-xl font-semibold text-[#C088FB] mt-1">{step.title}</h3>
-          <p className="text-gray-400 mt-2 text-sm leading-relaxed">
-            {step.description.slice(0, 100)}...
-          </p>
-        </div>
-        <Copy className="text-gray-400" size={20} />
-      </div>
+        {/* Steps List */}
+        <div className="w-2/3 space-y-4">
+          {steps.map((step) => (
+            <div
+              key={step.id}
+              className={`p-6 rounded-xl transition-all duration-300 backdrop-blur-md border border-[#222222] hover:border-4 hover:border-[#C088FB] hover:shadow-lg ${
+                currentStep === step.id ? "bg-[#111111]/50" : "bg-[#111111]/30"
+              }`}
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-400">Step {step.id}</p>
+                  <h3 className="text-xl font-semibold text-[#C088FB] mt-1">{step.title}</h3>
+                  <p className="text-gray-400 mt-2 text-sm leading-relaxed">
+                    {step.description.slice(0, 100)}...
+                  </p>
+                </div>
+                <Copy className="text-gray-400" size={20} />
+              </div>
 
-      {/* Only this button should trigger the details panel */}
-      <button
-        className="mt-4 px-4 py-2 bg-black bg-opacity-50 text-sm rounded-lg border border-[#222222] hover:bg-opacity-80 transition"
-        onClick={() => setSelectedStep(step.id)}
-      >
-        View Full Details
-      </button>
-    </div>
-  ))}
-</div>
+              {/* Only this button should trigger the details panel */}
+              <button
+                className="mt-4 px-4 py-2 bg-black bg-opacity-50 text-sm rounded-lg border border-[#222222] hover:bg-opacity-80 transition"
+                onClick={() => setSelectedStep(step.id)}
+              >
+                View Full Details
+              </button>
+            </div>
+          ))}
+        </div>
 
         {/* Details Panel */}
         {selectedStep !== null && (
           <div className="w-1/3 bg-[#111111]/50 backdrop-blur-lg rounded-xl border border-[#222222] p-6 relative">
             {/* Close Button */}
-<button
-  className="p-0 bg-[#181818] bg-opacity-50 rounded-full hover:bg-opacity-80 transition cursor-pointer"
-  onClick={() => setSelectedStep(null)}  // Close the current step
->
-  <img src="/close-icon.png" alt="Close" className="w-5 h-5" />
-</button>
+            <button
+              className="p-0 bg-[#181818] bg-opacity-50 rounded-full hover:bg-opacity-80 transition cursor-pointer"
+              onClick={() => setSelectedStep(null)} // Close the current step
+            >
+              <img src="/close-icon.png" alt="Close" className="w-5 h-5" />
+            </button>
 
             {/* Step Details */}
             <div className="flex justify-between items-start">
@@ -266,7 +266,7 @@ const Main = () => {
                     <p className="text-sm text-gray-400 font-semibold">$4.00 - $8.00 / Free</p>
                   </div>
                   <p className="text-xs text-gray-400 mt-2">
-                    Supports GPT-4 and GPT-3.5, OpenAI's next-generation conversational AI...
+                    Supports GPT-4 and GPT-3.5, OpenAI&apos;s next-generation conversational AI...
                   </p>
                 </div>
               ))}
@@ -276,6 +276,7 @@ const Main = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Main;
+
