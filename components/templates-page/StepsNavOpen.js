@@ -27,7 +27,6 @@
 
 // export default StepsNavOpen
 
-
 import Image from 'next/image'
 import React from 'react'
 import { IoCube } from 'react-icons/io5'
@@ -39,7 +38,7 @@ const categories = [
   { name: "AI" },
   { name: "Content" },
   { name: "Education" },
-  { name: "Marketing", href: "/templates/marketing" }, // Only this navigates
+  { name: "Marketing", href: "/templates/marketing" },
   { name: "Product" },
   { name: "Research" },
   { name: "Scripts" },
@@ -68,7 +67,7 @@ const StepsNavOpen = () => {
         <p className="text-[16px] font-bold text-white tracking-wide">Categories</p>
       </div>
 
-      {/* Categories List (Exact Matching CSS) */}
+      {/* Categories List */}
       <div className="mt-2 flex flex-col space-y-2 px-6">
         {categories.map((category) =>
           category.href ? (
@@ -94,13 +93,15 @@ const StepsNavOpen = () => {
       </div>
 
       {/* Upgrade Plan Section */}
-      <button className="flex flex-row py-4 px-6 gap-4 mt-auto mb-6 items-start">
-        <Image src={"/IconContainer.svg"} alt="icon" width={40} height={40} />
-        <div className="flex flex-col gap-1 items-start">
-          <p className="text-base text-[#f4f4f4]">Upgrade Plan</p>
-          <p className="text-sm text-[#475569] whitespace-nowrap">Get GPT-8 and more</p>
-        </div>
-      </button>
+      <div className="mt-auto mb-6 px-6">
+        <button className="flex flex-row py-4 gap-4 items-center w-full bg-gray-900 rounded-lg hover:bg-gray-800">
+          <Image src={"/IconContainer.svg"} alt="icon" width={40} height={40} />
+          <div className="flex flex-col gap-1">
+            <p className="text-base text-[#f4f4f4] font-semibold">Upgrade Plan</p>
+            <p className="text-sm text-[#a1a1aa]">Get GPT-8 and more</p>
+          </div>
+        </button>
+      </div>
     </nav>
   );
 };
