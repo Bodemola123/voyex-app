@@ -80,10 +80,10 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
   
   const handleCopyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      alert("Copied to clipboard!"); // Ensure toast notification is displayed
+      toast.success("Copied to clipboard!"); // Ensure toast notification is displayed
     }).catch((err) => {
       console.error("Failed to copy:", err);
-     alert("Failed to copy!");
+     toast.success("Failed to copy!");
     });
   };
   
