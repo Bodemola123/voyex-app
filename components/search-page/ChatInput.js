@@ -29,13 +29,11 @@ function ChatInput({
     }, []);
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault();
       handleSendMessage();
     }
   };
 
   const handleButtonPress = (e) => {
-    e.preventDefault();
     handleSendMessage();
   };
   const handleFileChange = (event) => {
@@ -48,13 +46,8 @@ function ChatInput({
   };
     // Handle upload action
     const handleUpload = () => {
-      if (inputText || attachedFile) {
-        alert(
-          `Uploading:\\nText: ${inputText}\\nFile: ${
-            attachedFile ? attachedFile.name : "None"
-          }`
-        );
-        setInputText("");
+      if (userInput || attachedFile) {
+        setUserInput("")
         setAttachedFile(null);
         setAudioBlobUrl(""); // Reset audio
         setUploadSuccessful(true); // Mark upload as successful
@@ -95,7 +88,7 @@ function ChatInput({
         }
   return (
     <div className="flex items-center justify-center gap-4 w-full">
-    <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px]">
+    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] bg-[#1C1D1F]">
       {/* File attachment icon */}
       <label className="cursor-pointer">
         <input
@@ -158,13 +151,14 @@ function ChatInput({
     )}
 
       {/* Expandable Input field */}
+      <div className="relative w-full flex items-center justify-center my-auto">
       <textarea
         placeholder="Start Exploration"
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
         disabled={isLoading}
         onKeyDown={!isBotTyping ? handleKeyPress : undefined}
-        className={`flex-grow bg-black text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 ${isLoading
+        className={`flex-grow bg-[#1C1D1F] text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 ${isLoading
                 ? "placeholder:text-gray-500 cursor-not-allowed"
                 : "placeholder:text-gray-400"
             }`
@@ -172,6 +166,7 @@ function ChatInput({
         }
         rows={1}
       />
+      </div>
       
                 <button
                   className="focus:outline-none"

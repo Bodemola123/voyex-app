@@ -1,8 +1,20 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { FcFaq } from "react-icons/fc";
+import { FaRobot, FaUser } from "react-icons/fa";
+import { LuClipboard, LuImage, LuPlay, LuPlus, LuRefreshCcw, LuThumbsDown, LuThumbsUp } from "react-icons/lu";
+import { PiSpeakerHigh } from "react-icons/pi";
+import { toast } from "react-toastify";
+
 
 export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
+  if (!text || typeof text !== "string") {
+    console.error("Invalid text value:", text);
+    setTypedMessage(""); // Ensure it doesn’t break
+    setBotTyping(false);
+    return;
+  }
+
   setBotTyping(true);
   let charIndex = 0;
 
@@ -19,35 +31,24 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
   }, speed);
 };
 
+
 function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-
-  const isNearBottom = () => {
-    if (!scrollContainerRef.current) return false;
-    const { scrollTop, scrollHeight, clientHeight } =
-      scrollContainerRef.current;
-    return scrollHeight - scrollTop - clientHeight < 50;
-  };
+  
 
   useEffect(() => {
     if (shouldAutoScroll) {
       scrollContainerRef.current?.scrollTo({
         top: scrollContainerRef.current.scrollHeight,
-        // behavior: "smooth",
       });
     }
   }, [messages, typedMessage, shouldAutoScroll]);
 
-  // Detect user scrolling and determine if auto-scroll should be enabled
   useEffect(() => {
     const handleScroll = () => {
-      if (isNearBottom()) {
-        setShouldAutoScroll(true);
-      } else {
-        setShouldAutoScroll(false);
-      }
+      setShouldAutoScroll(scrollContainerRef.current?.scrollHeight - scrollContainerRef.current?.scrollTop - scrollContainerRef.current?.clientHeight < 50);
     };
 
     const scrollContainer = scrollContainerRef.current;
@@ -69,73 +70,133 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
     }
   }, [messages]);
 
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [selectedReaction, setSelectedReaction] = useState(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  
+  const handleReactionClick = (reaction) => {
+    setSelectedReaction((prev) => (prev === reaction ? null : reaction));
+  };
+  
+  const handleCopyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Copied to clipboard!"); // Ensure toast notification is displayed
+    }).catch((err) => {
+      console.error("Failed to copy:", err);
+     alert("Failed to copy!");
+    });
+  };
+  
+  const handleTextToSpeech = (text) => {
+    const synth = window.speechSynthesis;
+    if (synth.speaking) {
+      synth.cancel(); // Stop speech if already playing
+      setIsSpeaking(false);
+    } else {
+      const utterance = new SpeechSynthesisUtterance(text);
+      synth.speak(utterance);
+      setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+    }
+  };
+  
   const renderedMessages = useMemo(() => {
-    return messages.map((msg, index) => (
-      <div
-        key={index}
-        className={`pb-3 ${msg.role === "user" ? "self-end" : "self-start"}`}
-      >
-        <div
-          className={`flex flex-col gap-2 ${
-            msg.role === "user" ? "items-end" : "items-start"
-          }`}
+    return messages.map((msg, index) => {
+      const isMessageComponent = !!msg.component;
+      const isUserMessage = msg.role === "user";
+      const isHovered = hoveredIndex === index; // Check if this message is hovered
+  
+      return (
+        <div 
+          key={index} 
+          className={`pb-3 flex items-start gap-3 scrollbar-hide ${isUserMessage ? "flex-row-reverse" : "flex-row"}`}
+          onMouseEnter={() => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
         >
-          <div
-            className={`flex items-center gap-2 ${
-              msg.role === "user" ? "flex-row" : "flex-row-reverse"
-            }`}
-          >
-            <p className="">{msg.role === "user" ? "You" : "Voyex AI"}</p>
-            <span className="w-7 h-7 rounded-full overflow-hidden">
-              <Image alt="emoji" height={40} width={40} src="/emoji.png" />{" "}
-            </span>
+          <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full text-white">
+            {isUserMessage ? <FaUser /> : <FaRobot />}
           </div>
-          <>
-            <p
-              className={`text-base text-fontlight font-normal px-4 py-2 rounded-lg ${
-                msg.role === "user"
-                  ? "bg-[#4F46E5] w-max"
-                  : "bg-botbubble max-w-[80%]"
-              } whitespace-pre-line`}
+  
+          <div className="flex flex-col gap-4 relative">
+            <div
+              className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${
+                isUserMessage ? "bg-[#4F46E5]" : "bg-[#1C1D1F]"
+              } flex`}
+              style={{
+                display: "inline-block",
+                whiteSpace: "pre-wrap",
+              }}
             >
-              {msg.role === "user"
-                ? msg.text
-                : index === messages.length - 1
-                ? typedMessage
-                : msg.text}
-            </p>
-            <p
-              className={`text-xs italic w-full ${
-                msg.role === "user" ? "text-right" : "text-left"
-              }`}
-            >
-              {msg.timestamp.toLocaleString()}
-            </p>
-          </>
+              <div className={isUserMessage ? "flex flex-col gap-2 items-center" : "flex flex-col gap-1"}>
+                <span className="flex-1 break-words">
+                  {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
+                </span>
+                <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0 ">
+                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  <div>
+                    &#10003;&#10003;
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            {isHovered && (
+              <div 
+                className="absolute right-[-65px] top-0 flex flex-col gap-6 border-[0.68px] p-4 bg-[#000000] border-[#FFFFFF1A] rounded-xl transition-opacity duration-300 opacity-100"
+              > 
+                <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
+                <LuThumbsUp 
+                  className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} 
+                  onClick={() => handleReactionClick("thumbsUp")} 
+                />
+                <LuThumbsDown 
+                  className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} 
+                  onClick={() => handleReactionClick("thumbsDown")} 
+                />
+                <LuClipboard 
+                  className="text-base text-[#7C7676] hover:text-[#c088fb]" 
+                  onClick={() => handleCopyToClipboard(msg.text)} 
+                />
+                <PiSpeakerHigh 
+                  className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} 
+                  onClick={() => handleTextToSpeech(msg.text)} 
+                />
+              </div>
+            )}
+  
+            {isMessageComponent && (
+              <div className="flex flex-row justify-start items-center gap-2.5 text-[14px] font-semibold">
+                <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
+                  <div className="flex flex-row items-center justify-center gap-1.5">
+                    <LuPlay className="text-base text-[#f4f4f4]"/>
+                    <p>Search Videos</p>
+                  </div>
+                  <LuPlus className="text-xs text-[#f4f4f4]"/>
+                </div>
+                <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
+                  <div className="flex flex-row items-center justify-center gap-1.5">
+                    <LuImage className="text-base text-[#f4f4f4]"/>
+                    <p>Generate Image</p>
+                  </div>
+                  <LuPlus className="text-xs text-[#f4f4f4]"/>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    ));
-  }, [messages, typedMessage]);
-
+      );
+    });
+  }, [messages, typedMessage, hoveredIndex, selectedReaction, isSpeaking]);
+  
   return (
-    <div
-      className="relative w-full h-full pt-3 overflow-y-auto"
-      ref={scrollContainerRef}
-    >
+    <div className="relative w-full h-full pt-3 overflow-y-auto scrollbar-hide" ref={scrollContainerRef}>
       {renderedMessages}
       {(isLoading || error) && (
-        <div className="flex flex-col items-start gap-2 pb-3">
-          <div className="flex flex-row-reverse gap-2 items-center">
-            <p className="">Voyex AI</p>
-            <span className="bg-[#000000] border-[#FFFFFF52] border-[0.5px] rounded-[12px] w-8 flex items-center justify-center text-[20px] font-black text-transparent overflow-hidden">
-              <p className="bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF]">V</p>
-            </span>
+        <div className="flex items-start gap-3 pb-3">
+          <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full text-white">
+            <FaRobot />
           </div>
-          <div
-            className={`flex text-fontlight text-base font-normal px-4 py-2 rounded-lg ${
-              isLoading ? "bg-botbubble" : "bg-[#000000]"
-            } min-w-[18%]`}
-          >
+          <div className="text-fontlight text-base font-normal px-4 py-2 rounded-lg bg-[#1C1D1F] min-w-[18%]">
             {isLoading ? (
               <>
                 Typing<span className="animate-pulse">...</span>
@@ -154,7 +215,6 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
           </div>
         </div>
       )}
-      {/* {error && <div className="text-red-500 text-sm mb-4">{error}</div>} */}
     </div>
   );
 }

@@ -168,34 +168,33 @@ function SearchMain({
   return (
     <div className="flex items-center w-full h-screen">
       <BenNavbar/>
-      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
-      <div className='flex flex-col gap-[25px] justify-center items-center'>
-<div className='flex flex-row gap-4 justify-center items-center'>
-  <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] text-[48px] leading-[57.6px] font-bold'>
+      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-8 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
+      <div className="relative w-full items-center justify-center flex gap-10 flex-col">
+      <div className='flex flex-col md:gap-[25px] justify-center items-center'>
+<div className='flex flex-row gap-4 justify-center items-center '>
+  <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] md:text-[48px] leading-[57.6px] font-bold text-center text-2xl'>
     Hi Explorer VANSH
   </p>
-  <Image src={'/Sparkle.svg'} alt='sparkles' width={40} height={40} className='message-bubble'/>
+  <Image src={'/Sparkle.svg'} alt='sparkles' width={40} height={40} className='message-bubble md:flex hidden'/>
 </div>
 
-      <p className='text-[#f4f4f4] leading-[48px] text-[40px] font-bold'>How can I help you today</p>
+      <p className='text-[#f4f4f4] leading-[48px] md:text-[40px] font-bold text-center text-xl'>How can I help you today</p>
     </div>
-
-      <div className="relative w-full items-center justify-center flex">
-      <div className={`flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] border-[0.5px] border-transparent ${
+      <div className={`flex items-center bg-[#1C1D1F] rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] border-[0.5px] border-transparent ${
       showSuggestions && userInput
-        ? "rounded-full bg-[#31313140] backdrop-blur-[3.4px] border-x-[#c088fb] border-y-[#c088fb]  max-w-[532px]"
+        ? "rounded-full bg-[#1C1D1F] backdrop-blur-[3.4px] border-x-[#c088fb] border-y-[#c088fb]  max-w-[532px]"
         : "rounded-full border-[#d0d5dd] max-w-[532px]"
     } hover:shadow-md hover:border-[#c088fb] group`}
   >
       {/* File attachment icon */}
-      <label className="cursor-pointer">
+      <label className="cursor-pointer ">
         <input
           type="file"
           className="hidden"
           onChange={handleFileChange}
           accept="image/*, video/*, audio/*"
         />
-        <GrAttachment className="text-[#94a3b8] text-[20px]" />
+        <GrAttachment className="text-[#94a3b8] text-[16px] md:text-[20px]" />
       </label>
 
       {/* Display the file (image/video/audio) */}
@@ -246,28 +245,28 @@ function SearchMain({
       </div>
     )}
       {/* Expandable Input field */}
-      <div className="relative w-full">
+      <div className="relative w-full flex items-center justify-center my-auto">
       <textarea
         placeholder="Start Exploration"
         value={userInput}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
-        className="flex-grow bg-black text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 w-[100%]"
+        className="flex-grow bg-[#1C1D1F] text-white placeholder-gray-500 outline-none text-xs md:text-base md:placeholder:text-base placeholder:text-xs placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 w-[100%]"
         rows={1}
       />
-            {predictiveText && (
+            {/* {predictiveText && (
               <span className="absolute top-0 left-0 py-3 pointer-events-none opacity-50 max-w-[532px] overflow-hidden text-ellipsis whitespace-nowrap">
                 <span>{userInput}</span>
                 <span className="text-[#ebe7e7]">{predictiveText}</span>
               </span>
-            )}
+            )} */}
       </div>
 
           <button
             className="focus:outline-none"
           >
             <GrMicrophone
-              className={`text-[20px] text-[#94a3b8]`}
+              className={`md:text-[20px] text-[16px] text-[#94a3b8]`}
             />
           </button>
 
@@ -276,13 +275,13 @@ function SearchMain({
         <button
         onClick={(e) => { handleButtonPress(e); handleUpload(); }} // First, handle the upload logic
           disabled={!userInput && !attachedFile} // Disable button if no text/file
-          className={`flex items-center justify-center w-10 h-10 bg-[#C088fb] rounded-full focus:outline-none ${!userInput && !attachedFile && "opacity-50 cursor-not-allowed"}`}
+          className={`flex items-center justify-center w-8 h-8 md:w-10 md:h-10 bg-[#C088fb] rounded-full focus:outline-none ${!userInput && !attachedFile && "opacity-50 cursor-not-allowed"}`}
         >
-          <IoArrowUp className="text-[#ffffff] text-[24px]" />
+          <IoArrowUp className="text-[#ffffff] text-[18px] md:text-[20px] lg:text-[24px]" />
         </button>
     </div>
         {showSuggestions && userInput && (
-          <div className="absolute top-[60px] mx-auto w-[448px] bg-[#31313140] backdrop-blur-[3.4px] border border-x-[#C088fb] border-b-[#C088fb] border-t-transparent rounded-b-lg z-10 mt-1 p-2">
+          <div className="absolute top-[200px] md:top-[225px] mx-auto w-[200px] md:w-[448px] bg-[#31313140] backdrop-blur-[3.4px] border border-x-[#C088fb] border-b-[#C088fb] border-t-transparent rounded-b-lg z-10 mt-1 p-2">
             <ul className="py-2">
               {suggestions.map((suggestion, index) => (
                 <li
@@ -297,15 +296,15 @@ function SearchMain({
                   <span className="mr-2">
                     <LuClock4 />
                   </span>
-                  <span className="text-sm font-normal">{suggestion}</span>
+                  <span className="text-[10px] md:text-sm font-normal">{suggestion}</span>
                 </li>
               ))}
             </ul>
           </div>
         )}
       </div>
-    <div className={`grid grid-cols-3 gap-6 ${ showSuggestions && userInput ? "mt-0" : "mt-0" }`}>
-    <div className="max-w-[270px] max-h-[213px] hover:scale-105 transition-all"
+    <div className={`md:grid grid-cols-3 gap-6 flex flex-col ${ showSuggestions && userInput ? "mt-0" : "mt-0" }`}>
+    <div className="md:max-w-[270px] md:max-h-[213px] max-w-[210px] max-h-[183px] hover:scale-105 transition-all"
   style={{
     background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%)',
     padding: '2px',
@@ -314,29 +313,29 @@ function SearchMain({
 >
       <button className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}> 
       {/* Text */}
-      <p className="text-lg">Create an image for my presentation</p>
+      <p className="md:text-lg sm:text-sm">Create an image for my presentation</p>
 
       {/* Button/Icon */}
       <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
-        <MdImageSearch className='text-[24px] text-[#2f82ef]'/>
+        <MdImageSearch className='md:text-[24px] sm:text-[18px] text-[#2f82ef]'/>
       </div>
     </button>
       </div>
-      <div className="max-w-[270px] max-h-[213px] hover:scale-105 transition-all"
+      <div className="md:max-w-[270px] md:max-h-[213px] max-w-[210px] max-h-[183px] hover:scale-105 transition-all"
         style={{
           background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%)',
           padding: '2px',
           borderRadius: '24px',
         }}>
           <button className="relative w-full h-full items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}>
-            <p>What to do with kid&apos;s art</p>
+            <p className="md:text-lg sm:text-sm">What to do with kid&apos;s art</p>
             <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
-        <GoLightBulb className='text-[24px] text-[#f1a62d]'/>
+        <GoLightBulb className='md:text-[24px] sm:text-[18px] text-[#f1a62d]'/>
       </div>
           </button>
       </div>
 
-        <div className="max-w-[270px] max-h-[213px] hover:scale-105 transition-all"
+        <div className="md:max-w-[270px] md:max-h-[213px] max-w-[210px] max-h-[183px] hover:scale-105 transition-all"
                 style={{
                   background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%)',
                   padding: '2px',
@@ -344,11 +343,11 @@ function SearchMain({
                 }}>
         <button className="relative h-full w-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6"             onClick={handleSurpriseClick}>
       {/* Text */}
-      <p className="text-lg">Find the decade that a photo is from</p>
+      <p className="md:text-lg sm:text-sm">Find the decade that a photo is from</p>
 
       {/* Button/Icon */}
       <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
-        <LuEye className='text-[24px] text-[#3fc390]'/>
+        <LuEye className='md:text-[24px] sm:text-[18px] text-[#3fc390]'/>
       </div>
     </button>
         </div>

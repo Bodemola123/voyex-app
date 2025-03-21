@@ -11,9 +11,9 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
-        sm: "480px",
-        md: "768px",
-        lg: "1206px",
+        sm: "320px", // Small screens (phones) with minimum width of 320px
+        md: "768px", // Medium screens (tablets)
+        lg: "1024px", // Large screens (laptops/desktops)
         xl: "1440px",
       },
     },
