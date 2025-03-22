@@ -20,25 +20,22 @@ function ChatBotContainer({
   setShowChat,
 }) {
   const [isBotTyping, setIsBotTyping] = useState(false);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
-    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
-  
-    // On component mount, retrieve state from localStorage
-    useEffect(() => {
-      const savedState = localStorage.getItem("isHistoryVisible");
-      if (savedState !== null) {
-        setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
-      }
-    }, []);
-  
-    // Update localStorage whenever the state changes
-    const toggleHistoryVisibility = () => {
-      setIsHistoryVisible((prev) => {
-        const newState = !prev;
-        localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
-        return newState;
-      });
-    };
+  useEffect(() => {
+    const savedState = localStorage.getItem("isHistoryVisible");
+    if (savedState !== null) {
+      setIsHistoryVisible(JSON.parse(savedState));
+    }
+  }, []);
+
+  const toggleHistoryVisibility = () => {
+    setIsHistoryVisible((prev) => {
+      const newState = !prev;
+      localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
+      return newState;
+    });
+  };
 
   return (
     <div className="flex items-center w-full h-screen">
@@ -55,34 +52,42 @@ function ChatBotContainer({
       >
         {isHistoryVisible && <SearchNavOpen />}
       </div>
-    <div className="flex-grow relative flex h-full w-full flex-col gap-10 justify-between items-center scrollbar-hide scroll-container px-10 py-10 overflow-y-auto ">
-      {/* Top section for chat header */}
-      <ChatTop
-        messages={messages}
-        setShowChat={setShowChat}
-        handleNewConversation={handleNewConversation}
-      />
 
-      {/* Main message area */}
-      <ChatBotMessage
-        messages={messages}
-        error={error}
-        isLoading={isLoading}
-        setBotTyping={setIsBotTyping}
-      />
+      {/* Chat Container */}
+      <div className="flex-grow relative flex h-full w-full flex-col px-10 py-10">
+        {/* Top section for chat header */}
+        <ChatTop
+          messages={messages}
+          setShowChat={setShowChat}
+          handleNewConversation={handleNewConversation}
+        />
 
-      {/* Input section */}
-      <ChatInput
-        userInput={userInput}
-        setUserInput={setUserInput}
-        handleSendMessage={handleSendMessage}
-        handleNewConversation={handleNewConversation}
-        isLoading={isLoading}
-        isBotTyping={isBotTyping}
-      />
+        {/* Message area that scrolls independently */}
+        <div className="flex-grow overflow-y-auto scrollbar-hide">
+          <ChatBotMessage
+            messages={messages}
+            error={error}
+            isLoading={isLoading}
+            setBotTyping={setIsBotTyping}
+          />
+        </div>
 
-      <BenFooter/>
-    </div>
+        {/* Sticky Input and Footer */}
+        <div className="sticky bottom-0 w-full gap-4">
+          <ChatInput
+            userInput={userInput}
+            setUserInput={setUserInput}
+            handleSendMessage={handleSendMessage}
+            handleNewConversation={handleNewConversation}
+            isLoading={isLoading}
+            isBotTyping={isBotTyping}
+          />
+          <div className="mt-4">
+          <BenFooter />
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 }

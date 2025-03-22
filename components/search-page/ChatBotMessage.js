@@ -104,14 +104,15 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
     return messages.map((msg, index) => {
       const isMessageComponent = !!msg.component;
       const isUserMessage = msg.role === "user";
-      const isHovered = hoveredIndex === index; // Check if this message is hovered
+      const isBotMessage = msg.role === "bot";
+      const isHovered = isBotMessage && hoveredIndex === index; // Only apply hover for bot messages
   
       return (
-        <div 
-          key={index} 
+        <div
+          key={index}
           className={`pb-3 flex items-start gap-3 scrollbar-hide ${isUserMessage ? "flex-row-reverse" : "flex-row"}`}
-          onMouseEnter={() => setHoveredIndex(index)}
-          onMouseLeave={() => setHoveredIndex(null)}
+          onMouseEnter={() => isBotMessage && setHoveredIndex(index)} // Hover only for bot messages
+          onMouseLeave={() => isBotMessage && setHoveredIndex(null)}
         >
           <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full text-white">
             {isUserMessage ? <FaUser /> : <FaRobot />}
@@ -127,11 +128,11 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
                 whiteSpace: "pre-wrap",
               }}
             >
-              <div className={isUserMessage ? "flex flex-col gap-2 items-center" : "flex flex-col gap-1"}>
+              <div className={isUserMessage ? "flex flex-col gap-2" : "flex flex-col gap-1"}>
                 <span className="flex-1 break-words">
                   {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
                 </span>
-                <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0 ">
+                <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
                   {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   <div>
                     &#10003;&#10003;
@@ -140,45 +141,70 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
               </div>
             </div>
   
+            {/* HOVER ACTIONS */}
             {isHovered && (
-              <div 
-                className="absolute right-[-65px] top-0 flex flex-col gap-6 border-[0.68px] p-4 bg-[#000000] border-[#FFFFFF1A] rounded-xl transition-opacity duration-300 opacity-100"
-              > 
-                <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
-                <LuThumbsUp 
-                  className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} 
-                  onClick={() => handleReactionClick("thumbsUp")} 
-                />
-                <LuThumbsDown 
-                  className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} 
-                  onClick={() => handleReactionClick("thumbsDown")} 
-                />
-                <LuClipboard 
-                  className="text-base text-[#7C7676] hover:text-[#c088fb]" 
-                  onClick={() => handleCopyToClipboard(msg.text)} 
-                />
-                <PiSpeakerHigh 
-                  className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} 
-                  onClick={() => handleTextToSpeech(msg.text)} 
-                />
-              </div>
+              isMessageComponent ? (
+                // If bot message has a component, show hover actions to the right
+                <div
+                  className="absolute right-[-65px] top-0 flex flex-col gap-6 border-[0.68px] p-4 bg-[#000000] border-[#FFFFFF1A] rounded-xl transition-opacity duration-300 opacity-100"
+                >
+                  <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
+                  <LuThumbsUp
+                    className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                    onClick={() => handleReactionClick("thumbsUp")}
+                  />
+                  <LuThumbsDown
+                    className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                    onClick={() => handleReactionClick("thumbsDown")}
+                  />
+                  <LuClipboard
+                    className="text-base text-[#7C7676] hover:text-[#c088fb]"
+                    onClick={() => handleCopyToClipboard(msg.text)}
+                  />
+                  <PiSpeakerHigh
+                    className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                    onClick={() => handleTextToSpeech(msg.text)}
+                  />
+                </div>
+              ) : (
+                // If bot message has NO component, show hover actions below in a row
+                <div className="absolute flex left-0 top-[110%] flex-row gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] w-fit transition-opacity duration-300 opacity-100">
+                  <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
+                  <LuThumbsUp
+                    className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                    onClick={() => handleReactionClick("thumbsUp")}
+                  />
+                  <LuThumbsDown
+                    className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                    onClick={() => handleReactionClick("thumbsDown")}
+                  />
+                  <LuClipboard
+                    className="text-base text-[#7C7676] hover:text-[#c088fb]"
+                    onClick={() => handleCopyToClipboard(msg.text)}
+                  />
+                  <PiSpeakerHigh
+                    className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                    onClick={() => handleTextToSpeech(msg.text)}
+                  />
+                </div>
+              )
             )}
   
             {isMessageComponent && (
               <div className="flex flex-row justify-start items-center gap-2.5 text-[14px] font-semibold">
                 <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
                   <div className="flex flex-row items-center justify-center gap-1.5">
-                    <LuPlay className="text-base text-[#f4f4f4]"/>
+                    <LuPlay className="text-base text-[#f4f4f4]" />
                     <p>Search Videos</p>
                   </div>
-                  <LuPlus className="text-xs text-[#f4f4f4]"/>
+                  <LuPlus className="text-xs text-[#f4f4f4]" />
                 </div>
                 <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
                   <div className="flex flex-row items-center justify-center gap-1.5">
-                    <LuImage className="text-base text-[#f4f4f4]"/>
+                    <LuImage className="text-base text-[#f4f4f4]" />
                     <p>Generate Image</p>
                   </div>
-                  <LuPlus className="text-xs text-[#f4f4f4]"/>
+                  <LuPlus className="text-xs text-[#f4f4f4]" />
                 </div>
               </div>
             )}
@@ -188,8 +214,10 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping }) {
     });
   }, [messages, typedMessage, hoveredIndex, selectedReaction, isSpeaking]);
   
+  
+  
   return (
-    <div className="relative w-full h-full pt-3 overflow-y-auto scrollbar-hide" ref={scrollContainerRef}>
+    <div className="relative w-full h-full pt-5 overflow-y-auto scrollbar-hide" ref={scrollContainerRef}>
       {renderedMessages}
       {(isLoading || error) && (
         <div className="flex items-start gap-3 pb-3">
