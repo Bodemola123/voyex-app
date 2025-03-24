@@ -92,7 +92,7 @@ const PipelineComponent = () => {
         <p className='text-sm font-bold'>Visit App</p>
         <div className='flex flex-row justify-between items-center'>
           <div className='flex flex-row gap-2 items-center justify-center'>
-            <Image src={'/gptforchat.svg'} alt='ChatGPT' width={24} height={24} />
+            <Image src={'/chatgptforchat.svg'} alt='ChatGPT' width={24} height={24} />
             <p className='font-medium text-base'>ChatGPT</p>
             <p className='text-xs font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#9747FF] to-[#9747FF]'>Third party payment</p>
           </div>

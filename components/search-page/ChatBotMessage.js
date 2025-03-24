@@ -103,6 +103,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
   const renderedMessages = useMemo(() => {
     return messages.map((msg, index) => {
+      const isMessageComponent = !!msg.component;
       const isUserMessage = msg.role === "user";
       const isBotMessage = msg.role === "bot";
       const isHovered = isBotMessage && hoveredIndex === index;
@@ -129,37 +130,44 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                 } max-w-[564px]`}
                 style={{ whiteSpace: "pre-wrap" }}
               >
-                <div className="flex flex-col gap-[2px]">
-                  <span className="break-words text-sm">{msg.text}</span>
-                  <div className="text-[10px] opacity-75 flex items-center justify-end gap-2">
-                    {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                    <div>&#10003;&#10003;</div>
-                  </div>
+              <div className="flex flex-col gap-[2px] max-w-[564px]">
+                <span className="flex-1 break-words text-sm">
+                  {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
+                </span>
+                <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
+                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  <div>&#10003;&#10003;</div>
                 </div>
+              </div>
               </div>
   
               {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
-              {isHovered && (
-                <div className="absolute left-0 top-[110%] flex gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100">
-                  <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
-                  <LuThumbsUp
-                    className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
-                    onClick={() => handleReactionClick(index, "thumbsUp")}
-                  />
-                  <LuThumbsDown
-                    className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
-                    onClick={() => handleReactionClick(index, "thumbsDown")}
-                  />
-                  <LuClipboard
-                    className="text-base text-[#7C7676] hover:text-[#c088fb]"
-                    onClick={() => handleCopyToClipboard(msg.text)}
-                  />
-                  <PiSpeakerHigh
-                    className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
-                    onClick={() => handleTextToSpeech(index, msg.text)}
-                  />
-                </div>
-              )}
+            {/* HOVER ACTIONS */}
+            {isHovered && (
+              <div
+                className={`absolute z-50 ${isMessageComponent ? "right-[-65px] top-0" : "left-0 top-[110%]"} flex ${
+                  isMessageComponent ? "flex-col" : "flex-row"
+                } gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100`}
+              >
+                <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
+                <LuThumbsUp
+                  className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                  onClick={() => handleReactionClick(index, "thumbsUp")}
+                />
+                <LuThumbsDown
+                  className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                  onClick={() => handleReactionClick(index, "thumbsDown")}
+                />
+                <LuClipboard
+                  className="text-base text-[#7C7676] hover:text-[#c088fb]"
+                  onClick={() => handleCopyToClipboard(msg.text)}
+                />
+                <PiSpeakerHigh
+                  className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                  onClick={() => handleTextToSpeech(index, msg.text)}
+                />
+              </div>
+            )}
             </div>
           </div>
   
