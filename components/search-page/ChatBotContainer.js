@@ -54,7 +54,7 @@ function ChatBotContainer({
       </div>
 
       {/* Chat Container */}
-      <div className="flex-grow relative flex h-full w-full flex-col px-10 py-10">
+      <div className="flex-grow relative flex h-full w-full flex-col px-10 py-5">
         {/* Top section for chat header */}
         <ChatTop
           messages={messages}
@@ -69,23 +69,12 @@ function ChatBotContainer({
             error={error}
             isLoading={isLoading}
             setBotTyping={setIsBotTyping}
-          />
-        </div>
-
-        {/* Sticky Input and Footer */}
-        <div className="sticky bottom-0 w-full gap-4">
-          <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}
             handleSendMessage={handleSendMessage}
             handleNewConversation={handleNewConversation}
-            isLoading={isLoading}
             isBotTyping={isBotTyping}
           />
-          <div className="mt-4">
-          <BenFooter />
-          </div>
-
         </div>
       </div>
     </div>

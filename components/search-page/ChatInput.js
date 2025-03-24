@@ -27,11 +27,14 @@ function ChatInput({
     useEffect(() => {
       setIsClient(true);
     }, []);
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
-  };
+    const handleKeyPress = (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault(); // Prevent new line in textarea
+        handleSendMessage();
+        setUserInput(""); // Clear input after sending
+      }
+    };
+    
 
   const handleButtonPress = (e) => {
     handleSendMessage();
@@ -61,20 +64,19 @@ function ChatInput({
         if (!isClient) {
           return (
             <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-md">
-              <textarea       
-               placeholder="Start Exploration"
-                 value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                   disabled={isLoading}
-                   onKeyDown={!isBotTyping ? handleKeyPress : undefined}
-        className={`flex-grow bg-black text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 ${isLoading
-                ? "placeholder:text-gray-400 cursor-not-allowed"
-                : "placeholder:text-fontlight"
-            }`
-          
-        }
-        rows={1}
-              />
+<textarea
+  placeholder="Start Exploration"
+  value={userInput}
+  onChange={(e) => setUserInput(e.target.value)}
+  disabled={isLoading}
+  onKeyDown={!isBotTyping ? handleKeyPress : undefined}
+  className={`flex-grow bg-black text-white placeholder-gray-500 outline-none 
+              placeholder:text-base placeholder:font-medium font-medium 
+              resize-none scrollbar-hide scroll-container max-h-[112px] 
+              rounded-lg px-3 py-2 ${isLoading ? "cursor-not-allowed" : ""}`}
+  rows={1} 
+/>
+
               <button
                 onClick={handleUpload}
                 className="flex items-center justify-center w-8 h-8 bg-purple-500 rounded-full focus:outline-none"
@@ -88,7 +90,7 @@ function ChatInput({
         }
   return (
     <div className="flex items-center justify-center gap-4 w-full">
-    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] bg-[#1C1D1F]">
+    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] bg-black border border-[#c088fb]">
       {/* File attachment icon */}
       <label className="cursor-pointer">
         <input
@@ -153,19 +155,18 @@ function ChatInput({
       {/* Expandable Input field */}
       <div className="relative w-full flex items-center justify-center my-auto">
       <textarea
-        placeholder="Start Exploration"
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-        disabled={isLoading}
-        onKeyDown={!isBotTyping ? handleKeyPress : undefined}
-        className={`flex-grow bg-[#1C1D1F] text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 ${isLoading
-                ? "placeholder:text-gray-500 cursor-not-allowed"
-                : "placeholder:text-gray-400"
-            }`
-          
-        }
-        rows={1}
-      />
+  placeholder="Start Exploration"
+  value={userInput}
+  onChange={(e) => setUserInput(e.target.value)}
+  disabled={isLoading}
+  onKeyDown={!isBotTyping ? handleKeyPress : undefined}
+  className={`flex-grow bg-black text-white placeholder-gray-500 outline-none 
+              placeholder:text-base placeholder:font-medium font-medium 
+              resize-none scrollbar-hide scroll-container max-h-[112px] 
+              rounded-lg px-3 py-2 ${isLoading ? "cursor-not-allowed" : ""}`}
+  rows={1} 
+/>
+
       </div>
       
                 <button

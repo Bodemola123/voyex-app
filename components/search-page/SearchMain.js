@@ -85,7 +85,7 @@ function SearchMain({
     } else if (e.key === "Tab" || e.key === "ArrowRight") {
       // To auto fill in search bar
       e.preventDefault();
-      setUserInput(userInput + predictiveText);
+      setUserInput("");
       setPredictiveText("");
       setShowSuggestions(false);
     }

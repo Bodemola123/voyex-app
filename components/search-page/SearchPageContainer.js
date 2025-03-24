@@ -51,50 +51,27 @@ function SearchPageContainer() {
             Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war. 
             1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
             Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-      
+  
             2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
             Androids lack empathy, making them vulnerable to detection.
-      
+  
             3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
             Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors." />, 
           text: `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by Philip K. Dick. 
             Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
-      
+  
             1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
             Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-      
+  
             2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
             Androids lack empathy, making them vulnerable to detection.
-      
+  
             3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
             Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
           role: "bot",
           timestamp: new Date(),
         },
       ]);
-      
-  
-      // Commented-out API call (for later use)
-      /*
-      const response = await fetch("/api/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: userInput }),
-      });
-  
-      if (!response.ok) {
-        throw new Error("API failed, using fallback response.");
-      }
-  
-      const data = await response.json();
-      const botMessage = {
-        text: data.answer?.trim() || "Failed to get response. Please try again!",
-        role: "bot",
-        timestamp: new Date(),
-      };
-  
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
-      */
   
     } catch (error) {
       console.error("Error sending message:", error);
@@ -128,6 +105,12 @@ function SearchPageContainer() {
         "Need assistance? Our support team is always ready to help!",
         "If you need support, feel free to contact us anytime!",
       ],
+      step: [
+        "Based on your inputs, we have created this custom pipeline that will help you generate content around your product and also use it for marketing.",
+      ],
+      steps: [
+        "Based on your inputs, we have created this custom pipeline that will help you generate content around your product and also use it for marketing.",
+      ],
     };
   
     // Check if a keyword exists in the message
@@ -140,6 +123,8 @@ function SearchPageContainer() {
   
     return null; // No keyword match
   };
+  
+  
   
 
   const handleNewConversation = () => {
