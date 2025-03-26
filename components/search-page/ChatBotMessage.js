@@ -144,7 +144,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                   style={{ whiteSpace: "pre-wrap" }}
                 >
                   <div className="flex flex-col gap-[2px] max-w-[564px]">
-                    <span className="flex-1 break-words text-sm">
+                    <span className="flex-1 break-words text-xs">
                       {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
                     </span>
                     <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
@@ -157,25 +157,25 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
                   <div
-                    className={`absolute z-30 ${isMessageComponent ? "right-[-65px] top-0" : "left-0 top-[110%]"} flex ${
+                    className={`absolute z-20 ${isMessageComponent ? "right-[-65px] top-0" : "left-0 top-[110%]"} flex ${
                       isMessageComponent ? "flex-col" : "flex-row"
                     } gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100`}
                   >
                     <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
                     <LuThumbsUp
-                      className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      className={`text-sm ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleReactionClick(index, "thumbsUp")}
                     />
                     <LuThumbsDown
-                      className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      className={`text-sm ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleReactionClick(index, "thumbsDown")}
                     />
                     <LuClipboard
-                      className="text-base text-[#7C7676] hover:text-[#c088fb]"
+                      className="text-sm text-[#7C7676] hover:text-[#c088fb]"
                       onClick={() => handleCopyToClipboard(msg.text)}
                     />
                     <PiSpeakerHigh
-                      className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      className={`text-sm ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleTextToSpeech(index, msg.text)}
                     />
                   </div>
@@ -228,7 +228,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       )}
       </div>
         {/* Sticky Input and Footer */}
-        <div className="sticky bottom-0 w-full bg-transparent z-50">
+        <div className="sticky bottom-0 w-full bg-transparent z-30">
           <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}

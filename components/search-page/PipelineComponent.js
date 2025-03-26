@@ -31,12 +31,12 @@ const PipelineComponent = () => {
     <div className='flex flex-col gap-2.5 w-full h-full text-[#f4f4f4]'>
       <div className='flex gap-2 flex-row justify-end items-center'>
         <div className='py-2 px-4 gap-2.5 flex flex-row rounded-lg bg-[#131314] items-center justify-center'>
-          <FaRegStar className='text-base' />
-          <p className='text-sm font-normal'>Rating</p>
+          <FaRegStar className='text-sm' />
+          <p className='text-xs font-normal'>Rating</p>
         </div>
         <div className='py-2 px-4 gap-2.5 flex flex-row rounded-lg bg-[#131314] items-center justify-center'>
-          <PiLightning className='text-base' />
-          <p className='text-sm font-normal'>Price</p>
+          <PiLightning className='text-sm' />
+          <p className='text-xs font-normal'>Price</p>
         </div>
       </div>
 
@@ -47,13 +47,13 @@ const PipelineComponent = () => {
           data-aos="fade-up" // Animation trigger
         >
           <div className='flex flex-row justify-between items-center cursor-pointer' onClick={() => toggleStep(step)}>
-            <p className='text-sm font-bold'>Step {step}</p>
+            <p className='text-xs font-bold'>Step {step}</p>
             <MdOutlineKeyboardArrowUp
-              className={`text-lg transition-transform ${openStep === step ? 'rotate-180' : ''}`}
+              className={`text-base transition-transform ${openStep === step ? 'rotate-180' : ''}`}
             />
           </div>
-          <p className='text-sm font-bold'>{step === 1 ? 'Content Generation' : step === 2 ? 'Image Generation' : 'Product Photoshoot'}</p>
-          <p className='font-normal text-sm'>
+          <p className='text-xs font-bold'>{step === 1 ? 'Content Generation' : step === 2 ? 'Image Generation' : 'Product Photoshoot'}</p>
+          <p className='font-normal text-xs'>
             {step === 1
               ? 'Creating engaging descriptions that boost product visibility and attract customers'
               : step === 2
@@ -63,17 +63,17 @@ const PipelineComponent = () => {
           <hr></hr>
           {openStep === step && step === 1 && (
             <div className='flex flex-col gap-4 mt-4'>
-              <p className='text-base font-bold'>Recommended tools</p>
+              <p className='text-sm font-bold'>Recommended tools</p>
               {['ChatGPT', 'Gemini'].map((tool) => (
                 <div key={tool} className='flex flex-col'>
                   <div className='flex flex-row justify-between items-center cursor-pointer' onClick={() => toggleTool(tool)}>
                     <div className='flex flex-row gap-2 items-center justify-center'>
                       <Image src={`/${tool.toLowerCase()}forchat.svg`} alt={tool} width={24} height={24} />
-                      <p className='font-medium text-base'>{tool}</p>
-                      <p className={`text-xs font-medium ${tool === 'ChatGPT' ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#9747FF] to-[#9747FF]' : 'text-[#46BA3C]'}`}>Third party payment</p>
+                      <p className='font-medium text-sm'>{tool}</p>
+                      <p className={`text-[10px] font-medium ${tool === 'ChatGPT' ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#9747FF] to-[#9747FF]' : 'text-[#46BA3C]'}`}>Third party payment</p>
                     </div>
                     <MdOutlineKeyboardArrowUp
-                      className={`text-lg transition-transform ${openTool === tool ? 'rotate-180' : ''}`}
+                      className={`text-base transition-transform ${openTool === tool ? 'rotate-180' : ''}`}
                     />
                   </div>
                   {openTool === tool && (
@@ -83,7 +83,7 @@ const PipelineComponent = () => {
                           <div key={i} className='bg-[#d9d9d9] h-[125px] w-full'></div>
                         ))}
                       </div>
-                      <ol className='list-decimal space-y-1 pl-4 text-sm'>
+                      <ol className='list-decimal space-y-1 pl-4 text-[10px]'>
                         <li><strong>Access {tool} Platform:</strong> You can access {tool} through various platforms such as websites, apps, or integrated into other services.</li>
                         <li><strong>Start a Conversation:</strong> Once you&apos;re on the platform, you&apos;ll typically see a chat interface where you can type your messages or questions.</li>
                         <li><strong>Type Your Message:</strong> Just like you&apos;re texting a friend, type your message or question into the chat box.</li>
@@ -103,14 +103,14 @@ const PipelineComponent = () => {
       ))}
 
       <div className='bg-[#0A0A0B] py-2.5 px-4 flex flex-col gap-4 rounded-2xl'>
-        <p className='text-sm font-bold'>Visit App</p>
+        <p className='text-xs font-bold'>Visit App</p>
         <div className='flex flex-row justify-between items-center'>
           <div className='flex flex-row gap-2 items-center justify-center'>
             <Image src={'/chatgptforchat.svg'} alt='ChatGPT' width={24} height={24} />
-            <p className='font-medium text-base'>ChatGPT</p>
-            <p className='text-xs font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#9747FF] to-[#9747FF]'>Third party payment</p>
+            <p className='font-medium text-sm'>ChatGPT</p>
+            <p className='text-[10px] font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#9747FF] to-[#9747FF]'>Third party payment</p>
           </div>
-          <IoMdLink className='text-lg hover:text-[#c088fb]' />
+          <IoMdLink className='text-base hover:text-[#c088fb]' />
         </div>
       </div>
     </div>
