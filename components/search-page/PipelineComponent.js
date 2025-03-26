@@ -1,5 +1,7 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // Import AOS styles
 import { FaRegStar } from 'react-icons/fa';
 import { IoMdLink } from 'react-icons/io';
 import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
@@ -8,6 +10,14 @@ import { PiLightning } from 'react-icons/pi';
 const PipelineComponent = () => {
   const [openStep, setOpenStep] = useState(null);
   const [openTool, setOpenTool] = useState(null);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 800, // Smooth animation duration
+      once: false, // Allows animation to re-trigger
+      mirror: true, // Runs animation when scrolling back up
+    });
+  }, []);
 
   const toggleStep = (step) => {
     setOpenStep(openStep === step ? null : step);
@@ -31,7 +41,11 @@ const PipelineComponent = () => {
       </div>
 
       {[1, 2, 3].map((step) => (
-        <div key={step} className='flex flex-col bg-[#1C1D1F] py-2.5 px-4 gap-4 rounded-2xl'>
+        <div
+          key={step}
+          className='flex flex-col bg-[#1C1D1F] py-2.5 px-4 gap-4 rounded-2xl'
+          data-aos="fade-up" // Animation trigger
+        >
           <div className='flex flex-row justify-between items-center cursor-pointer' onClick={() => toggleStep(step)}>
             <p className='text-sm font-bold'>Step {step}</p>
             <MdOutlineKeyboardArrowUp
