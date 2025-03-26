@@ -87,7 +87,18 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       [index]: prev[index] === reaction ? null : reaction,
     }));
   };
-  
+  const handleCopyToClipboard = (text) => {
+    if (!text) {
+      toast.error("Nothing to copy!");
+      return;
+    }
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success("Copied to clipboard!"); 
+    }).catch(() => {
+      toast.error("Failed to copy text!");
+    });
+  };
+
   const handleTextToSpeech = (index, text) => {
     const synth = window.speechSynthesis;
     if (speakingMessages[index]) {
@@ -113,61 +124,63 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
       return (
         <div key={index} className="pb-3 flex flex-col gap-2">
-          {/* MESSAGE BUBBLE */}
+          {/* HOVER WRAPPER */}
           <div
-            className={`flex items-start gap-3 ${isUserMessage ? "flex-row-reverse" : "flex-row"}`}
+            className="relative"
             onMouseEnter={() => isBotMessage && setHoveredIndex(index)}
             onMouseLeave={() => isBotMessage && setHoveredIndex(null)}
           >
-            <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full text-white">
-              {isUserMessage ? <FaUser /> : <FaRobot />}
-            </div>
+            {/* MESSAGE BUBBLE */}
+            <div className={`flex items-start gap-3 ${isUserMessage ? "flex-row-reverse" : "flex-row"}`}>
+              <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full text-white">
+                {isUserMessage ? <FaUser /> : <FaRobot />}
+              </div>
   
-            <div className="flex flex-col relative">
-              <div
-                className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${
-                  isUserMessage ? "bg-[#4F46E5]" : "bg-[#1C1D1F]"
-                } max-w-[564px]`}
-                style={{ whiteSpace: "pre-wrap" }}
-              >
-              <div className="flex flex-col gap-[2px] max-w-[564px]">
-                <span className="flex-1 break-words text-sm">
-                  {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
-                </span>
-                <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
-                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                  <div>&#10003;&#10003;</div>
+              <div className="flex flex-col relative">
+                <div
+                  className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${
+                    isUserMessage ? "bg-[#4F46E5]" : "bg-[#1C1D1F]"
+                  } max-w-[564px]`}
+                  style={{ whiteSpace: "pre-wrap" }}
+                >
+                  <div className="flex flex-col gap-[2px] max-w-[564px]">
+                    <span className="flex-1 break-words text-sm">
+                      {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
+                    </span>
+                    <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
+                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      <div>&#10003;&#10003;</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              </div>
   
-              {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
-            {/* HOVER ACTIONS */}
-            {isHovered && (
-              <div
-                className={`absolute z-50 ${isMessageComponent ? "right-[-65px] top-0" : "left-0 top-[110%]"} flex ${
-                  isMessageComponent ? "flex-col" : "flex-row"
-                } gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100`}
-              >
-                <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
-                <LuThumbsUp
-                  className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
-                  onClick={() => handleReactionClick(index, "thumbsUp")}
-                />
-                <LuThumbsDown
-                  className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
-                  onClick={() => handleReactionClick(index, "thumbsDown")}
-                />
-                <LuClipboard
-                  className="text-base text-[#7C7676] hover:text-[#c088fb]"
-                  onClick={() => handleCopyToClipboard(msg.text)}
-                />
-                <PiSpeakerHigh
-                  className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
-                  onClick={() => handleTextToSpeech(index, msg.text)}
-                />
+                {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
+                {isHovered && (
+                  <div
+                    className={`absolute z-30 ${isMessageComponent ? "right-[-65px] top-0" : "left-0 top-[110%]"} flex ${
+                      isMessageComponent ? "flex-col" : "flex-row"
+                    } gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100`}
+                  >
+                    <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
+                    <LuThumbsUp
+                      className={`text-base ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      onClick={() => handleReactionClick(index, "thumbsUp")}
+                    />
+                    <LuThumbsDown
+                      className={`text-base ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      onClick={() => handleReactionClick(index, "thumbsDown")}
+                    />
+                    <LuClipboard
+                      className="text-base text-[#7C7676] hover:text-[#c088fb]"
+                      onClick={() => handleCopyToClipboard(msg.text)}
+                    />
+                    <PiSpeakerHigh
+                      className={`text-base ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      onClick={() => handleTextToSpeech(index, msg.text)}
+                    />
+                  </div>
+                )}
               </div>
-            )}
             </div>
           </div>
   
@@ -181,10 +194,6 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       );
     });
   }, [messages, hoveredIndex, reactions, speakingMessages]);
-  
-  
-  
-  
   
   
   
@@ -219,7 +228,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       )}
       </div>
         {/* Sticky Input and Footer */}
-        <div className="sticky bottom-0 w-full bg-transparent">
+        <div className="sticky bottom-0 w-full bg-transparent z-50">
           <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}
