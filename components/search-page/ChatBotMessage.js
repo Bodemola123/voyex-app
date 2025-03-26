@@ -165,7 +165,27 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                     </div>
                   </div>
                 </div>
-  
+                {isMessageComponent && (
+  <div className="mt-2 flex flex-row justify-start items-center gap-2.5 text-[14px] font-semibold">
+    {/* Search Videos Button */}
+    <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
+      <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
+        <LuPlay className="text-xs text-[#f4f4f4]" />
+        <p>Search Videos</p>
+      </div>
+      <LuPlus className="text-[10px] text-[#f4f4f4]" />
+    </div>
+
+    {/* Generate Image Button */}
+    <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
+      <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
+        <LuImage className="text-xs text-[#f4f4f4]" />
+        <p>Generate Image</p>
+      </div>
+      <LuPlus className="text-[10px] text-[#f4f4f4]" />
+    </div>
+  </div>
+)}
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
                   <div
@@ -192,8 +212,11 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                     />
                   </div>
                 )}
+                
               </div>
             </div>
+
+
           </div>
   
           {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE */}
