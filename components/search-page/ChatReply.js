@@ -18,9 +18,9 @@ function ChatReply() {
   }, []);
 
   return (
-    <div className="flex flex-col text-xs">
+    <div className="flex flex-col text-sm">
       {/* Message Bubble */}
-      <div className="text-xs font-medium max-w-[549px] bg-[#1C1D1F] p-2 rounded-lg relative">
+      <div className="text-sm font-medium max-w-[549px] bg-[#1C1D1F] p-2 rounded-lg relative">
         <p>{displayedText}</p>
       </div>
     </div>

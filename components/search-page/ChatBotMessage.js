@@ -156,7 +156,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                   style={{ whiteSpace: "pre-wrap" }}
                 >
                   <div className="flex flex-col gap-[2px] max-w-[564px]">
-                    <span className="flex-1 break-words text-xs">
+                    <span className="flex-1 break-words text-sm">
                       {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
                     </span>
                     <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">

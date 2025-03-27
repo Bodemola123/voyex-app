@@ -68,10 +68,8 @@ const TemplatesCollapsible = () => {
       <button className="flex flex-row items-start py-4 px-6 gap-4 mt-auto mb-6">
         <Image src="/IconContainer.svg" alt="icon" width={40} height={40} />
         <div className="flex flex-col gap-1 items-start">
-          <p className="text-base text-[#f4f4f4]">Upgrade Plan</p>
-          <p className="text-sm text-[#475569] whitespace-nowrap">
-            Get GPT-8 and more
-          </p>
+        <p className='text-sm text-[#f4f4f4] font-medium '>Upgrade Plan</p>
+        <p className='text-xs text-[#475569] font-normal'>Get GPT-8 and more</p>
         </div>
       </button>
     </nav>

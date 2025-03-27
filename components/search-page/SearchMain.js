@@ -168,7 +168,7 @@ function SearchMain({
   return (
     <div className="flex items-center w-full h-screen">
       <BenNavbar/>
-      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-8 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
+      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-11 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
       <div className="relative w-full items-center justify-center flex gap-10 flex-col">
       <div className='flex flex-col md:gap-[25px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center '>
@@ -304,46 +304,46 @@ function SearchMain({
         )}
       </div>
     <div className={`md:grid grid-cols-3 gap-6 flex flex-col ${ showSuggestions && userInput ? "mt-0" : "mt-0" }`}>
-    <div className="md:max-w-[270px] md:max-h-[213px] max-w-[210px] max-h-[183px] hover:scale-105 transition-all"
+    <div className=" w-[210px] h-[183px] hover:scale-105 transition-all"
   style={{
     background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%)',
     padding: '2px',
     borderRadius: '24px',
   }}
 >
-      <button className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}> 
+      <button className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl items-center justify-center px-4" onClick={handleSurpriseClick}> 
       {/* Text */}
-      <p className="md:text-lg sm:text-sm">Create an image for my presentation</p>
+      <p className="text-base text-center">Create an image for my presentation</p>
 
       {/* Button/Icon */}
       <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
-        <MdImageSearch className='md:text-[24px] sm:text-[18px] text-[#2f82ef]'/>
+        <MdImageSearch className='text-[18px] text-[#2f82ef]'/>
       </div>
     </button>
       </div>
-      <div className="md:max-w-[270px] md:max-h-[213px] max-w-[210px] max-h-[183px] hover:scale-105 transition-all"
+      <div className="w-[210px] h-[183px] hover:scale-105 transition-all"
         style={{
           background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%)',
           padding: '2px',
           borderRadius: '24px',
         }}>
-          <button className="relative w-full h-full items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6" onClick={handleSurpriseClick}>
-            <p className="md:text-lg sm:text-sm">What to do with kid&apos;s art</p>
+          <button className="relative w-full h-full items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl px-4" onClick={handleSurpriseClick}>
+            <p className="text-base text-center">What to do with kid&apos;s art</p>
             <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
         <GoLightBulb className='md:text-[24px] sm:text-[18px] text-[#f1a62d]'/>
       </div>
           </button>
       </div>
 
-        <div className="md:max-w-[270px] md:max-h-[213px] max-w-[210px] max-h-[183px] hover:scale-105 transition-all"
+        <div className="w-[210px] h-[183px] hover:scale-105 transition-all"
                 style={{
                   background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%)',
                   padding: '2px',
                   borderRadius: '24px',
                 }}>
-        <button className="relative h-full w-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl py-20 px-6"             onClick={handleSurpriseClick}>
+        <button className="relative w-full h-full items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl px-4"             onClick={handleSurpriseClick}>
       {/* Text */}
-      <p className="md:text-lg sm:text-sm">Find the decade that a photo is from</p>
+      <p className="text-base text-center">Find the decade that a photo is from</p>
 
       {/* Button/Icon */}
       <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">

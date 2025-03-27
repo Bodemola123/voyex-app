@@ -41,19 +41,19 @@ const SearchNavOpen = () => {
             </button>
             <Link href='/galactimart' className='py-4 px-3 flex flex-row gap-2.5 bg-transparent items-center'>
               <FiShoppingCart className='text-[18px] text-[#94a3b8]' />
-              <p className='font-bold text-lg text-[#f4f4f4]'>Galactimart</p>
+              <p className='font-medium text-base text-[#f4f4f4]'>Galactimart</p>
             </Link>
             <button onClick={() => openModal('first')} className='py-4 px-3 flex flex-row gap-2.5 bg-transparent items-center'>
               <PiLightbulb className='text-[18px] text-[#94a3b8]' />
-              <p className='font-bold text-lg text-[#f4f4f4]'>Custom Instructions</p>
+              <p className='font-medium text-base text-[#f4f4f4]'>Custom Instructions</p>
             </button>
           </div>
         </div>
         <button className='flex flex-row py-4 px-6 gap-4 items-start justify-start'>
           <Image src={'/IconContainer.svg'} alt='icon' width={40} height={40} />
           <div className='flex flex-col gap-2 items-start'>
-            <p className='text-base text-[#f4f4f4] '>Upgrade Plan</p>
-            <p className='text-sm text-[#475569]'>Get GPT-8 and more</p>
+            <p className='text-sm text-[#f4f4f4] font-medium '>Upgrade Plan</p>
+            <p className='text-xs text-[#475569] font-normal'>Get GPT-8 and more</p>
           </div>
         </button>
       </nav>

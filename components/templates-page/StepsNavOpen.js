@@ -97,8 +97,8 @@ const StepsNavOpen = () => {
         <button className="flex flex-row py-4 gap-4 items-center w-full bg-gray-900 rounded-lg hover:bg-gray-800">
           <Image src={"/IconContainer.svg"} alt="icon" width={40} height={40} />
           <div className="flex flex-col gap-1">
-            <p className="text-base text-[#f4f4f4] font-semibold">Upgrade Plan</p>
-            <p className="text-sm text-[#a1a1aa]">Get GPT-8 and more</p>
+          <p className='text-sm text-[#f4f4f4] font-medium '>Upgrade Plan</p>
+          <p className='text-xs text-[#475569] font-normal'>Get GPT-8 and more</p>
           </div>
         </button>
       </div>
