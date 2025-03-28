@@ -15,70 +15,82 @@ function SearchPageContainer() {
   const [error, setError] = useState(null);
   const [showChat, setShowChat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isBotTyping, setIsBotTyping] = useState(false);
 
   const handleSendMessage = async () => {
     try {
       if (!userInput.trim()) return;
-  
+
       setIsLoading(true);
-  
+
       // User message object
       const userMessage = {
         text: userInput,
         role: "user",
         timestamp: new Date(),
       };
-  
+
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setUserInput("");
-  
+
       // Check for a keyword-based hardcoded response
       const hardcodedReply = getHardcodedReply(userInput);
       if (hardcodedReply) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: hardcodedReply, role: "bot", timestamp: new Date() },
-        ]);
-        setIsLoading(false);
+        setIsBotTyping(true); // ✅ Bot starts "typing"
+        setTimeout(() => {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { text: hardcodedReply, role: "bot", timestamp: new Date() },
+          ]);
+          setIsBotTyping(false); // ✅ Bot stops "typing"
+          setIsLoading(false);
+        },);
         return;
       }
-  
+
       // Since there's no API yet, render ChatReply.js as a fallback
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          component: <ChatReply text="Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by Philip K. Dick. 
-            Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war. 
-            1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
-            Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-  
-            2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
-            Androids lack empathy, making them vulnerable to detection.
-  
-            3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
-            Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors." />, 
-          text: `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by Philip K. Dick. 
-            Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
-  
-            1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
-            Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-  
-            2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
-            Androids lack empathy, making them vulnerable to detection.
-  
-            3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
-            Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
-          role: "bot",
-          timestamp: new Date(),
-        },
-      ]);
-  
+      setIsBotTyping(true); // ✅ Bot starts "typing"
+      setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            component: <ChatReply text="Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by Philip K. Dick. 
+              Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war. 
+              1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
+              Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
+
+              2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
+              Androids lack empathy, making them vulnerable to detection.
+
+              3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
+              Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors." />, 
+            text: `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by Philip K. Dick. 
+              Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
+
+              1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
+              Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
+
+              2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
+              Androids lack empathy, making them vulnerable to detection.
+
+              3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
+              Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
+            role: "bot",
+            timestamp: new Date(),
+          },
+        ]);
+        setIsBotTyping(false); // ✅ Bot stops "typing"
+        setIsLoading(false);
+      }, 2000);
+      
     } catch (error) {
       console.error("Error sending message:", error);
+      setIsBotTyping(false); // ✅ Ensure bot stops "typing" even on error
     } finally {
       setIsLoading(false);
     }
   };
+
   
   // Function to get a hardcoded reply based on keyword matching
   const getHardcodedReply = (message) => {
@@ -123,6 +135,8 @@ function SearchPageContainer() {
   
     return null; // No keyword match
   };
+  
+
   
   
   

@@ -29,11 +29,12 @@ function ChatInput({
     }, []);
     const handleKeyPress = (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault(); // Prevent new line in textarea
+        e.preventDefault(); // Prevents new line
         handleSendMessage();
-        setUserInput(""); // Clear input after sending
+        setUserInput(""); 
       }
     };
+    
     
 
   const handleButtonPress = (e) => {
@@ -158,14 +159,16 @@ function ChatInput({
   placeholder="Start Exploration"
   value={userInput}
   onChange={(e) => setUserInput(e.target.value)}
-  disabled={isLoading}
-  onKeyDown={!isBotTyping ? handleKeyPress : undefined}
+  disabled={isLoading || isBotTyping} // Disable input while bot is typing
+  onKeyDown={isBotTyping ? (e) => e.preventDefault() : handleKeyPress} // Block keypress when bot is typing
   className={`flex-grow bg-black text-white placeholder-gray-500 outline-none 
               placeholder:text-base placeholder:font-medium font-medium 
               resize-none scrollbar-hide scroll-container max-h-[112px] 
-              rounded-lg px-3 py-2 ${isLoading ? "cursor-not-allowed" : ""}`}
+              rounded-lg px-3 py-2 
+              ${isLoading || isBotTyping ? "cursor-not-allowed opacity-50" : ""}`} 
   rows={1} 
 />
+
 
       </div>
       
@@ -179,12 +182,13 @@ function ChatInput({
       
 
       {/* Upload button */}
+        {/* Upload button */}
         <button
           className={`flex items-center justify-center w-10 h-10 bg-[#C088fb] rounded-full focus:outline-none ${
             isLoading || isBotTyping && !attachedFile ? "cursor-not-allowed text-gray-400" : ""
           }`}
-          onClick={() => { handleButtonPress(); handleUpload(); }} // First, handle the upload logic
-          disabled={isLoading || isBotTyping && !attachedFile}
+          onClick={() => { handleButtonPress(); handleUpload(); }}
+          disabled={isLoading || (isBotTyping && !attachedFile)}
         >
           <IoArrowUp className="text-[#ffffff] text-[24px]" />
         </button>
