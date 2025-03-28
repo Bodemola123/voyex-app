@@ -69,7 +69,7 @@ function ChatInput({
   placeholder="Start Exploration"
   value={userInput}
   onChange={(e) => setUserInput(e.target.value)}
-  disabled={isLoading}
+  disabled={isBotTyping}
   onKeyDown={!isBotTyping ? handleKeyPress : undefined}
   className={`flex-grow bg-black text-white placeholder-gray-500 outline-none 
               placeholder:text-base placeholder:font-medium font-medium 
