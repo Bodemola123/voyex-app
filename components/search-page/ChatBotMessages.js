@@ -12,15 +12,17 @@ const emojiList = [
 const ChatBotMessages = ({ messages, setMessages }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [botTyping, setBotTyping] = useState(false); // Bot typing state
   const messagesEndRef = useRef(null);
 
   // Function to handle sending messages
   const sendMessage = () => {
-    if (inputMessage.trim() !== "") {
+    if (inputMessage.trim() !== "" && !botTyping) {
       const newMessage = { text: inputMessage, sender: "user" };
       setMessages((prev) => [...prev, newMessage]); // Add user message
       setInputMessage("");
       setShowEmojiPicker(false); // Close emoji picker when sending a message
+      setBotTyping(true); // Bot starts typing
 
       // Simulate bot response with a delay
       setTimeout(() => {
@@ -29,7 +31,8 @@ const ChatBotMessages = ({ messages, setMessages }) => {
           sender: "bot",
         };
         setMessages((prev) => [...prev, botReply]);
-      }, 2000); // 1s delay
+        setBotTyping(false); // Bot finishes typing
+      }, 2000); // 2s delay
     }
   };
 
@@ -54,16 +57,25 @@ const ChatBotMessages = ({ messages, setMessages }) => {
             {msg.text}
           </div>
         ))}
+        {botTyping && (
+          <div className="self-start bg-[#e1e1e1] text-black p-3 rounded-xl text-sm">
+            Typing...
+          </div>
+        )}
         <div ref={messagesEndRef} /> {/* Auto-scroll target */}
       </div>
 
       {/* Sticky Input Bar */}
       <div className="bg-[#f3f3f3] sticky bottom-2 py-3.5 px-5 justify-between rounded-3xl flex flex-row items-center text-[#000000]">
         <div className="flex flex-row justify-center items-center gap-4 w-full relative">
-          <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+          <button
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            disabled={botTyping}
+            className={botTyping ? "opacity-50" : ""}
+          >
             <GoSmiley className="text-base" />
           </button>
-          
+
           {/* Manual Emoji List */}
           {showEmojiPicker && (
             <div className="absolute bottom-12 left-0 bg-white shadow-lg rounded-xl p-2 w-48 h-32 overflow-y-scroll scrollbar-hide flex flex-wrap gap-2 border">
@@ -79,17 +91,27 @@ const ChatBotMessages = ({ messages, setMessages }) => {
             </div>
           )}
 
-          <input
-            className="flex-grow outline-none bg-transparent text-sm"
-            placeholder="Type a message..."
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          />
+<input
+  className={`flex-grow outline-none bg-transparent text-sm ${
+    botTyping ? "opacity-50" : ""
+  }`}
+  placeholder="Type a message..."
+  value={inputMessage}
+  onChange={(e) => setInputMessage(e.target.value)}
+  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+  disabled={botTyping} // Disable input when bot is typing
+/>
+
         </div>
         <div className="flex flex-row justify-center items-center gap-4">
-          <button><AiOutlinePaperClip className="text-base" /></button>
-          <button onClick={sendMessage}>
+          <button disabled={botTyping} className={botTyping ? "opacity-50 cursor-not-allowed" : ""}>
+            <AiOutlinePaperClip className="text-base" />
+          </button>
+          <button
+            onClick={sendMessage}
+            disabled={botTyping}
+            className={botTyping ? "opacity-50" : ""}
+          >
             <IoSend className="text-[#000000] text-base" />
           </button>
         </div>

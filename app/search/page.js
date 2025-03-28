@@ -19,7 +19,7 @@ export default function SearchPage() {
         onClick={() => setIsChatOpen(!isChatOpen)}
         className="fixed bottom-[92px] right-[92px] w-[55px] h-[55px] rounded-full shadow-lg bg-transparent flex items-center justify-center z-50 message-bubble"
       >
-        <Image src="/Button-icon.svg" alt="Chatbot" width={55} height={55} />
+        <Image src="/ChatBotIcon.svg" alt="Chatbot" width={55} height={55} />
       </button>
     </main>
   );
