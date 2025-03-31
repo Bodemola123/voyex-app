@@ -43,7 +43,7 @@ function SearchPageContainer() {
           ]);
           setIsBotTyping(false); // ✅ Bot stops "typing"
           setIsLoading(false);
-        }, 5000);
+        }, 2000);
         return;
       }
   
@@ -67,7 +67,7 @@ function SearchPageContainer() {
         ]);
         setIsBotTyping(false); // ✅ Bot stops "typing"
         setIsLoading(false);
-      }, 5000);
+      }, 2000);
       
     } catch (error) {
       console.error("Error sending message:", error);
