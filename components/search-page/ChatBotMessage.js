@@ -10,16 +10,18 @@ import BenFooter from "../common/BenFooter";
 import PipelineComponent from "./PipelineComponent";
 
 
-export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
+export const typeText = (setTypedMessage, text, speed, setBotTyping, setIsTypingDone) => {
   if (!text || typeof text !== "string") {
     console.error("Invalid text value:", text);
-    setTypedMessage(""); 
+    setTypedMessage("");
     setBotTyping(false);
+    setIsTypingDone(true);
     return;
   }
 
   setBotTyping(true);
-  setTypedMessage("Typing..."); // Display "Typing..." first
+  setIsTypingDone(false);  // Reset this when new message starts
+  setTypedMessage("Typing...");
 
   setTimeout(() => {
     let charIndex = 0;
@@ -30,12 +32,14 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
       if (charIndex >= text.length - 1) {
         clearInterval(interval);
         setBotTyping(false);
+        setIsTypingDone(true); // Now typing is done
       }
 
       charIndex++;
     }, speed);
-  }, 3000); // Delay before typing starts
+  }, 1000);
 };
+
 
 
 
@@ -46,7 +50,10 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  
+  const [isTypingDone, setIsTypingDone] = useState(false);
+  const [pipelineMessageIndices, setPipelineMessageIndices] = useState([]);
+
+
 
   useEffect(() => {
     if (shouldAutoScroll) {
@@ -76,13 +83,21 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   useEffect(() => {
     if (messages.length === 0) return;
   
-    const latestMessage = messages[messages.length - 1];
+    const latestMessageIndex = messages.length - 1;
+    const latestMessage = messages[latestMessageIndex];
   
-    // Clear previous message to avoid flickering
     setTypedMessage("");
+    setIsTypingDone(false); // Reset this on a new bot message
   
     if (latestMessage.role === "bot") {
-      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
+      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping, () => {
+        setIsTypingDone(true);
+  
+        // Only store message index AFTER typing is done
+        if (latestMessage.text.toLowerCase().includes("pipeline")) {
+          setPipelineMessageIndices((prev) => [...prev, latestMessageIndex]);
+        }
+      });
     }
   }, [messages]);
   
@@ -143,12 +158,11 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       const isHovered = isBotMessage && hoveredIndex === index;
       const selectedReaction = reactions[index];
       const isSpeaking = speakingMessages[index];
-      const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
   
       // Fix flickering issue
       let displayedText = msg.text;
       if (isBotMessage && index === messages.length - 1) {
-        displayedText = typedMessage || "Typing..."; // Show only `typedMessage` while typing
+        displayedText = typedMessage || ""; // Show only `typedMessage` while typing
       }
   
       return (
@@ -213,21 +227,17 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
             </div>
           </div>
   
-          {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE */}
-          {containsPipeline && (
-            <div className="mt-4">
-              <PipelineComponent stepData={msg.text} />
-            </div>
-          )}
+          {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE  KEEP MULTIPLE PIPELINE COMPONENTS VISIBLE */}
+          {pipelineMessageIndices.includes(index) && (
+  <div className="mt-4">
+    <PipelineComponent stepData={msg.text} />
+  </div>
+)}
+
         </div>
       );
     });
   }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage]);
-  
-  
-  
-  
-  
   
   
   return (

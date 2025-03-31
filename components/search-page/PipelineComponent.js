@@ -14,8 +14,8 @@ const PipelineComponent = () => {
   useEffect(() => {
     AOS.init({
       duration: 800, // Smooth animation duration
-      once: false, // Allows animation to re-trigger
-      mirror: true, // Runs animation when scrolling back up
+      once: true, // Allows animation to re-trigger
+      mirror: false, // Runs animation when scrolling back up
     });
   }, []);
 
