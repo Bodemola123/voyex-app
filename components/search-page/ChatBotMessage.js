@@ -13,26 +13,30 @@ import PipelineComponent from "./PipelineComponent";
 export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
   if (!text || typeof text !== "string") {
     console.error("Invalid text value:", text);
-    setTypedMessage(""); // Ensure it doesn’t break
+    setTypedMessage(""); 
     setBotTyping(false);
     return;
   }
 
   setBotTyping(true);
-  let charIndex = 0;
+  setTypedMessage("Typing..."); // Display "Typing..." first
 
-  const interval = setInterval(() => {
-    const newText = text.slice(0, charIndex + 1);
-    setTypedMessage(newText);
+  setTimeout(() => {
+    let charIndex = 0;
+    const interval = setInterval(() => {
+      const newText = text.slice(0, charIndex + 1);
+      setTypedMessage(newText);
 
-    if (charIndex >= text.length - 1) {
-      clearInterval(interval);
-      setBotTyping(false);
-    }
+      if (charIndex >= text.length - 1) {
+        clearInterval(interval);
+        setBotTyping(false);
+      }
 
-    charIndex++;
-  }, speed);
+      charIndex++;
+    }, speed);
+  }, 3000); // Delay before typing starts
 };
+
 
 
 function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
@@ -74,13 +78,14 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
     const latestMessage = messages[messages.length - 1];
   
-    // Clear out previous bot message immediately
+    // Clear previous message to avoid flickering
     setTypedMessage("");
   
     if (latestMessage.role === "bot") {
       typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
     }
   }, [messages]);
+  
   
   
 
@@ -143,7 +148,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       // Fix flickering issue
       let displayedText = msg.text;
       if (isBotMessage && index === messages.length - 1) {
-        displayedText = typedMessage || ""; // Show only `typedMessage` while typing
+        displayedText = typedMessage || "Typing..."; // Show only `typedMessage` while typing
       }
   
       return (
