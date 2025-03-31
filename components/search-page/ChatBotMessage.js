@@ -10,18 +10,16 @@ import BenFooter from "../common/BenFooter";
 import PipelineComponent from "./PipelineComponent";
 
 
-export const typeText = (setTypedMessage, text, speed, setBotTyping, setIsTypingDone) => {
+export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
   if (!text || typeof text !== "string") {
     console.error("Invalid text value:", text);
-    setTypedMessage("");
+    setTypedMessage(""); 
     setBotTyping(false);
-    setIsTypingDone(true);
     return;
   }
 
   setBotTyping(true);
-  setIsTypingDone(false);  // Reset this when new message starts
-  setTypedMessage("Typing...");
+  setTypedMessage("Typing..."); // Display "Typing..." first
 
   setTimeout(() => {
     let charIndex = 0;
@@ -32,14 +30,12 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping, setIsTyping
       if (charIndex >= text.length - 1) {
         clearInterval(interval);
         setBotTyping(false);
-        setIsTypingDone(true); // Now typing is done
       }
 
       charIndex++;
     }, speed);
-  }, 1000);
+  }, 3000); // Delay before typing starts
 };
-
 
 
 
@@ -50,9 +46,8 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  const [isTypingDone, setIsTypingDone] = useState(false);
-  const [pipelineMessageIndex, setPipelineMessageIndex] = useState(null);
-
+  
+  
 
   useEffect(() => {
     if (shouldAutoScroll) {
@@ -84,18 +79,15 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
     const latestMessage = messages[messages.length - 1];
   
+    // Clear previous message to avoid flickering
     setTypedMessage("");
-    setIsTypingDone(false); // Reset this on a new bot message
   
     if (latestMessage.role === "bot") {
-      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping, setIsTypingDone);
-    }
-  
-    // Check if the latest message contains "pipeline" and store its index if not already set
-    if (latestMessage.text.toLowerCase().includes("pipeline") && pipelineMessageIndex === null) {
-      setPipelineMessageIndex(messages.length - 1);
+      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
     }
   }, [messages]);
+  
+  
   
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -157,7 +149,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       // Fix flickering issue
       let displayedText = msg.text;
       if (isBotMessage && index === messages.length - 1) {
-        displayedText = typedMessage || ""; // Show only `typedMessage` while typing
+        displayedText = typedMessage || "Typing..."; // Show only `typedMessage` while typing
       }
   
       return (
@@ -224,15 +216,19 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
           {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE */}
           {containsPipeline && (
-  <div className="mt-4">
-    <PipelineComponent stepData={msg.text} />
-  </div>
-)}
-
+            <div className="mt-4">
+              <PipelineComponent stepData={msg.text} />
+            </div>
+          )}
         </div>
       );
     });
   }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage]);
+  
+  
+  
+  
+  
   
   
   return (
