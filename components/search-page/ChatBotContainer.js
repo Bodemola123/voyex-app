@@ -18,8 +18,9 @@ function ChatBotContainer({
   handleNewConversation,
   isLoading,
   setShowChat,
+  isBotTyping,
+  setIsBotTyping
 }) {
-  const [isBotTyping, setIsBotTyping] = useState(false);
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
   useEffect(() => {

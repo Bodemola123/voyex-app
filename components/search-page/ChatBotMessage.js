@@ -36,10 +36,9 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 
 
 function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
-  setUserInput,
+  setUserInput, isBotTyping,
   handleSendMessage,
   handleNewConversation, }) {
-  const [isBotTyping, setIsBotTyping] = useState(false);
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
@@ -126,13 +125,13 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   };
   const renderedMessages = useMemo(() => {
     return messages.map((msg, index) => {
-      const isMessageComponent = !!msg.component;
       const isUserMessage = msg.role === "user";
       const isBotMessage = msg.role === "bot";
       const isHovered = isBotMessage && hoveredIndex === index;
       const selectedReaction = reactions[index];
       const isSpeaking = speakingMessages[index];
       const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
+      const containsAndroid = isBotMessage && msg.text.toLowerCase().includes("android");
   
       return (
         <div key={index} className="pb-3 flex flex-col gap-2">
@@ -157,7 +156,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                 >
                   <div className="flex flex-col gap-[2px] max-w-[564px]">
                     <span className="flex-1 break-words text-sm">
-                      {isMessageComponent ? msg.component : index === messages.length - 1 ? typedMessage : msg.text}
+                      {index === messages.length - 1 ? typedMessage : msg.text}
                     </span>
                     <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
                       {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -165,33 +164,11 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                     </div>
                   </div>
                 </div>
-                {isMessageComponent && (
-  <div className="mt-2 flex flex-row justify-start items-center gap-2.5 text-[14px] font-semibold">
-    {/* Search Videos Button */}
-    <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
-      <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
-        <LuPlay className="text-xs text-[#f4f4f4]" />
-        <p>Search Videos</p>
-      </div>
-      <LuPlus className="text-[10px] text-[#f4f4f4]" />
-    </div>
-
-    {/* Generate Image Button */}
-    <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
-      <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
-        <LuImage className="text-xs text-[#f4f4f4]" />
-        <p>Generate Image</p>
-      </div>
-      <LuPlus className="text-[10px] text-[#f4f4f4]" />
-    </div>
-  </div>
-)}
+  
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
                   <div
-                    className={`absolute z-20 ${
-                      isMessageComponent ? "right-[-65px] top-0" : "left-0 top-[110%]"
-                    } flex ${isMessageComponent ? "flex-col" : "flex-row"} gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100`}
+                    className="absolute z-20 left-0 top-[110%] flex flex-row gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100"
                   >
                     <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
                     <LuThumbsUp
@@ -212,11 +189,8 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                     />
                   </div>
                 )}
-                
               </div>
             </div>
-
-
           </div>
   
           {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE */}
@@ -225,10 +199,34 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
               <PipelineComponent stepData={msg.text} />
             </div>
           )}
+  
+          {/* ANDROID ACTION BUTTONS - SEPARATE, BELOW MESSAGE */}
+          {containsAndroid && (
+            <div className="mt-4 flex flex-row justify-start items-center gap-2.5 text-[14px] font-semibold">
+              {/* Search Videos Button */}
+              <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
+                <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
+                  <LuPlay className="text-xs text-[#f4f4f4]" />
+                  <p>Search Videos</p>
+                </div>
+                <LuPlus className="text-[10px] text-[#f4f4f4]" />
+              </div>
+  
+              {/* Generate Image Button */}
+              <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
+                <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
+                  <LuImage className="text-xs text-[#f4f4f4]" />
+                  <p>Generate Image</p>
+                </div>
+                <LuPlus className="text-[10px] text-[#f4f4f4]" />
+              </div>
+            </div>
+          )}
         </div>
       );
     });
   }, [messages, hoveredIndex, reactions, speakingMessages]);
+  
   
   
   

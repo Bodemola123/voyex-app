@@ -6,7 +6,6 @@ import { useState, useEffect, KeyboardEvent, ChangeEvent } from "react";
 
 import SearchMain from "../search-page/SearchMain";
 import ChatBotContainer from "@/components/search-page/ChatBotContainer";
-import ChatReply from "./ChatReply";
 
 function SearchPageContainer() {
   const [messages, setMessages] = useState([]);
@@ -20,19 +19,19 @@ function SearchPageContainer() {
   const handleSendMessage = async () => {
     try {
       if (!userInput.trim()) return;
-
+  
       setIsLoading(true);
-
+  
       // User message object
       const userMessage = {
         text: userInput,
         role: "user",
         timestamp: new Date(),
       };
-
+  
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setUserInput("");
-
+  
       // Check for a keyword-based hardcoded response
       const hardcodedReply = getHardcodedReply(userInput);
       if (hardcodedReply) {
@@ -44,44 +43,31 @@ function SearchPageContainer() {
           ]);
           setIsBotTyping(false); // ✅ Bot stops "typing"
           setIsLoading(false);
-        },);
+        }, 5000);
         return;
       }
-
-      // Since there's no API yet, render ChatReply.js as a fallback
+  
+      // Simulated bot response (without ChatReply component)
       setIsBotTyping(true); // ✅ Bot starts "typing"
       setTimeout(() => {
         setMessages((prevMessages) => [
           ...prevMessages,
           {
-            component: <ChatReply text="Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by Philip K. Dick. 
-              Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war. 
-              1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
-              Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-
-              2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
-              Androids lack empathy, making them vulnerable to detection.
-
-              3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
-              Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors." />, 
-            text: `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by Philip K. Dick. 
-              Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
-
-              1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
-              Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-
-              2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
-              Androids lack empathy, making them vulnerable to detection.
-
-              3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
-              Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
+            text: `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. 
+            Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.\n
+            1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. 
+            Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.\n
+            2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. 
+            Androids lack empathy, making them vulnerable to detection.\n
+            3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. 
+            Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
             role: "bot",
             timestamp: new Date(),
           },
         ]);
         setIsBotTyping(false); // ✅ Bot stops "typing"
         setIsLoading(false);
-      }, 2000);
+      }, 5000);
       
     } catch (error) {
       console.error("Error sending message:", error);
@@ -90,6 +76,7 @@ function SearchPageContainer() {
       setIsLoading(false);
     }
   };
+  
 
   
   // Function to get a hardcoded reply based on keyword matching
@@ -164,6 +151,8 @@ function SearchPageContainer() {
       handleNewConversation={handleNewConversation}
       setShowChat={setShowChat}
       isLoading={isLoading}
+      isBotTyping={isBotTyping}
+      setIsBotTyping={setIsBotTyping}  
     />
   );
 }

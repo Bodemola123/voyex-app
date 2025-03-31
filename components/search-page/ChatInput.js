@@ -70,7 +70,7 @@ function ChatInput({
   value={userInput}
   onChange={(e) => setUserInput(e.target.value)}
   disabled={isBotTyping}
-  onKeyDown={!isBotTyping ? handleKeyPress : undefined}
+  onKeyDown={isBotTyping ? (e) => e.preventDefault() : handleKeyPress}
   className={`flex-grow bg-black text-white placeholder-gray-500 outline-none 
               placeholder:text-base placeholder:font-medium font-medium 
               resize-none scrollbar-hide scroll-container max-h-[112px] 
@@ -185,10 +185,10 @@ function ChatInput({
         {/* Upload button */}
         <button
           className={`flex items-center justify-center w-10 h-10 bg-[#C088fb] rounded-full focus:outline-none ${
-            isLoading || isBotTyping && !attachedFile ? "cursor-not-allowed text-gray-400" : ""
+            isLoading || isBotTyping && !attachedFile ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={() => { handleButtonPress(); handleUpload(); }}
-          disabled={isLoading || (isBotTyping && !attachedFile)}
+          disabled={isLoading || isBotTyping}
         >
           <IoArrowUp className="text-[#ffffff] text-[24px]" />
         </button>
