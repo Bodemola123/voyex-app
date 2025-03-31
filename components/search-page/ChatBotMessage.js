@@ -51,8 +51,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [isTypingDone, setIsTypingDone] = useState(false);
-  const [pipelineMessageIndices, setPipelineMessageIndices] = useState([]);
-
+  const [pipelineMessageIndex, setPipelineMessageIndex] = useState(null);
 
 
   useEffect(() => {
@@ -83,25 +82,20 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   useEffect(() => {
     if (messages.length === 0) return;
   
-    const latestMessageIndex = messages.length - 1;
-    const latestMessage = messages[latestMessageIndex];
+    const latestMessage = messages[messages.length - 1];
   
     setTypedMessage("");
     setIsTypingDone(false); // Reset this on a new bot message
   
     if (latestMessage.role === "bot") {
-      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping, () => {
-        setIsTypingDone(true);
+      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping, setIsTypingDone);
+    }
   
-        // Only store message index AFTER typing is done
-        if (latestMessage.text.toLowerCase().includes("pipeline")) {
-          setPipelineMessageIndices((prev) => [...prev, latestMessageIndex]);
-        }
-      });
+    // Check if the latest message contains "pipeline" and store its index if not already set
+    if (latestMessage.text.toLowerCase().includes("pipeline") && pipelineMessageIndex === null) {
+      setPipelineMessageIndex(messages.length - 1);
     }
   }, [messages]);
-  
-  
   
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -158,6 +152,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       const isHovered = isBotMessage && hoveredIndex === index;
       const selectedReaction = reactions[index];
       const isSpeaking = speakingMessages[index];
+      const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
   
       // Fix flickering issue
       let displayedText = msg.text;
@@ -227,8 +222,8 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
             </div>
           </div>
   
-          {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE  KEEP MULTIPLE PIPELINE COMPONENTS VISIBLE */}
-          {pipelineMessageIndices.includes(index) && (
+          {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE */}
+          {containsPipeline && (
   <div className="mt-4">
     <PipelineComponent stepData={msg.text} />
   </div>
