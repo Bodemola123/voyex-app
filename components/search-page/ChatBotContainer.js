@@ -22,6 +22,7 @@ function ChatBotContainer({
   setIsBotTyping
 }) {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+  
 
   useEffect(() => {
     const savedState = localStorage.getItem("isHistoryVisible");

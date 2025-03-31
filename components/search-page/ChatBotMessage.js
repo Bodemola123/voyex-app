@@ -70,11 +70,19 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   }, []);
 
   useEffect(() => {
+    if (messages.length === 0) return;
+  
     const latestMessage = messages[messages.length - 1];
-    if (latestMessage && latestMessage.role !== "user") {
+  
+    // Clear out previous bot message immediately
+    setTypedMessage("");
+  
+    if (latestMessage.role === "bot") {
       typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
     }
   }, [messages]);
+  
+  
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [reactions, setReactions] = useState({});
@@ -131,17 +139,20 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       const selectedReaction = reactions[index];
       const isSpeaking = speakingMessages[index];
       const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
-      const containsAndroid = isBotMessage && msg.text.toLowerCase().includes("android");
+  
+      // Fix flickering issue
+      let displayedText = msg.text;
+      if (isBotMessage && index === messages.length - 1) {
+        displayedText = typedMessage || ""; // Show only `typedMessage` while typing
+      }
   
       return (
         <div key={index} className="pb-3 flex flex-col gap-2">
-          {/* HOVER WRAPPER */}
           <div
             className="relative"
             onMouseEnter={() => isBotMessage && handleMouseEnter(index)}
             onMouseLeave={() => isBotMessage && handleMouseLeave()}
           >
-            {/* MESSAGE BUBBLE */}
             <div className={`flex items-start gap-3 ${isUserMessage ? "flex-row-reverse" : "flex-row"}`}>
               <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full text-white">
                 {isUserMessage ? <FaUser /> : <FaRobot />}
@@ -156,7 +167,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                 >
                   <div className="flex flex-col gap-[2px] max-w-[564px]">
                     <span className="flex-1 break-words text-sm">
-                      {index === messages.length - 1 ? typedMessage : msg.text}
+                      {displayedText} {/* Prevents flickering by only showing `typedMessage` when bot is typing */}
                     </span>
                     <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
                       {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -168,7 +179,11 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
                   <div
-                    className="absolute z-20 left-0 top-[110%] flex flex-row gap-6 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100"
+                    className={`absolute z-20 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100 ${
+                      msg.text.split(" ").length > 50
+                        ? "left-[102%] top-0 flex-col flex gap-6"
+                        : "left-0 top-[105%] flex-row flex gap-6"
+                    }`}
                   >
                     <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
                     <LuThumbsUp
@@ -199,33 +214,12 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
               <PipelineComponent stepData={msg.text} />
             </div>
           )}
-  
-          {/* ANDROID ACTION BUTTONS - SEPARATE, BELOW MESSAGE */}
-          {containsAndroid && (
-            <div className="mt-4 flex flex-row justify-start items-center gap-2.5 text-[14px] font-semibold">
-              {/* Search Videos Button */}
-              <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
-                <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
-                  <LuPlay className="text-xs text-[#f4f4f4]" />
-                  <p>Search Videos</p>
-                </div>
-                <LuPlus className="text-[10px] text-[#f4f4f4]" />
-              </div>
-  
-              {/* Generate Image Button */}
-              <div className="flex items-center justify-between flex-row py-1.5 px-4 gap-2.5 bg-[#1C1D1F] rounded-[20px]">
-                <div className="flex flex-row items-center justify-center gap-1.5 text-xs">
-                  <LuImage className="text-xs text-[#f4f4f4]" />
-                  <p>Generate Image</p>
-                </div>
-                <LuPlus className="text-[10px] text-[#f4f4f4]" />
-              </div>
-            </div>
-          )}
         </div>
       );
     });
-  }, [messages, hoveredIndex, reactions, speakingMessages]);
+  }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage]);
+  
+  
   
   
   
@@ -233,7 +227,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
   return (
     <div className="relative w-full h-full pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
-      <div>
+      <div className="mb-9">
       {renderedMessages}
       {(isLoading || error) && (
         <div className="flex items-start gap-3 pb-3">
@@ -270,7 +264,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
             isLoading={isLoading}
             isBotTyping={isBotTyping}
           />
-          <div className="mt-4 bg-black pt-2">
+          <div className="mt-4 pt-2">
           <BenFooter />
           </div>
 

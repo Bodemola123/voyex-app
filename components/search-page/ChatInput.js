@@ -165,7 +165,7 @@ function ChatInput({
               placeholder:text-base placeholder:font-medium font-medium 
               resize-none scrollbar-hide scroll-container max-h-[112px] 
               rounded-lg px-3 py-2 
-              ${isLoading || isBotTyping ? "cursor-not-allowed opacity-50" : ""}`} 
+              ${isLoading || isBotTyping ? "opacity-50" : ""}`} 
   rows={1} 
 />
 
@@ -185,7 +185,7 @@ function ChatInput({
         {/* Upload button */}
         <button
           className={`flex items-center justify-center w-10 h-10 bg-[#C088fb] rounded-full focus:outline-none ${
-            isLoading || isBotTyping && !attachedFile ? "cursor-not-allowed opacity-50" : ""
+            isLoading || isBotTyping && !attachedFile ? "opacity-50" : ""
           }`}
           onClick={() => { handleButtonPress(); handleUpload(); }}
           disabled={isLoading || isBotTyping}
