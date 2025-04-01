@@ -222,7 +222,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
   
   return (
-    <div className="relative h-full w-[80%] pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
+    <div className="relative h-full w-[85%] pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
       <div className="mb-9">
       {renderedMessages}
       {(isLoading || error) && (
@@ -251,7 +251,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       )}
       </div>
         {/* Sticky Input and Footer */}
-        <div className="sticky bottom-0 w-full mx-auto bg-black z-30 px-0.5">
+        <div className="sticky bottom-0 w-full mx-auto bg-black z-30 p-2">
           <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}

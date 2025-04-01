@@ -51,7 +51,7 @@ function ChatBotContainer({
       {/* History with Smooth Transition */}
       <div
         className={`transition-all duration-300 ${
-          isHistoryVisible ? "w-[220px]" : "w-0"
+          isHistoryVisible ? "w-[230px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <SearchNavOpen />}
@@ -68,7 +68,7 @@ function ChatBotContainer({
         />
 
         {/* Message area that scrolls independently */}
-        <div className="flex-grow overflow-y-auto flex justify-center scrollbar-hide mx-auto">
+        <div className="flex-grow overflow-y-auto flex justify-center w-full scrollbar-hide mx-auto">
           <ChatBotMessage
             messages={messages}
             error={error}
