@@ -27,16 +27,18 @@ function WorkSpaceLayout({ children }) {
 
   return (
     <div className="flex flex-row items-center w-screen h-screen">
+      <div className="flex flex-row">
       <BenNavbar
         toggleHistoryVisibility={toggleHistoryVisibility}
         isHistoryVisible={isHistoryVisible}
       />
       <div
         className={`transition-all duration-300 ${
-          isHistoryVisible ? "w-[360px]" : "w-0"
+          isHistoryVisible ? "w-[280px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <NavOpen />}
+      </div>
       </div>
       <div className="relative flex-grow w-full h-full p-6 overflow-y-scroll flex flex-col justify-between gap-4 tracking-wide">
         {children}

@@ -35,7 +35,7 @@ const SearchNavOpen = () => {
             <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
           </div>
           <div className='flex flex-col border-b border-[#3A3A40] justify-center'>
-            <button className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 px-20 items-center justify-center'>
+            <button className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 px-16 items-center justify-center'>
               <FaPlus className='text-[10px] text-white/40' />
               <p className='text-xs text-white/60'>New chat</p>
             </button>

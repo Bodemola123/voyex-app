@@ -30,7 +30,7 @@ function ChatTop({ messages, setShowChat,  handleNewConversation }) {
   }, [setShowChat]);
 
   return (
-    <div className="w-full sticky top-0 flex items-center justify-end border-b border-[#3A3A40] pb-3">
+    <div className="w-full sticky top-0 flex items-center justify-end pb-3">
       <button className='flex flex-row items-center justify-center gap-1' onClick={handleNewConversation}>
           <MdOutlineRestartAlt className='text-[16px] text-white/60'/>
           <p className='text-white/60 text-sm'>Clear Chat</p>

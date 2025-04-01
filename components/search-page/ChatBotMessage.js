@@ -167,30 +167,20 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
               <div className="flex flex-col relative">
                 <div
                   className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${
-                    isUserMessage ? "bg-[#4F46E5]" : "bg-[#1C1D1F]"
-                  } max-w-[564px]`}
+                    isUserMessage ? "bg-[#1c1d1f] max-w-[564px]" : "bg-transparent w-full"
+                  }`}
                   style={{ whiteSpace: "pre-wrap" }}
                 >
-                  <div className="flex flex-col gap-[2px] max-w-[564px]">
+                  <div className="flex flex-col gap-[2px]">
                     <span className="flex-1 break-words text-sm">
                       {displayedText} {/* Prevents flickering by only showing `typedMessage` when bot is typing */}
                     </span>
-                    <div className="text-[10px] opacity-75 flex items-center justify-end gap-2 shrink-0">
-                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                      <div>&#10003;&#10003;</div>
-                    </div>
                   </div>
                 </div>
   
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
-                  <div
-                    className={`absolute z-20 bg-[#000000] p-4 rounded-lg border-[#FFFFFF1A] border-[0.68px] transition-opacity duration-300 opacity-100 ${
-                      msg.text.split(" ").length > 50
-                        ? "left-[102%] top-0 flex-col flex gap-6"
-                        : "left-0 top-[105%] flex-row flex gap-6"
-                    }`}
-                  >
+                  <div className="absolute z-20 bg-transparent p-4 rounded-lg transition-opacity duration-300 opacity-100 left-0 top-[100%] flex-row flex gap-6">
                     <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
                     <LuThumbsUp
                       className={`text-sm ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
@@ -232,7 +222,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
   
   return (
-    <div className="relative w-full h-full pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
+    <div className="relative h-full w-[80%] pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
       <div className="mb-9">
       {renderedMessages}
       {(isLoading || error) && (
@@ -261,7 +251,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       )}
       </div>
         {/* Sticky Input and Footer */}
-        <div className="sticky bottom-0 w-full bg-transparent z-30">
+        <div className="sticky bottom-0 w-full mx-auto bg-black z-30 px-0.5">
           <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}
@@ -270,7 +260,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
             isLoading={isLoading}
             isBotTyping={isBotTyping}
           />
-          <div className="mt-4 pt-2">
+          <div className="mt-2 pb-2">
           <BenFooter />
           </div>
 

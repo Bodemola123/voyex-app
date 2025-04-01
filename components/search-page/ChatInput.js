@@ -64,7 +64,7 @@ function ChatInput({
         // Only render the ReactMediaRecorder component on the client side
         if (!isClient) {
           return (
-            <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-md">
+            <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full">
 <textarea
   placeholder="Start Exploration"
   value={userInput}
@@ -91,7 +91,7 @@ function ChatInput({
         }
   return (
     <div className="flex items-center justify-center gap-4 w-full">
-    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] bg-black border border-[#c088fb]">
+    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full bg-black border border-[#c088fb]">
       {/* File attachment icon */}
       <label className="cursor-pointer">
         <input
@@ -184,7 +184,7 @@ function ChatInput({
       {/* Upload button */}
         {/* Upload button */}
         <button
-          className={`flex items-center justify-center w-10 h-10 bg-[#C088fb] rounded-full focus:outline-none ${
+          className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${
             isLoading || isBotTyping && !attachedFile ? "opacity-50" : ""
           }`}
           onClick={() => { handleButtonPress(); handleUpload(); }}

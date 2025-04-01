@@ -41,6 +41,8 @@ function SearchMain({
   const [predictiveText, setPredictiveText] = useState("");
   const [showTrendingModal, setShowTrendingModal] = useState(false);
   const [showRecentlyAddedModal, setShowRecentlyAddedModal] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions); // Initial state is all suggestions
+
   
   useEffect(() => {
     setIsClient(true);
@@ -51,6 +53,26 @@ function SearchMain({
   const [audioBlobUrl, setAudioBlobUrl] = useState("");
   const [isClient, setIsClient] = useState(false); // To track if we're on the client
   const [uploadSuccessful, setUploadSuccessful] = useState(false); // Track if upload is valid
+  const [randomTrendingSearches, setRandomTrendingSearches] = useState([]);
+
+// Function to select 3 random trending searches
+const getRandomTrendingSearches = () => {
+  const randomSearches = [];
+  while (randomSearches.length < 3) {
+    const randomIndex = Math.floor(Math.random() * trendingSearches.length);
+    const randomSearch = trendingSearches[randomIndex];
+    if (!randomSearches.includes(randomSearch)) {
+      randomSearches.push(randomSearch);
+    }
+  }
+  setRandomTrendingSearches(randomSearches);
+};
+
+// Call the function when the component mounts
+useEffect(() => {
+  getRandomTrendingSearches();
+}, []);
+
 
   const handleTrendingClick = (query) => {
     setUserInput(query);
@@ -58,12 +80,6 @@ function SearchMain({
     setShowSuggestions(false);
   };
 
-  const handleSurpriseClick = () => {
-    const randomSearch =
-      trendingSearches[Math.floor(Math.random() * trendingSearches.length)];
-    setUserInput(randomSearch);
-    setShowSuggestions(false);
-  };
 
   const closeTrendingModal = useCallback(() => {
     setShowTrendingModal(false);
@@ -98,22 +114,24 @@ function SearchMain({
   const handleInputChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
-    setShowSuggestions(true);
-
-    if (input === "") {
-      setPredictiveText("");
+  
+    // Filter suggestions based on the input
+    const filteredSuggestions = suggestions.filter((suggestion) =>
+      suggestion.toLowerCase().includes(input.toLowerCase()) // Adjust this filter logic if needed
+    );
+  
+    // Update the state for filtered suggestions
+    if (filteredSuggestions.length > 0) {
+      setShowSuggestions(true); // Show the suggestions if we have matches
     } else {
-      const match = suggestions.find((suggestion) =>
-        suggestion.toLowerCase().startsWith(input.toLowerCase())
-      );
-
-      if (match) {
-        setPredictiveText(match.substring(input.length));
-      } else {
-        setPredictiveText("");
-      }
+      setShowSuggestions(false); // Hide suggestions if no matches
     }
+  
+    // Set the filtered suggestions to a state
+    setFilteredSuggestions(filteredSuggestions);
   };
+  
+  
 
   const handleButtonPress = (e) => {
     e.preventDefault();
@@ -275,83 +293,76 @@ function SearchMain({
         <button
         onClick={(e) => { handleButtonPress(e); handleUpload(); }} // First, handle the upload logic
           disabled={!userInput && !attachedFile} // Disable button if no text/file
-          className={`flex items-center justify-center w-8 h-8 md:w-10 md:h-10 bg-[#C088fb] rounded-full focus:outline-none ${!userInput && !attachedFile && "opacity-50 cursor-not-allowed"}`}
+          className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${!userInput && !attachedFile && "opacity-50 cursor-not-allowed"}`}
         >
           <IoArrowUp className="text-[#ffffff] text-[18px] md:text-[20px] lg:text-[24px]" />
         </button>
     </div>
-        {showSuggestions && userInput && (
-          <div className="absolute top-[200px] md:top-[225px] mx-auto w-[200px] md:w-[448px] bg-[#31313140] backdrop-blur-[3.4px] border border-x-[#C088fb] border-b-[#C088fb] border-t-transparent rounded-b-lg z-10 mt-1 p-2">
-            <ul className="py-2">
-              {suggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  className="px-4 py-2 flex items-center text-white hover:bg-[#012b29] rounded-lg cursor-pointer"
-                  onClick={() => {
-                    setUserInput(suggestion);
-                    setShowSuggestions(false);
-                    setPredictiveText("");
-                  }}
-                >
-                  <span className="mr-2">
-                    <LuClock4 />
-                  </span>
-                  <span className="text-[10px] md:text-sm font-normal">{suggestion}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    <div className={`md:grid grid-cols-3 gap-6 flex flex-col ${ showSuggestions && userInput ? "mt-0" : "mt-0" }`}>
-    <div className=" w-[210px] h-[183px] hover:scale-105 transition-all"
-  style={{
-    background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%)',
-    padding: '2px',
-    borderRadius: '24px',
-  }}
->
-      <button className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl items-center justify-center px-4" onClick={handleSurpriseClick}> 
-      {/* Text */}
-      <p className="text-base text-center">Create an image for my presentation</p>
+    {showSuggestions && userInput && (
+  <div className="absolute top-[200px] md:top-[225px] mx-auto max-h-[200px] overflow-y-scroll scrollbar-hide w-[200px] md:w-[448px] bg-[#31313140] backdrop-blur-[3.4px] border border-x-[#C088fb] border-b-[#C088fb] border-t-transparent rounded-b-lg z-10 mt-1 p-2">
+    <ul className="py-2">
+      {filteredSuggestions.map((suggestion, index) => (
+        <li
+          key={index}
+          className="px-4 py-2 flex items-center text-white hover:text-gray rounded-lg cursor-pointer"
+          onClick={() => {
+            setUserInput(suggestion);
+            setShowSuggestions(false);
+            setPredictiveText(""); // Reset the predictive text when a suggestion is clicked
+          }}
+        >
+          <span className="mr-2">
+            <LuClock4 />
+          </span>
+          <span className="text-[10px] md:text-sm font-normal">{suggestion}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
 
-      {/* Button/Icon */}
-      <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
-        <MdImageSearch className='text-[18px] text-[#2f82ef]'/>
       </div>
-    </button>
-      </div>
-      <div className="w-[210px] h-[183px] hover:scale-105 transition-all"
-        style={{
-          background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%)',
-          padding: '2px',
-          borderRadius: '24px',
-        }}>
-          <button className="relative w-full h-full items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl px-4" onClick={handleSurpriseClick}>
-            <p className="text-base text-center">What to do with kid&apos;s art</p>
-            <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
-        <GoLightBulb className='md:text-[24px] sm:text-[18px] text-[#f1a62d]'/>
-      </div>
-          </button>
-      </div>
+      <div className="md:grid grid-cols-3 gap-6 flex flex-col">
+  {randomTrendingSearches.map((search, index) => (
+    <div
+      key={index}
+      className="w-[210px] h-[183px] hover:scale-105 transition-all"
+      style={{
+        background:
+          index === 0
+            ? 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.57%, rgba(34, 63, 250, 0.5) 48.49%, rgba(47, 130, 239, 0.2) 95.41%)'
+            : index === 1
+            ? 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.4) 1.67%, rgba(255, 127, 0, 0.5) 52.47%, rgba(255, 198, 142, 0.2) 95.5%)'
+            : 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%)',
+        padding: '2px',
+        borderRadius: '24px',
+      }}
+    >
+      <button
+        className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl items-center justify-center px-4"
+        onClick={() => {
+          setUserInput(search); // Set the random trending search to userInput
+          setShowSuggestions(false); // Hide suggestions once a search is selected
+        }}
+      >
+        {/* Display random trending search text */}
+        <p className="text-base text-center">{search}</p>
 
-        <div className="w-[210px] h-[183px] hover:scale-105 transition-all"
-                style={{
-                  background: 'linear-gradient(236.35deg, rgba(255, 255, 255, 0.3) 1.67%, rgba(55, 195, 144, 0.5) 48.59%, rgba(153, 248, 214, 0.2) 95.5%)',
-                  padding: '2px',
-                  borderRadius: '24px',
-                }}>
-        <button className="relative w-full h-full items-center justify-center bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl px-4"             onClick={handleSurpriseClick}>
-      {/* Text */}
-      <p className="text-base text-center">Find the decade that a photo is from</p>
-
-      {/* Button/Icon */}
-      <div className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer">
-        <LuEye className='md:text-[24px] sm:text-[18px] text-[#3fc390]'/>
-      </div>
-    </button>
+        {/* Icon on the button */}
+        <div
+          className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer"
+        >
+          {/* Display different icons based on index */}
+          {index === 0 && <MdImageSearch className="text-[18px] text-[#2f82ef]" />}
+          {index === 1 && <GoLightBulb className="md:text-[24px] sm:text-[18px] text-[#f1a62d]" />}
+          {index === 2 && <LuEye className="md:text-[24px] sm:text-[18px] text-[#3fc390]" />}
         </div>
+      </button>
     </div>
+  ))}
+</div>
+
+
     <BenFooter/>
       {showTrendingModal && (
         <>

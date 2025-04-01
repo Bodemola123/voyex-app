@@ -41,6 +41,8 @@ function ChatBotContainer({
 
   return (
     <div className="flex items-center w-full h-screen">
+      {/* The SideNav */}
+      <div className="flex flex-row">
       <BenNavbar
         toggleHistoryVisibility={toggleHistoryVisibility}
         isHistoryVisible={isHistoryVisible}
@@ -49,14 +51,15 @@ function ChatBotContainer({
       {/* History with Smooth Transition */}
       <div
         className={`transition-all duration-300 ${
-          isHistoryVisible ? "w-[360px]" : "w-0"
+          isHistoryVisible ? "w-[220px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <SearchNavOpen />}
       </div>
+      </div>
 
-      {/* Chat Container */}
-      <div className="flex-grow relative flex h-full w-full flex-col px-10 py-5">
+      {/* Chat Container, Main Content */}
+      <div className="flex-grow relative flex h-full w-full flex-col items-center px-10 pt-5">
         {/* Top section for chat header */}
         <ChatTop
           messages={messages}
@@ -65,7 +68,7 @@ function ChatBotContainer({
         />
 
         {/* Message area that scrolls independently */}
-        <div className="flex-grow overflow-y-auto scrollbar-hide">
+        <div className="flex-grow overflow-y-auto flex justify-center scrollbar-hide mx-auto">
           <ChatBotMessage
             messages={messages}
             error={error}
