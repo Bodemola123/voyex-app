@@ -42,7 +42,7 @@ export const suggestions = [
 // For now Dummmy Data
 export const trendingSearches = [
   "Tell me latest marketing strategies",
-  "How can I Boost Sales in 2024?",
+  "How can I Boost Sales in 2025?",
   "What are the Top 10 Marketing Tools?",
   "Suggest me tools to improve user retention",
   "What can I do to improve acquisition?",

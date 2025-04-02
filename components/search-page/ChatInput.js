@@ -90,7 +90,7 @@ function ChatInput({
           );
         }
   return (
-    <div className="flex items-center justify-center gap-4 w-full">
+    <div className="flex items-center justify-center gap-4 w-[573px]">
     <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full bg-black border border-[#c088fb]">
       {/* File attachment icon */}
       <label className="cursor-pointer">

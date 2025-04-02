@@ -160,7 +160,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
             onMouseLeave={() => isBotMessage && handleMouseLeave()}
           >
             <div className={`flex items-start gap-3 ${isUserMessage ? "flex-row-reverse" : "flex-row"}`}>
-              <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full text-white">
+              <div className="w-8 h-8 flex items-center justify-start bg-gray-800 rounded-full text-white">
                 {isUserMessage ? <FaUser /> : <FaRobot />}
               </div>
   
@@ -222,8 +222,8 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
   
   return (
-    <div className="relative h-full w-[85%] pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
-      <div className="mb-9">
+    <div className="relative h-full w-[900px] pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
+      <div className="mb-9 px-1">
       {renderedMessages}
       {(isLoading || error) && (
         <div className="flex items-start gap-3 pb-3">
@@ -251,7 +251,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       )}
       </div>
         {/* Sticky Input and Footer */}
-        <div className="sticky bottom-0 w-full mx-auto bg-black z-30 p-2">
+        <div className="sticky bottom-0 w-full mx-auto flex flex-col items-center justify-center bg-black z-30 p-2">
           <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}
