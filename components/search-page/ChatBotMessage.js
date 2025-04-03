@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import ChatInput from "./ChatInput";
 import BenFooter from "../common/BenFooter";
 import PipelineComponent from "./PipelineComponent";
+import ChatTop from "./ChatTop";
 
 
 export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
@@ -42,11 +43,14 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   setUserInput, isBotTyping,
   handleSendMessage,
-  handleNewConversation, }) {
+  handleNewConversation, setShowChat}) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  
+  const [showRecommendationButton, setShowRecommendationButton] = useState(false);
+    // Track whether the message is sent
+    const [isMessageSent, setIsMessageSent] = useState(false);
+
   
 
   useEffect(() => {
@@ -89,7 +93,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
   
   
-
+  const [selectedFeatures, setSelectedFeatures] = useState({});
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [reactions, setReactions] = useState({});
   const [speakingMessages, setSpeakingMessages] = useState({});
@@ -137,7 +141,23 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       setHoveredIndex(null);
     }, 300); // 0.3 seconds delay
   };
+
+
   const renderedMessages = useMemo(() => {
+    const buttonOptions = {
+      "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
+      "social media content creation": ["Educate", "Entertain", "Inspire", "Promote"],
+      "area of business": ["Product-based", "Service-based", "Digital"],
+      "ideas are you brainstorming": ["Educate", "Business"],
+      "task management": ["Daily to-do lists", "Project planning", "Collaboration tools"],
+      "aspect of design": ["Motion graphics", "Graphic design"],
+      "automation": ["Marketing", "Schedule", "Data Entry"],
+      "data analysis": ["Business Analytics", "Research Data", "Machine Learning"],
+      "writing skills": ["Creative writing", "Copywriting", "Technical Writing"],
+      "kind of collaboration": ["Project Management", "Document Sharing", "Team Communication"],
+      "online course": ["Content Creation", "Course Hosting", "Student Engagement"],
+    };
+  
     return messages.map((msg, index) => {
       const isUserMessage = msg.role === "user";
       const isBotMessage = msg.role === "bot";
@@ -146,11 +166,26 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
       const isSpeaking = speakingMessages[index];
       const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
   
-      // Fix flickering issue
       let displayedText = msg.text;
       if (isBotMessage && index === messages.length - 1) {
-        displayedText = typedMessage || "Typing..."; // Show only `typedMessage` while typing
+        displayedText = typedMessage || "Typing...";
       }
+  
+      const handleOptionClick = (index, option) => {
+        setSelectedFeatures((prev) => ({
+          ...prev,
+          [index]: option,  // Store selection per message index
+        }));
+        handleSendMessage(option);
+        setShowRecommendationButton(true);
+      };
+      
+      
+  
+      // Find if the message text contains any of the button options
+      const matchingKey = Object.keys(buttonOptions).find((key) =>
+        msg.text.toLowerCase().includes(key)
+      );
   
       return (
         <div key={index} className="pb-3 flex flex-col gap-2">
@@ -164,19 +199,36 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
                 {isUserMessage ? <FaUser /> : <FaRobot />}
               </div>
   
-              <div className="flex flex-col relative">
+              <div className="flex flex-col relative gap-2">
+                {/* MESSAGE TEXT */}
                 <div
                   className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${
-                    isUserMessage ? "bg-[#1c1d1f] max-w-[564px]" : "bg-transparent w-full"
+                    isUserMessage ? "bg-[#4F46E5] max-w-[564px]" : "bg-[#1c1d1f] w-fit max-w-[650px]"
                   }`}
                   style={{ whiteSpace: "pre-wrap" }}
                 >
-                  <div className="flex flex-col gap-[2px]">
-                    <span className="flex-1 break-words text-sm">
-                      {displayedText} {/* Prevents flickering by only showing `typedMessage` when bot is typing */}
-                    </span>
-                  </div>
+                  <span className="flex-1 break-words text-sm">{displayedText}</span>
                 </div>
+  
+                {/* Render Buttons if Matching Key is Found */}
+                {matchingKey && (
+                  <div className="flex flex-row gap-2">
+                    {buttonOptions[matchingKey].map((option) => (
+                      <button
+  key={option}
+  className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
+    selectedFeatures[index] === option
+      ? "bg-[#f4f4f4] text-[#1C1D1F]"
+      : "bg-[#1C1D1F] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#1C1D1F]"
+  }`}
+  onClick={() => handleOptionClick(index, option)}
+>
+  {option}
+</button>
+
+                    ))}
+                  </div>
+                )}
   
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
@@ -204,26 +256,30 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
             </div>
           </div>
   
-          {/* PIPELINE COMPONENT - SEPARATE, BELOW MESSAGE */}
+          {/* PIPELINE COMPONENT */}
           {containsPipeline && (
             <div className="mt-4">
               <PipelineComponent stepData={msg.text} />
             </div>
           )}
+          
         </div>
       );
     });
-  }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage]);
+  }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage, selectedFeatures]);
   
-  
-  
-  
-  
-  
-  
+ 
   return (
-    <div className="relative h-full w-[900px] pt-5 overflow-y-auto scrollbar-hide flex flex-col justify-between" ref={scrollContainerRef}>
-      <div className="mb-9 px-1">
+    <div className="relative h-full w-[900px] " >
+      <div className="flex flex-col justify-between bg-transparent">
+      <div className="flex flex-col overflow-hidden">
+                      {/* Top section for chat header */}
+                      <ChatTop
+          messages={messages}
+          setShowChat={setShowChat}
+          handleNewConversation={handleNewConversation}
+        />
+      <div className="pb-6 px-1 overflow-y-auto scrollbar-hide pt-5 " ref={scrollContainerRef}>
       {renderedMessages}
       {(isLoading || error) && (
         <div className="flex items-start gap-3 pb-3">
@@ -250,21 +306,36 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
         </div>
       )}
       </div>
+      </div>                          
         {/* Sticky Input and Footer */}
-        <div className="sticky bottom-0 w-full mx-auto flex flex-col items-center justify-center bg-black z-30 p-2">
-          <ChatInput
+        <div className="sticky bottom-0 mx-auto flex flex-col items-center justify-center gap-6 bg-transparent z-30 p-1">
+             {/* Render "Show Recommendation" button conditionally */}
+        {showRecommendationButton && (
+      <div className="flex justify-center mx-auto pt-1">
+        <button className="py-4 px-6 rounded-3xl transition-colors font-bold duration-200 text-base text-[#0a0a0b] bg-[#f4f4f4]" >
+          Show Recommendation
+        </button>
+      </div>
+    )}
+    <div className="flex flex-col gap-2 bg-black w-[900px] items-center justify-center">
+    <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}
-            handleSendMessage={handleSendMessage}
+            handleSendMessage={(message) => {
+              handleSendMessage(message);
+              setShowRecommendationButton(false); // Hide button when user sends message
+              setIsMessageSent(true); // Mark the message as sent
+            }}
             handleNewConversation={handleNewConversation}
             isLoading={isLoading}
             isBotTyping={isBotTyping}
           />
-          <div className="mt-2 pb-2">
+          <div className="pb-2">
           <BenFooter />
           </div>
-
+    </div>
         </div>
+      </div>
     </div>
   );
 }

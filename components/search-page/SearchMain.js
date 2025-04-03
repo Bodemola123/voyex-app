@@ -186,9 +186,9 @@ useEffect(() => {
   return (
     <div className="flex items-center w-full h-screen">
       <BenNavbar/>
-      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-11 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
-      <div className="relative w-full items-center justify-center flex gap-10 flex-col">
-      <div className='flex flex-col md:gap-[25px] justify-center items-center'>
+      <div className="flex-grow relative flex h-full w-full flex-col gap-14 p-6 justify-center items-center overflow-y-scroll scrollbar-hide scroll-container">
+      <div className="relative w-full items-center justify-center flex gap-14 flex-col">
+      <div className='flex flex-col gap-[8px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center '>
   <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] md:text-[48px] leading-[57.6px] font-bold text-center text-2xl'>
     Hi Explorer VANSH
@@ -196,7 +196,7 @@ useEffect(() => {
   <Image src={'/Sparkle.svg'} alt='sparkles' width={40} height={40} className='message-bubble md:flex hidden'/>
 </div>
 
-      <p className='text-[#f4f4f4] leading-[48px] md:text-[40px] font-bold text-center text-xl'>How can I help you today</p>
+      <p className='text-[#f4f4f4] font-bold text-center text-2xl'>How can I help you today</p>
     </div>
       <div className={`flex items-center bg-[#1C1D1F] rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] border-[0.5px] border-transparent ${
       showSuggestions && userInput
@@ -326,7 +326,7 @@ useEffect(() => {
   {randomTrendingSearches.map((search, index) => (
     <div
       key={index}
-      className="w-[210px] h-[183px] hover:scale-105 transition-all"
+      className="w-[210px] h-[167px] hover:scale-105 transition-all"
       style={{
         background:
           index === 0
@@ -360,10 +360,11 @@ useEffect(() => {
       </button>
     </div>
   ))}
-</div>
+      </div>
+      <div className="fixed bottom-[27px]">
+      <BenFooter/>
+      </div>
 
-
-    <BenFooter/>
       {showTrendingModal && (
         <>
           <TrendingModal

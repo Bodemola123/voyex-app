@@ -83,7 +83,7 @@ const PipelineComponent = () => {
                           <div key={i} className='bg-[#d9d9d9] h-[125px] w-full'></div>
                         ))}
                       </div>
-                      <ol className='list-decimal space-y-1 pl-4 text-[10px]'>
+                      <ol className='list-decimal space-y-1 pl-4 text-[12px]'>
                         <li><strong>Access {tool} Platform:</strong> You can access {tool} through various platforms such as websites, apps, or integrated into other services.</li>
                         <li><strong>Start a Conversation:</strong> Once you&apos;re on the platform, you&apos;ll typically see a chat interface where you can type your messages or questions.</li>
                         <li><strong>Type Your Message:</strong> Just like you&apos;re texting a friend, type your message or question into the chat box.</li>

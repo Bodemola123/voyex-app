@@ -19,7 +19,7 @@ export const suggestions = [
   "What are the best AI tools for content creation?",
   "How can I improve my writing skills?",
   "Tell me how to start a side hustle",
-  "I want to automate my daily tasks",
+  "I want to automate workflow",
   "How can I stay motivated to achieve my goals?",
   "Suggest me books on self-improvement",
   "What are the best ways to make money online?",
@@ -34,7 +34,7 @@ export const suggestions = [
   "I want to start a successful YouTube channel",
   "How can I improve my sleep quality?",
   "Suggest me strategies for better decision-making",
-  "I want to improve my networking skills",
+  "I want a tool for team collaboration.",
   "How can I reduce stress in my daily life?",
   "Tell me ways to improve my communication skills"
 ];
