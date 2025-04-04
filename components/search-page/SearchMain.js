@@ -198,11 +198,11 @@ useEffect(() => {
 
       <p className='text-[#f4f4f4] font-bold text-center text-2xl'>How can I help you today</p>
     </div>
-      <div className={`flex items-center bg-[#1C1D1F] rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] border-[0.5px] border-transparent ${
+      <div className={`flex items-center bg-[#1C1D1F] px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] border-[0.5px] border-transparent ${
       showSuggestions && userInput
-        ? "rounded-full bg-[#1C1D1F] backdrop-blur-[3.4px] border-x-[#c088fb] border-y-[#c088fb]  max-w-[532px]"
-        : "rounded-full border-[#d0d5dd] max-w-[532px]"
-    } hover:shadow-md hover:border-[#c088fb] group`}
+        ? "rounded-t-[37px] bg-[#1C1D1F] backdrop-blur-[3.4px]  max-w-[532px]"
+        : "rounded-[37px]  max-w-[532px]"
+    } group`}
   >
       {/* File attachment icon */}
       <label className="cursor-pointer ">
@@ -299,12 +299,12 @@ useEffect(() => {
         </button>
     </div>
     {showSuggestions && userInput && (
-  <div className="absolute top-[200px] md:top-[225px] mx-auto max-h-[200px] overflow-y-scroll scrollbar-hide w-[200px] md:w-[448px] bg-[#31313140] backdrop-blur-[3.4px] border border-x-[#C088fb] border-b-[#C088fb] border-t-transparent rounded-b-lg z-10 mt-1 p-2">
-    <ul className="py-2">
+  <div className="absolute top-[150px] md:top-[198px] mx-auto max-h-[200px] overflow-y-scroll scrollbar-hide w-[532px] bg-[#1c1d1f] border-t-transparent rounded-b-[37px] z-10 mt-1 p-2">
+    <ul className="">
       {filteredSuggestions.map((suggestion, index) => (
         <li
           key={index}
-          className="px-4 py-2 flex items-center text-white hover:text-gray rounded-lg cursor-pointer"
+          className="px-3 py-3 flex items-center text-white hover:text-[#0a0a0b] hover:bg-[#c088fb] rounded-[37px] cursor-pointer"
           onClick={() => {
             setUserInput(suggestion);
             setShowSuggestions(false);
@@ -314,7 +314,7 @@ useEffect(() => {
           <span className="mr-2">
             <LuClock4 />
           </span>
-          <span className="text-[10px] md:text-sm font-normal">{suggestion}</span>
+          <span className="text-[16px] md:text-sm font-medium">{suggestion}</span>
         </li>
       ))}
     </ul>

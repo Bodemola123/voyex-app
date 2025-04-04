@@ -9,6 +9,7 @@ import ChatInput from "./ChatInput";
 import BenFooter from "../common/BenFooter";
 import PipelineComponent from "./PipelineComponent";
 import ChatTop from "./ChatTop";
+import Recommendations from "./Recommendations";
 
 
 export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
@@ -50,6 +51,21 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   const [showRecommendationButton, setShowRecommendationButton] = useState(false);
     // Track whether the message is sent
     const [isMessageSent, setIsMessageSent] = useState(false);
+    const [showRecommendations, setShowRecommendations] = useState(false);
+
+// This function will ensure the container scrolls to the bottom
+const scrollToBottom = () => {
+  if (scrollContainerRef.current) {
+    scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+  }
+};
+
+useEffect(() => {
+  if (!showRecommendations) {
+    // Scroll to the bottom when returning to the chat section
+    scrollToBottom();
+  }
+}, [showRecommendations]);
 
   
 
@@ -270,16 +286,19 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   
  
   return (
-    <div className="relative h-full w-[900px] " >
-      <div className="flex flex-col justify-between bg-transparent">
+    <div className="relative w-[1000px]" >
+            {showRecommendations ? (
+        <Recommendations setShowRecommendations={setShowRecommendations} /> 
+      ) :
+      <div className="h-full w-full flex flex-col justify-between bg-transparent py-4">
       <div className="flex flex-col overflow-hidden">
                       {/* Top section for chat header */}
-                      <ChatTop
+          <ChatTop
           messages={messages}
           setShowChat={setShowChat}
           handleNewConversation={handleNewConversation}
         />
-      <div className="pb-6 px-1 overflow-y-auto scrollbar-hide pt-5 " ref={scrollContainerRef}>
+      <div className="pb-9 px-1 overflow-y-auto scrollbar-hide pt-5 " ref={scrollContainerRef}>
       {renderedMessages}
       {(isLoading || error) && (
         <div className="flex items-start gap-3 pb-3">
@@ -312,7 +331,7 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
              {/* Render "Show Recommendation" button conditionally */}
         {showRecommendationButton && (
       <div className="flex justify-center mx-auto pt-1">
-        <button className="py-4 px-6 rounded-3xl transition-colors font-bold duration-200 text-base text-[#0a0a0b] bg-[#f4f4f4]" >
+        <button className="py-4 px-6 rounded-3xl transition-colors font-bold duration-200 text-base text-[#0a0a0b] bg-[#f4f4f4]" onClick={() => setShowRecommendations(true)} >
           Show Recommendation
         </button>
       </div>
@@ -330,12 +349,13 @@ function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
             isLoading={isLoading}
             isBotTyping={isBotTyping}
           />
-          <div className="pb-2">
+          <div>
           <BenFooter />
           </div>
     </div>
         </div>
       </div>
+  }
     </div>
   );
 }

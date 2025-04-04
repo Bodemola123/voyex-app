@@ -60,7 +60,7 @@ function ChatBotContainer({
       </div>
 
       {/* Chat Container, Main Content */}
-      <div className="flex-grow relative flex h-full w-full flex-col items-center px-10 pt-5">
+      <div className="flex-grow relative flex h-full w-full flex-col items-center">
         {/* Message area that scrolls independently */}
         <div className="flex-grow overflow-y-auto flex justify-center w-full scrollbar-hide mx-auto">
           <ChatBotMessage

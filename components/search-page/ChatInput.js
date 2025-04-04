@@ -91,7 +91,7 @@ function ChatInput({
         }
   return (
     <div className="flex items-center justify-center gap-4 w-[573px]">
-    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full bg-black border border-[#c088fb]">
+    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full bg-[#1c1d1f]">
       {/* File attachment icon */}
       <label className="cursor-pointer">
         <input
@@ -161,7 +161,7 @@ function ChatInput({
   onChange={(e) => setUserInput(e.target.value)}
   disabled={isLoading || isBotTyping} // Disable input while bot is typing
   onKeyDown={isBotTyping ? (e) => e.preventDefault() : handleKeyPress} // Block keypress when bot is typing
-  className={`flex-grow bg-black text-white placeholder-gray-500 outline-none 
+  className={`flex-grow bg-[#1c1d1f] text-white placeholder-gray-500 outline-none 
               placeholder:text-base placeholder:font-medium font-medium 
               resize-none scrollbar-hide scroll-container max-h-[112px] 
               rounded-lg px-3 py-2 
