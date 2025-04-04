@@ -188,7 +188,7 @@ useEffect(() => {
     const buttonOptions = {
       "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
       "social media content creation": ["Educate", "Entertain", "Inspire", "Promote"],
-      "area of business": ["Product-based", "Service-based", "Digital"],
+      "area of business": ["Product-based", "Digital"],
       "ideas are you brainstorming": ["Educate", "Business"],
       "task management": ["Daily to-do lists", "Project planning", "Collaboration tools"],
       "aspect of design": ["Motion graphics", "Graphic design"],
@@ -197,7 +197,11 @@ useEffect(() => {
       "writing skills": ["Creative writing", "Copywriting", "Technical Writing"],
       "kind of collaboration": ["Project Management", "Document Sharing", "Team Communication"],
       "online course": ["Content Creation", "Course Hosting", "Student Engagement"],
-      "digital business": ["Content Creation", "Software Development"]
+      "digital business": ["Content Creation", "Software Development"],
+      "educating your audience":["Videos", "Blog Posts"],
+      "product-based business":["Production", "Customer Acquisition"],
+      "type of videos":["Long", "Short"],
+      "type of blog posts":["Fictional", "Non-Fictional"]
     };
   
     return messages.map((msg, index) => {

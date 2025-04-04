@@ -129,14 +129,31 @@ function SearchPageContainer() {
         "Acquiring users is just the first step! Retaining them is equally important. Do you need insights on customer retention as well?",
       ],
       educate: [
-        "If you're aiming to educate through your content, focus on delivering valuable and insightful information. Tutorials, how-to guides, and informative articles are great ways to educate your audience. Need help creating educational content?",
         "Educating your audience builds trust and authority. Are you focusing on educational videos, blog posts, or social media infographics to share knowledge?",
-        "To educate, consistency and quality are key! Do you need suggestions on educational content formats or tools?",
       ],
       entertain: [
         "If you're aiming to entertain your audience, focus on fun, lighthearted, and engaging content. Memes, challenges, and entertaining videos are great options. Want suggestions for interactive content?",
         "Entertainment drives strong engagement! Are you creating comedy sketches, trending challenges, or fun polls to keep your audience entertained?",
         "To entertain, try mixing humor, creativity, and interactivity. Need help with entertaining content ideas?",
+      ],
+      videos:[
+        "What type of videos are you focusing on? Is it Short or Long?"
+      ],
+      "blog posts":[
+        "What type of blog posts are you focusing on? Is it Fictional or Non-Fictional?"
+      ],
+      long:
+      [
+        "Need Tools to create long videos? Can I recommend?"
+      ],
+      short:[
+        "Need Tools to create short videos? Can I recommend?"
+      ],
+      fictional:[
+        "Need Tools to create fictional posts? Can I recommend?"
+      ],
+      "non-fictional":[
+        "Need Tools to create Non-Fictional posts? Can I recommend?"
       ],
       inspire: [
         "If your focus is to inspire, create content that resonates emotionally with your audience. Share stories, quotes, and motivational messages. Would you like help crafting inspiring content?",
@@ -149,9 +166,9 @@ function SearchPageContainer() {
         "To promote effectively, focus on strong calls-to-action and compelling visuals. Do you need assistance with promotional content strategies?",
       ],
       business: [
-        "What area of business are you focusing on? Is it product-based, service-based, digital, or something else?"
+        "What area of business are you focusing on? Is it product-based, digital, or something else?"
       ],
-      brainstorming: [
+      "brainstorming ideas": [
         "What kind of ideas are you brainstorming? Are they for business, creative projects, academic work, or something else?"
       ],
       "manage my task": [
@@ -176,9 +193,13 @@ function SearchPageContainer() {
         "What part of course creation do you need help with? Are you working on content creation, course hosting, student engagement, or something else?"
       ],
       "product-based": [
-        "Product-based businesses require strong supply chain management and branding. Are you looking for manufacturing, e-commerce, or retail strategies?",
-        "Selling physical products? Consider logistics, distribution channels, and branding. Need guidance on any of these?",
         "For a product-based business, sourcing and marketing are key. Would you like insights on production or customer acquisition?",
+      ],
+      production: [
+        "Need Tools to help with production, Can i recommend a few?"
+      ],
+      "customer acquisition": [
+        "Need Tools to help with Customer Acquisition, Can i recommend a few?"
       ],
       "course hosting":[
         "When it comes to course hosting, there are several great platforms available, like Teachable, Thinkific, and Udemy. Would you like to know more about which platform could suit your needs?",
@@ -202,6 +223,9 @@ function SearchPageContainer() {
         "Academic work often involves research and structuring ideas. Are you working on an essay, thesis, or publication?",
         "Need help with academic projects? I can assist with research tools, writing strategies, and citation management.",
         "Writing academically requires clarity and structure. Do you need help with formatting, argumentation, or research?",
+      ],
+      "software development":[
+        "Need tools for Software development? Can i recommend a few?"
       ],
       "project planning": [
         "Project planning needs clear goals and timelines. Are you managing a personal project, a team project, or something else?",
