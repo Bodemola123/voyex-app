@@ -15,6 +15,7 @@ function SearchPageContainer() {
   const [showChat, setShowChat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
+  
 
   
 
@@ -194,8 +195,6 @@ function SearchPageContainer() {
       ],
       "digital": [
         "Digital businesses can include online courses, SaaS, or digital products. Are you interested in content creation, software development, or another area?",
-        "Running a digital business? Monetization models like subscriptions and one-time sales matter. Do you need help choosing one?",
-        "Digital products scale differently from physical ones. Would you like help with marketing or platform selection?",
       ],
       "academic work": [
         "Academic work often involves research and structuring ideas. Are you working on an essay, thesis, or publication?",
@@ -336,6 +335,8 @@ function SearchPageContainer() {
 
   const handleNewConversation = () => {
     setMessages([]);
+    setSelectedFeatures({});
+    setShowRecommendationButton(false);
     // setChat(null);
   };
   return !showChat ? (

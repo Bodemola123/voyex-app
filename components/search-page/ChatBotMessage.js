@@ -36,7 +36,7 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 
       charIndex++;
     }, speed);
-  }, 3000); // Delay before typing starts
+  }, 2000); // Delay before typing starts
 };
 
 
@@ -110,6 +110,8 @@ useEffect(() => {
   
   
   const [selectedFeatures, setSelectedFeatures] = useState({});
+  const [selectionCountSinceHide, setSelectionCountSinceHide] = useState(0);
+  const [buttonWasShownOnce, setButtonWasShownOnce] = useState(false);  
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [reactions, setReactions] = useState({});
   const [speakingMessages, setSpeakingMessages] = useState({});
@@ -158,7 +160,28 @@ useEffect(() => {
     }, 300); // 0.3 seconds delay
   };
 
-
+  const [optionsVisible, setOptionsVisible] = useState(messages.map(() => false)); // Track visibility state of options for each message
+  useEffect(() => {
+    // Set a delay of 3 seconds after a new bot message
+    const timeoutIds = messages.map((msg, index) => {
+      if (msg.role === 'bot' && !optionsVisible[index]) {
+        return setTimeout(() => {
+          setOptionsVisible((prev) => {
+            const newOptions = [...prev];
+            newOptions[index] = true;
+            return newOptions;
+          });
+        }, 7800); // 3-second delay
+      }
+      return null;
+    });
+  
+    // Cleanup timeouts when component unmounts or dependencies change
+    return () => {
+      timeoutIds.forEach((id) => id && clearTimeout(id));
+    };
+  }, [messages]); // Dependency on `messages` to trigger when a new message arrives
+  
   const renderedMessages = useMemo(() => {
     const buttonOptions = {
       "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
@@ -172,6 +195,7 @@ useEffect(() => {
       "writing skills": ["Creative writing", "Copywriting", "Technical Writing"],
       "kind of collaboration": ["Project Management", "Document Sharing", "Team Communication"],
       "online course": ["Content Creation", "Course Hosting", "Student Engagement"],
+      "digital business": ["Content Creation", "Software Development"]
     };
   
     return messages.map((msg, index) => {
@@ -188,14 +212,31 @@ useEffect(() => {
       }
   
       const handleOptionClick = (index, option) => {
-        setSelectedFeatures((prev) => ({
-          ...prev,
-          [index]: option,  // Store selection per message index
-        }));
-        handleSendMessage(option);
-        setShowRecommendationButton(true);
-      };
+        if (selectedFeatures.hasOwnProperty(index)) return;
       
+        const newSelectedFeatures = {
+          ...selectedFeatures,
+          [index]: option,
+        };
+      
+        setSelectedFeatures(newSelectedFeatures);
+        handleSendMessage(option);
+      
+        const uniqueSelections = new Set(Object.values(newSelectedFeatures));
+      
+        if (!buttonWasShownOnce && uniqueSelections.size === 3) {
+          setShowRecommendationButton(true);
+          setButtonWasShownOnce(true);
+        } else if (!showRecommendationButton && buttonWasShownOnce) {
+          const newCount = selectionCountSinceHide + 1;
+          if (newCount >= 3) {
+            setShowRecommendationButton(true);
+            setSelectionCountSinceHide(0); // reset counter after showing button
+          } else {
+            setSelectionCountSinceHide(newCount);
+          }
+        }
+      };
       
   
       // Find if the message text contains any of the button options
@@ -227,21 +268,23 @@ useEffect(() => {
                 </div>
   
                 {/* Render Buttons if Matching Key is Found */}
-                {matchingKey && (
+                {matchingKey && optionsVisible[index] && (
                   <div className="flex flex-row gap-2">
                     {buttonOptions[matchingKey].map((option) => (
                       <button
-  key={option}
-  className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
-    selectedFeatures[index] === option
-      ? "bg-[#f4f4f4] text-[#1C1D1F]"
-      : "bg-[#1C1D1F] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#1C1D1F]"
-  }`}
-  onClick={() => handleOptionClick(index, option)}
->
-  {option}
-</button>
-
+                        key={option}
+                        className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
+                          selectedFeatures[index] === option
+                            ? "bg-[#f4f4f4] text-[#1C1D1F]"
+                            : selectedFeatures[index]
+                            ? "bg-[#1C1D1F] text-[#f4f4f4]"
+                            : "bg-[#1C1D1F] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#1C1D1F]"
+                        }`}
+                        onClick={() => handleOptionClick(index, option)}
+                        disabled={!!selectedFeatures[index]}
+                      >
+                        {option}
+                      </button>
                     ))}
                   </div>
                 )}
@@ -278,11 +321,11 @@ useEffect(() => {
               <PipelineComponent stepData={msg.text} />
             </div>
           )}
-          
         </div>
       );
     });
   }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage, selectedFeatures]);
+  
   
  
   return (
