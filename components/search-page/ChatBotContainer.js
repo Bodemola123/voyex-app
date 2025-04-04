@@ -19,7 +19,12 @@ function ChatBotContainer({
   isLoading,
   setShowChat,
   isBotTyping,
-  setIsBotTyping
+  setIsBotTyping,
+  selectedFeatures,
+  setSelectedFeatures,
+  showRecommendationButton,
+  setShowRecommendationButton,
+  optionsVisible, setOptionsVisible
 }) {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   
@@ -74,6 +79,12 @@ function ChatBotContainer({
             handleNewConversation={handleNewConversation}
             isBotTyping={isBotTyping}
             setShowChat={setShowChat}
+            selectedFeatures={selectedFeatures}
+            setSelectedFeatures={setSelectedFeatures}
+            showRecommendationButton={showRecommendationButton}
+            setShowRecommendationButton={setShowRecommendationButton}
+            optionsVisible={optionsVisible}
+            setOptionsVisible={setOptionsVisible}
           />
         </div>
       </div>

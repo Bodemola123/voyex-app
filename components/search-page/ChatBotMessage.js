@@ -44,11 +44,10 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   setUserInput, isBotTyping,
   handleSendMessage,
-  handleNewConversation, setShowChat}) {
+  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton, optionsVisible, setOptionsVisible}) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  const [showRecommendationButton, setShowRecommendationButton] = useState(false);
     // Track whether the message is sent
     const [isMessageSent, setIsMessageSent] = useState(false);
     const [showRecommendations, setShowRecommendations] = useState(false);
@@ -107,11 +106,7 @@ useEffect(() => {
     }
   }, [messages]);
   
-  
-  
-  const [selectedFeatures, setSelectedFeatures] = useState({});
-  const [selectionCountSinceHide, setSelectionCountSinceHide] = useState(0);
-  const [buttonWasShownOnce, setButtonWasShownOnce] = useState(false);  
+
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [reactions, setReactions] = useState({});
   const [speakingMessages, setSpeakingMessages] = useState({});
@@ -160,28 +155,35 @@ useEffect(() => {
     }, 300); // 0.3 seconds delay
   };
 
-  const [optionsVisible, setOptionsVisible] = useState(messages.map(() => false)); // Track visibility state of options for each message
   useEffect(() => {
-    // Set a delay of 3 seconds after a new bot message
-    const timeoutIds = messages.map((msg, index) => {
-      if (msg.role === 'bot' && !optionsVisible[index]) {
-        return setTimeout(() => {
-          setOptionsVisible((prev) => {
-            const newOptions = [...prev];
-            newOptions[index] = true;
-            return newOptions;
-          });
-        }, 7800); // 3-second delay
-      }
-      return null;
-    });
+    // Track the message indices to show options
+    const timeoutIds = [];
   
-    // Cleanup timeouts when component unmounts or dependencies change
+    // If there are messages, only apply the timeout for the bot messages
+    if (messages.length > 0) {
+      messages.forEach((msg, index) => {
+        // Only apply the timeout for bot messages and only if options are not yet visible
+        if (msg.role === 'bot' && !optionsVisible[index]) {
+          const timeoutId = setTimeout(() => {
+            setOptionsVisible((prev) => {
+              const newOptions = [...prev];
+              newOptions[index] = true;
+              return newOptions;
+            });
+          }, 3000); // 3-second delay for bot message options
+  
+          timeoutIds.push(timeoutId);
+        }
+      });
+    }
+  
+    // Cleanup timeouts when component unmounts or messages change
     return () => {
       timeoutIds.forEach((id) => id && clearTimeout(id));
     };
-  }, [messages]); // Dependency on `messages` to trigger when a new message arrives
-  
+  }, [messages, optionsVisible]); // Dependency on messages and optionsVisible to trigger effect correctly
+   // Ensure to trigger effect when messages or new conversation handler change
+
   const renderedMessages = useMemo(() => {
     const buttonOptions = {
       "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
@@ -213,31 +215,19 @@ useEffect(() => {
   
       const handleOptionClick = (index, option) => {
         if (selectedFeatures.hasOwnProperty(index)) return;
-      
+  
         const newSelectedFeatures = {
           ...selectedFeatures,
           [index]: option,
         };
-      
+  
         setSelectedFeatures(newSelectedFeatures);
         handleSendMessage(option);
-      
-        const uniqueSelections = new Set(Object.values(newSelectedFeatures));
-      
-        if (!buttonWasShownOnce && uniqueSelections.size === 3) {
+  
+        if (Object.keys(newSelectedFeatures).length === 3) {
           setShowRecommendationButton(true);
-          setButtonWasShownOnce(true);
-        } else if (!showRecommendationButton && buttonWasShownOnce) {
-          const newCount = selectionCountSinceHide + 1;
-          if (newCount >= 3) {
-            setShowRecommendationButton(true);
-            setSelectionCountSinceHide(0); // reset counter after showing button
-          } else {
-            setSelectionCountSinceHide(newCount);
-          }
         }
       };
-      
   
       // Find if the message text contains any of the button options
       const matchingKey = Object.keys(buttonOptions).find((key) =>

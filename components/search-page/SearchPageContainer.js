@@ -9,13 +9,15 @@ import ChatBotContainer from "@/components/search-page/ChatBotContainer";
 
 function SearchPageContainer() {
   const [messages, setMessages] = useState([]);
+  const [selectedFeatures, setSelectedFeatures] = useState({});
+  const [showRecommendationButton, setShowRecommendationButton] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [chat, setChat] = useState(null);
   const [error, setError] = useState(null);
   const [showChat, setShowChat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
-  
+  const [optionsVisible, setOptionsVisible] = useState(messages.map(() => false)); // Track visibility state of options for each message
 
   
 
@@ -333,12 +335,13 @@ function SearchPageContainer() {
  
   
 
-  const handleNewConversation = () => {
-    setMessages([]);
-    setSelectedFeatures({});
-    setShowRecommendationButton(false);
-    // setChat(null);
-  };
+const handleNewConversation = () => {
+  setMessages([]);
+  setSelectedFeatures({});
+  setShowRecommendationButton(false);
+  setOptionsVisible([]); // Reset options visibility for new conversation
+};
+
   return !showChat ? (
     <SearchMain
       messages={messages}
@@ -359,7 +362,13 @@ function SearchPageContainer() {
       setShowChat={setShowChat}
       isLoading={isLoading}
       isBotTyping={isBotTyping}
-      setIsBotTyping={setIsBotTyping}  
+      setIsBotTyping={setIsBotTyping}
+      selectedFeatures={selectedFeatures}
+      setSelectedFeatures={setSelectedFeatures}
+      showRecommendationButton={showRecommendationButton}
+      setShowRecommendationButton={setShowRecommendationButton}  
+      optionsVisible={optionsVisible}
+      setOptionsVisible={setOptionsVisible}
     />
   );
 }
