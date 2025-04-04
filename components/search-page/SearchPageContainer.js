@@ -151,7 +151,7 @@ function SearchPageContainer() {
       brainstorming: [
         "What kind of ideas are you brainstorming? Are they for business, creative projects, academic work, or something else?"
       ],
-      "managing my task": [
+      "manage my task": [
         "What type of task management are you looking for? Do you need project planning, daily to-do lists, collaboration tools, or something else?"
       ],
       "design skills": [
