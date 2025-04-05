@@ -12,6 +12,17 @@ import ChatTop from "./ChatTop";
 import Recommendations from "./Recommendations";
 
 
+const TypingAnimation = () => {
+  return (
+    <div className="flex space-x-1">
+      <span className="animate-bounce delay-0">.</span>
+      <span className="animate-bounce delay-100">.</span>
+      <span className="animate-bounce delay-200">.</span>
+    </div>
+  );
+};
+
+
 export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
   if (!text || typeof text !== "string") {
     console.error("Invalid text value:", text);
@@ -21,7 +32,8 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
   }
 
   setBotTyping(true);
-  setTypedMessage("Typing..."); // Display "Typing..." first
+  setTypedMessage("__typing__"); // Special flag for UI to show animation
+
 
   setTimeout(() => {
     let charIndex = 0;
@@ -159,7 +171,6 @@ useEffect(() => {
     // Track the message indices to show options
     const timeoutIds = [];
   
-    // If there are messages, only apply the timeout for the bot messages
     if (messages.length > 0) {
       messages.forEach((msg, index) => {
         // Only apply the timeout for bot messages and only if options are not yet visible
@@ -179,11 +190,10 @@ useEffect(() => {
   
     // Cleanup timeouts when component unmounts or messages change
     return () => {
-      timeoutIds.forEach((id) => id && clearTimeout(id));
+      timeoutIds.forEach((id) => clearTimeout(id));
     };
   }, [messages, optionsVisible]); // Dependency on messages and optionsVisible to trigger effect correctly
-   // Ensure to trigger effect when messages or new conversation handler change
-
+  
   const renderedMessages = useMemo(() => {
     const buttonOptions = {
       "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
@@ -259,7 +269,9 @@ useEffect(() => {
                   }`}
                   style={{ whiteSpace: "pre-wrap" }}
                 >
-                  <span className="flex-1 break-words text-sm">{displayedText}</span>
+                  <span className="flex-1 break-words text-sm">
+  {displayedText === "__typing__" ? <TypingAnimation /> : displayedText}
+</span>
                 </div>
   
                 {/* Render Buttons if Matching Key is Found */}

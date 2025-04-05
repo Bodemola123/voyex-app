@@ -19,7 +19,6 @@ function SearchPageContainer() {
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [optionsVisible, setOptionsVisible] = useState(messages.map(() => false)); // Track visibility state of options for each message
 
-  
 
   const handleSendMessage = async (message = null, isOptionClick = false) => {
     try {

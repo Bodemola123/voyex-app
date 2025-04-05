@@ -27,7 +27,7 @@ const Popup = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-[105px] z-50 right-[50px] w-[327px] h-[540px] bg-[#ffffff] shadow-xl rounded-2xl pt-4 flex flex-col justify-between text-[#081227]">
+    <div className="fixed bottom-[87px] z-50 right-[50px] w-[327px] h-[540px] bg-[#ffffff] shadow-xl rounded-2xl pt-4 flex flex-col justify-between text-[#081227]">
       {/* Header */}
       <div className="px-4 font-medium text-sm flex items-center justify-between">
         <span>
