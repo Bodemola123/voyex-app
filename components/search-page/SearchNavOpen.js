@@ -116,7 +116,7 @@ const SearchNavOpen = () => {
         </div>
 
         {/* Footer Upgrade Button */}
-        <button className='flex flex-row py-4 px-6 gap-4 items-start justify-start border-t border-[#3a3a40]'>
+        <button className='flex flex-row py-4 gap-4 items-start justify-start border-t border-[#3a3a40]'>
           <Image src={'/IconContainer.svg'} alt='icon' width={40} height={40} />
           <div className='flex flex-col gap-2 items-start'>
             <p className='text-sm text-[#f4f4f4] font-medium '>Upgrade Plan</p>
