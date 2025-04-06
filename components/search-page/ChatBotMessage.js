@@ -32,9 +32,7 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
   }
 
   setBotTyping(true);
-  setTypedMessage("__typing__"); // Special flag for UI to show animation
-
-
+  setTypedMessage("__typing__"); 
   setTimeout(() => {
     let charIndex = 0;
     const interval = setInterval(() => {
@@ -178,7 +176,7 @@ useEffect(() => {
           const timeoutId = setTimeout(() => {
             setOptionsVisible((prev) => {
               const newOptions = [...prev];
-              newOptions[index] = true;
+              newOptions[index] = true; // Show options after 3 seconds
               return newOptions;
             });
           }, 3000); // 3-second delay for bot message options
@@ -193,7 +191,8 @@ useEffect(() => {
       timeoutIds.forEach((id) => clearTimeout(id));
     };
   }, [messages, optionsVisible]); // Dependency on messages and optionsVisible to trigger effect correctly
-  
+
+
   const renderedMessages = useMemo(() => {
     const buttonOptions = {
       "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
@@ -223,8 +222,8 @@ useEffect(() => {
       const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
   
       let displayedText = msg.text;
-      if (isBotMessage && !msg.silent && index === messages.length - 1) {
-        displayedText = typedMessage || "Typing...";
+      if (isBotMessage && index === messages.length - 1) {
+        displayedText = typedMessage;
       }
   
       const handleOptionClick = (index, option) => {
@@ -236,8 +235,7 @@ useEffect(() => {
         };
   
         setSelectedFeatures(newSelectedFeatures);
-        // Send the selected option silently without adding it to messages
-        handleSendMessage(option, true); // Pass true to indicate it's an option click
+        handleSendMessage(option);
   
         if (Object.keys(newSelectedFeatures).length === 3) {
           setShowRecommendationButton(true);
@@ -261,7 +259,7 @@ useEffect(() => {
                 {isUserMessage ? <FaUser /> : <FaRobot />}
               </div>
   
-              <div className="flex flex-col relative gap-2 mb-9">
+              <div className="flex flex-col relative gap-2">
                 {/* MESSAGE TEXT */}
                 <div
                   className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${
@@ -269,7 +267,7 @@ useEffect(() => {
                   }`}
                   style={{ whiteSpace: "pre-wrap" }}
                 >
-                  <span className="flex-1 break-words text-sm">
+                                    <span className="flex-1 break-words text-sm">
   {displayedText === "__typing__" ? <TypingAnimation /> : displayedText}
 </span>
                 </div>
@@ -348,7 +346,7 @@ useEffect(() => {
           setShowChat={setShowChat}
           handleNewConversation={handleNewConversation}
         />
-      <div className="px-1 overflow-y-auto scrollbar-hide pt-5" ref={scrollContainerRef}>
+      <div className="pb-9 px-1 overflow-y-auto scrollbar-hide pt-5 " ref={scrollContainerRef}>
       {renderedMessages}
       {(isLoading || error) && (
         <div className="flex items-start gap-3 pb-3">
