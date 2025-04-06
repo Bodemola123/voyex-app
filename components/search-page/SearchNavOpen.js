@@ -49,7 +49,7 @@ const SearchNavOpen = () => {
 
   return (
     <>
-      <nav className='flex flex-col w-full bg-[#131314] justify-between h-screen px-5 pt-6'>
+      <nav className='flex flex-col w-full bg-[#131314] justify-between h-screen px-4 pt-6'>
         <div className='flex flex-col gap-6 border-b border-[#3A3A40]'>
           <div className='flex gap-4 flex-row items-center'>
             <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
@@ -73,8 +73,8 @@ const SearchNavOpen = () => {
 
         <div className='scrollbar-hide overflow-y-scroll'>
           {/* Today Section */}
-          <div className='flex flex-col border-b border-[#3a3a40] py-4 gap-2'>
-            <div className='flex flex-row justify-between items-center text-sm'>
+          <div className='flex flex-col py-3 gap-2'>
+            <div className='flex flex-row justify-between items-center text-base'>
               <p className='text-[#f4f4f4] font-bold'>Today</p>
               <button
                 onClick={() => setExpandToday(!expandToday)}
@@ -94,8 +94,8 @@ const SearchNavOpen = () => {
           </div>
 
           {/* Yesterday Section */}
-          <div className='flex flex-col border-b border-[#3a3a40] py-4'>
-            <div className='flex flex-row justify-between items-center text-sm'>
+          <div className='flex flex-col py-3'>
+            <div className='flex flex-row justify-between items-center text-base'>
               <p className='text-[#f4f4f4] font-bold'>Yesterday</p>
               <button
                 onClick={() => setExpandYesterday(!expandYesterday)}
@@ -116,7 +116,7 @@ const SearchNavOpen = () => {
         </div>
 
         {/* Footer Upgrade Button */}
-        <button className='flex flex-row py-4 px-6 gap-4 items-start justify-start'>
+        <button className='flex flex-row py-4 px-6 gap-4 items-start justify-start border-t border-[#3a3a40]'>
           <Image src={'/IconContainer.svg'} alt='icon' width={40} height={40} />
           <div className='flex flex-col gap-2 items-start'>
             <p className='text-sm text-[#f4f4f4] font-medium '>Upgrade Plan</p>
