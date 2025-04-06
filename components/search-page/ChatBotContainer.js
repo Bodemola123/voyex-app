@@ -60,7 +60,7 @@ function ChatBotContainer({
           isHistoryVisible ? "w-[250px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
-        {isHistoryVisible && <SearchNavOpen />}
+        {isHistoryVisible && <SearchNavOpen  handleNewConversation={handleNewConversation} />}
       </div>
       </div>
 

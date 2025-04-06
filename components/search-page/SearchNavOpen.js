@@ -9,7 +9,7 @@ import SecondModal from './Modals/SecondModal';
 import ThirdModal from './Modals/ThirdModal';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-const SearchNavOpen = () => {
+const SearchNavOpen = ({handleNewConversation }) => {
   const [activeModal, setActiveModal] = useState(null);
   const [firstModalData, setFirstModalData] = useState({});
   const [secondModalData, setSecondModalData] = useState({});
@@ -56,7 +56,7 @@ const SearchNavOpen = () => {
             <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
           </div>
           <div className='flex flex-col justify-center items-start'>
-            <button className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 w-full items-center justify-center'>
+            <button className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 w-full items-center justify-center'  onClick={handleNewConversation}>
               <FaPlus className='text-[10px] text-white/40' />
               <p className='text-xs text-white/60'>New chat</p>
             </button>
