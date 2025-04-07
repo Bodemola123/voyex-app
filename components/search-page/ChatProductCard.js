@@ -7,7 +7,7 @@ const ChatProductCard = ({product}) => {
 
 const [hovered, setHovered] = useState(false);
   return (
-    <div className='flex flex-row justify-around items-center p-6 gap-6 rounded-3xl w-[452px] h-[200px] bg-[#131314]'
+    <div className='flex flex-row justify-around items-center p-6 gap-6 rounded-3xl w-full h-full bg-[#131314]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
@@ -49,10 +49,10 @@ const [hovered, setHovered] = useState(false);
         }
         {hovered && (
             <div className='flex flex-row gap-4'>
-                <button className='border border-[#FFFFFF26] rounded-3xl px-5 py-1.5 bg-transparent text-sm font-medium'>
+                <button className='border border-[#FFFFFF26] rounded-3xl px-5 py-[5px] bg-transparent text-sm font-medium'>
                     Give Feedback to Tool
                 </button>
-                <button className='border border-[#ffffff26] rounded-3xl px-5 py-1.5 bg-[#c088fb] text-sm font-medium text-[#0a0a0b]'>
+                <button className='border border-[#ffffff26] rounded-3xl px-5 py-[5px] bg-[#c088fb] text-sm font-medium text-[#0a0a0b]'>
                     Use Tool
                 </button>
             </div>
