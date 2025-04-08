@@ -142,8 +142,8 @@ null
   className={`flex-grow bg-[#1c1d1f] text-white placeholder-gray-500 outline-none 
               placeholder:text-base placeholder:font-medium font-medium 
               resize-none scrollbar-hide scroll-container max-h-[112px] 
-              rounded-lg px-3 py-2 
-              ${isLoading || isBotTyping ? "opacity-50" : ""}`} 
+              rounded-lg px-3 py-2 placeholder:opacity-70
+              ${isLoading || isBotTyping || userInput.trim() === "" ? "opacity-70" : ""}`} 
   rows={1} 
 />
 
@@ -160,16 +160,13 @@ null
       
 
       {/* Upload button */}
-        {/* Upload button */}
-        <button
-          className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${
-            isLoading || isBotTyping ? "opacity-50" : ""
-          }`}
-          onClick={() => { handleButtonPress(); }}
-          disabled={isLoading || isBotTyping}
-        >
-          <IoArrowUp className="text-[#ffffff] text-[24px]" />
-        </button>
+      <button
+      className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${userInput.trim() === "" ? "opacity-50" : ""}`}
+      onClick={() => { handleButtonPress(); }}
+      disabled={isLoading || isBotTyping || userInput.trim() === ""}
+    >
+      <IoArrowUp className="text-[#ffffff] text-[24px]" />
+    </button>
     </div>
     </div>
   );
