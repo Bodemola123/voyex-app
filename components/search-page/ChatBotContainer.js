@@ -24,7 +24,7 @@ function ChatBotContainer({
   setSelectedFeatures,
   showRecommendationButton,
   setShowRecommendationButton,
-  optionsVisible, setOptionsVisible
+  visibleButtons, setVisibleButtons
 }) {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   
@@ -83,8 +83,8 @@ function ChatBotContainer({
             setSelectedFeatures={setSelectedFeatures}
             showRecommendationButton={showRecommendationButton}
             setShowRecommendationButton={setShowRecommendationButton}
-            optionsVisible={optionsVisible}
-            setOptionsVisible={setOptionsVisible}
+            visibleButtons={visibleButtons}
+            setVisibleButtons={setVisibleButtons}
           />
         </div>
       </div>

@@ -10,6 +10,7 @@ import BenFooter from "../common/BenFooter";
 import PipelineComponent from "./PipelineComponent";
 import ChatTop from "./ChatTop";
 import Recommendations from "./Recommendations";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 
 const TypingAnimation = () => {
@@ -54,7 +55,7 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   setUserInput, isBotTyping,
   handleSendMessage,
-  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton, optionsVisible, setOptionsVisible}) {
+  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton,visibleButtons, setVisibleButtons}) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
@@ -165,54 +166,51 @@ useEffect(() => {
     }, 300); // 0.3 seconds delay
   };
 
+  const buttonOptions = {
+    "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
+    "social media content creation": ["Educate", "Entertain", "Inspire", "Promote"],
+    "area of business": ["Product-based", "Digital"],
+    "ideas are you brainstorming": ["Educate", "Business"],
+    "task management": ["Daily to-do lists", "Project planning", "Collaboration tools"],
+    "aspect of design": ["Motion graphics", "Graphic design"],
+    "automation": ["Marketing", "Schedule", "Data Entry"],
+    "data analysis": ["Business Analytics", "Research Data", "Machine Learning"],
+    "writing skills": ["Creative writing", "Copywriting", "Technical Writing"],
+    "kind of collaboration": ["Project Management", "Document Sharing", "Team Communication"],
+    "online course": ["Content Creation", "Course Hosting", "Student Engagement"],
+    "digital business": ["Content Creation", "Software Development"],
+    "educating your audience":["Videos", "Blog Posts"],
+    "product-based business":["Production", "Customer Acquisition"],
+    "type of videos":["Long", "Short"],
+    "type of blog posts":["Fictional", "Non-Fictional"]
+  };
+
   useEffect(() => {
-    // Track the message indices to show options
-    const timeoutIds = [];
+    const timers = [];
   
-    if (messages.length > 0) {
-      messages.forEach((msg, index) => {
-        // Only apply the timeout for bot messages and only if options are not yet visible
-        if (msg.role === 'bot' && !optionsVisible[index]) {
-          const timeoutId = setTimeout(() => {
-            setOptionsVisible((prev) => {
-              const newOptions = [...prev];
-              newOptions[index] = true; // Show options after 3 seconds
-              return newOptions;
-            });
-          }, 3000); // 3-second delay for bot message options
+    messages.forEach((msg, index) => {
+      const isBotMessage = msg.role === "bot";
+      const matchingKey = Object.keys(buttonOptions).find((key) =>
+        msg.text.toLowerCase().includes(key)
+      );
   
-          timeoutIds.push(timeoutId);
-        }
-      });
-    }
+      if (isBotMessage && matchingKey && !visibleButtons[index]) {
+        const timer = setTimeout(() => {
+          setVisibleButtons((prev) => ({ ...prev, [index]: true }));
+        }, 3000);
   
-    // Cleanup timeouts when component unmounts or messages change
-    return () => {
-      timeoutIds.forEach((id) => clearTimeout(id));
-    };
-  }, [messages, optionsVisible]); // Dependency on messages and optionsVisible to trigger effect correctly
+        timers.push(timer);
+      }
+    });
+  
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, [messages]);
+  
 
 
   const renderedMessages = useMemo(() => {
-    const buttonOptions = {
-      "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
-      "social media content creation": ["Educate", "Entertain", "Inspire", "Promote"],
-      "area of business": ["Product-based", "Digital"],
-      "ideas are you brainstorming": ["Educate", "Business"],
-      "task management": ["Daily to-do lists", "Project planning", "Collaboration tools"],
-      "aspect of design": ["Motion graphics", "Graphic design"],
-      "automation": ["Marketing", "Schedule", "Data Entry"],
-      "data analysis": ["Business Analytics", "Research Data", "Machine Learning"],
-      "writing skills": ["Creative writing", "Copywriting", "Technical Writing"],
-      "kind of collaboration": ["Project Management", "Document Sharing", "Team Communication"],
-      "online course": ["Content Creation", "Course Hosting", "Student Engagement"],
-      "digital business": ["Content Creation", "Software Development"],
-      "educating your audience":["Videos", "Blog Posts"],
-      "product-based business":["Production", "Customer Acquisition"],
-      "type of videos":["Long", "Short"],
-      "type of blog posts":["Fictional", "Non-Fictional"]
-    };
   
+    
     return messages.map((msg, index) => {
       const isUserMessage = msg.role === "user";
       const isBotMessage = msg.role === "bot";
@@ -273,26 +271,28 @@ useEffect(() => {
                 </div>
   
                 {/* Render Buttons if Matching Key is Found */}
-                {matchingKey && optionsVisible[index] && (
-                  <div className="flex flex-row gap-2">
-                    {buttonOptions[matchingKey].map((option) => (
-                      <button
-                        key={option}
-                        className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
-                          selectedFeatures[index] === option
-                            ? "bg-[#f4f4f4] text-[#1C1D1F]"
-                            : selectedFeatures[index]
-                            ? "bg-[#1C1D1F] text-[#f4f4f4]"
-                            : "bg-[#1C1D1F] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#1C1D1F]"
-                        }`}
-                        onClick={() => handleOptionClick(index, option)}
-                        disabled={!!selectedFeatures[index]}
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                {matchingKey && visibleButtons[index] && (
+  <div className="flex flex-row gap-2">
+    {buttonOptions[matchingKey].map((option) => (
+      <button
+        key={option}
+        className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
+          selectedFeatures[index] === option
+            ? "bg-[#f4f4f4] text-[#1C1D1F]"
+            : selectedFeatures[index]
+            ? "bg-[#1C1D1F] text-[#f4f4f4]"
+            : "bg-[#1C1D1F] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#1C1D1F]"
+        }`}
+        onClick={() => handleOptionClick(index, option)}
+        disabled={!!selectedFeatures[index]}
+      >
+        {option}
+      </button>
+    ))}
+  </div>
+)}
+
+
   
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
@@ -329,7 +329,7 @@ useEffect(() => {
         </div>
       );
     });
-  }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage, selectedFeatures]);
+  }, [messages, hoveredIndex, reactions, speakingMessages, typedMessage, selectedFeatures, visibleButtons]);
   
   
  

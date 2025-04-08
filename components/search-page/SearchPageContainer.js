@@ -17,7 +17,7 @@ function SearchPageContainer() {
   const [showChat, setShowChat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
-  const [optionsVisible, setOptionsVisible] = useState(messages.map(() => false)); // Track visibility state of options for each message
+  const [visibleButtons, setVisibleButtons] = useState({});
 
   
 
@@ -363,7 +363,7 @@ const handleNewConversation = () => {
   setMessages([]);
   setSelectedFeatures({});
   setShowRecommendationButton(false);
-  setOptionsVisible([]); // Reset options visibility for new conversation
+  setVisibleButtons({}); // Reset options visibility for new conversation
 };
 
   return !showChat ? (
@@ -391,8 +391,8 @@ const handleNewConversation = () => {
       setSelectedFeatures={setSelectedFeatures}
       showRecommendationButton={showRecommendationButton}
       setShowRecommendationButton={setShowRecommendationButton}  
-      optionsVisible={optionsVisible}
-      setOptionsVisible={setOptionsVisible}
+      visibleButtons={visibleButtons}
+      setVisibleButtons={setVisibleButtons}
     />
   );
 }
