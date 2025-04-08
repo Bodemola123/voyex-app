@@ -11,7 +11,7 @@ import {
   UseCases,
 } from "@/constants/search-page";
 import { BsSend } from "react-icons/bs";
-import { LuClock4 } from "react-icons/lu";
+import { LuClock4, LuMessageCircleHeart } from "react-icons/lu";
 import TrendingModal from "./TrendingModal";
 import RecentlyAddedModal from "./RecentlyAddedModal";
 import Image from "next/image";
@@ -28,6 +28,7 @@ import { HiXMark } from "react-icons/hi2"; // Import HiXMark from react-icons
 import '../../app/globals.css';
 import BenNavbar from "../common/BenNavbar";
 import BenFooter from "../common/BenFooter";
+import HomeNav from "./HomeNav";
 
 function SearchMain({
   messages,
@@ -43,16 +44,34 @@ function SearchMain({
   const [showRecentlyAddedModal, setShowRecentlyAddedModal] = useState(false);
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions); // Initial state is all suggestions
 
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   
+  
+
+  useEffect(() => {
+    const savedState = localStorage.getItem("isHistoryVisible");
+    if (savedState !== null) {
+      setIsHistoryVisible(JSON.parse(savedState));
+    }
+  }, []);
+
+  const toggleHistoryVisibility = () => {
+    setIsHistoryVisible((prev) => {
+      const newState = !prev;
+      localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
+      return newState;
+    });
+  };
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const [attachedFile, setAttachedFile] = useState(null);
+  // const [attachedFile, setAttachedFile] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [audioBlobUrl, setAudioBlobUrl] = useState("");
+  // const [audioBlobUrl, setAudioBlobUrl] = useState("");
   const [isClient, setIsClient] = useState(false); // To track if we're on the client
-  const [uploadSuccessful, setUploadSuccessful] = useState(false); // Track if upload is valid
+  // const [uploadSuccessful, setUploadSuccessful] = useState(false); // Track if upload is valid
   const [randomTrendingSearches, setRandomTrendingSearches] = useState([]);
 
 // Function to select 3 random trending searches
@@ -106,9 +125,9 @@ useEffect(() => {
       setShowSuggestions(false);
     }
   };
-  const handleFileChange = (event) => {
-    setAttachedFile(event.target.files[0]);
-  };
+  // const handleFileChange = (event) => {
+  //   setAttachedFile(event.target.files[0]);
+  // };
 
 
   const handleInputChange = (e) => {
@@ -141,57 +160,55 @@ useEffect(() => {
     setShowChat(true);
     handleSendMessage();
   };
-  const handleUpload = () => {
-    if (userInput || attachedFile) {
-      alert(
-        `Uploading:\\nText: ${userInput}\\nFile: ${
-          attachedFile ? attachedFile.name : "None"
-        }`
-      );
-      setAttachedFile(null);
-      setAudioBlobUrl(""); // Reset audio
-      setUploadSuccessful(true); // Mark upload as successful
-    } else {
-      setUploadSuccessful(false); // Set upload to unsuccessful
-      alert("Please provide text or attach a file before uploading.");
-    }
-  };
-  const handleRemoveFile = () => {
-    setAttachedFile(null);
-    setAudioBlobUrl(""); // Reset audio
-  };
+  // const handleUpload = () => {
+  //   if (userInput || attachedFile) {
+  //     alert(
+  //       `Uploading:\\nText: ${userInput}\\nFile: ${
+  //         attachedFile ? attachedFile.name : "None"
+  //       }`
+  //     );
+  //     setAttachedFile(null);
+  //     setAudioBlobUrl(""); // Reset audio
+  //     setUploadSuccessful(true); // Mark upload as successful
+  //   } else {
+  //     setUploadSuccessful(false); // Set upload to unsuccessful
+  //     alert("Please provide text or attach a file before uploading.");
+  //   }
+  // };
+  // const handleRemoveFile = () => {
+  //   setAttachedFile(null);
+  //   setAudioBlobUrl(""); // Reset audio
+  // };
 
     // Only render the ReactMediaRecorder component on the client side
     if (!isClient) {
       return (
-        <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full max-w-md">
-          <textarea
-            placeholder="Start Exploration"
-            value={userInput}
-            onChange={handleInputChange}
-            className="flex-grow bg-black text-white placeholder-gray-500 outline-none placeholder:text-base placeholder:font-medium font-medium resize-none scrollbar-hide scroll-container max-h-[112px] rounded-lg px-3 py-2 w-[100%]"
-            rows={1}
-          />
-          <button
-            onClick={handleUpload}
-            className="flex items-center justify-center w-8 h-8 bg-purple-500 rounded-full focus:outline-none"
-          >
-            <GrMicrophone
-              className={`text-[20px] ${isRecording ? "text-red-500" : "text-[#94a3b8]"}`}
-            />
-          </button>
-        </div>
+null
       );
     }
   return (
     <div className="flex items-center w-full h-screen">
-      <BenNavbar/>
+      <div className="flex flex-row">
+      <BenNavbar
+        toggleHistoryVisibility={toggleHistoryVisibility}
+        isHistoryVisible={isHistoryVisible}
+      />
+
+      {/* History with Smooth Transition */}
+      <div
+        className={`transition-all duration-300 ${
+          isHistoryVisible ? "w-[250px]" : "w-0"
+        } bg-[#131314] overflow-hidden`}
+      >
+        {isHistoryVisible && <HomeNav />}
+      </div>
+      </div>
       <div className="flex-grow relative flex h-full w-full flex-col gap-14 p-6 justify-center items-center overflow-y-scroll scrollbar-hide scroll-container">
       <div className="relative w-full items-center justify-center flex gap-14 flex-col">
       <div className='flex flex-col gap-[8px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center '>
   <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] md:text-[48px] leading-[57.6px] font-bold text-center text-2xl'>
-    Hi Explorer VANSH
+    Hi Explorer JAMES
   </p>
   <Image src={'/Sparkle.svg'} alt='sparkles' width={40} height={40} className='message-bubble md:flex hidden'/>
 </div>
@@ -204,7 +221,8 @@ useEffect(() => {
         : "rounded-[37px]  max-w-[532px]"
     } group`}
   >
-      {/* File attachment icon */}
+    
+      {/* File attachment icon
       <label className="cursor-pointer ">
         <input
           type="file"
@@ -215,7 +233,7 @@ useEffect(() => {
         <GrAttachment className="text-[#94a3b8] text-[16px] md:text-[20px]" />
       </label>
 
-      {/* Display the file (image/video/audio) */}
+      Display the file (image/video/audio)
       {attachedFile && attachedFile.type.startsWith("image/") && (
         <div className="relative">
           <img
@@ -261,7 +279,7 @@ useEffect(() => {
           <HiXMark className="text-[#ffffff]" />
         </button>
       </div>
-    )}
+    )} */}
       {/* Expandable Input field */}
       <div className="relative w-full flex items-center justify-center my-auto">
       <textarea
@@ -291,9 +309,9 @@ useEffect(() => {
 
       {/* Upload button */}
         <button
-        onClick={(e) => { handleButtonPress(e); handleUpload(); }} // First, handle the upload logic
-          disabled={!userInput && !attachedFile} // Disable button if no text/file
-          className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${!userInput && !attachedFile && "opacity-50 cursor-not-allowed"}`}
+        onClick={(e) => { handleButtonPress(e)}} // First, handle the upload logic
+          disabled={!userInput} // Disable button if no text/file
+          className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${!userInput && "opacity-50 cursor-not-allowed"}`}
         >
           <IoArrowUp className="text-[#ffffff] text-[18px] md:text-[20px] lg:text-[24px]" />
         </button>

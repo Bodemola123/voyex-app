@@ -17,11 +17,11 @@ function ChatInput({
   isBotTyping,
 }) {
 
-  const [attachedFile, setAttachedFile] = useState(null);
+  // const [attachedFile, setAttachedFile] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [audioBlobUrl, setAudioBlobUrl] = useState("");
+  // const [audioBlobUrl, setAudioBlobUrl] = useState("");
   const [isClient, setIsClient] = useState(false); // To track if we're on the client
-  const [uploadSuccessful, setUploadSuccessful] = useState(false); // Track if upload is valid
+  // const [uploadSuccessful, setUploadSuccessful] = useState(false); // Track if upload is valid
 
     // Set isClient to true when the component has mounted on the client
     useEffect(() => {
@@ -40,59 +40,37 @@ function ChatInput({
   const handleButtonPress = (e) => {
     handleSendMessage();
   };
-  const handleFileChange = (event) => {
-    setAttachedFile(event.target.files[0]);
-  };
-  // Remove attached file
-  const handleRemoveFile = () => {
-    setAttachedFile(null);
-    setAudioBlobUrl(""); // Reset audio
-  };
+  // const handleFileChange = (event) => {
+  //   setAttachedFile(event.target.files[0]);
+  // };
+  // // Remove attached file
+  // const handleRemoveFile = () => {
+  //   setAttachedFile(null);
+  //   setAudioBlobUrl(""); // Reset audio
+  // };
     // Handle upload action
-    const handleUpload = () => {
-      if (userInput || attachedFile) {
-        setUserInput("")
-        setAttachedFile(null);
-        setAudioBlobUrl(""); // Reset audio
-        setUploadSuccessful(true); // Mark upload as successful
-      } else {
-        setUploadSuccessful(false); // Set upload to unsuccessful
-        alert("Please provide text or attach a file before uploading.");
-      }
-    };
+    // const handleUpload = () => {
+    //   if (userInput || attachedFile) {
+    //     setUserInput("")
+    //     setAttachedFile(null);
+    //     setAudioBlobUrl(""); // Reset audio
+    //     setUploadSuccessful(true); // Mark upload as successful
+    //   } else {
+    //     setUploadSuccessful(false); // Set upload to unsuccessful
+    //     alert("Please provide text or attach a file before uploading.");
+    //   }
+    // };
 
         // Only render the ReactMediaRecorder component on the client side
         if (!isClient) {
           return (
-            <div className="flex items-center bg-black rounded-full px-4 py-2 space-x-3 shadow-lg w-full">
-<textarea
-  placeholder="Start Exploration"
-  value={userInput}
-  onChange={(e) => setUserInput(e.target.value)}
-  disabled={isBotTyping}
-  onKeyDown={isBotTyping ? (e) => e.preventDefault() : handleKeyPress}
-  className={`flex-grow bg-black text-white placeholder-gray-500 outline-none 
-              placeholder:text-base placeholder:font-medium font-medium 
-              resize-none scrollbar-hide scroll-container max-h-[112px] 
-              rounded-lg px-3 py-2 ${isLoading ? "cursor-not-allowed" : ""}`}
-  rows={1} 
-/>
-
-              <button
-                onClick={handleUpload}
-                className="flex items-center justify-center w-8 h-8 bg-purple-500 rounded-full focus:outline-none"
-              >
-                <GrMicrophone
-                  className={`text-[20px] ${isRecording ? "text-red-500" : "text-[#94a3b8]"}`}
-                />
-              </button>
-            </div>
+null
           );
         }
   return (
     <div className="flex items-center justify-center gap-4 w-[573px]">
     <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full bg-[#1c1d1f]">
-      {/* File attachment icon */}
+      {/* File attachment icon
       <label className="cursor-pointer">
         <input
           type="file"
@@ -105,7 +83,7 @@ function ChatInput({
             }`} />
       </label>
 
-      {/* Display the file (image/video) */}
+      Display the file (image/video)
       {attachedFile && attachedFile.type.startsWith("image/") && (
         <div className="relative">
           <img
@@ -151,7 +129,7 @@ function ChatInput({
           <HiXMark className="text-[#ffffff]" />
         </button>
       </div>
-    )}
+    )} */}
 
       {/* Expandable Input field */}
       <div className="relative w-full flex items-center justify-center my-auto">
@@ -185,9 +163,9 @@ function ChatInput({
         {/* Upload button */}
         <button
           className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${
-            isLoading || isBotTyping && !attachedFile ? "opacity-50" : ""
+            isLoading || isBotTyping ? "opacity-50" : ""
           }`}
-          onClick={() => { handleButtonPress(); handleUpload(); }}
+          onClick={() => { handleButtonPress(); }}
           disabled={isLoading || isBotTyping}
         >
           <IoArrowUp className="text-[#ffffff] text-[24px]" />
