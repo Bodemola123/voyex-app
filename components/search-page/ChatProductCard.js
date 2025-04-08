@@ -7,7 +7,7 @@ const ChatProductCard = ({product}) => {
 
 const [hovered, setHovered] = useState(false);
   return (
-    <div className='flex flex-row justify-around items-center p-6 gap-6 rounded-3xl w-full h-[206px] bg-[#131314]'
+    <div className='flex flex-row justify-around items-center p-6 gap-6 rounded-3xl w-full h-[210px] bg-[#131314]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
@@ -28,7 +28,7 @@ const [hovered, setHovered] = useState(false);
             </div>
             <p className="line-clamp-2 text-sm font-normal">Supports GPT-4 and GPT-3.5. OpenAI&apos;s next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
             {!hovered && (
-            <div className='flex flex-row items-center justify-start gap-2 w-full overflow-x-auto scrollbar-hide'>
+            <div className='flex flex-row items-center justify-start gap-2 w-full overflow-x-auto scrollbar-hide h-[25px]'>
          <span className="text-[11px] capitalize px-2 py-1.5 rounded-[21px] border border-card">
           chatbot
         </span>
@@ -48,7 +48,7 @@ const [hovered, setHovered] = useState(false);
         )
         }
         {hovered && (
-            <div className='flex flex-row items-center justify-between w-full'>
+            <div className='flex flex-row items-center justify-between w-full h-[25px]'>
                 <button className='border border-[#FFFFFF26] rounded-3xl px-5 py-[4.5px] bg-transparent text-sm font-medium'>
                     Give Feedback to Tool
                 </button>
