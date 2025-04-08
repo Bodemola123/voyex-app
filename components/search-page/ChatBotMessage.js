@@ -55,7 +55,8 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   setUserInput, isBotTyping,
   handleSendMessage,
-  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton,visibleButtons, setVisibleButtons}) {
+  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton,visibleButtons, setVisibleButtons,   resetRecommendation,
+  setResetRecommendation,       handleResetRecommendationButton,   selectionCount,setSelectionCount}) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
@@ -116,6 +117,7 @@ useEffect(() => {
       typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
     }
   }, [messages]);
+
   
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -231,28 +233,33 @@ useEffect(() => {
         displayedText = typedMessage;
       }
 
-      const handleOptionClick = (index, option) => {
-        if (selectedFeatures.hasOwnProperty(index)) return;
-      
-        const newSelectedFeatures = {
-          ...selectedFeatures,
-          [index]: option,
-        };
-      
-        setSelectedFeatures(newSelectedFeatures);
-      
-        // Add the selected option to hiddenMessages to prevent display in the UI
-        setHiddenMessages((prev) => [...prev, option]);
-      
-        // Send the selected option as a message but without displaying it as a user message
-        setTimeout(() => {
-          handleSendMessage(option); // Send the option but don't display as user message
-        }, 0);
-      
-        if (Object.keys(newSelectedFeatures).length === 3) {
-          setShowRecommendationButton(true);
-        }
-      };
+// Option click handler to track new selections
+const handleOptionClick = (index, option) => {
+  if (selectedFeatures.hasOwnProperty(index)) return;
+
+  const newSelectedFeatures = {
+    ...selectedFeatures,
+    [index]: option,
+  };
+
+  setSelectedFeatures(newSelectedFeatures);
+
+  // Add the selected option to hiddenMessages to prevent display in the UI
+  setHiddenMessages((prev) => [...prev, option]);
+
+  // Send the selected option as a message but without displaying it as a user message
+  setTimeout(() => {
+    handleSendMessage(option); // Send the option but don't display as user message
+  }, 0);
+
+  // Track the number of new selections after reset
+  setSelectionCount((prev) => prev + 1);
+
+  // After three selections, set showRecommendationButton to true
+  if (selectionCount + 1 === 3) {
+    setShowRecommendationButton(true);
+  }
+};
       
       
       // Find if the message text contains any of the button options
@@ -360,6 +367,7 @@ useEffect(() => {
           messages={messages}
           setShowChat={setShowChat}
           handleNewConversation={handleNewConversation}
+          handleResetRecommendationButton={handleResetRecommendationButton}
         />
       <div className="pb-9 px-1 overflow-y-auto scrollbar-hide pt-5 " ref={scrollContainerRef}>
       {renderedMessages}
@@ -411,6 +419,7 @@ useEffect(() => {
             handleNewConversation={handleNewConversation}
             isLoading={isLoading}
             isBotTyping={isBotTyping}
+            handleResetRecommendationButton={handleResetRecommendationButton}
           />
           <div>
           <BenFooter />

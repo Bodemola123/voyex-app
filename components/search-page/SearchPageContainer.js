@@ -18,7 +18,17 @@ function SearchPageContainer() {
   const [isLoading, setIsLoading] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [visibleButtons, setVisibleButtons] = useState({});
+  const [resetRecommendation, setResetRecommendation] = useState(false);
+  // New state to track number of selections after reset
+const [selectionCount, setSelectionCount] = useState(0);
 
+  const handleResetRecommendationButton = () => {
+    setShowRecommendationButton(false);
+    setResetRecommendation(true);  // Mark the reset state to start fresh
+    setSelectedFeatures({});  // Clear selected features
+    setSelectionCount(0);
+  };
+  
   
 
   const handleSendMessage = async (message = null) => {
@@ -362,7 +372,6 @@ function SearchPageContainer() {
 const handleNewConversation = () => {
   setMessages([]);
   setSelectedFeatures({});
-  setShowRecommendationButton(false);
   setVisibleButtons({}); // Reset options visibility for new conversation
 };
 
@@ -393,6 +402,11 @@ const handleNewConversation = () => {
       setShowRecommendationButton={setShowRecommendationButton}  
       visibleButtons={visibleButtons}
       setVisibleButtons={setVisibleButtons}
+      resetRecommendation={resetRecommendation}
+      setResetRecommendation={setResetRecommendation}
+      handleResetRecommendationButton={handleResetRecommendationButton}
+      selectionCount={selectionCount}
+      setSelectionCount={setSelectionCount}
     />
   );
 }

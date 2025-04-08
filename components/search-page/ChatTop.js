@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdOutlineRestartAlt } from "react-icons/md";
 
-function ChatTop({ messages, setShowChat,  handleNewConversation }) {
+function ChatTop({ messages, setShowChat,  handleNewConversation, handleResetRecommendationButton }) {
   const handleBackClick = () => {
     setShowChat(false);
   };
@@ -31,7 +31,10 @@ function ChatTop({ messages, setShowChat,  handleNewConversation }) {
 
   return (
     <div className="w-full z-30 flex border-b border-[#3A3A40]  items-center justify-end pb-3">
-      <button className='flex flex-row items-center justify-center gap-1' onClick={handleNewConversation}>
+      <button className='flex flex-row items-center justify-center gap-1'   onClick={() => {
+    handleResetRecommendationButton();
+    handleNewConversation();
+  }}>
           <MdOutlineRestartAlt className='text-[16px] text-white/60'/>
           <p className='text-white/60 text-sm'>Clear Chat</p>
         </button>
