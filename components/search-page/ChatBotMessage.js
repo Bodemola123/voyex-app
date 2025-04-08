@@ -185,6 +185,9 @@ useEffect(() => {
     "type of blog posts":["Fictional", "Non-Fictional"]
   };
 
+  const [hiddenMessages, setHiddenMessages] = useState([]); // to track hidden messages
+
+
   useEffect(() => {
     const timers = [];
   
@@ -212,6 +215,10 @@ useEffect(() => {
   
     
     return messages.map((msg, index) => {
+          // Don't render hidden messages
+    if (hiddenMessages.includes(msg.text)) {
+      return null; // Return null if message is in hiddenMessages
+    }
       const isUserMessage = msg.role === "user";
       const isBotMessage = msg.role === "bot";
       const isHovered = isBotMessage && hoveredIndex === index;
@@ -223,23 +230,31 @@ useEffect(() => {
       if (isBotMessage && index === messages.length - 1) {
         displayedText = typedMessage;
       }
-  
+
       const handleOptionClick = (index, option) => {
         if (selectedFeatures.hasOwnProperty(index)) return;
-  
+      
         const newSelectedFeatures = {
           ...selectedFeatures,
           [index]: option,
         };
-  
+      
         setSelectedFeatures(newSelectedFeatures);
-        handleSendMessage(option);
-  
+      
+        // Add the selected option to hiddenMessages to prevent display in the UI
+        setHiddenMessages((prev) => [...prev, option]);
+      
+        // Send the selected option as a message but without displaying it as a user message
+        setTimeout(() => {
+          handleSendMessage(option); // Send the option but don't display as user message
+        }, 0);
+      
         if (Object.keys(newSelectedFeatures).length === 3) {
           setShowRecommendationButton(true);
         }
       };
-  
+      
+      
       // Find if the message text contains any of the button options
       const matchingKey = Object.keys(buttonOptions).find((key) =>
         msg.text.toLowerCase().includes(key)
@@ -257,7 +272,7 @@ useEffect(() => {
                 {isUserMessage ? <FaUser /> : <FaRobot />}
               </div>
   
-              <div className="flex flex-col relative gap-2">
+              <div className="flex flex-col relative gap-2 mb-9">
                 {/* MESSAGE TEXT */}
                 <div
                   className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${
