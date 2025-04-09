@@ -7,6 +7,7 @@ import { GrAttachment } from "react-icons/gr";
 import { GrMicrophone } from "react-icons/gr";
 import { IoArrowUp } from "react-icons/io5";
 import { HiXMark } from "react-icons/hi2";
+import '../../app/globals.css'
 
 function ChatInput({
   userInput,
@@ -72,7 +73,34 @@ null
         }
   return (
     <div className="flex items-center justify-center gap-4 w-[573px]">
-    <div className="flex items-center rounded-full px-4 py-2 space-x-3 shadow-lg w-full bg-[#1c1d1f]">
+    <div className="flex items-center rounded-full px-4 py-2 space-x-2 shadow-lg w-full bg-[#1c1d1f]">
+            {/* Glowing orb before the input */}
+            <div className="relative w-10 h-10 flex items-center justify-center">
+  <div className="absolute w-10 h-10 rounded-full glass-orb overflow-hidden shadow-inner backdrop-blur-sm">
+    {/* Lava blobs */}
+    <div className="relative w-full h-full">
+      <span
+        className={`lava-blob blob1 ${userInput ? "animate-blob1" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob2 ${userInput ? "animate-blob2" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob3 ${userInput ? "animate-blob3" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob4 ${userInput ? "animate-blob4" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob5 ${userInput ? "animate-blob5" : "blob-inactive"}`}
+      />
+    </div>
+    {/* Reflection */}
+    <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+      <div className="w-[80%] h-[40%] bg-white/10 blur-sm rounded-full absolute top-1 left-1/2 transform -translate-x-1/2 rotate-[-20deg]" />
+    </div>
+  </div>
+</div>
       {/* File attachment icon
       <label className="cursor-pointer">
         <input

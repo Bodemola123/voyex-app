@@ -186,7 +186,7 @@ useEffect(() => {
     "type of blog posts":["Fictional", "Non-Fictional"]
   };
 
-  const [hiddenMessages, setHiddenMessages] = useState([]); // to track hidden messages
+  // const [hiddenMessages, setHiddenMessages] = useState([]); // to track hidden messages
 
 
   useEffect(() => {
@@ -201,7 +201,7 @@ useEffect(() => {
       if (isBotMessage && matchingKey && !visibleButtons[index]) {
         const timer = setTimeout(() => {
           setVisibleButtons((prev) => ({ ...prev, [index]: true }));
-        }, 3000);
+        }, 3500);
   
         timers.push(timer);
       }
@@ -217,9 +217,9 @@ useEffect(() => {
     
     return messages.map((msg, index) => {
           // Don't render hidden messages
-    if (hiddenMessages.includes(msg.text)) {
-      return null; // Return null if message is in hiddenMessages
-    }
+    // if (hiddenMessages.includes(msg.text)) {
+    //   return null; // Return null if message is in hiddenMessages
+    // }
       const isUserMessage = msg.role === "user";
       const isBotMessage = msg.role === "bot";
       const isHovered = isBotMessage && hoveredIndex === index;
@@ -244,13 +244,13 @@ const handleOptionClick = (index, option) => {
   setSelectedFeatures(newSelectedFeatures);
 
   // Add the selected option to hiddenMessages to prevent display in the UI
-  setHiddenMessages((prev) => [...prev, option]);
+  // setHiddenMessages((prev) => [...prev, option]);
 
-  // Send the selected option as a message but without displaying it as a user message
-  setTimeout(() => {
-    handleSendMessage(option); // Send the option but don't display as user message
-  }, 0);
-
+  // // Send the selected option as a message but without displaying it as a user message
+  // setTimeout(() => {
+  //   handleSendMessage(option); // Send the option but don't display as user message
+  // }, 0);
+  handleSendMessage(option)
   // Track the number of new selections after reset
   setSelectionCount((prev) => prev + 1);
 
@@ -278,7 +278,7 @@ const handleOptionClick = (index, option) => {
                 {isUserMessage ? <FaUser /> : <FaRobot />}
               </div>
   
-              <div className="flex flex-col relative gap-2 mb-9">
+              <div className="flex flex-col relative gap-2">
                 {/* MESSAGE TEXT */}
                 <div
                   className={`relative px-4 py-2 rounded-lg text-base text-fontlight font-normal ${

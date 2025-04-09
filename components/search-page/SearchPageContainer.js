@@ -25,7 +25,7 @@ const [selectionCount, setSelectionCount] = useState(0);
   const handleResetRecommendationButton = () => {
     setShowRecommendationButton(false);
     setResetRecommendation(true);  // Mark the reset state to start fresh
-    setSelectedFeatures({});  // Clear selected features
+    // ;  // Clear selected features
     setSelectionCount(0);
   };
   

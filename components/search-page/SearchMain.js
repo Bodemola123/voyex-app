@@ -208,20 +208,51 @@ null
       <div className='flex flex-col gap-[8px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center '>
   <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] md:text-[48px] leading-[57.6px] font-bold text-center text-2xl'>
-    Hi Explorer JAMES
+    Hi Explorer, meet Voyex
   </p>
   <Image src={'/Sparkle.svg'} alt='sparkles' width={40} height={40} className='message-bubble md:flex hidden'/>
 </div>
 
-      <p className='text-[#f4f4f4] font-bold text-center text-2xl'>How can I help you today</p>
+      <p className='text-[#f4f4f4] font-bold text-center text-2xl'>Launch into discovery. Voyex will pilot your journey.</p>
     </div>
-      <div className={`flex items-center bg-[#1C1D1F] px-4 py-2 space-x-3 shadow-lg w-full max-w-[532px] border-[0.5px] border-transparent ${
+      <div className={`flex items-center bg-[#1C1D1F] px-4 py-2 space-x-2 shadow-lg w-full max-w-[573px] border-[0.5px] border-transparent ${
       showSuggestions && userInput
-        ? "rounded-t-[37px] bg-[#1C1D1F] backdrop-blur-[3.4px]  max-w-[532px]"
-        : "rounded-[37px]  max-w-[532px]"
+        ? "rounded-t-[37px] bg-[#1C1D1F] backdrop-blur-[3.4px]  max-w-[573px]"
+        : "rounded-[37px]  max-w-[573px]"
     } group`}
   >
-    
+      {/* Glowing orb before the input */}
+      <div className="relative w-10 h-10 flex items-center justify-center">
+  <div className="absolute w-10 h-10 rounded-full glass-orb overflow-hidden shadow-inner backdrop-blur-sm">
+    {/* Lava blobs */}
+    <div className="relative w-full h-full">
+      <span
+        className={`lava-blob blob1 ${userInput ? "animate-blob1" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob2 ${userInput ? "animate-blob2" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob3 ${userInput ? "animate-blob3" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob4 ${userInput ? "animate-blob4" : "blob-inactive"}`}
+      />
+      <span
+        className={`lava-blob blob5 ${userInput ? "animate-blob5" : "blob-inactive"}`}
+      />
+    </div>
+    {/* Reflection */}
+    <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+      <div className="w-[80%] h-[40%] bg-white/10 blur-sm rounded-full absolute top-1 left-1/2 transform -translate-x-1/2 rotate-[-20deg]" />
+    </div>
+  </div>
+</div>
+
+
+
+
+
       {/* File attachment icon
       <label className="cursor-pointer ">
         <input
@@ -317,7 +348,7 @@ null
         </button>
     </div>
     {showSuggestions && userInput && (
-  <div className="absolute top-[150px] md:top-[198px] mx-auto max-h-[200px] overflow-y-scroll scrollbar-hide w-[532px] bg-[#1c1d1f] border-t-transparent rounded-b-[37px] z-10 mt-1 p-2">
+  <div className="absolute top-[150px] md:top-[198px] mx-auto max-h-[200px] overflow-y-scroll scrollbar-hide w-[542px] bg-[#1c1d1f] border-t-transparent rounded-b-[37px] z-10 mt-1 p-2">
     <ul className="">
       {filteredSuggestions.map((suggestion, index) => (
         <li
