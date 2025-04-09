@@ -55,8 +55,7 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
   setUserInput, isBotTyping,
   handleSendMessage,
-  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton,visibleButtons, setVisibleButtons,   resetRecommendation,
-  setResetRecommendation,       handleResetRecommendationButton,   selectionCount,setSelectionCount}) {
+  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton,visibleButtons, setVisibleButtons,handleResetRecommendationButton,   selectionCount,setSelectionCount}) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
