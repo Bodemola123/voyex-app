@@ -348,7 +348,7 @@ null
         </button>
     </div>
     {showSuggestions && userInput && (
-  <div className="absolute top-[150px] md:top-[198px] mx-auto max-h-[200px] overflow-y-scroll scrollbar-hide w-[542px] bg-[#1c1d1f] border-t-transparent rounded-b-[37px] z-10 mt-1 p-2">
+  <div className="absolute top-[150px] md:top-[198px] mx-auto max-h-[200px] overflow-y-scroll scrollbar-hide w-[573px] bg-[#1c1d1f] border-t-transparent rounded-b-[37px] z-10 mt-1 p-2">
     <ul className="">
       {filteredSuggestions.map((suggestion, index) => (
         <li
