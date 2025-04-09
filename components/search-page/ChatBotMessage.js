@@ -413,7 +413,6 @@ const handleOptionClick = (index, option) => {
             setUserInput={setUserInput}
             handleSendMessage={(message) => {
               handleSendMessage(message);
-              setShowRecommendationButton(false); // Hide button when user sends message
               setIsMessageSent(true); // Mark the message as sent
             }}
             handleNewConversation={handleNewConversation}
