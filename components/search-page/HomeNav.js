@@ -31,13 +31,13 @@ const HomeNav = () => {
         {/* Footer Upgrade Button */}
         <div className='flex flex-col gap-6'>
         <div className='flex flex-col justify-center items-start gap-3'>
-            <Link href='/auth' className='py-4 flex flex-row gap-2.5 bg-transparent items-center'>
-              <LuLogIn className='text-[18px] text-[#94a3b8]' />
-              <p className='font-medium text-base text-[#f4f4f4]'>Log in</p>
+            <Link href='/auth' className='py-4 flex flex-row gap-2.5 bg-transparent items-center group'>
+              <LuLogIn className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
+              <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Log in</p>
             </Link>
-            <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 bg-transparent items-center'>
-              <PiUserPlusFill className='text-[18px] text-[#94a3b8]' />
-              <p className='font-medium text-base text-[#f4f4f4]'>Sign up</p>
+            <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 bg-transparent items-center group'>
+              <PiUserPlusFill className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
+              <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Sign up</p>
             </Link>
           </div>
           <button className='flex flex-row py-4 gap-4 items-start justify-start border-t border-[#3A3A40]'>
