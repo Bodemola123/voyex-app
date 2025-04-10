@@ -7,6 +7,8 @@ import StoreProvider from "./StoreProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ProtectedRoute from "@/lib/protectedRoutes";
+import Script from "next/script";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +23,26 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              {/* ✅ Google Analytics Scripts */}
+              <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-PGFEE85662"
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-PGFEE85662', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+
       <body
         className={`relative flex items-center justify-center text-fontlight h-screen w-screen overflow-hidden bg-black bg-[url('/stars.svg.svg')] bg-no-repeat bg-center bg-origin-content bg-cover`}
       >
