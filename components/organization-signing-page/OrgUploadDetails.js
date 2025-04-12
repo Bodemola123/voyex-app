@@ -141,6 +141,9 @@ const handleRevenueSelect = (revenueValue) => {
       // console.log("response", response);
       if (response.status === 200) {
         toast.success(response.data);
+        let orgType = response.data.org_id ? "organization" : "user"; // If id exists, it's a organization; otherwise, it's an user
+        // Store user type in localStorage
+        localStorage.setItem("orgType", orgType);
         setCurrentSlide("org-upload-success");
       }
       if (response.status !== 200) {

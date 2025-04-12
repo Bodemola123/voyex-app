@@ -59,6 +59,10 @@ export const logoutUser = () => {
     //  console.warn("Logout triggered but temporarily disabled for debugging.");
     // console.log("Access Token Before Logout:", localStorage.getItem('access_token'));
     // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
+    localStorage.removeItem("userType");
+    localStorage.removeItem("orgType");
+    localStorage.removeItem("fullName");
+    localStorage.removeItem("firstName");
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");; 
   window.location.href = "/auth/user"// Redirect to login page

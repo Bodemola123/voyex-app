@@ -145,8 +145,14 @@ function UserUploadDetails({ setUserDisplay }) {
 
         if (response.status === 200) {
             toast.success(response.data.message);
-            setCurrentSlide("user-upload-success");
+            let userType = response.data.user_id ? "user" : "organization"; // If user_id exists, it's a user; otherwise, it's an organization
+            // Store user type in localStorage
+            localStorage.setItem("userType", userType);
+
+            const firstName = userFullName.trim().split(" ")[0];
+            localStorage.setItem("firstName", firstName);
             localStorage.removeItem("user_password"); // Remove sensitive data
+            setCurrentSlide("user-upload-success");
         } else {
             setCurrentSlide("basic-info");
         }

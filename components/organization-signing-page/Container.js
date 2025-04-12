@@ -371,6 +371,9 @@ const handleRevenueSelect = (revenueValue) => {
             // ✅ Store tokens if provided
             apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
             apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+            let orgType = apiResponse.data.org_id ? "organization" : "user"; // If id exists, it's a organization; otherwise, it's an user
+            // Store user type in localStorage
+            localStorage.setItem("orgType", orgType);
   
             setCurrentSlide("org-signin-success");
             toast.success("Signin successful!");
@@ -606,6 +609,10 @@ const signing = async () => {
       //  console.warn("Logout triggered but temporarily disabled for debugging.");
       // console.log("Access Token Before Logout:", localStorage.getItem('access_token'));
       // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
+      localStorage.removeItem("userType");
+      localStorage.removeItem("orgType");
+      localStorage.removeItem("fullName");
+      localStorage.removeItem("firstName");
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");; 
     window.location.href = "/auth/organization"// Redirect to login page
@@ -648,7 +655,9 @@ const signing = async () => {
         } else {
           console.warn("No refresh_token received!");
         }
-        
+        let orgType = response.data.org_id ? "organization" : "user"; // If id exists, it's a organization; otherwise, it's an user
+        // Store user type in localStorage
+        localStorage.setItem("orgType", orgType);
   
         setCurrentSlide("org-signin-success");
         toast("Signin successful");

@@ -89,11 +89,11 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton }
                 />
               </button>
             </div>
-            <ul className='flex flex-col items-start text-xs font-medium'>
+            <div className='flex flex-col items-start text-xs font-medium'>
               {(expandToday ? todayItems : todayItems.slice(0, 5)).map((item, index) => (
-                <li key={index} className="py-3">{item}</li>
+                <p key={index} className="py-3 line-clamp-1">{item}</p>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Yesterday Section */}
@@ -110,11 +110,11 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton }
                 />
               </button>
             </div>
-            <ul className='flex flex-col items-start text-xs font-medium'>
+            <div className='flex flex-col items-start text-xs font-medium'>
               {(expandYesterday ? yesterdayItems : yesterdayItems.slice(0, 5)).map((item, index) => (
-                <li key={index} className="py-3">{item}</li>
+                <p key={index} className="py-3 line-clamp-1">{item}</p>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
 
