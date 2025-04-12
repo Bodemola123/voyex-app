@@ -4,6 +4,7 @@ import { navbar } from "@/constants/settings-page";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { BiLogOutCircle } from "react-icons/bi";
+import { toast } from "react-toastify";
 
 function Collapsible() {
   const [activeSection, setActiveSection] = useState(""); // Track the active section
@@ -48,7 +49,7 @@ function Collapsible() {
     localStorage.removeItem("firstName");
 
     console.log("User logged out");
-    toast("You are now Logged out");
+    toast.success("You are now Logged out");
 
     window.location.href = "/auth"; // Redirect to login page
   };

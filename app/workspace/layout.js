@@ -7,29 +7,36 @@ import { useRouter } from "next/navigation";  // To programmatically redirect
 
 function WorkSpaceLayout({ children }) {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+  const [orgType, setOrgType] = useState(null);
   const router = useRouter();
 
-  // On component mount, retrieve state from localStorage
+  // On component mount, check if we are in a client environment
   useEffect(() => {
-    const savedState = localStorage.getItem("isHistoryVisible");
-    if (savedState !== null) {
-      setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
-    }
+    if (typeof window !== "undefined") {
+      // Ensure we're running on the client-side before accessing localStorage
+      const savedState = localStorage.getItem("isHistoryVisible");
+      if (savedState !== null) {
+        setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
+      }
 
-    // Check if user is logged in as an organization
-    const orgType = localStorage.getItem("orgType");
+      const storedOrgType = localStorage.getItem("orgType");
+      setOrgType(storedOrgType);
 
-    if (orgType !== "organization") {
-      // If not an organization, redirect them to another page (e.g., homepage or an access denied page)
-      router.push("/search"); // Redirect to access-denied page
+      if (storedOrgType !== "organization") {
+        // If not an organization, redirect them to an access-denied page
+        router.push("/search");
+      }
     }
-  }, [router]); // Make sure router is available
+  }, [router]); // Ensure router is available
 
   // Update localStorage whenever the state changes
   const toggleHistoryVisibility = () => {
     setIsHistoryVisible((prev) => {
       const newState = !prev;
-      localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
+      if (typeof window !== "undefined") {
+        // Check window object to confirm it's in the client
+        localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
+      }
       return newState;
     });
   };
@@ -42,9 +49,7 @@ function WorkSpaceLayout({ children }) {
           isHistoryVisible={isHistoryVisible}
         />
         <div
-          className={`transition-all duration-300 ${
-            isHistoryVisible ? "w-[280px]" : "w-0"
-          } bg-[#131314] overflow-hidden`}
+          className={`transition-all duration-300 ${isHistoryVisible ? "w-[280px]" : "w-0"} bg-[#131314] overflow-hidden`}
         >
           {isHistoryVisible && <NavOpen />}
         </div>

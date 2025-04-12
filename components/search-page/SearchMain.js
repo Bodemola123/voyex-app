@@ -47,7 +47,16 @@ function SearchMain({
 
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   
-  // const firstName = localStorage.getItem("firstName") || "Explorer";
+  const [firstName, setFirstName] = useState("Explorer");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedFirstName = localStorage.getItem("firstName");
+      if (savedFirstName) {
+        setFirstName(savedFirstName);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const savedState = localStorage.getItem("isHistoryVisible");
@@ -210,7 +219,7 @@ null
       <div className='flex flex-col gap-[8px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center '>
   <p className='text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] md:text-[48px] leading-[57.6px] font-bold text-center text-2xl'>
-    Hi Explorer, meet Voyex
+    Hi {firstName}, meet Voyex
   </p>
   <Image src={'/Sparkle.svg'} alt='sparkles' width={40} height={40} className='message-bubble md:flex hidden'/>
 </div>

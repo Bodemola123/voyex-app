@@ -18,7 +18,7 @@ function Security() {
     localStorage.removeItem("firstName");
 
     console.log("User logged out");
-    toast("You are now Logged out");
+    toast.success("You are now Logged out");
 
     window.location.href = "/auth";// Redirect to login page
   };

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineHome } from "react-icons/hi";
 import {
   LuClipboardList,
@@ -13,14 +13,22 @@ import { RxAvatar } from "react-icons/rx";
 
 const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
   const pathname = usePathname(); // Get the current path
+  const [userType, setUserType] = useState(null); // Initialize state for userType
+  const [orgType, setOrgType] = useState(null); // Initialize state for orgType
 
   const isActive = (href) => pathname === href; // Function to check active link
 
-  // Get both userType and orgType from localStorage
-  const userType = localStorage.getItem("userType");
-  const orgType = localStorage.getItem("orgType");
+  // Check if it's the client-side and retrieve localStorage values
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUserType = localStorage.getItem("userType");
+      const storedOrgType = localStorage.getItem("orgType");
 
-  // Determine which type of user is logged in
+      setUserType(storedUserType);
+      setOrgType(storedOrgType);
+    }
+  }, []); // Only run this effect once on mount
+
   const loggedInAsUser = userType === "user";
   const loggedInAsOrg = orgType === "organization";
 
