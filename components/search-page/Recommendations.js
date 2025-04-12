@@ -1,88 +1,66 @@
-"use client";
-import { useState } from "react";
-import { GrTag } from "react-icons/gr";
-import { HiOutlineSquares2X2 } from "react-icons/hi2";
-import { MdKeyboardArrowLeft } from "react-icons/md";
-import { TbFilter } from "react-icons/tb";
-import ChatProductCard from "./ChatProductCard";
-import { LuRefreshCw } from "react-icons/lu";
+"use client"
+import Image from 'next/image'
+import React, { useState } from 'react'
+import { FaStar } from 'react-icons/fa'
 
-function Recommendations({ setShowRecommendations }) {
+const ChatProductCard = ({product}) => {
 
-const [products] =useState([
-    {id: 1, price: "$4.00 -$8.00"},
-    {id: 2, price: "$4.00 -$8.00"},
-    {id: 3, price: "Freemium"},
-    {id: 4, price: "$4.00 -$8.00"}
-])
-
+const [hovered, setHovered] = useState(false);
   return (
-    <div className="flex flex-col gap-9 w-full h-full bg-transparent p-6 text-[#f4f4f4] overflow-y-auto scrollbar-hide">
-        <div className="flex flex-row gap-3 items-center justify-start">
-                  {/* Back Button */}
-      <button
-        className="w-[48px] h-[32px] border border-card gap-2.5 flex items-center justify-center rounded-lg"
-        onClick={() => setShowRecommendations(false)} // Hide recommendations when clicked
-      >
-        <MdKeyboardArrowLeft className="text-white text-[24px]" />
-      </button>
-
-      {/* Recommendation Content */}
-      <p className="text-base font-bold">Showing Recommendations</p>
-        </div>
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-row justify-between">
-                <h1 className="text-2xl font-bold">Content Creation</h1>
-                <div className="flex flex-row gap-2">
-          <button className="w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
-            <TbFilter /> Filter
-          </button>
-          <button className="w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
-            <GrTag className="transform scale-x-[-1]" /> Price
-          </button>
-          <button className="w-24 h-8 gap-3  text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
-            <HiOutlineSquares2X2 /> Rating
-          </button>
+    <div className='flex flex-row justify-around items-center p-6 gap-6 rounded-3xl w-full h-full bg-[#131314]'
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
+    >
+        <Image src={'/BigChatGPT.svg'} alt='image' width={78} height={78}/>
+        <div className='flex flex-col gap-3.5 items-start'>
+            <p className='text-base font-bold'>ChatGPT</p>
+            <div className='flex flex-row items-center gap-4'>
+                <div className='flex flex-row gap-2'>
+            <FaStar className="text-yellow-400" />
+            <p className='text-xs font-normal'>Rating:</p>
+            <span className='text-xs font-medium'>9/10</span>
                 </div>
+                <div className='flex flex-row gap-2 items-center'>
+                <p className='text-xs font-normal'>Users:</p>
+                <p className='text-xs font-medium'>5M+</p>
             </div>
-            <div className="grid grid-cols-2 grid-rows-2 gap-4">
-                {products.map((product) => (
-                    <ChatProductCard key={product.id} product={product} />
-                ))}
+            <p className='text-base font-bold'>{product.price}</p>
             </div>
+            <p className="line-clamp-2 text-sm font-normal">Supports GPT-4 and GPT-3.5. OpenAI&apos;s next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
+            {!hovered && (
+            <div className='flex flex-row items-center justify-start gap-2 w-full overflow-x-auto scrollbar-hide h-[30px]'>
+         <span className="text-[11px] capitalize px-2 py-1.5 rounded-[21px] border border-card">
+          chatbot
+        </span>
+        <span className="text-[11px] capitalize px-2 py-1.5 rounded-[21px] border border-card">
+          writing
+        </span>
+        <span className="text-[11px] capitalize px-2 py-1.5 rounded-[21px] border border-card">
+          sales
+        </span>
+        <span className="text-[11px] capitalize px-2 py-1.5 rounded-[21px] border border-card">
+          models
+        </span>
+        <span className="text-[11px] capitalize px-2 py-1.5 rounded-[21px] border border-card">
+          Research
+        </span>
         </div>
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-row justify-between">
-                <h1 className="text-2xl font-bold">Video Generation</h1>
-                <div className="flex flex-row gap-2">
-          <button className="w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
-            <TbFilter /> Filter
-          </button>
-          <button className="w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
-            <GrTag className="transform scale-x-[-1]" /> Price
-          </button>
-          <button className="w-24 h-8 gap-3  text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
-            <HiOutlineSquares2X2 /> Rating
-          </button>
-                </div>
+        )
+        }
+        {hovered && (
+            <div className='flex flex-row items-center justify-between w-full h-[30px]'>
+                <button className='border border-[#FFFFFF26] rounded-3xl px-5 py-[4.5px] bg-transparent text-sm font-medium'>
+                    Give Feedback to Tool
+                </button>
+                <button className='border border-[#ffffff26] rounded-3xl px-5 py-[4.5px] bg-[#c088fb] text-sm font-medium text-[#0a0a0b]'>
+                    Use Tool
+                </button>
             </div>
-            <div className="grid grid-cols-2 grid-rows-2 gap-4">
-                {products.map((product) => (
-                    <ChatProductCard key={product.id} product={product} />
-                ))}
-            </div>
-        </div>
-        <div className="flex flex-row justify-between">
-            <button className="px-12 py-4 rounded-3xl border border-[#FFFFFF26] font-medium">
-                Give Feedback
-            </button>
-            <button className="flex flex-row gap-2.5 px-7 py-4 rounded-3xl bg-white text-[#0a0a0b] text-xl font-bold items-center justify-center">
-                <p className="text-base">Suggest More Tools</p>
-                <LuRefreshCw/>
-            </button>
+        )
+        }
         </div>
     </div>
-  );
+  )
 }
 
-export default Recommendations;
+export default ChatProductCard

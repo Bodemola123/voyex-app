@@ -29,7 +29,6 @@ import '../../app/globals.css';
 import BenNavbar from "../common/BenNavbar";
 import BenFooter from "../common/BenFooter";
 import HomeNav from "./HomeNav";
-import Banner from "../common/Banner";
 
 function SearchMain({
   messages,
@@ -41,13 +40,13 @@ function SearchMain({
 }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [predictiveText, setPredictiveText] = useState("");
-  // const [showTrendingModal, setShowTrendingModal] = useState(false);
+  const [showTrendingModal, setShowTrendingModal] = useState(false);
   const [showRecentlyAddedModal, setShowRecentlyAddedModal] = useState(false);
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions); // Initial state is all suggestions
 
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   
-  // const firstName = localStorage.getItem("firstName") || "Explorer";
+  
 
   useEffect(() => {
     const savedState = localStorage.getItem("isHistoryVisible");
@@ -69,7 +68,7 @@ function SearchMain({
   }, []);
 
   // const [attachedFile, setAttachedFile] = useState(null);
-  // const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   // const [audioBlobUrl, setAudioBlobUrl] = useState("");
   const [isClient, setIsClient] = useState(false); // To track if we're on the client
   // const [uploadSuccessful, setUploadSuccessful] = useState(false); // Track if upload is valid
@@ -94,20 +93,20 @@ useEffect(() => {
 }, []);
 
 
-  // const handleTrendingClick = (query) => {
-  //   setUserInput(query);
-  //   setShowTrendingModal(false);
-  //   setShowSuggestions(false);
-  // };
+  const handleTrendingClick = (query) => {
+    setUserInput(query);
+    setShowTrendingModal(false);
+    setShowSuggestions(false);
+  };
 
 
-  // const closeTrendingModal = useCallback(() => {
-  //   setShowTrendingModal(false);
-  // }, []);
+  const closeTrendingModal = useCallback(() => {
+    setShowTrendingModal(false);
+  }, []);
 
-  // const closeRecentlyAddedModal = useCallback(() => {
-  //   setShowRecentlyAddedModal(false);
-  // }, []);
+  const closeRecentlyAddedModal = useCallback(() => {
+    setShowRecentlyAddedModal(false);
+  }, []);
 
   const handleKeyPress = (e) => {
     if (!userInput.trim()) {
@@ -204,8 +203,7 @@ null
         {isHistoryVisible && <HomeNav />}
       </div>
       </div>
-      <div className="flex-grow relative flex flex-col w-full h-full justify-between items-center overflow-y-scroll py-6 px-6 scrollbar-hide scroll-container">
-        <Banner/>
+      <div className="flex-grow relative flex h-full w-full flex-col gap-14 p-6 justify-center items-center overflow-y-scroll scrollbar-hide scroll-container">
       <div className="relative w-full items-center justify-center flex gap-14 flex-col">
       <div className='flex flex-col gap-[8px] justify-center items-center'>
 <div className='flex flex-row gap-4 justify-center items-center '>
@@ -371,6 +369,8 @@ null
     </ul>
   </div>
 )}
+
+      </div>
       <div className="md:grid grid-cols-3 gap-6 flex flex-col">
   {randomTrendingSearches.map((search, index) => (
     <div
@@ -410,10 +410,11 @@ null
     </div>
   ))}
       </div>
-      </div>
+      <div className="fixed bottom-[27px]">
       <BenFooter/>
+      </div>
 
-      {/* {showTrendingModal && (
+      {showTrendingModal && (
         <>
           <TrendingModal
             trendingSearches={trendingSearches}
@@ -427,7 +428,7 @@ null
           recentlyAddedItems={recentlyAddedItems}
           onClose={closeRecentlyAddedModal}
         />
-      )} */}
+      )}
       </div>
     </div>
 

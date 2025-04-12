@@ -16,14 +16,6 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
 
   const isActive = (href) => pathname === href; // Function to check active link
 
-  // Get both userType and orgType from localStorage
-  const userType = localStorage.getItem("userType");
-  const orgType = localStorage.getItem("orgType");
-
-  // Determine which type of user is logged in
-  const loggedInAsUser = userType === "user";
-  const loggedInAsOrg = orgType === "organization";
-
   return (
     <nav className="h-screen z-10 w-16 bg-[#131314] flex flex-col justify-between items-center py-6 text-white">
       <div className="flex flex-col gap-8 justify-center items-center">
@@ -95,26 +87,24 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
             </span>
           </div>
 
-          {/* Workspace Link (Only accessible to Organizations) */}
-          {(loggedInAsOrg || orgType === "organization") && (
-            <div className="relative group">
-              <Link
-                href="/workspace"
-                className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
-                  isActive("/workspace") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
-                }`}
-              >
-                <LuLockKeyhole
-                  className={`text-[20px] ${
-                    isActive("/workspace") ? "text-[#f4f4f4]" : "text-[#C088fb]"
-                  } group-hover:text-[#f4f4f4]`}
-                />
-              </Link>
-              <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                Workspace
-              </span>
-            </div>
-          )}
+          {/* Workspace Link */}
+          <div className="relative group">
+            <Link
+              href="/workspace"
+              className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
+                isActive("/workspace") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
+              }`}
+            >
+              <LuLockKeyhole
+                className={`text-[20px] ${
+                  isActive("/workspace") ? "text-[#f4f4f4]" : "text-[#C088fb]"
+                } group-hover:text-[#f4f4f4]`}
+              />
+            </Link>
+            <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              Workspace
+            </span>
+          </div>
         </div>
       </div>
 

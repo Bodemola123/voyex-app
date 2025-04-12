@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { FcFaq } from "react-icons/fc";
@@ -16,9 +17,9 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const TypingAnimation = () => {
   return (
     <div className="flex space-x-1">
-      <span className="animate-bounce delay-0 text-[8px]">.</span>
-      <span className="animate-bounce delay-100 text-[8px]">.</span>
-      <span className="animate-bounce delay-200 text-[8px]">.</span>
+      <span className="animate-bounce delay-0">.</span>
+      <span className="animate-bounce delay-100">.</span>
+      <span className="animate-bounce delay-200">.</span>
     </div>
   );
 };

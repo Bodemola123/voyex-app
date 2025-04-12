@@ -7,15 +7,11 @@ function Security() {
 
   const logoutUser = () => {
     // Clear tokens and user details from localStorage
-    localStorage.removeItem("userType");
-    localStorage.removeItem("orgType");
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userId");
     localStorage.removeItem("user_email");
     localStorage.removeItem("user_password");
-    localStorage.removeItem("fullName");
-    localStorage.removeItem("firstName");
 
     console.log("User logged out");
     toast("You are now Logged out");

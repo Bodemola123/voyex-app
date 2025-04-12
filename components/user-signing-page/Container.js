@@ -241,19 +241,8 @@ useEffect(() => {
           );
           console.log("API Response:", apiResponse.data);
 
-                    // Fetch profile data (or use fullName from sign-in response)
-  const fullName = apiResponse?.data?.fullname || "Explorer"; // Fallback to "Guest" if no fullname
-  const firstName = fullName.trim().split(" ")[0]; // Extract first name
-    // Save firstName to localStorage
-    localStorage.setItem("fullName", fullName);
-    localStorage.setItem("firstName", firstName);
-    let userType = apiResponse.data.user_id ? "user" : "organization"; // If user_id exists, it's a user; otherwise, it's an organization
-    // Store user type in localStorage
-    localStorage.setItem("userType", userType);
-
-
           // ✅ Console log access & refresh tokens (if they exist)
-            console.log("Access Token:", apiResponse.data.access_token );
+          console.log("Access Token:", apiResponse.data.access_token );
           console.log("Refresh Token:", apiResponse.data.refresh_token );
 
           if (apiResponse.status === 200 && apiResponse.data.valid === true) {
@@ -501,10 +490,6 @@ useEffect(() => {
       //  console.warn("Logout triggered but temporarily disabled for debugging.");
       // console.log("Access Token Before Logout:", localStorage.getItem('access_token'));
       // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
-      localStorage.removeItem("userType");
-      localStorage.removeItem("orgType");
-      localStorage.removeItem("fullName");
-      localStorage.removeItem("firstName");
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");; 
     window.location.href = "/auth/user"// Redirect to login page
@@ -538,19 +523,8 @@ useEffect(() => {
               // Successful sign-in, save tokens in localStorage
       localStorage.setItem('access_token', response.data.access_token);
       localStorage.setItem('refresh_token', response.data.refresh_token);  // If provided
-      let userType = response.data.user_id ? "user" : "organization"; // If user_id exists, it's a user; otherwise, it's an organization
-            // Store user type in localStorage
-            localStorage.setItem("userType", userType);
-
-          // Fetch profile data (or use fullName from sign-in response)
-  const fullName = response?.data?.fullname || "Explorer"; // Fallback to "Guest" if no fullname
-  const firstName = fullName.trim().split(" ")[0]; // Extract first name
-    // Save firstName to localStorage
-    localStorage.setItem("fullName", fullName);
-    localStorage.setItem("firstName", firstName);
-
-    setCurrentSlide("user-signin-success");
-    toast("signin successful");
+        setCurrentSlide("user-signin-success");
+        toast("signin successful");
 
         // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
           // Wait 10 seconds before running checkAccessToken to prevent interference
