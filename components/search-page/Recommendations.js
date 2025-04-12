@@ -49,9 +49,9 @@ function Recommendations({ setShowRecommendations }) {
     >
       {Array.from({ length: 5 }, (_, i) =>
         i < value ? (
-          <FaStar key={i} className="text-[#FCD53F] text-xl" />
+          <FaStar key={i} className="text-[#FCD53F] text-base" />
         ) : (
-          <FaRegStar key={i} className="text-[#FCD53F] text-xl" />
+          <FaRegStar key={i} className="text-[#FCD53F] text-base" />
         )
       )}
     </div>
