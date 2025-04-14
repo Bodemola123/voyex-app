@@ -1,38 +1,17 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Banner = () => {
-  const texts = [
-    'Voyex Inc recently secured a funding of $100,000',
-    'Voyex Inc recently secured a funding of $100,000'
-  ];
-
-  const repeatCount = 20;
 
   return (
-    <div className="overflow-hidden bg-gradient-to-r from-[#F4F4F4] via-[#F4F4F4] to-[#C088FB] py-2 z-50 w-full">
-      <div className="flex gap-12 whitespace-nowrap animate-marquee">
-        {Array.from({ length: repeatCount }).map((_, index) => (
-          <p
-            key={index}
-            className={`text-base font-medium ${
-              index % 2 === 0 ? 'text-[#0a0a0b]' : 'text-[#4B2D6B]'
-            }`}
-          >
-            {texts[index % 2]}
-          </p>
-        ))}
-        {/* Clone for seamless looping */}
-        {Array.from({ length: repeatCount }).map((_, index) => (
-          <p
-            key={`clone-${index}`}
-            className={`text-base font-medium ${
-              index % 2 === 0 ? 'text-[#0a0a0b]' : 'text-[#4B2D6B]'
-            }`}
-          >
-            {texts[index % 2]}
-          </p>
-        ))}
-      </div>
+    <div className="flex items-center justify-center gap-6 py-3.5 z-50 w-full rounded-xl"
+    style={{
+      background: 'linear-gradient(90deg, #C088FB 2.3%, #FFFFFF 14.04%, #FFFFFF 51.15%, #FFFFFF 86.38%, #C088FB 100%)'
+    }}>
+    <p className='text-[#0a0a0b] font-medium text-base'>Are you a product owner looking to gain Publicity on your product?</p>
+    <Link href="/auth/organization" className='bg-[#C088FB33] flex justify-center items-center text-center text-[#c088fb] font-bold text-base py-3 px-4 rounded-2xl'>
+  <p>Sign Up as Organization</p>
+    </Link>
     </div>
   );
 };

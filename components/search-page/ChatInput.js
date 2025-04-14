@@ -80,19 +80,19 @@ null
     {/* Lava blobs */}
     <div className="relative w-full h-full">
       <span
-        className={`lava-blob blob1 ${userInput ? "animate-blob1" : "blob-inactive"}`}
+        className={`lava-blob blob1 ${(userInput ||  isBotTyping) ? "animate-blob1" : "blob-inactive"}`}
       />
       <span
-        className={`lava-blob blob2 ${userInput ? "animate-blob2" : "blob-inactive"}`}
+        className={`lava-blob blob2 ${(userInput ||  isBotTyping) ? "animate-blob2" : "blob-inactive"}`}
       />
       <span
-        className={`lava-blob blob3 ${userInput ? "animate-blob3" : "blob-inactive"}`}
+        className={`lava-blob blob3${(userInput ||  isBotTyping) ? "animate-blob3" : "blob-inactive"}`}
       />
       <span
-        className={`lava-blob blob4 ${userInput ? "animate-blob4" : "blob-inactive"}`}
+        className={`lava-blob blob4 ${(userInput ||  isBotTyping) ? "animate-blob4" : "blob-inactive"}`}
       />
       <span
-        className={`lava-blob blob5 ${userInput ? "animate-blob5" : "blob-inactive"}`}
+        className={`lava-blob blob5 ${(userInput ||  isBotTyping)? "animate-blob5" : "blob-inactive"}`}
       />
     </div>
     {/* Reflection */}

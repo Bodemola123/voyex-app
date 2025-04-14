@@ -355,7 +355,7 @@ const handleOptionClick = (index, option) => {
   
  
   return (
-    <div className="relative w-[1000px]" >
+    <div className="relative w-[950px]" >
             {showRecommendations ? (
         <Recommendations setShowRecommendations={setShowRecommendations} /> 
       ) :
@@ -417,7 +417,6 @@ const handleOptionClick = (index, option) => {
             handleNewConversation={handleNewConversation}
             isLoading={isLoading}
             isBotTyping={isBotTyping}
-            handleResetRecommendationButton={handleResetRecommendationButton}
           />
           <div>
           <BenFooter />

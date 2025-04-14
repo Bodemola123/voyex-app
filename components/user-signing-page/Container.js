@@ -532,7 +532,7 @@ useEffect(() => {
       console.log("Response data:", response.data); // Log response data
       if (response.status === 200 && response.data.valid === false) {
         setCurrentSlide("signing");
-        toast("user not found");
+        toast("Please check email and password. Click on forgot password if forgotten");
       }
       if (response.status === 200 && response.data.valid === true) {
               // Successful sign-in, save tokens in localStorage

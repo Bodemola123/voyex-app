@@ -33,7 +33,7 @@ function Recommendations({ setShowRecommendations }) {
         (priceFilter === "Free" && product.price.toLowerCase() === "freemium") ||
         (priceFilter === "Paid" && product.price.toLowerCase() !== "freemium");
       const matchesRating =
-        ratingFilter === null || product.rating === ratingFilter;
+        ratingFilter === null || ratingFilter === "All" || product.rating === ratingFilter;
       return matchesPrice && matchesRating;
     });
   };
@@ -107,7 +107,6 @@ function Recommendations({ setShowRecommendations }) {
                 >
                   Paid
                 </span>
-                {/* Add "All" option to reset filter */}
                 <span
                   className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
                   onClick={() => {
@@ -144,6 +143,16 @@ function Recommendations({ setShowRecommendations }) {
             (sectionType === "video" && videoRatingDropdownOpen === title) ? (
               <div className="absolute mt-2 bg-[#1c1d1f] p-2 rounded-[8px] flex flex-col gap-2 z-50">
                 {[1, 2, 3, 4, 5].map((val) => renderRatingOption(val))}
+                <span
+                  className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
+                  onClick={() => {
+                    sectionType === "content"
+                      ? setContentRatingFilter("All")
+                      : setVideoRatingFilter("All");
+                  }}
+                >
+                  All
+                </span>
               </div>
             ) : null}
           </div>
