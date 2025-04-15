@@ -16,7 +16,6 @@ function ChatInput({
   handleNewConversation,
   isLoading,
   isBotTyping,
-  handleResetRecommendationButton,
 }) {
 
   // const [attachedFile, setAttachedFile] = useState(null);
@@ -194,7 +193,6 @@ null
       <button
       className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${userInput.trim() === "" ? "opacity-50" : ""}`}
       onClick={() => {
-        handleResetRecommendationButton();
         handleButtonPress();
       }}
       disabled={isLoading || isBotTyping || userInput.trim() === ""}
