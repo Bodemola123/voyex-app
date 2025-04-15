@@ -33,7 +33,6 @@ function ChatInput({
         e.preventDefault(); // Prevents new line
         handleSendMessage();
         setUserInput(""); 
-        handleResetRecommendationButton();
       }
     };
     
@@ -41,7 +40,6 @@ function ChatInput({
 
   const handleButtonPress = (e) => {
     handleSendMessage();
-    handleResetRecommendationButton();
   };
   // const handleFileChange = (event) => {
   //   setAttachedFile(event.target.files[0]);
