@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { toast } from "react-hot-toast";
+import { toast } from 'react-toastify';
 import "../../../app/globals.css"
 
 const ProductFeedback = ({ product, onClose }) => {
@@ -58,7 +58,7 @@ const ProductFeedback = ({ product, onClose }) => {
       <div className="bg-[#1c1d1f] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[513px]">
         {/* Header */}
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
               <div className="flex flex-row justify-center items-center gap-2">
                 <Image src={"/BigChatGPT.svg"} alt="image" width={78} height={78} />

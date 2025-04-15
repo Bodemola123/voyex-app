@@ -4,7 +4,8 @@ import React, { useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import "../../../app/globals.css"
-import { toast } from "react-hot-toast";
+import { toast } from 'react-toastify';
+
 
 const OverallFeedback = ({onClose}) => {
 
@@ -20,7 +21,7 @@ const OverallFeedback = ({onClose}) => {
     
       const renderStars = (value, size = "text-[55px]") => {
         return (
-          <div className="flex flex-row gap-8 items-center justify-center text-[#FCD53F]">
+          <div className="flex flex-row gap-2 items-center justify-center text-[#FCD53F]">
             {[1, 2, 3, 4, 5].map((star) => (
               <span key={star}>
                 {value >= star ? (
@@ -50,7 +51,7 @@ const OverallFeedback = ({onClose}) => {
       <div className="bg-[#1c1d1f] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[513px]">
         {/* Header */}
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
                 <p className='text-2xl font-bold'>Help Us improve</p>
               <button onClick={onClose} className="flex items-center justify-center">
@@ -79,7 +80,7 @@ const OverallFeedback = ({onClose}) => {
 
             {/* Star Ratings */}
             {!submitted ? (
-              <div className="flex flex-row gap-8 items-center justify-center text-[#FCD53F]">
+              <div className="flex flex-row gap-2 items-center justify-center text-[#FCD53F]">
                 {[1, 2, 3, 4, 5].map((val) => (
                   <button key={val} onClick={() => handleRatingClick(val)}>
                     <FaRegStar className="text-[55px]" />
@@ -87,7 +88,7 @@ const OverallFeedback = ({onClose}) => {
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center gap-4">
+              <div className="flex flex-col items-center justify-center gap-2">
                 <p className="text-[66px] font-bold">{rating}</p>
                 <div className="text-base">
                 {renderStars(rating, "text-[20px]")}
