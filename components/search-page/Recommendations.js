@@ -7,6 +7,7 @@ import { TbFilter } from "react-icons/tb";
 import ChatProductCard from "./ChatProductCard";
 import { LuRefreshCw } from "react-icons/lu";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import OverallFeedback from "./Modals/OverallFeedback";
 
 function Recommendations({ setShowRecommendations }) {
   const [contentPriceFilter, setContentPriceFilter] = useState(null);
@@ -17,7 +18,9 @@ function Recommendations({ setShowRecommendations }) {
   const [videoPriceDropdownOpen, setVideoPriceDropdownOpen] = useState(null);
   const [contentRatingDropdownOpen, setContentRatingDropdownOpen] = useState(null);
   const [videoRatingDropdownOpen, setVideoRatingDropdownOpen] = useState(null);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOverallFeedbackClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
   const [products] = useState([
     { id: 1, price: "$4.00 -$8.00", rating: 2 },
     { id: 2, price: "$4.00 -$8.00", rating: 4 },
@@ -171,6 +174,7 @@ function Recommendations({ setShowRecommendations }) {
   );
 
   return (
+    <>
     <div className="flex flex-col gap-9 w-full h-full bg-transparent p-6 text-[#f4f4f4] overflow-y-auto scrollbar-hide">
       <div className="flex flex-row gap-3 items-center justify-start">
         <button
@@ -184,7 +188,7 @@ function Recommendations({ setShowRecommendations }) {
       {renderSection("Content Creation", "content")}
       {renderSection("Video Generation", "video")}
       <div className="flex flex-row justify-between">
-        <button className="px-12 py-4 rounded-3xl border border-[#FFFFFF26] font-medium">
+        <button className="px-12 py-4 rounded-3xl border border-[#FFFFFF26] font-medium" onClick={handleOverallFeedbackClick}>
           Give Feedback
         </button>
         <button className="flex flex-row gap-2.5 px-7 py-4 rounded-3xl bg-white text-[#0a0a0b] text-xl font-bold items-center justify-center">
@@ -193,6 +197,14 @@ function Recommendations({ setShowRecommendations }) {
         </button>
       </div>
     </div>
+
+          {/* Modal Component */}
+          {isModalOpen && (
+        <OverallFeedback
+          onClose={handleCloseModal}
+        />
+      )}
+    </>
   );
 }
 
