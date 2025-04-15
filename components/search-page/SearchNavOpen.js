@@ -129,7 +129,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton }
 
   return (
     <>
-      <nav className='flex flex-col w-full gap-6 bg-[#131314]  h-screen px-4 pt-6'>
+      <nav className='flex flex-col w-full gap-2 bg-[#131314]  h-screen px-4 pt-6'>
         <div className='flex flex-col gap-6 border-b border-[#3A3A40]'>
           <div className='flex gap-4 flex-row items-center'>
             <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
@@ -231,7 +231,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton }
             </div>
           </div>
         ) : (
-          <div className='flex flex-col gap-6 pt-2'>
+          <div className='flex flex-col gap-6'>
             <div className='flex flex-col justify-center items-start gap-3'>
               <Link href='/auth/user' className='py-4 flex flex-row gap-2.5 bg-transparent items-center group'>
                 <LuLogIn className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />

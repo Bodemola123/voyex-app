@@ -107,7 +107,7 @@ const HomeNav = () => {
 
   return (
     <>
-      <nav className='flex flex-col w-full bg-[#131314] h-screen gap-6 px-6 pt-4'>
+      <nav className='flex flex-col w-full bg-[#131314] h-screen gap-2 px-6 pt-4'>
         <div className='flex flex-col gap-6'>
           <div className='flex gap-4 flex-row items-center'>
             <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />

@@ -103,7 +103,7 @@ const OverallFeedback = ({onClose}) => {
           <p className="text-sm font-normal">Can you tell us more</p>
           <textarea
             placeholder="Add Feedback"
-            className="px-4 py-[18px] resize-none rounded-[28px] placeholder:leading-none  bg-[#0a0a0b] text-[#FFFFFF] placeholder-[#FFFFFF] h-[153px] placeholder:text-base placeholder:font-normal font-normal text-base leading-none text-start"
+            className="px-4 py-[18px] resize-none rounded-[28px] placeholder:leading-none  bg-[#0a0a0b] text-[#FFFFFF] placeholder-[#FFFFFF] h-[153px] placeholder:text-base placeholder:font-normal font-normal text-base leading-none text-start outline-0 focus:ring-0"
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
           />
