@@ -252,7 +252,7 @@ const handleOptionClick = (index, option) => {
   // }, 0);
   handleSendMessage(option)
   // Track the number of new selections after reset
-  // setSelectionCount((prev) => prev + 1);
+  setSelectionCount((prev) => prev + 1);
 
   // After three selections, set showRecommendationButton to true
   // if (selectionCount + 1 === 3) {
