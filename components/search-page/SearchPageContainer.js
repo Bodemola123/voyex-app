@@ -36,6 +36,19 @@ const [selectionCount, setSelectionCount] = useState(0);
       const text = message || userInput.trim();
       if (!text) return;
   
+      // Regex to match flexible variations of "Yes, Recommend"
+      const recommendRegex = /^yes[\s,]*recommend\b/i;
+  
+      if (recommendRegex.test(text)) {
+        // Add user message
+        const userMessage = { text, role: "user", timestamp: new Date() };
+        setMessages((prevMessages) => [...prevMessages, userMessage]);
+  
+        setUserInput(""); // Clear input
+        setShowRecommendationButton(true); // Trigger recommendation
+        return; // Prevent bot response
+      }
+  
       setIsLoading(true);
   
       // User message object
@@ -65,9 +78,9 @@ const [selectionCount, setSelectionCount] = useState(0);
           ...prevMessages,
           {
             text: `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
-            1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-            2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses.Androids lack empathy, making them vulnerable to detection
-            3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
+  1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
+  2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses.Androids lack empathy, making them vulnerable to detection
+  3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
             role: "bot",
             timestamp: new Date(),
           },
@@ -82,6 +95,7 @@ const [selectionCount, setSelectionCount] = useState(0);
       setIsLoading(false);
     }
   };
+  
   
   
 

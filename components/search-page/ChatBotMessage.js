@@ -255,9 +255,9 @@ const handleOptionClick = (index, option) => {
   setSelectionCount((prev) => prev + 1);
 
   // After three selections, set showRecommendationButton to true
-  if (selectionCount + 1 === 3) {
-    setShowRecommendationButton(true);
-  }
+  // if (selectionCount + 1 === 3) {
+  //   setShowRecommendationButton(true);
+  // }
 };
       
       
