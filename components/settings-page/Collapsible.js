@@ -67,10 +67,10 @@ function Collapsible() {
           <button
             key={i}
             onClick={() => handleScroll(nav.id)}
-            className={`py-2 px-3 flex items-center gap-2.5 text-[16px] rounded-[123px] transition-all duration-300 capitalize ${
+            className={`py-2 px-3 flex items-center gap-2.5 text-[16px] transition-all duration-300 capitalize ${
               activeSection === nav.id
-                ? "bg-purple text-fontlight"
-                : "hover:bg-purple/70 text-fontlight"
+                ? "bg-[#1D1F20] text-fontlight"
+                : "hover:bg-[#1D1F20] text-fontlight"
             }`}
           >
             {nav.name}
@@ -81,7 +81,7 @@ function Collapsible() {
       {/* Logout Button */}
       <button
         onClick={logoutUser}
-        className="py-2 px-3 mx-2 mt-[66px] flex items-center gap-2 rounded-[123px] transition-all duration-300 capitalize hover:bg-purple/70"
+        className="py-2 px-3 mx-2 mt-[66px] flex items-center gap-2  transition-all duration-300 capitalize text-red-500 hover:text-red-800"
       >
         <BiLogOutCircle className="rotate-180 text-xl" />
         log out

@@ -73,7 +73,7 @@ const HomeNav = () => {
 
   const renderDropdown = (index, isToday) => (
     <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none outline-0 focus:ring-0 focus:outline-0">
-      <button className="flex gap-2.5 p-2 w-full hover:text-[#c088fb] text-[#f4f4f4] justify-start items-center  rounded-lg">
+      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center  rounded-lg">
         <IoShareSocial className='text-base '/>
         <p className='text-sm'>Share Chat</p>
       </button>
@@ -82,13 +82,13 @@ const HomeNav = () => {
           setActiveChat({ index, isToday });
           setShowRenameModal(true);
         }}
-        className="flex gap-2.5 p-2 w-full group hover:text-[#c088fb] text-[#f4f4f4] justify-start items-center rounded-lg"
+        className="flex gap-2.5 p-2 w-full group hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg"
       >
         <FaPen className='text-base '/>
         <p className='text-sm'>Rename chat</p>
 
       </button>
-      <button className="flex gap-2.5 p-2 w-full text-[#f4f4f4] hover:text-[#c088fb] justify-start items-center">
+      <button className="flex gap-2.5 p-2 w-full text-[#f4f4f4] hover:bg-[#131314] justify-start items-center">
         <LuArchive className='text-base '/>
        <p className='text-sm '> Archive chat</p>
       </button>
@@ -97,7 +97,7 @@ const HomeNav = () => {
           setActiveChat({ index, isToday });
           setShowDeleteModal(true);
         }}
-        className="flex flex-row gap-2.5 p-2 w-full hover:text-red-900 text-[#FF1E1E] justify-start items-center"
+        className="flex flex-row gap-2.5 p-2 w-full hover:bg-[#131314] text-[#FF1E1E] justify-start items-center"
       >
         <FaRegTrashCan className='text-base '/>
        <p className='text-sm '> Delete chat</p>
