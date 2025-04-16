@@ -68,8 +68,8 @@ function Recommendations({ setShowRecommendations }) {
             return (
               <span
                 key={i}
-                onMouseEnter={() => setHoveredRating(i + 1)}
-                onMouseLeave={() => setHoveredRating(null)}
+                // onMouseEnter={() => setHoveredRating(i + 1)}
+                // onMouseLeave={() => setHoveredRating(null)}
                 onClick={() => {
                   if (sectionType === "content") {
                     setContentRatingFilter(i + 1);
