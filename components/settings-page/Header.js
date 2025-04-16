@@ -9,9 +9,6 @@ function SettingsHeader() {
   return (
     <div className="flex items-center justify-between w-full z-10 mb-11">
       <div className="flex items-center gap-2">
-        <button className="flex items-center justify-center px-4 py-1 border border-fontfaded rounded-xl">
-          <GoChevronLeft className="text-2xl" />
-        </button>
         <h3 className="text-3xl text-fontlight font-bold capitalize">
           settings
         </h3>
