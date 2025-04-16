@@ -36,57 +36,53 @@ const [selectionCount, setSelectionCount] = useState(0);
       const text = message || userInput.trim();
       if (!text) return;
   
-      // Regex to match flexible variations of "Yes, Recommend"
-      const recommendRegex = /^yes[\s,]*recommend\b/i;
-  
-      if (recommendRegex.test(text)) {
-        // Add user message
-        const userMessage = { text, role: "user", timestamp: new Date() };
-        setMessages((prevMessages) => [...prevMessages, userMessage]);
-  
-        setUserInput(""); // Clear input
-        setShowRecommendationButton(true); // Trigger recommendation
-        return; // Prevent bot response
-      }
-  
       setIsLoading(true);
   
-      // User message object
+      // Add user message
       const userMessage = { text, role: "user", timestamp: new Date() };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setUserInput(""); // Reset input field
   
-      // Check for a keyword-based hardcoded response
+      // Check for hardcoded reply
       const hardcodedReply = getHardcodedReply(text);
+  
       if (hardcodedReply) {
         setIsBotTyping(true);
+  
         setTimeout(() => {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { text: hardcodedReply, role: "bot", timestamp: new Date() },
-          ]);
+          const botMessage = { text: hardcodedReply, role: "bot", timestamp: new Date() };
+  
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
           setIsBotTyping(false);
           setIsLoading(false);
+  
+          // ✅ If the hardcoded reply matches the special message, trigger the button after bot finishes typing
+          if (hardcodedReply.toLowerCase().includes("nice! let's recommend some tools for you")) {
+            setShowRecommendationButton(true);
+          }
         }, 2000);
+  
         return;
       }
   
-      // Simulated bot response
+      // Simulated bot fallback
       setIsBotTyping(true);
       setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            text: `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
-  1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-  2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses.Androids lack empathy, making them vulnerable to detection
-  3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`,
-            role: "bot",
-            timestamp: new Date(),
-          },
-        ]);
+        const botText = `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
+    1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
+    2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. Androids lack empathy, making them vulnerable to detection.
+    3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`;
+  
+        const botMessage = { text: botText, role: "bot", timestamp: new Date() };
+  
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
         setIsBotTyping(false);
         setIsLoading(false);
+  
+        // ✅ Same condition check can apply here if fallback might contain trigger text
+        if (botText.toLowerCase().includes("nice! let's recommend some tools for you")) {
+          setShowRecommendationButton(true);
+        }
       }, 2000);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -95,6 +91,8 @@ const [selectionCount, setSelectionCount] = useState(0);
       setIsLoading(false);
     }
   };
+  
+  
   
   
   
@@ -168,16 +166,16 @@ const [selectionCount, setSelectionCount] = useState(0);
       ],
       long:
       [
-        "Need Tools to create long videos? Can I recommend?"
+        "Nice! Let's recommend some tools for you"
       ],
       short:[
-        "Need Tools to create short videos? Can I recommend?"
+        "Nice! Let's recommend some tools for you"
       ],
       fictional:[
-        "Need Tools to create fictional posts? Can I recommend?"
+        "Nice! Let's recommend some tools for you"
       ],
       "non-fictional":[
-        "Need Tools to create Non-Fictional posts? Can I recommend?"
+        "Nice! Let's recommend some tools for you"
       ],
       inspire: [
         "If your focus is to inspire, create content that resonates emotionally with your audience. Share stories, quotes, and motivational messages. Would you like help crafting inspiring content?",
@@ -220,20 +218,16 @@ const [selectionCount, setSelectionCount] = useState(0);
         "For a product-based business, sourcing and marketing are key. Would you like insights on production or customer acquisition?",
       ],
       production: [
-        "Need Tools to help with production, Can i recommend a few?"
+        "Nice! Let's recommend some tools for you"
       ],
       "customer acquisition": [
-        "Need Tools to help with Customer Acquisition, Can i recommend a few?"
+        "Nice! Let's recommend some tools for you"
       ],
       "course hosting":[
-        "When it comes to course hosting, there are several great platforms available, like Teachable, Thinkific, and Udemy. Would you like to know more about which platform could suit your needs?",
-        "For hosting your online course, choosing the right platform is key! Some platforms allow full control over branding and content, while others offer built-in audiences. Are you leaning towards any particular platform?",
-        "Course hosting involves setting up a platform where your students can access content. Some platforms also allow you to create quizzes, track progress, and manage payments. Do you need recommendations on platforms?",
+        "Nice! Let's recommend some tools for you",
       ],
       "student engagement": [
-        "Engaging students is critical for the success of any online course. Gamification, interactive content, and live sessions can really boost engagement. Would you like tips on improving student interaction?",
-        "To improve student engagement, try incorporating regular quizzes, community discussion boards, and live Q&A sessions. Are you looking for engagement tools or strategies?",
-        "Engagement is all about keeping your students motivated. Are you considering adding interactive elements like challenges, progress tracking, or personalized feedback to your course?",
+        "Nice! Let's recommend some tools for you",
       ],
       "service-based": [
         "A service-based business thrives on customer relationships and expertise. Are you offering consulting, freelancing, or local services?",
@@ -267,9 +261,7 @@ const [selectionCount, setSelectionCount] = useState(0);
         "Need better team collaboration? Would you like help choosing a messaging platform?",
       ],
       "content creation": [
-        "Creating course content? Are you focusing on video, text, or interactive materials?",
-        "Content drives engagement! Would you like tips on structuring lessons effectively?",
-        "Need tools for course content? I can suggest platforms like Teachable or Thinkific.",
+        "Nice! Let's recommend some tools for you",
       ],
       "collaboration tools": [
         "Collaboration tools help teams stay aligned. Are you looking for document sharing, real-time editing, or communication apps?",
