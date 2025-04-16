@@ -24,7 +24,7 @@ function WorkSpaceLayout({ children }) {
 
       if (storedOrgType !== "organization") {
         // If not an organization, redirect them to an access-denied page
-        router.push("/search");
+        router.push("/auth/organization");
       }
     }
   }, [router]); // Ensure router is available

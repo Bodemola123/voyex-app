@@ -44,7 +44,7 @@ const reasonOptions = [
       };
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)] flex items-center justify-center z-50">
-      <div className="bg-[#1c1d1f] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[583px]">
+      <div className="bg-[#1c1d1f] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[623px]">
         {/* Header */}
 
           <div className="flex flex-col gap-6">
@@ -54,7 +54,7 @@ const reasonOptions = [
                 <Image src={"/close-square.svg"} alt="Close" width={58} height={58} />
               </button>
             </div>   
-              <div className="flex flex-col gap-3 justify-start items-start">
+              <div className="flex flex-col gap-4 justify-start items-start">
                 <p className="font-bold text-base">
                 How would you rate the overall recommendation process
                 </p>
@@ -62,7 +62,7 @@ const reasonOptions = [
                 We&apos;d love to hear what you think! Please take a moment to share your experience with voyex recommendations by leaving a review
                 </p>
               </div>
-              <div className='flex flex-col gap-[11px] items-start'>
+<div className='flex flex-col gap-[11px] items-start'>
   <div className='flex flex-row gap-[11px] flex-wrap'>
     {reasonOptions.slice(0, 3).map((option) => (
       <button

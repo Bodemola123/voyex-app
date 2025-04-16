@@ -71,7 +71,7 @@ const ProductFeedback = ({ product, onClose }) => {
 
             {/* Conditional Content */}
             {!submitted ? (
-              <div className="flex flex-col gap-2 justify-start items-start">
+              <div className="flex flex-col gap-4 justify-start items-start">
                 <p className="font-bold text-base">
                   Was the tool able to get your work done?
                 </p>
@@ -80,7 +80,7 @@ const ProductFeedback = ({ product, onClose }) => {
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col gap-2 text-center items-center justify-center">
+              <div className="flex flex-col gap-4 text-center items-center justify-center">
                 <p className="font-bold text-base">Thank you</p>
                 <p className="font-medium text-base">
                   We appreciate your feedback. We will continue to improve Voyex to better serve our customers

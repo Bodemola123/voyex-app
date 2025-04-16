@@ -14,9 +14,10 @@ function Recommendations({ setShowRecommendations }) {
   const [videoPriceFilter, setVideoPriceFilter] = useState(null);
   const [contentRatingFilter, setContentRatingFilter] = useState(null);
   const [videoRatingFilter, setVideoRatingFilter] = useState(null);
-  const [contentOpenDropdown, setContentOpenDropdown] = useState(null); // 'price' | 'rating' | null
-  const [videoOpenDropdown, setVideoOpenDropdown] = useState(null); // 'price' | 'rating' | null
+  const [contentOpenDropdown, setContentOpenDropdown] = useState(null);
+  const [videoOpenDropdown, setVideoOpenDropdown] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hoveredRating, setHoveredRating] = useState(null);
 
   const handleOverallFeedbackClick = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -41,29 +42,56 @@ function Recommendations({ setShowRecommendations }) {
     });
   };
 
-  const renderRatingOption = (value, sectionType) => (
-    <div
-      key={value}
-      className="flex gap-1 items-center p-1 cursor-pointer hover:bg-[#f4f4f4] rounded-[6px]"
-      onClick={() => {
-        if (sectionType === "content") {
-          setContentRatingFilter(value);
-          setContentOpenDropdown(null);
-        } else {
-          setVideoRatingFilter(value);
-          setVideoOpenDropdown(null);
-        }
-      }}
-    >
-      {Array.from({ length: 5 }, (_, i) =>
-        i < value ? (
-          <FaStar key={i} className="text-[#FCD53F] text-base" />
-        ) : (
-          <FaRegStar key={i} className="text-[#FCD53F] text-base" />
-        )
-      )}
-    </div>
-  );
+  const renderStarRow = (sectionType) => {
+    const selectedRating = sectionType === "content" ? contentRatingFilter : videoRatingFilter;
+    const displayRating = hoveredRating ?? selectedRating;
+
+    return (
+      <div className="flex flex-col gap-2">
+        <span
+          className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
+          onClick={() => {
+            if (sectionType === "content") {
+              setContentRatingFilter("All");
+              setContentOpenDropdown(null);
+            } else {
+              setVideoRatingFilter("All");
+              setVideoOpenDropdown(null);
+            }
+          }}
+        >
+          All
+        </span>
+        <div className="flex gap-1 items-center p-1 cursor-pointer">
+          {Array.from({ length: 5 }, (_, i) => {
+            const isFilled = displayRating && i < displayRating;
+            return (
+              <span
+                key={i}
+                onMouseEnter={() => setHoveredRating(i + 1)}
+                onMouseLeave={() => setHoveredRating(null)}
+                onClick={() => {
+                  if (sectionType === "content") {
+                    setContentRatingFilter(i + 1);
+                    setContentOpenDropdown(null);
+                  } else {
+                    setVideoRatingFilter(i + 1);
+                    setVideoOpenDropdown(null);
+                  }
+                }}
+              >
+                {isFilled ? (
+                  <FaStar className="text-[#FCD53F] text-base" />
+                ) : (
+                  <FaRegStar className="text-[#FCD53F] text-base" />
+                )}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   const renderSection = (title, sectionType) => (
     <div className="flex flex-col gap-6">
@@ -74,7 +102,6 @@ function Recommendations({ setShowRecommendations }) {
             <TbFilter /> Filter
           </button>
 
-          {/* Price Filter Button */}
           <div className="relative">
             <button
               className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center ${
@@ -117,7 +144,6 @@ function Recommendations({ setShowRecommendations }) {
             ) : null}
           </div>
 
-          {/* Rating Filter Button */}
           <div className="relative">
             <button
               className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center ${
@@ -139,21 +165,7 @@ function Recommendations({ setShowRecommendations }) {
             {(sectionType === "content" && contentOpenDropdown === "rating") ||
             (sectionType === "video" && videoOpenDropdown === "rating") ? (
               <div className="absolute mt-2 bg-[#1c1d1f] p-2 rounded-[8px] flex flex-col gap-2 z-50">
-                {[1, 2, 3, 4, 5].map((val) => renderRatingOption(val, sectionType))}
-                <span
-                  className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
-                  onClick={() => {
-                    if (sectionType === "content") {
-                      setContentRatingFilter("All");
-                      setContentOpenDropdown(null);
-                    } else {
-                      setVideoRatingFilter("All");
-                      setVideoOpenDropdown(null);
-                    }
-                  }}
-                >
-                  All
-                </span>
+                {renderStarRow(sectionType)}
               </div>
             ) : null}
           </div>

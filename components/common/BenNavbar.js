@@ -129,23 +129,27 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
       {/* Bottom Section */}
       <div className="flex flex-col gap-4 justify-center items-center">
         {/* Settings Link */}
-        <div className="relative group">
-          <Link
-            href="/settings"
-            className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
-              isActive("/settings") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
-            }`}
-          >
-            <LuSettings
-              className={`text-[20px] ${
-                isActive("/settings") ? "text-[#f4f4f4]" : "text-[#C088fb]"
-              } group-hover:text-[#f4f4f4]`}
-            />
-          </Link>
-          <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-            Settings
-          </span>
-        </div>
+{/* Settings Link (Visible only if user or organization is logged in) */}
+{(loggedInAsUser || loggedInAsOrg) && (
+  <div className="relative group">
+    <Link
+      href="/settings"
+      className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
+        isActive("/settings") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
+      }`}
+    >
+      <LuSettings
+        className={`text-[20px] ${
+          isActive("/settings") ? "text-[#f4f4f4]" : "text-[#C088fb]"
+        } group-hover:text-[#f4f4f4]`}
+      />
+    </Link>
+    <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+      Settings
+    </span>
+  </div>
+)}
+
 
         {/* Profile Avatar */}
         <button className="flex justify-center items-center gap-2.5">
