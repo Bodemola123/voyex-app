@@ -35,9 +35,9 @@ const ChatProductCard = ({ product }) => {
           <p className="line-clamp-2 text-sm font-normal">Supports GPT-4 and GPT-3.5. OpenAI&apos;s next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
 
           {!hovered && (
-            <div className='flex flex-row items-center justify-start gap-2 w-full overflow-x-auto scrollbar-hide h-[30px]'>
+            <div className='flex flex-row items-center justify-start gap-2 w-full overflow-x-auto scrollbar-hide h-[32px]'>
               {['chatbot', 'writing', 'sales', 'models', 'research'].map((tag, index) => (
-                <span key={index} className="text-[11px] capitalize px-2 py-1.5 rounded-[21px] border border-card">
+                <span key={index} className="text-[11px] capitalize px-2 py-[5px] rounded-[21px] border border-card">
                   {tag}
                 </span>
               ))}
@@ -45,7 +45,7 @@ const ChatProductCard = ({ product }) => {
           )}
 
           {hovered && (
-            <div className='flex flex-row items-center justify-between w-full h-[30px]'>
+            <div className='flex flex-row items-center justify-between w-full h-[32px]'>
               <button
                 className='border border-[#FFFFFF26] rounded-3xl px-5 py-[4.5px] bg-transparent text-sm font-medium'
                 onClick={handleFeedbackClick}

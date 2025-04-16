@@ -5,38 +5,34 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import "../../../app/globals.css"
 import { toast } from 'react-toastify';
+import { SlClose } from 'react-icons/sl';
+import { TbCalendarX } from 'react-icons/tb';
+import { BsBarChart } from 'react-icons/bs';
+import { IoWarningOutline } from 'react-icons/io5';
 
 
 const OverallFeedback = ({onClose}) => {
+  const [selectedReasons, setSelectedReasons] = useState([]);
 
-      const [rating, setRating] = useState(0);
-      const [submitted, setSubmitted] = useState(false);
+const toggleReason = (reason) => {
+  setSelectedReasons((prev) =>
+    prev.includes(reason)
+      ? prev.filter((r) => r !== reason)
+      : [...prev, reason]
+  );
+};
+
+const reasonOptions = [
+  { label: "Inaccurate", icon: <SlClose className="text-2xl" /> },
+  { label: "Out of date", icon: <TbCalendarX className="text-2xl" /> },
+  { label: "Inconsistent Answers", icon: <BsBarChart className="text-2xl" /> },
+  { label: "Wrong Information", icon: <IoWarningOutline className="text-2xl" /> },
+];
+
+
       const [isSubmitting, setIsSubmitting] = useState(false);
       const [feedback, setFeedback] = useState("");
-    
-      const handleRatingClick = (value) => {
-        setRating(value);
-        setSubmitted(true);
-      };
-    
-      const renderStars = (value, size = "text-[55px]") => {
-        return (
-          <div className="flex flex-row gap-2 items-center justify-center text-[#FCD53F]">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span key={star}>
-                {value >= star ? (
-                  <FaStar className={size} />
-                ) : value >= star - 0.5 ? (
-                  <FaStarHalfAlt className={size} />
-                ) : (
-                  <FaRegStar className={size} />
-                )}
-              </span>
-            ))}
-          </div>
-        );
-      };
-      
+
     
       const handleSubmit = () => {
         setIsSubmitting(true);
@@ -48,20 +44,17 @@ const OverallFeedback = ({onClose}) => {
       };
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)] flex items-center justify-center z-50">
-      <div className="bg-[#1c1d1f] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[513px]">
+      <div className="bg-[#1c1d1f] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[583px]">
         {/* Header */}
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-4">
+
+          <div className="flex flex-col gap-6">
             <div className="flex justify-between items-center">
                 <p className='text-2xl font-bold'>Help Us improve</p>
               <button onClick={onClose} className="flex items-center justify-center">
                 <Image src={"/close-square.svg"} alt="Close" width={58} height={58} />
               </button>
-            </div>
-
-            {/* Conditional Content */}
-            {!submitted ? (
-              <div className="flex flex-col gap-2 justify-start items-start">
+            </div>   
+              <div className="flex flex-col gap-3 justify-start items-start">
                 <p className="font-bold text-base">
                 How would you rate the overall recommendation process
                 </p>
@@ -69,34 +62,39 @@ const OverallFeedback = ({onClose}) => {
                 We&apos;d love to hear what you think! Please take a moment to share your experience with voyex recommendations by leaving a review
                 </p>
               </div>
-            ) : (
-              <div className="flex flex-col gap-2 text-center items-center justify-center">
-                <p className="font-bold text-base">Thank you</p>
-                <p className="font-medium text-base">
-                  We appreciate your feedback. We will continue to improve Voyex to better serve our customers
-                </p>
-              </div>
-            )}
+              <div className='flex flex-col gap-[11px] items-start'>
+  <div className='flex flex-row gap-[11px] flex-wrap'>
+    {reasonOptions.slice(0, 3).map((option) => (
+      <button
+        key={option.label}
+        onClick={() => toggleReason(option.label)}
+        className={`rounded-[28px] gap-2.5 flex flex-row items-center justify-center p-4
+          ${
+            selectedReasons.includes(option.label)
+              ? "bg-[#f4f4f4] text-[#0a0a0b]"
+              : "bg-[#0a0a0b] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"
+          }`}
+      >
+        {option.icon}
+        <p className="text-base font-normal">{option.label}</p>
+      </button>
+    ))}
+  </div>
+  <button
+    onClick={() => toggleReason("Wrong Information")}
+    className={`rounded-[28px] gap-2.5 flex flex-row items-center justify-center p-4
+      ${
+        selectedReasons.includes("Wrong Information")
+          ? "bg-[#f4f4f4] text-[#0a0a0b]"
+          : "bg-[#0a0a0b] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"
+      }`}
+  >
+    <IoWarningOutline className="text-2xl" />
+    <p className="text-base font-normal">Wrong Information</p>
+  </button>
+</div>
 
-            {/* Star Ratings */}
-            {!submitted ? (
-              <div className="flex flex-row gap-2 items-center justify-center text-[#FCD53F]">
-                {[1, 2, 3, 4, 5].map((val) => (
-                  <button key={val} onClick={() => handleRatingClick(val)}>
-                    <FaRegStar className="text-[55px]" />
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center gap-2">
-                <p className="text-[66px] font-bold">{rating}</p>
-                <div className="text-base">
-                {renderStars(rating, "text-[20px]")}
-                </div>
-              </div>
-            )}
           </div>
-        </div>
 
         {/* Textarea */}
         <div className="flex flex-col gap-1.5">

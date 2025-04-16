@@ -14,13 +14,13 @@ function Recommendations({ setShowRecommendations }) {
   const [videoPriceFilter, setVideoPriceFilter] = useState(null);
   const [contentRatingFilter, setContentRatingFilter] = useState(null);
   const [videoRatingFilter, setVideoRatingFilter] = useState(null);
-  const [contentPriceDropdownOpen, setContentPriceDropdownOpen] = useState(null);
-  const [videoPriceDropdownOpen, setVideoPriceDropdownOpen] = useState(null);
-  const [contentRatingDropdownOpen, setContentRatingDropdownOpen] = useState(null);
-  const [videoRatingDropdownOpen, setVideoRatingDropdownOpen] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [contentOpenDropdown, setContentOpenDropdown] = useState(null); // 'price' | 'rating' | null
+  const [videoOpenDropdown, setVideoOpenDropdown] = useState(null); // 'price' | 'rating' | null
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleOverallFeedbackClick = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+
   const [products] = useState([
     { id: 1, price: "$4.00 -$8.00", rating: 2 },
     { id: 2, price: "$4.00 -$8.00", rating: 4 },
@@ -41,13 +41,18 @@ function Recommendations({ setShowRecommendations }) {
     });
   };
 
-  const renderRatingOption = (value) => (
+  const renderRatingOption = (value, sectionType) => (
     <div
       key={value}
       className="flex gap-1 items-center p-1 cursor-pointer hover:bg-[#f4f4f4] rounded-[6px]"
       onClick={() => {
-        setContentRatingFilter(value);
-        setContentRatingDropdownOpen(null);
+        if (sectionType === "content") {
+          setContentRatingFilter(value);
+          setContentOpenDropdown(null);
+        } else {
+          setVideoRatingFilter(value);
+          setVideoOpenDropdown(null);
+        }
       }}
     >
       {Array.from({ length: 5 }, (_, i) =>
@@ -68,90 +73,83 @@ function Recommendations({ setShowRecommendations }) {
           <button className="w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
             <TbFilter /> Filter
           </button>
+
+          {/* Price Filter Button */}
           <div className="relative">
             <button
               className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center ${
-                sectionType === "content" && contentPriceDropdownOpen
-                  ? "bg-[#f4f4f4] text-[#0a0a0b]"
-                  : sectionType === "video" && videoPriceDropdownOpen
+                (sectionType === "content" && contentOpenDropdown === "price") ||
+                (sectionType === "video" && videoOpenDropdown === "price")
                   ? "bg-[#f4f4f4] text-[#0a0a0b]"
                   : "bg-[#131314] text-white hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"
               }`}
               onClick={() => {
                 if (sectionType === "content") {
-                  setContentPriceDropdownOpen(contentPriceDropdownOpen ? null : title);
+                  setContentOpenDropdown(contentOpenDropdown === "price" ? null : "price");
                 } else {
-                  setVideoPriceDropdownOpen(videoPriceDropdownOpen ? null : title);
+                  setVideoOpenDropdown(videoOpenDropdown === "price" ? null : "price");
                 }
               }}
             >
               <GrTag className="transform scale-x-[-1]" /> Price
             </button>
-            {(sectionType === "content" && contentPriceDropdownOpen === title) ||
-            (sectionType === "video" && videoPriceDropdownOpen === title) ? (
+            {(sectionType === "content" && contentOpenDropdown === "price") ||
+            (sectionType === "video" && videoOpenDropdown === "price") ? (
               <div className="absolute mt-2 bg-[#1c1d1f] p-2 rounded-[8px] flex flex-col gap-2 text-[#f4f4f4] z-50">
-                <span
-                  className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
-                  onClick={() => {
-                    sectionType === "content"
-                      ? setContentPriceFilter("Free")
-                      : setVideoPriceFilter("Free");
-                  }}
-                >
-                  Free
-                </span>
-                <span
-                  className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
-                  onClick={() => {
-                    sectionType === "content"
-                      ? setContentPriceFilter("Paid")
-                      : setVideoPriceFilter("Paid");
-                  }}
-                >
-                  Paid
-                </span>
-                <span
-                  className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
-                  onClick={() => {
-                    sectionType === "content"
-                      ? setContentPriceFilter("All")
-                      : setVideoPriceFilter("All");
-                  }}
-                >
-                  All
-                </span>
+                {["Free", "Paid", "All"].map((option) => (
+                  <span
+                    key={option}
+                    className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
+                    onClick={() => {
+                      if (sectionType === "content") {
+                        setContentPriceFilter(option);
+                        setContentOpenDropdown(null);
+                      } else {
+                        setVideoPriceFilter(option);
+                        setVideoOpenDropdown(null);
+                      }
+                    }}
+                  >
+                    {option}
+                  </span>
+                ))}
               </div>
             ) : null}
           </div>
+
+          {/* Rating Filter Button */}
           <div className="relative">
             <button
               className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center ${
-                sectionType === "content" && contentRatingDropdownOpen
-                  ? "bg-[#f4f4f4] text-[#0a0a0b]"
-                  : sectionType === "video" && videoRatingDropdownOpen
+                (sectionType === "content" && contentOpenDropdown === "rating") ||
+                (sectionType === "video" && videoOpenDropdown === "rating")
                   ? "bg-[#f4f4f4] text-[#0a0a0b]"
                   : "bg-[#131314] text-white hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"
               }`}
               onClick={() => {
                 if (sectionType === "content") {
-                  setContentRatingDropdownOpen(contentRatingDropdownOpen ? null : title);
+                  setContentOpenDropdown(contentOpenDropdown === "rating" ? null : "rating");
                 } else {
-                  setVideoRatingDropdownOpen(videoRatingDropdownOpen ? null : title);
+                  setVideoOpenDropdown(videoOpenDropdown === "rating" ? null : "rating");
                 }
               }}
             >
               <HiOutlineSquares2X2 /> Rating
             </button>
-            {(sectionType === "content" && contentRatingDropdownOpen === title) ||
-            (sectionType === "video" && videoRatingDropdownOpen === title) ? (
+            {(sectionType === "content" && contentOpenDropdown === "rating") ||
+            (sectionType === "video" && videoOpenDropdown === "rating") ? (
               <div className="absolute mt-2 bg-[#1c1d1f] p-2 rounded-[8px] flex flex-col gap-2 z-50">
-                {[1, 2, 3, 4, 5].map((val) => renderRatingOption(val))}
+                {[1, 2, 3, 4, 5].map((val) => renderRatingOption(val, sectionType))}
                 <span
                   className="cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] px-2 py-1 rounded"
                   onClick={() => {
-                    sectionType === "content"
-                      ? setContentRatingFilter("All")
-                      : setVideoRatingFilter("All");
+                    if (sectionType === "content") {
+                      setContentRatingFilter("All");
+                      setContentOpenDropdown(null);
+                    } else {
+                      setVideoRatingFilter("All");
+                      setVideoOpenDropdown(null);
+                    }
                   }}
                 >
                   All
@@ -161,6 +159,7 @@ function Recommendations({ setShowRecommendations }) {
           </div>
         </div>
       </div>
+
       <div className="grid grid-cols-2 grid-rows-2 gap-4">
         {filterProducts(
           products,
@@ -175,35 +174,35 @@ function Recommendations({ setShowRecommendations }) {
 
   return (
     <>
-    <div className="flex flex-col gap-9 w-full h-full bg-transparent p-6 text-[#f4f4f4] overflow-y-auto scrollbar-hide">
-      <div className="flex flex-row gap-3 items-center justify-start">
-        <button
-          className="w-[48px] h-[32px] border border-card gap-2.5 flex items-center justify-center rounded-lg"
-          onClick={() => setShowRecommendations(false)}
-        >
-          <MdKeyboardArrowLeft className="text-white text-[24px]" />
-        </button>
-        <p className="text-base font-bold">Showing Recommendations</p>
-      </div>
-      {renderSection("Content Creation", "content")}
-      {renderSection("Video Generation", "video")}
-      <div className="flex flex-row justify-between">
-        <button className="px-12 py-4 rounded-3xl border border-[#FFFFFF26] font-medium" onClick={handleOverallFeedbackClick}>
-          Give Feedback
-        </button>
-        <button className="flex flex-row gap-2.5 px-7 py-4 rounded-3xl bg-white text-[#0a0a0b] text-xl font-bold items-center justify-center">
-          <p className="text-base">Suggest More Tools</p>
-          <LuRefreshCw />
-        </button>
-      </div>
-    </div>
+      <div className="flex flex-col gap-9 w-full h-full bg-transparent p-6 text-[#f4f4f4] overflow-y-auto scrollbar-hide">
+        <div className="flex flex-row gap-3 items-center justify-start">
+          <button
+            className="w-[48px] h-[32px] border border-card gap-2.5 flex items-center justify-center rounded-lg"
+            onClick={() => setShowRecommendations(false)}
+          >
+            <MdKeyboardArrowLeft className="text-white text-[24px]" />
+          </button>
+          <p className="text-base font-bold">Showing Recommendations</p>
+        </div>
 
-          {/* Modal Component */}
-          {isModalOpen && (
-        <OverallFeedback
-          onClose={handleCloseModal}
-        />
-      )}
+        {renderSection("Content Creation", "content")}
+        {renderSection("Video Generation", "video")}
+
+        <div className="flex flex-row justify-between">
+          <button
+            className="px-7 py-4 rounded-3xl border border-[#FFFFFF26] font-medium"
+            onClick={handleOverallFeedbackClick}
+          >
+            Give Feedback
+          </button>
+          <button className="flex flex-row gap-2.5 px-7 py-4 rounded-3xl bg-white text-[#0a0a0b] text-xl font-bold items-center justify-center">
+            <p className="text-base">Suggest More Tools</p>
+            <LuRefreshCw />
+          </button>
+        </div>
+      </div>
+
+      {isModalOpen && <OverallFeedback onClose={handleCloseModal} />}
     </>
   );
 }
