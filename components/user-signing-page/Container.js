@@ -243,22 +243,34 @@ useEffect(() => {
           );
           console.log("API Response:", apiResponse.data);
 
-                    // Fetch profile data (or use fullName from sign-in response)
-  const fullName = apiResponse?.data?.fullname || "Explorer"; // Fallback to "Guest" if no fullname
-  const firstName = fullName.trim().split(" ")[0]; // Extract first name
-    // Save firstName to localStorage
-    localStorage.setItem("fullName", fullName);
-    localStorage.setItem("firstName", firstName);
-    let userType = apiResponse.data.user_id ? "user" : "organization"; // If user_id exists, it's a user; otherwise, it's an organization
-    // Store user type in localStorage
-    localStorage.setItem("userType", userType);
-
 
           // ✅ Console log access & refresh tokens (if they exist)
             console.log("Access Token:", apiResponse.data.access_token );
           console.log("Refresh Token:", apiResponse.data.refresh_token );
 
           if (apiResponse.status === 200 && apiResponse.data.valid === true) {
+            let userType = apiResponse.data.user_id ? "user" : "organization";
+            localStorage.setItem("userType", userType);
+      
+            // Fetch full name if user
+            if (userType === "user") {
+              const userId = apiResponse.data.user_id;
+      
+              try {
+                const profileResponse = await axios.get(
+                  `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
+                );
+                console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+                const fullName = profileResponse.data?.fullname || "Explorer";
+                const firstName = fullName.trim().split(" ")[0];
+      
+                localStorage.setItem("fullName", fullName);
+                localStorage.setItem("firstName", firstName);
+              } catch (profileErr) {
+                console.error("Failed to fetch user profile:", profileErr);
+                localStorage.setItem("firstName", "Explorer");
+              }
+            }
             setCurrentSlide("user-signin-success");
             toast("Login successful");
   
