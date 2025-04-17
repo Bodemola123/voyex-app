@@ -43,6 +43,7 @@ function Signing({
   setShowPassword,
   setCurrentSlide,
 }) {
+  
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const router = useRouter();
   return (
@@ -165,7 +166,11 @@ function Signing({
                       id="email"
                       type="email"
                       placeholder="Email address"
-                      onChange={(e) => setEmailAddress(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setEmailAddress(value); // update state
+                        localStorage.setItem("userEmail", value); // store in localStorage
+                      }}
                       className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                     />
                   </div>

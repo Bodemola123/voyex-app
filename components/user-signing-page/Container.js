@@ -109,6 +109,8 @@ useEffect(() => {
 
   const emailInput = (e) => {
     setUserEmail(e.target.value);
+    const email = e.target.value;
+    localStorage.setItem("userEmail", email);
   };
   const usernameInput = (e) => {
     setUserName(e.target.value);
@@ -518,6 +520,7 @@ useEffect(() => {
       }
       setLoading(true);
       setCurrentSlide("user-signin-loading");
+  
       const response = await axios.post(
         `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api`,
         {
@@ -526,56 +529,73 @@ useEffect(() => {
           action: "sign_in",
         }
       );
+  
       console.log("user signin response", response);
-        
-      console.log("Full response from API:", response); // Log full response
-      console.log("Response data:", response.data); // Log response data
+  
       if (response.status === 200 && response.data.valid === false) {
         setCurrentSlide("signing");
         toast("Please check email and password. Click on forgot password if forgotten");
+        return;
       }
+  
       if (response.status === 200 && response.data.valid === true) {
-              // Successful sign-in, save tokens in localStorage
-      localStorage.setItem('access_token', response.data.access_token);
-      localStorage.setItem('refresh_token', response.data.refresh_token);  // If provided
-      let userType = response.data.user_id ? "user" : "organization"; // If user_id exists, it's a user; otherwise, it's an organization
-            // Store user type in localStorage
-            localStorage.setItem("userType", userType);
-
-          // Fetch profile data (or use fullName from sign-in response)
-  const fullName = response?.data?.fullname || "Explorer"; // Fallback to "Guest" if no fullname
-  const firstName = fullName.trim().split(" ")[0]; // Extract first name
-    // Save firstName to localStorage
-    localStorage.setItem("fullName", fullName);
-    localStorage.setItem("firstName", firstName);
-
-    setCurrentSlide("user-signin-success");
-    toast("signin successful");
-
-        // Cookies.set("voyexEmail", orgEmail, { expires: 7 });
-          // Wait 10 seconds before running checkAccessToken to prevent interference
-  setTimeout(() => {
-    checkAccessToken();
-  }, 10000);
+        // Save tokens
+        localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("refresh_token", response.data.refresh_token || "");
+  
+        let userType = response.data.user_id ? "user" : "organization";
+        localStorage.setItem("userType", userType);
+  
+        // Fetch full name if user
+        if (userType === "user") {
+          const userId = response.data.user_id;
+  
+          try {
+            const profileResponse = await axios.get(
+              `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
+            );
+            console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+            const fullName = profileResponse.data?.fullname || "Explorer";
+            const firstName = fullName.trim().split(" ")[0];
+  
+            localStorage.setItem("fullName", fullName);
+            localStorage.setItem("firstName", firstName);
+          } catch (profileErr) {
+            console.error("Failed to fetch user profile:", profileErr);
+            localStorage.setItem("firstName", "Explorer");
+          }
+        }
+  
+        setCurrentSlide("user-signin-success");
+        toast("signin successful");
+  
+        setTimeout(() => {
+          checkAccessToken();
+        }, 10000);
       }
+  
       if (response.status === 404) {
         setCurrentSlide("signing");
         return;
       }
     } catch (error) {
       console.log("user_signin_error", error);
-      if (error.response.data) {
+      if (error.response?.data?.message) {
         toast(error.response.data.message);
-        setCurrentSlide("signing");
-      } else toast(error.message);
-      if (error.message.includes("network error")) {
+      } else {
+        toast(error.message || "Something went wrong");
+      }
+  
+      if (error.message?.toLowerCase().includes("network error")) {
         toast("network error, try again!");
       }
+  
+      setCurrentSlide("signing");
     } finally {
       setLoading(false);
-
     }
   };
+  
   const handleUserSignin = async () => {
     userSignin();
   };

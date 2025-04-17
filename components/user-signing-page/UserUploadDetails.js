@@ -19,6 +19,10 @@ function UserUploadDetails({ setUserDisplay }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState("basic-info");
+  const firstName = userFullName.trim().split(" ")[0];
+  localStorage.setItem("firstName", firstName);
+  
+
 
   const usage = [
     {

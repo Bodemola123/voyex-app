@@ -1,9 +1,21 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
 
 function Personalization() {
+
+  const [userEmail, setUserEmail] = useState("henryjnr9@gmail.com");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedEmail = localStorage.getItem("userEmail");
+      if (savedEmail) {
+        setUserEmail(savedEmail);
+      }
+    }
+  }, []);
+
   return (
     <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
       <h1 className="text-fontlight text-base font-normal capitalize">
@@ -39,7 +51,7 @@ function Personalization() {
         <h2 className="text-base font-normal text-fontlight capitalize">email</h2>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
           <span className="text-base font-normal text-fontlight">
-            henryjnr9@gmail.com
+          {userEmail}
           </span>
         </button>
       </div>

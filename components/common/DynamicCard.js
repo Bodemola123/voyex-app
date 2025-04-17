@@ -41,7 +41,7 @@ export default function DynamicCard() {
   };
 
   return (
-    <div className="relative bg-transparent text-[#ffffff] rounded-2xl w-full overflow-y-auto scrollbar-hide gap-8 flex justify-end flex-col items-center max-w-[686px] mx-auto">
+    <div className="relative bg-transparent text-[#ffffff] rounded-2xl w-full overflow-y-auto scrollbar-hide gap-8 md:flex sm:hidden justify-end flex-col items-center max-w-[686px] mx-auto">
       {/* Card Content */}
       {/* Dynamic Image */}
       <div className="transition-all duration-500 ease-in-out">
