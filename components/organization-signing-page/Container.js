@@ -609,6 +609,7 @@ const signing = async () => {
       //  console.warn("Logout triggered but temporarily disabled for debugging.");
       // console.log("Access Token Before Logout:", localStorage.getItem('access_token'));
       // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
+      localStorage.removeItem("userEmail")
       localStorage.removeItem("userType");
       localStorage.removeItem("orgType");
       localStorage.removeItem("fullName");

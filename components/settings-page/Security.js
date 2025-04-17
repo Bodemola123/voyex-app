@@ -16,6 +16,7 @@ function Security() {
     localStorage.removeItem("user_password");
     localStorage.removeItem("fullName");
     localStorage.removeItem("firstName");
+    localStorage.removeItem("userEmail")
 
     console.log("User logged out");
     toast.success("Logging out. Redirecting to Sign-in");

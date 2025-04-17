@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ProtectedRoute from "@/lib/protectedRoutes";
 import Script from "next/script";
+import AnalyticsManagerWrapper from "@/components/common/AnalyticsManagerWrapper";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -53,6 +54,9 @@ export default function RootLayout({ children }) {
             <div className="relative w-full h-full z-[10]">{children}</div>
           </GoogleOAuthProvider>
         </StoreProvider>
+
+                {/* Add the AnalyticsManagerWrapper here */}
+                <AnalyticsManagerWrapper />
       </body>
     </html>
   );

@@ -63,7 +63,9 @@ export const logoutUser = () => {
     localStorage.removeItem("orgType");
     localStorage.removeItem("fullName");
     localStorage.removeItem("firstName");
+    localStorage.removeItem("userEmail")
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");; 
+
   window.location.href = "/auth/user"// Redirect to login page
 };

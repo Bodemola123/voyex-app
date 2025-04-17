@@ -109,8 +109,6 @@ useEffect(() => {
 
   const emailInput = (e) => {
     setUserEmail(e.target.value);
-    const email = e.target.value;
-    localStorage.setItem("userEmail", email);
   };
   const usernameInput = (e) => {
     setUserName(e.target.value);
@@ -261,6 +259,8 @@ useEffect(() => {
                   `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
                 );
                 console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+                const email = profileResponse.data?.email
+                localStorage.setItem("userEmail", email);
                 const fullName = profileResponse.data?.fullname || "Explorer";
                 const firstName = fullName.trim().split(" ")[0];
       
@@ -521,6 +521,7 @@ useEffect(() => {
       localStorage.removeItem("firstName");
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");; 
+    localStorage.removeItem("userEmail")
     window.location.href = "/auth/user"// Redirect to login page
   };
   const userSignin = async () => {
@@ -567,6 +568,8 @@ useEffect(() => {
               `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
             );
             console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+            const email = profileResponse.data?.email
+            localStorage.setItem("userEmail", email);
             const fullName = profileResponse.data?.fullname || "Explorer";
             const firstName = fullName.trim().split(" ")[0];
   
