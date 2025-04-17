@@ -8,7 +8,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 
 
 
-const Header = () => {
+const Header = ({sectionName}) => {
   return (
     <div className="flex flex-col gap-y-6 mt-5 w-full">
     <div className="flex flex-row justify-between">
@@ -19,7 +19,7 @@ const Header = () => {
         </button>
       </Link>
       <div className="flex flex-col gap-2 w-[681px] h-20">
-      <h1 className="text-4xl font-bold">Content</h1>
+      <h1 className="text-4xl font-bold">{sectionName}</h1>
       <p>Where the cosmic meets the artificial, offering a stellar selection of AI companions tailored to your interstellar adventures</p>
       </div>
       </div>

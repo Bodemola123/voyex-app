@@ -1,24 +1,24 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
-import Header1 from './Header1'
-
+import Header1 from './Header1';
 import Card from "./Card";
 import BenFooter from "@/components/common/BenFooter";
 import BenNavbar from "@/components/common/BenNavbar";
-import '../../../app/globals.css'
 import GalactimartNavOpen from "@/components/galatimart-page/GalactimartNavOpen";
+import { useParams } from 'next/navigation';
+import '../../../app/globals.css';
+
 const ContentPage = () => {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+  const { sectionName } = useParams();
 
-  // On component mount, retrieve state from localStorage
   useEffect(() => {
     const savedState = localStorage.getItem('isHistoryVisible');
     if (savedState !== null) {
-      setIsHistoryVisible(JSON.parse(savedState)); // Parse boolean value from localStorage
+      setIsHistoryVisible(JSON.parse(savedState));
     }
   }, []);
 
-  // Update localStorage whenever the state changes
   const toggleHistoryVisibility = () => {
     setIsHistoryVisible((prev) => {
       const newState = !prev;
@@ -26,26 +26,23 @@ const ContentPage = () => {
       return newState;
     });
   };
+
   return (
     <div className="flex flex-row items-center w-full h-screen">
       <BenNavbar
         toggleHistoryVisibility={toggleHistoryVisibility}
         isHistoryVisible={isHistoryVisible}
       />
-        <div
-        className={`transition-all duration-300 ${
-          isHistoryVisible ? 'w-[320px]' : 'w-0'
-        } bg-[#131314] overflow-hidden`}
-      >
+      <div className={`transition-all duration-300 ${isHistoryVisible ? 'w-[320px]' : 'w-0'} bg-[#131314] overflow-hidden`}>
         {isHistoryVisible && <GalactimartNavOpen />}
-        </div>
+      </div>
       <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container ">
-        <Header1/>
-        <Card/>
-        <BenFooter/>
+        <Header1  sectionName={sectionName} />
+        <Card sectionName={sectionName} />
+        <BenFooter />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ContentPage
+export default ContentPage;
