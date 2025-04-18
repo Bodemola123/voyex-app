@@ -15,7 +15,7 @@ const AnalyticsManager = {
   },
 
   async ensureSessionId() {
-    const existing = sessionStorage.getItem(SESSION_KEY);
+    const existing = this.getCookie(SESSION_KEY);
     if (!existing) {
       try {
         const res = await fetch(API_ENDPOINT, {
@@ -24,23 +24,21 @@ const AnalyticsManager = {
           body: JSON.stringify({
             service: 'session',
             entity_type: 'user',
-            entity_id: '21123', // You can dynamically replace this if you have a real user ID
+            entity_id: '21123',
             referrer: document.referrer || 'direct',
             path: window.location.pathname,
           }),
         });
-  
+
         const data = await res.json();
-  
-        // You’ll want to check what field holds the sessionId in the response
         if (data.sessionId) {
-          sessionStorage.setItem(SESSION_KEY, data.sessionId);
+          this.setCookie(SESSION_KEY, data.sessionId, 1); // store for 1 day
         }
       } catch (err) {
         console.error('Failed to get session ID:', err);
       }
     }
-  },  
+  },
 
   handleClick(event) {
     const payload = {
@@ -65,18 +63,18 @@ const AnalyticsManager = {
   },
 
   storeEvent(type, payload) {
-    const current = JSON.parse(localStorage.getItem(ANALYTICS_KEY)) || [];
+    const current = JSON.parse(sessionStorage.getItem(ANALYTICS_KEY)) || [];
     current.push({
       type,
       event: payload,
       timestamp: new Date().toISOString(),
     });
-    localStorage.setItem(ANALYTICS_KEY, JSON.stringify(current));
+    sessionStorage.setItem(ANALYTICS_KEY, JSON.stringify(current));
   },
 
   sendAnalyticsData() {
-    const raw = localStorage.getItem(ANALYTICS_KEY);
-    const sessionId = sessionStorage.getItem(SESSION_KEY);
+    const raw = sessionStorage.getItem(ANALYTICS_KEY);
+    const sessionId = this.getCookie(SESSION_KEY);
     if (!raw || !sessionId) return;
 
     const events = JSON.parse(raw);
@@ -100,15 +98,14 @@ const AnalyticsManager = {
       },
     };
 
-    // Fallback with fetch (now only this part will be used)
     fetch(API_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-      keepalive: true, // Ensures that the request goes through even if the user navigates away
+      keepalive: true,
     })
       .then(() => {
-        localStorage.removeItem(ANALYTICS_KEY);
+        sessionStorage.removeItem(ANALYTICS_KEY);
       })
       .catch((err) => {
         console.error('Failed to send analytics:', err);
@@ -119,6 +116,21 @@ const AnalyticsManager = {
     if (document.visibilityState === 'hidden') {
       AnalyticsManager.sendAnalyticsData();
     }
+  },
+
+  // Cookie utilities
+  setCookie(name, value, days) {
+    const expires = days
+      ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}`
+      : '';
+    document.cookie = `${name}=${encodeURIComponent(value || '')}${expires}; path=/`;
+  },
+
+  getCookie(name) {
+    return document.cookie
+      .split('; ')
+      .find(row => row.startsWith(name + '='))
+      ?.split('=')[1];
   },
 };
 

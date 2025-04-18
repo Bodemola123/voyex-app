@@ -44,13 +44,13 @@ const ProductCard = ({ product }) => {
             product.tags.map((tag, index) => (
               <span
                 key={index}
-                className="text-base capitalize px-2 py-1 rounded-[21px] border border-card"
+                className="text-sm capitalize px-2 py-1 rounded-[21px] border border-card"
               >
                 {tag}
               </span>
             ))
           ) : (
-            <span className="text-base px-2 py-1 text-white italic rounded-[21px] border border-card">
+            <span className="text-sm px-2 py-1 text-white italic rounded-[21px] border border-card">
               No tags
             </span>
           )}
