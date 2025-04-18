@@ -2,6 +2,7 @@
 
 const ANALYTICS_KEY = 'analyticsData';
 const SESSION_KEY = 'voyexSessionId';
+const SESSION_META_KEY = 'session_meta';
 const API_ENDPOINT = 'https://r98ngavlng.execute-api.ap-southeast-2.amazonaws.com/default/voyex_analytics';
 
 const AnalyticsManager = {
@@ -33,6 +34,7 @@ const AnalyticsManager = {
         const data = await res.json();
         if (data.sessionId) {
           this.setCookie(SESSION_KEY, data.sessionId, 1); // store for 1 day
+          this.setCookie(SESSION_META_KEY, data.sessionId, 1); // also set session_meta cookie
         }
       } catch (err) {
         console.error('Failed to get session ID:', err);
@@ -49,7 +51,7 @@ const AnalyticsManager = {
       tag: event.target.tagName,
       button_id: event.target.id || null,
     };
-    AnalyticsManager.storeEvent('click', payload);
+    this.storeEvent('click', payload);
   },
 
   handleScroll() {
@@ -59,7 +61,7 @@ const AnalyticsManager = {
     const payload = {
       scroll_depth: `${scrollPercent}%`,
     };
-    AnalyticsManager.storeEvent('scroll', payload);
+    this.storeEvent('scroll', payload);
   },
 
   storeEvent(type, payload) {
@@ -75,7 +77,8 @@ const AnalyticsManager = {
   sendAnalyticsData() {
     const raw = sessionStorage.getItem(ANALYTICS_KEY);
     const sessionId = this.getCookie(SESSION_KEY);
-    if (!raw || !sessionId) return;
+    const sessionMeta = this.getCookie(SESSION_META_KEY);
+    if (!raw || !sessionId || !sessionMeta) return;
 
     const events = JSON.parse(raw);
     if (events.length === 0) return;
@@ -114,7 +117,7 @@ const AnalyticsManager = {
 
   handleVisibilityChange() {
     if (document.visibilityState === 'hidden') {
-      AnalyticsManager.sendAnalyticsData();
+      this.sendAnalyticsData();
     }
   },
 
