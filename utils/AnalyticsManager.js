@@ -46,8 +46,6 @@ const AnalyticsManager = {
   },
 
   handleClick(event) {
-    console.log('Click detected'); // 👈
-  
     const payload = {
       click_position: {
         x: event.clientX,
@@ -57,16 +55,15 @@ const AnalyticsManager = {
       button_id: event.target.id || null,
     };
     this.storeEvent('click', payload);
-  
+
+    // Start 10-second timer to send analytics
     if (!analyticsTimer) {
-      console.log('Starting analytics timer...'); // 👈
       analyticsTimer = setTimeout(() => {
-        console.log('Sending analytics data...'); // 👈
         this.sendAnalyticsData();
-        analyticsTimer = null;
-      }, 10000);
+        analyticsTimer = null; // reset timer
+      }, 10000); // 10,000ms = 10s
     }
-  },  
+  },
 
   handleScroll() {
     const scrollPercent = Math.round(
@@ -107,10 +104,7 @@ const AnalyticsManager = {
       service: 'analytics',
       action: 'insert',
       eventTypes: [...new Set(eventTypes)],
-      event: {
-        ...mergedEventData,
-        path: window.location.pathname  // <-- Add this line
-      },
+      event: mergedEventData,
       metadata: {
         user_agent: navigator.userAgent,
         device: window.innerWidth < 768 ? 'mobile' : 'desktop',
