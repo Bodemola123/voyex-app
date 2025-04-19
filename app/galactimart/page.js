@@ -36,7 +36,7 @@ function GalactiMart() {
               pricing_model: tool.pricing_model,
               special_tags: tool.special_tags,
               use_case_tags: tool.use_case_tags,
-              category: tool.category, // Keep category for filtering
+              category: section, // Keep category for filtering
             });
           });
         });
@@ -90,15 +90,16 @@ function GalactiMart() {
           />
         )}
       </div>
-      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container">
+      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 items-center overflow-y-scroll scrollbar-hide scroll-container">
         <Header />
+        <div className="w-full">
         <Card1
           toolsData={toolsData}
           categories={categories}
           selectedCategory={selectedCategory}
           isLoading={isLoading}
         />
-        <BenFooter />
+        </div>
       </div>
     </div>
   );

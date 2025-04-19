@@ -92,7 +92,7 @@ const CategoryPage = () => {
         )}
       </div>
 
-      <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container ">
+      <div className="flex-grow relative flex h-full w-full flex-col gap-4 p-6 justify-between items-center overflow-y-scroll scrollbar-hide scroll-container ">
         <Header1 />
         <Card
           category={category}

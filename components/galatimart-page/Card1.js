@@ -21,34 +21,33 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading }) => {
         }
 
         // Filter tools based on the selected category
-        const filteredTools =
-          selectedCategory === null
-            ? toolsData
-            : toolsData.filter((tool) => tool.category === category);
+        const filteredTools = toolsData.filter((tool) => tool.category === category);
 
         // Only show the first 6 tools
         const toolsToDisplay = filteredTools.slice(0, 6);
 
         return (
-          <div key={category} className="flex flex-col gap-4 w-full">
-            <div className="flex flex-row items-start justify-between">
-              <div className="flex gap-2 flex-col w-[681px] h-20">
+          <div key={category} className="flex flex-col gap-4">
+            <div className="flex flex-row items-center justify-between w-full">
+              <div className="flex gap-2 flex-col w-full ">
                 <h1 className="text-2xl font-bold capitalize">{category}</h1>
                 <p>
                   A stellar selection of tools tailored to your interstellar
                   adventures in {category}.
                 </p>
               </div>
+              <div className="w-[100px]">
               <Link
                 href={`/galactimart/${category}`}
                 passHref
-                className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] px-3 py-1 flex items-center gap-2"
+                className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] flex items-center gap-2"
               >
                 See More
               </Link>
+              </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 w-full">
               {toolsToDisplay.map((tool) => (
                 <ProductCard
                   key={tool.tool_id}
