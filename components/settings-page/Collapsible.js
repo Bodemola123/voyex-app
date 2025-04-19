@@ -48,6 +48,8 @@ function Collapsible() {
     localStorage.removeItem("fullName");
     localStorage.removeItem("firstName");
     localStorage.removeItem("userEmail")
+    localStorage.removeItem("orgId")
+    
 
     console.log("User logged out");
     toast.success("Logging out. Redirecting to Sign-in");

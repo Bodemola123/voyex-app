@@ -23,6 +23,7 @@ const AnalyticsManager = {
       try {
         const res = await fetch(API_ENDPOINT, {
           method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             service: 'session',
@@ -45,6 +46,8 @@ const AnalyticsManager = {
   },
 
   handleClick(event) {
+    console.log('Click detected'); // 👈
+  
     const payload = {
       click_position: {
         x: event.clientX,
@@ -54,15 +57,16 @@ const AnalyticsManager = {
       button_id: event.target.id || null,
     };
     this.storeEvent('click', payload);
-
-    // Start 10-second timer to send analytics
+  
     if (!analyticsTimer) {
+      console.log('Starting analytics timer...'); // 👈
       analyticsTimer = setTimeout(() => {
+        console.log('Sending analytics data...'); // 👈
         this.sendAnalyticsData();
-        analyticsTimer = null; // reset timer
-      }, 10000); // 10,000ms = 10s
+        analyticsTimer = null;
+      }, 10000);
     }
-  },
+  },  
 
   handleScroll() {
     const scrollPercent = Math.round(
@@ -103,7 +107,10 @@ const AnalyticsManager = {
       service: 'analytics',
       action: 'insert',
       eventTypes: [...new Set(eventTypes)],
-      event: mergedEventData,
+      event: {
+        ...mergedEventData,
+        path: window.location.pathname  // <-- Add this line
+      },
       metadata: {
         user_agent: navigator.userAgent,
         device: window.innerWidth < 768 ? 'mobile' : 'desktop',
@@ -113,6 +120,7 @@ const AnalyticsManager = {
 
     fetch(API_ENDPOINT, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       keepalive: true,

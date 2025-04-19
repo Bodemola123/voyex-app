@@ -61,11 +61,15 @@ export const logoutUser = () => {
     // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
     localStorage.removeItem("userType");
     localStorage.removeItem("orgType");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("user_email");
+    localStorage.removeItem("user_password");
     localStorage.removeItem("fullName");
     localStorage.removeItem("firstName");
     localStorage.removeItem("userEmail")
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_token");; 
+    localStorage.removeItem("orgId")
 
   window.location.href = "/auth/user"// Redirect to login page
 };

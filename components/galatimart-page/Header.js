@@ -28,7 +28,7 @@ const Header = () => {
         </div>
         <div className="h-10 flex flex-row">
           <div className="relative  w-[198px]">
-            <FiSearch className="absolute top-2 left-2 w-6 h-6 text-white" />
+            <FiSearch className="absolute top-2 left-2 w-4 h-4 text-white" />
             <input
               type="text"
               placeholder="Search"
