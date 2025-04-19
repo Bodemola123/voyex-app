@@ -13,6 +13,8 @@ function GalactiMart() {
   const [toolsData, setToolsData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null); // Initially, no category selected
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
+  const [priceFilter, setPriceFilter] = useState("All"); // Price filter state
 
   useEffect(() => {
     const fetchTools = async () => {
@@ -53,24 +55,51 @@ function GalactiMart() {
     fetchTools();
   }, []);
 
+  // Filter tools by category, search query, and price
+  const filteredTools = toolsData.filter((tool) => {
+    // Filter by category if a category is selected
+    if (selectedCategory && tool.category !== selectedCategory) return false;
+    
+    // Filter by search query
+    if (searchQuery && !tool.tool_name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+
+    // Filter by price filter
+    if (priceFilter === "Free" && tool.pricing_model !== "Freemium") return false;
+    if (priceFilter === "Paid" && tool.pricing_model !== "Paid") return false;
+
+    return true;
+  });
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category); // Set the selected category
   };
-    // Retrieve sidebar state from localStorage
-    useEffect(() => {
-      const savedState = localStorage.getItem("isHistoryVisible");
-      if (savedState !== null) {
-        setIsHistoryVisible(JSON.parse(savedState));
-      }
-    }, []);
+
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  // Handle price filter change
+  const handlePriceFilterChange = (value) => {
+    setPriceFilter(value);
+  };
   
-    const toggleHistoryVisibility = () => {
-      setIsHistoryVisible((prev) => {
-        const newState = !prev;
-        localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
-        return newState;
-      });
-    };
+
+  // Retrieve sidebar state from localStorage
+  useEffect(() => {
+    const savedState = localStorage.getItem("isHistoryVisible");
+    if (savedState !== null) {
+      setIsHistoryVisible(JSON.parse(savedState));
+    }
+  }, []);
+
+  const toggleHistoryVisibility = () => {
+    setIsHistoryVisible((prev) => {
+      const newState = !prev;
+      localStorage.setItem("isHistoryVisible", JSON.stringify(newState));
+      return newState;
+    });
+  };
 
   return (
     <div className="flex flex-row items-center w-full h-screen">
@@ -91,14 +120,19 @@ function GalactiMart() {
         )}
       </div>
       <div className="flex-grow relative flex h-full w-full flex-col gap-10 p-6 items-center overflow-y-scroll scrollbar-hide scroll-container">
-        <Header />
-        <div className="w-full">
-        <Card1
-          toolsData={toolsData}
-          categories={categories}
-          selectedCategory={selectedCategory}
-          isLoading={isLoading}
+        <Header
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          priceFilter={priceFilter}
+          onPriceFilterChange={handlePriceFilterChange}
         />
+        <div className="w-full">
+          <Card1
+            toolsData={filteredTools}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            isLoading={isLoading}
+          />
         </div>
       </div>
     </div>

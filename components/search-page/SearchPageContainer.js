@@ -58,7 +58,9 @@ const [selectionCount, setSelectionCount] = useState(0);
   
           // ✅ If the hardcoded reply matches the special message, trigger the button after bot finishes typing
           if (hardcodedReply.toLowerCase().includes("nice! let's recommend some tools for you")) {
-            setShowRecommendationButton(true);
+            setTimeout(() => {
+              setShowRecommendationButton(true); // ✅ Delayed by 1.5 second
+            }, 1500);
           }
         }, 2000);
   
