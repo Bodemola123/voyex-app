@@ -2,11 +2,18 @@
 import React, { useState } from 'react';
 import ProductCard from '../../../components/galatimart-page/ProductCard';
 
-const Card = ({ toolsData, category, isLoading }) => {
+const Card = ({ toolsData, category, isLoading, error }) => {
+  
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const toolsPerPage = 15;
-
+    if (error) {
+      return (
+        <div className="text-red-500 p-4 bg-[#1c1d1f] rounded-lg text-center">
+          Failed to fetch Tools, Please try again later
+        </div>
+      );
+    }
     
   if (isLoading) {
     return (
@@ -19,7 +26,15 @@ const Card = ({ toolsData, category, isLoading }) => {
   const filteredTools = toolsData.filter(
     (tool) => tool.category.toLowerCase() === category.toLowerCase()
   );
-
+  
+  if (filteredTools.length === 0) {
+    return (
+      <div className="text-center py-6">
+        No tools available in that filter at the moment.
+      </div>
+    );
+  }
+  
 
 
   // Calculate total pages
@@ -40,9 +55,9 @@ const Card = ({ toolsData, category, isLoading }) => {
   return (
     <div className="flex flex-col gap-6 w-full">
       <div className="flex flex-col gap-2">
-        <p>
+        {/* <p>
           Dive deeper into the cosmos of <span className="capitalize">{category}</span> tools.
-        </p>
+        </p> */}
       </div>
       <div className="grid grid-cols-3 gap-4">
         {currentTools.map((tool) => (

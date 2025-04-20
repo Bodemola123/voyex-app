@@ -3,7 +3,14 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 
-const Card1 = ({ toolsData, categories, selectedCategory, isLoading }) => {
+const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error }) => {
+  if (error) {
+    return (
+      <div className="text-red-500 p-4 bg-[#1c1d1f] rounded-lg text-center">
+        Failed to fetch Tools, Please try again later
+      </div>
+    );
+  }
   if (isLoading) {
     return (
       <div className="w-full h-64 flex justify-center items-center">
@@ -12,14 +19,21 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading }) => {
     );
   }
 
-  // Group tools by category after filtering
-  const toolsByCategory = categories.reduce((acc, category) => {
-    const toolsInCategory = toolsData.filter((tool) => tool.category === category);
-    if (toolsInCategory.length > 0) {
-      acc[category] = toolsInCategory;
-    }
-    return acc;
-  }, {});
+// Group tools by category after filtering and sort by created_at (newest first)
+const toolsByCategory = categories.reduce((acc, category) => {
+  const toolsInCategory = toolsData
+    .filter((tool) => tool.category === category)
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // <-- sort here
+
+
+  if (toolsInCategory.length > 0) {
+    acc[category] = toolsInCategory;
+  }
+  return acc;
+}, {});
+
+
+
 
   return (
     <div className="flex flex-col gap-12">

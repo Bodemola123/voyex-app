@@ -12,14 +12,17 @@ function GalactiMart() {
   const [isLoading, setIsLoading] = useState(true);
   const [toolsData, setToolsData] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null); // Initially, no category selected
-  const [searchQuery, setSearchQuery] = useState(""); // State for search input
-  const [priceFilter, setPriceFilter] = useState("All"); // Price filter state
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [priceFilter, setPriceFilter] = useState("All");
+  const [ratingFilter, setRatingFilter] = useState("All");
+  const [error, setError] = useState(null); // State for error
 
   useEffect(() => {
     const fetchTools = async () => {
       try {
         setIsLoading(true);
+        setError(null); // Reset error on new fetch
         const response = await axios.get(
           "https://2zztcz7h0a.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_api"
         );
@@ -38,54 +41,71 @@ function GalactiMart() {
               pricing_model: tool.pricing_model,
               special_tags: tool.special_tags,
               use_case_tags: tool.use_case_tags,
-              category: section, // Keep category for filtering
+              category: section,
+              created_at: tool.created_at,
             });
           });
         });
 
-        setCategories(allSections); // All sections are the categories
+        setCategories(allSections);
         setToolsData(parsedTools);
         setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch tools:", error);
         setIsLoading(false);
+        setError("Failed to load tools. Please try again later."); // Set error message
       }
     };
 
     fetchTools();
   }, []);
 
-  // Filter tools by category, search query, and price
-  const filteredTools = toolsData.filter((tool) => {
-    // Filter by category if a category is selected
-    if (selectedCategory && tool.category !== selectedCategory) return false;
-    
-    // Filter by search query
-    if (searchQuery && !tool.tool_name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+  const [sortByNew, setSortByNew] = useState(false);
 
-    // Filter by price filter
-    if (priceFilter === "Free" && tool.pricing_model !== "Freemium") return false;
-    if (priceFilter === "Paid" && tool.pricing_model !== "Paid") return false;
+  const filteredTools = toolsData
+    .filter((tool) => {
+      if (selectedCategory && tool.category !== selectedCategory) return false;
+      if (searchQuery && !tool.tool_name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+      if (priceFilter === "Free" && tool.pricing_model !== "Freemium") return false;
+      if (priceFilter === "Paid" && tool.pricing_model !== "Paid") return false;
 
-    return true;
-  });
+      if (ratingFilter !== "All") {
+        const ratingRange = {
+          1: [0.0, 1.99],
+          2: [2.0, 2.99],
+          3: [3.0, 3.99],
+          4: [4.0, 4.99],
+          5: [5.0, 5.0],
+        };
+        const [min, max] = ratingRange[ratingFilter];
+        if (tool.rating < min || tool.rating > max) return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortByNew) {
+        return new Date(b.created_at) - new Date(a.created_at);
+      }
+      return 0;
+    });
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category); // Set the selected category
+    setSelectedCategory(category);
   };
 
-  // Handle search input change
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  // Handle price filter change
   const handlePriceFilterChange = (value) => {
     setPriceFilter(value);
   };
-  
 
-  // Retrieve sidebar state from localStorage
+  const handleRatingFilterChange = (value) => {
+    setRatingFilter(value);
+  };
+
   useEffect(() => {
     const savedState = localStorage.getItem("isHistoryVisible");
     if (savedState !== null) {
@@ -114,8 +134,9 @@ function GalactiMart() {
           <GalactimartNavOpen
             categories={categories}
             selectedCategory={selectedCategory}
-            onCategorySelect={handleCategoryChange} // Pass handler to change category
+            onCategorySelect={handleCategoryChange}
             isLoading={isLoading}
+            error={error} // Pass error to GalactimartNavOpen
           />
         )}
       </div>
@@ -125,6 +146,10 @@ function GalactiMart() {
           onSearchChange={handleSearchChange}
           priceFilter={priceFilter}
           onPriceFilterChange={handlePriceFilterChange}
+          sortByNew={sortByNew}
+          setSortByNew={setSortByNew}
+          ratingFilter={ratingFilter}
+          setRatingFilter={handleRatingFilterChange}
         />
         <div className="w-full">
           <Card1
@@ -132,6 +157,7 @@ function GalactiMart() {
             categories={categories}
             selectedCategory={selectedCategory}
             isLoading={isLoading}
+            error={error} // Pass error to Card1
           />
         </div>
       </div>

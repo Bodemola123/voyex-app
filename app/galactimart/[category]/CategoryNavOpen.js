@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { IoCube } from "react-icons/io5";
 
-const GalactimartNavOpen = ({ categories = [], selectedCategory, onCategorySelect, isLoading, error }) => {
+const CategoryNavOpen = ({ categories = [], selectedCategory, isLoading, error }) => {
 
   if (error) {
     return (
@@ -25,29 +25,19 @@ const GalactimartNavOpen = ({ categories = [], selectedCategory, onCategorySelec
       </div>
 
       <div className="flex flex-col px-2 gap-2 overflow-y-scroll scrollbar-hide scroll-container">
-        {/* Add "All" button */}
-        <button
-          className={`flex gap-2.5 py-3 px-6 text-left transition-all duration-200 ${
-            selectedCategory === null ? "bg-[#1D1F20]" : "hover:bg-[#1D1F20]"
-          } text-white`}
-          onClick={() => onCategorySelect(null)} // Set selectedCategory to null
-        >
-          All
-        </button>
-
         {isLoading ? (
           <p className="text-white text-center">Loading Categories...</p>
         ) : (
           categories.map((cat) => (
-            <button
+            <div
               key={cat}
-              className={`flex gap-2.5 py-3 px-6 text-left transition-all duration-200 ${
-                selectedCategory === cat ? "bg-[#1D1F20]" : "hover:bg-[#1D1F20]"
+              className={`flex gap-2.5 py-3 px-6 text-left transition-all duration-200 cursor-default ${
+                selectedCategory === cat ? "bg-[#1D1F20]" : ""
               } text-white`}
-              onClick={() => onCategorySelect(cat)} // Select a category
+            //   onClick={() => onCategorySelect(cat)} // Select a category
             >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </button>
+            </div>
           ))
         )}
       </div>
@@ -55,4 +45,4 @@ const GalactimartNavOpen = ({ categories = [], selectedCategory, onCategorySelec
   );
 };
 
-export default GalactimartNavOpen;
+export default CategoryNavOpen;
