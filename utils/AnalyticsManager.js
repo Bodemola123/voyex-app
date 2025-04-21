@@ -2,14 +2,13 @@
 
 const ANALYTICS_KEY = 'analyticsData';
 const SESSION_KEY = 'voyexSessionId';
-const SESSION_META_KEY = 'session_meta';
 const API_ENDPOINT = 'https://r98ngavlng.execute-api.ap-southeast-2.amazonaws.com/default/voyex_analytics';
 
-let analyticsTimer = null; // Global timer reference
+let analyticsTimer = null;
 
 const AnalyticsManager = {
   async init() {
-    await this.ensureSessionId();
+    await this.ensureSessionIdFromServer();
 
     document.addEventListener('click', this.handleClick.bind(this));
     window.addEventListener('scroll', this.handleScroll.bind(this));
@@ -17,13 +16,13 @@ const AnalyticsManager = {
     document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
   },
 
-  async ensureSessionId() {
+  async ensureSessionIdFromServer() {
     const existing = this.getCookie(SESSION_KEY);
     if (!existing) {
       try {
         const res = await fetch(API_ENDPOINT, {
           method: 'POST',
-          credentials: 'include',
+          credentials: 'include', // Server will handle cookie setting
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             service: 'session',
@@ -35,14 +34,16 @@ const AnalyticsManager = {
         });
 
         const data = await res.json();
-        if (data.session_id) {
-          this.setCookie(SESSION_KEY, data.session_id, 1);
-          this.setCookie(SESSION_META_KEY, data.session_id, 1);
+        if (data?.session_id) {
+          console.log('✅ Session established. Cookie set by server.');
+        } else {
+          console.warn('⚠️ No session_id returned from server');
         }
-        
       } catch (err) {
-        console.error('Failed to get session ID:', err);
+        console.error('❌ Failed to establish session:', err);
       }
+    } else {
+      console.log('🔄 Session cookie already present.');
     }
   },
 
@@ -57,12 +58,11 @@ const AnalyticsManager = {
     };
     this.storeEvent('click', payload);
 
-    // Start 10-second timer to send analytics
     if (!analyticsTimer) {
       analyticsTimer = setTimeout(() => {
         this.sendAnalyticsData();
-        analyticsTimer = null; // reset timer
-      }, 10000); // 10,000ms = 10s
+        analyticsTimer = null;
+      }, 3000);
     }
   },
 
@@ -70,10 +70,7 @@ const AnalyticsManager = {
     const scrollPercent = Math.round(
       (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
     );
-    const payload = {
-      scroll_depth: `${scrollPercent}%`,
-    };
-    this.storeEvent('scroll', payload);
+    this.storeEvent('scroll', { scroll_depth: `${scrollPercent}%` });
   },
 
   storeEvent(type, payload) {
@@ -89,11 +86,17 @@ const AnalyticsManager = {
   sendAnalyticsData() {
     const raw = sessionStorage.getItem(ANALYTICS_KEY);
     const sessionId = this.getCookie(SESSION_KEY);
-    const sessionMeta = this.getCookie(SESSION_META_KEY);
-    if (!raw || !sessionId || !sessionMeta) return;
+
+    if (!raw || !sessionId) {
+      console.warn('❌ Missing session or events. Aborting send.', { sessionId, raw });
+      return;
+    }
 
     const events = JSON.parse(raw);
-    if (events.length === 0) return;
+    if (!Array.isArray(events) || events.length === 0) {
+      console.warn('📭 No valid events to send.');
+      return;
+    }
 
     const eventTypes = events.map(e => e.type);
     const mergedEventData = events.reduce((acc, curr) => {
@@ -112,8 +115,9 @@ const AnalyticsManager = {
         session_id: sessionId,
       },
     };
-      // 🔥 ADD THIS to log before sending
-  console.log('📦 Payload to send:', payload);
+
+    console.log('📦 Payload to send:', payload);
+
     fetch(API_ENDPOINT, {
       method: 'POST',
       credentials: 'include',
@@ -121,27 +125,23 @@ const AnalyticsManager = {
       body: JSON.stringify(payload),
       keepalive: true,
     })
-      .then(() => {
-        sessionStorage.removeItem(ANALYTICS_KEY);
-        console.log('Analytics sent to server');
-      })
-      .catch((err) => {
-        console.error('Failed to send analytics:', err);
-      });
+    .then(res => {
+      if (!res.ok) {
+        console.error('❌ Analytics send failed:', res.status, res.statusText);
+        return;
+      }
+      sessionStorage.removeItem(ANALYTICS_KEY);
+      console.log('✅ Analytics sent');
+    })
+    .catch(err => {
+      console.error('❌ Failed to send analytics:', err);
+    });
   },
 
   handleVisibilityChange() {
     if (document.visibilityState === 'hidden') {
       this.sendAnalyticsData();
     }
-  },
-
-  // Cookie utilities
-  setCookie(name, value, days) {
-    const expires = days
-      ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}`
-      : '';
-    document.cookie = `${name}=${encodeURIComponent(value || '')}${expires}; path=/`;
   },
 
   getCookie(name) {
