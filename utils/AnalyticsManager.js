@@ -35,10 +35,11 @@ const AnalyticsManager = {
         });
 
         const data = await res.json();
-        if (data.sessionId) {
-          this.setCookie(SESSION_KEY, data.sessionId, 1); // store for 1 day
-          this.setCookie(SESSION_META_KEY, data.sessionId, 1); // also set session_meta cookie
+        if (data.session_id) {
+          this.setCookie(SESSION_KEY, data.session_id, 1);
+          this.setCookie(SESSION_META_KEY, data.session_id, 1);
         }
+        
       } catch (err) {
         console.error('Failed to get session ID:', err);
       }
