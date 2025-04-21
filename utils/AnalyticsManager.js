@@ -111,7 +111,8 @@ const AnalyticsManager = {
         session_id: sessionId,
       },
     };
-
+      // 🔥 ADD THIS to log before sending
+  console.log('📦 Payload to send:', payload);
     fetch(API_ENDPOINT, {
       method: 'POST',
       credentials: 'include',
