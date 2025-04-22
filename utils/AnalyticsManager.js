@@ -1,7 +1,8 @@
 // utils/AnalyticsManager.js
 
 const ANALYTICS_KEY = 'analyticsData';
-const SESSION_KEY = 'voyexSessionId';
+const SESSION_KEY = '__tea_session_id_515785';
+const COOKIE_KEY = 'session_meta'
 const API_ENDPOINT = 'https://r98ngavlng.execute-api.ap-southeast-2.amazonaws.com/default/voyex_analytics';
 
 let analyticsTimer = null;
@@ -17,35 +18,14 @@ const AnalyticsManager = {
   },
 
   async ensureSessionIdFromServer() {
-    const existing = this.getCookie(SESSION_KEY);
+    const existing = this.getCookie(COOKIE_KEY);
     if (!existing) {
-      try {
-        const res = await fetch(API_ENDPOINT, {
-          method: 'POST',
-          credentials: 'include', // Server will handle cookie setting
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            service: 'session',
-            entity_type: 'user',
-            entity_id: '21123',
-            referrer: document.referrer || 'direct',
-            path: window.location.pathname,
-          }),
-        });
-
-        const data = await res.json();
-        if (data?.session_id) {
-          console.log('✅ Session established. Cookie set by server.');
-        } else {
-          console.warn('⚠️ No session_id returned from server');
-        }
-      } catch (err) {
-        console.error('❌ Failed to establish session:', err);
-      }
+      console.warn('⚠️ No session_meta cookie found. Session not established.');
     } else {
-      console.log('🔄 Session cookie already present.');
+      console.log('🔄 session_meta cookie present. Session already established.');
     }
   },
+  
 
   handleClick(event) {
     const payload = {
@@ -85,7 +65,7 @@ const AnalyticsManager = {
 
   sendAnalyticsData() {
     const raw = sessionStorage.getItem(ANALYTICS_KEY);
-    const sessionId = this.getCookie(SESSION_KEY);
+    const sessionId = sessionStorage.getItem(SESSION_KEY)
 
     if (!raw || !sessionId) {
       console.warn('❌ Missing session or events. Aborting send.', { sessionId, raw });
