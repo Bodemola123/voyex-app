@@ -80,8 +80,11 @@ const AnalyticsManager = {
   },
 
   sendAnalyticsData() {
+    const existing = this.getCookie(COOKIE_KEY);
     const raw = sessionStorage.getItem(ANALYTICS_KEY);
     const sessionId = sessionStorage.getItem(SESSION_KEY)
+
+    console.log("session meta is:", existing)
 
     if (!raw || !sessionId) {
       console.warn('❌ Missing session or events. Aborting send.', { sessionId, raw });
