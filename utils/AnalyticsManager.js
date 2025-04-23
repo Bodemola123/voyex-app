@@ -20,12 +20,28 @@ const AnalyticsManager = {
   async ensureSessionIdFromServer() {
     const existing = this.getCookie(COOKIE_KEY);
     if (!existing) {
-      console.warn('⚠️ No session_meta cookie found. Session not established.');
-    } else {
-      console.log('🔄 session_meta cookie present. Session already established.');
-    }
-  },
+      try {
+        const res = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          credentials: 'include', // Allows the server to set cookies
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service: 'session',
+            entity_type: 'user',
+            entity_id: '21123',
+            referrer: document.referrer || 'direct',
+            path: window.location.pathname,
+          }),
+        });
   
+        console.log('📡 Session initiation request sent. Status:', res.status);
+      } catch (err) {
+        console.error('❌ Failed to trigger session setup API:', err);
+      }
+    } else {
+      console.log('🔄 session_meta cookie present. Session already established.', existing);
+    }
+  }, 
 
   handleClick(event) {
     const payload = {
@@ -96,7 +112,8 @@ const AnalyticsManager = {
       },
     };
 
-    console.log('📦 Payload to send:', payload);
+    console.log('📦 Final payload being sent:', payload);
+
 
     fetch(API_ENDPOINT, {
       method: 'POST',
