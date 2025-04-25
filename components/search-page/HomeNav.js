@@ -12,11 +12,17 @@ import DeleteChatModal from './Modals/DeleteChatModal';
 import RenameChatModal from './Modals/RenameChatModal';
 import { toast } from 'react-toastify';
 
-const HomeNav = (fetchChatById,   chats, 
+const HomeNav = ({
+  fetchChatById,
+  chats,
   loading,
   isLoggedIn,
   setChats,
-  setLoading, error) => {
+  setLoading,
+  error,
+  chatTitle
+}) => {
+
 
   const [dropdownIndex, setDropdownIndex] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -65,8 +71,6 @@ const HomeNav = (fetchChatById,   chats,
       setShowRenameModal(false);
     }
   };
-  
-  
 
   const categorizeChatsByDate = (chats) => {
     const today = new Date();
@@ -91,7 +95,7 @@ const HomeNav = (fetchChatById,   chats,
     return { todayChats, pastSevenDaysChats, olderChats };
   };
 
-  const renderDropdown = (index) => (
+  const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none">
       <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg">
         <IoShareSocial className='text-base' />
@@ -99,7 +103,7 @@ const HomeNav = (fetchChatById,   chats,
       </button>
       <button
         onClick={() => {
-          setSelectedChat(index);
+          setSelectedChat(chat);
           setShowRenameModal(true);
         }}
         className="flex gap-2.5 p-2 w-full group hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg"
@@ -113,7 +117,7 @@ const HomeNav = (fetchChatById,   chats,
       </button>
       <button
         onClick={() => {
-          setSelectedChat(index);
+          setSelectedChat(chat);
           setShowDeleteModal(true);
         }}
         className="flex flex-row gap-2.5 p-2 w-full hover:bg-[#131314] text-[#FF1E1E] justify-start items-center"
@@ -155,7 +159,7 @@ const HomeNav = (fetchChatById,   chats,
                         key={chat.chat_id}
                         className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
                         onClick={() => {
-                          setSelectedChat(index);
+                          setSelectedChat(chat);
                           setDropdownIndex(null);
                           fetchChatById(chat.chat_id)
                         }}
@@ -194,7 +198,7 @@ const HomeNav = (fetchChatById,   chats,
                         key={chat.chat_id}
                         className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
                         onClick={() => {
-                          setSelectedChat(index);
+                          setSelectedChat(chat);
                           setDropdownIndex(null);
                           fetchChatById(chat.chat_id)
                         }}
@@ -233,7 +237,7 @@ const HomeNav = (fetchChatById,   chats,
                         key={chat.chat_id}
                         className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
                         onClick={() => {
-                          setSelectedChat(index);
+                          setSelectedChat(chat);
                           setDropdownIndex(null);
                           fetchChatById(chat.chat_id)
                         }}
@@ -272,16 +276,16 @@ const HomeNav = (fetchChatById,   chats,
           </div>
         )}
       </nav>
-      {showDeleteModal && selectedChat !== null && selectedChat !== undefined && chats[selectedChat] && (
+      {showDeleteModal && selectedChat && (
   <DeleteChatModal
-    chatName={chats[selectedChat]?.title || "Untitled"} // Use title or fallback to "Untitled"
+  chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowDeleteModal(false)}
     onDelete={handleDeleteChat}
   />
 )}
-{showRenameModal && selectedChat !== null && selectedChat !== undefined && chats[selectedChat] && (
+{showDeleteModal && selectedChat && (
   <RenameChatModal
-    chatName={chats[selectedChat]?.title || "Untitled"} // Use title or fallback to "Untitled"
+  chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowRenameModal(false)}
     onRename={handleRenameChat}
   />

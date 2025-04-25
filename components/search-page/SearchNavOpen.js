@@ -20,11 +20,17 @@ import RenameChatModal from './Modals/RenameChatModal';
 import DeleteChatModal from './Modals/DeleteChatModal';
 import { toast } from 'react-toastify';
 
-const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, fetchChatById,chats, 
+const SearchNavOpen = ({
+  handleNewConversation, 
+  handleResetRecommendationButton,   
+  fetchChatById,
+  chats,
   loading,
   isLoggedIn,
   setChats,
-  setLoading, error }) => {
+  setLoading,
+  error,
+chatTitle }) => {
 
   const [activeModal, setActiveModal] = useState(null);
   const [firstModalData, setFirstModalData] = useState({});
@@ -115,7 +121,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, 
     return { todayChats, pastSevenDaysChats, olderChats };
   };
 
-  const renderDropdown = (index) => (
+  const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none">
       <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg">
         <IoShareSocial className='text-base' />
@@ -123,7 +129,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, 
       </button>
       <button
         onClick={() => {
-          setSelectedChat(index);
+          setSelectedChat(chat);
           setShowRenameModal(true);
         }}
         className="flex gap-2.5 p-2 w-full group hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg"
@@ -137,7 +143,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, 
       </button>
       <button
         onClick={() => {
-          setSelectedChat(index);
+          setSelectedChat(chat);
           setShowDeleteModal(true);
         }}
         className="flex flex-row gap-2.5 p-2 w-full hover:bg-[#131314] text-[#FF1E1E] justify-start items-center"
@@ -197,7 +203,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, 
                         className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
                         onClick={() => {
                           fetchChatById(chat.chat_id)
-                          setSelectedChat(index);
+                          setSelectedChat(chat);
                           setDropdownIndex(null);
                         }}
                       >
@@ -236,7 +242,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, 
                         className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
                         onClick={() => {
                           fetchChatById(chat.chat_id)
-                          setSelectedChat(index);
+                          setSelectedChat(chat);
                           setDropdownIndex(null);
                         }}
                       >
@@ -275,7 +281,7 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, 
                         className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
                         onClick={() => {
                           fetchChatById(chat.chat_id)
-                          setSelectedChat(index);
+                          setSelectedChat(chat);
                           setDropdownIndex(null);
                         }}
                       >
@@ -314,16 +320,16 @@ const SearchNavOpen = ({handleNewConversation, handleResetRecommendationButton, 
         )}
       </nav>
 
-      {showDeleteModal && selectedChat !== null && selectedChat !== undefined && chats[selectedChat] && (
+      {showDeleteModal && selectedChat && (
   <DeleteChatModal
-    chatName={chats[selectedChat]?.title || "Untitled"} // Use title or fallback to "Untitled"
+  chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowDeleteModal(false)}
     onDelete={handleDeleteChat}
   />
 )}
-{showRenameModal && selectedChat !== null && selectedChat !== undefined && chats[selectedChat] && (
+{showDeleteModal && selectedChat && (
   <RenameChatModal
-    chatName={chats[selectedChat]?.title || "Untitled"} // Use title or fallback to "Untitled"
+  chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowRenameModal(false)}
     onRename={handleRenameChat}
   />

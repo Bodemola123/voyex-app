@@ -26,13 +26,18 @@ function ChatBotContainer({
   setShowRecommendationButton,
   visibleButtons, setVisibleButtons,
   resetRecommendation,
-  setResetRecommendation, handleResetRecommendationButton,
+  setResetRecommendation, 
+  handleResetRecommendationButton,
   selectionCount,
-  setSelectionCount, fetchChatById,   chats, 
+  setSelectionCount, 
+  fetchChatById,   
+  chats, 
   loading,
   isLoggedIn,
   setChats,
   setLoading,
+  isRestoredChat,
+  setIsRestoredChat,
 }) {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   
@@ -68,7 +73,11 @@ function ChatBotContainer({
           isHistoryVisible ? "w-[300px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
-        {isHistoryVisible && <SearchNavOpen  handleNewConversation={handleNewConversation} handleResetRecommendationButton={handleResetRecommendationButton} fetchChatById={fetchChatById} chats={chats} 
+        {isHistoryVisible && <SearchNavOpen  
+        handleNewConversation={handleNewConversation}
+        handleResetRecommendationButton={handleResetRecommendationButton} 
+        fetchChatById={fetchChatById} 
+        chats={chats} 
         loading={loading} 
         error={error} 
         isLoggedIn={isLoggedIn} 
@@ -103,6 +112,8 @@ function ChatBotContainer({
             handleResetRecommendationButton={handleResetRecommendationButton}
             selectionCount={selectionCount}
             setSelectionCount={setSelectionCount}
+            isRestoredChat={isRestoredChat}
+            setIsRestoredChat={setIsRestoredChat}
           />
         </div>
       </div>

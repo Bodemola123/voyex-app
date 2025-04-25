@@ -216,7 +216,9 @@ null
           isHistoryVisible ? "w-[300px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
-        {isHistoryVisible && <HomeNav fetchChatById={fetchChatById}         chats={chats} 
+        {isHistoryVisible && <HomeNav 
+        fetchChatById={fetchChatById}         
+        chats={chats} 
         loading={loading} 
         error={error} 
         isLoggedIn={isLoggedIn} 

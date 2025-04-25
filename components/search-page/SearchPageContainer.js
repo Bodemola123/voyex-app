@@ -16,6 +16,8 @@ function SearchPageContainer() {
   const [visibleButtons, setVisibleButtons] = useState({});
   const [resetRecommendation, setResetRecommendation] = useState(false);
   const [selectionCount, setSelectionCount] = useState(0);
+  const [isRestoredChat, setIsRestoredChat] = useState(false);
+
     const [chats, setChats] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -140,6 +142,7 @@ function SearchPageContainer() {
         setShowChat(true);       // Show the chat view
         localStorage.setItem("messages", JSON.stringify(data.chat)); // Persist messages
         localStorage.setItem("chat_id", chat_id); // Persist chat_id
+        setIsRestoredChat(true); // 🔥 set this after restoring
       } else {
         console.error("Invalid chat format from API");
       }
@@ -161,17 +164,34 @@ function SearchPageContainer() {
       setUserInput("");
   
       const hardcodedReply = getHardcodedReply(text);
-      const botText = hardcodedReply || `Default bot reply goes here...`;
+      if (hardcodedReply) {
+        setIsBotTyping(true);
   
-          // Check if the last message is a bot's message and if it has finished typing
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.role === "bot" && !isBotTyping) {
-      setIsBotTyping(false);  // Skip typing animation if the last message is from the bot and is already complete
-    } else {
-      setIsBotTyping(true);  // Initiate typing animation if it's a new response
-    }
+        setTimeout(() => {
+          const botMessage = { text: hardcodedReply, role: "bot", timestamp: new Date() };
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
+          setIsBotTyping(false);
+          setIsLoading(false);
+  
+          if (hardcodedReply.toLowerCase().includes("nice! let's recommend some tools for you")) {
+            setTimeout(() => {
+              setShowRecommendationButton(true);
+            }, 1500);
+          }
+        }, 2000);
+  
+        return;
+      }
+  
+      // Simulated async bot response
+      setIsBotTyping(true);
   
       setTimeout(async () => {
+        const botText = `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
+  1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
+  2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. Androids lack empathy, making them vulnerable to detection.
+  3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`;
+  
         const botMessage = { text: botText, role: "bot", timestamp: new Date() };
         setMessages((prev) => [...prev, botMessage]);
         setIsBotTyping(false);
@@ -183,7 +203,7 @@ function SearchPageContainer() {
           }, 1500);
         }
   
-        // Save to API without updating state again
+        // ✅ Properly awaited now
         await saveChatToAPI(text, botText);
   
       }, 2000);
@@ -194,6 +214,7 @@ function SearchPageContainer() {
       setIsLoading(false);
     }
   };
+  
   
   // Function to get a hardcoded reply based on keyword matching
   const getHardcodedReply = (message) => {
@@ -524,6 +545,8 @@ function SearchPageContainer() {
       isLoggedIn={isLoggedIn} 
       setChats={setChats} 
       setLoading={setLoading} 
+      isRestoredChat={isRestoredChat}
+      setIsRestoredChat={setIsRestoredChat}
     />
   );
 }

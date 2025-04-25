@@ -52,10 +52,27 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 
 
 
-function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
-  setUserInput, isBotTyping,
+function ChatBotMessage({ messages, 
+  error,
+  isLoading, 
+  setBotTyping, 
+  userInput,
+  setUserInput, 
+  isBotTyping,
   handleSendMessage,
-  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton,visibleButtons, setVisibleButtons,handleResetRecommendationButton,   selectionCount,setSelectionCount}) {
+  handleNewConversation, 
+  setShowChat, 
+  selectedFeatures, 
+  setSelectedFeatures, 
+  setShowRecommendationButton, 
+  showRecommendationButton,
+  visibleButtons, 
+  setVisibleButtons,
+  handleResetRecommendationButton,  
+  selectionCount,
+  setSelectionCount,
+  isRestoredChat, 
+  setIsRestoredChat}) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
@@ -105,17 +122,21 @@ useEffect(() => {
   }, []);
 
   useEffect(() => {
+    if (isRestoredChat) {
+      setIsRestoredChat(false); // reset after skipping once
+      return;
+    }
+  
     if (messages.length === 0) return;
   
     const latestMessage = messages[messages.length - 1];
   
-    // Clear previous message to avoid flickering
-    setTypedMessage("");
-  
     if (latestMessage.role === "bot") {
+      setTypedMessage(""); 
       typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
     }
   }, [messages]);
+  
 
   
 
@@ -286,9 +307,12 @@ const handleOptionClick = (index, option) => {
                   }`}
                   style={{ whiteSpace: "pre-wrap" }}
                 >
-                                    <span className="flex-1 break-words text-sm">
-  {displayedText === "__typing__" ? <TypingAnimation /> : displayedText}
-</span>
+                <span className="flex-1 break-words text-sm">
+  {(displayedText === "__typing__" && !isRestoredChat) 
+    ? <TypingAnimation /> 
+    : displayedText}
+                </span>
+
                 </div>
   
                 {/* Render Buttons if Matching Key is Found */}
