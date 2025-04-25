@@ -374,6 +374,9 @@ const handleRevenueSelect = (revenueValue) => {
             let orgType = apiResponse.data.org_id ? "organization" : "user"; // If id exists, it's a organization; otherwise, it's an user
             // Store user type in localStorage
             localStorage.setItem("orgType", orgType);
+            const entityId = apiResponse.data.org_id;
+localStorage.setItem("entityId", entityId);
+
   
             setCurrentSlide("org-signin-success");
             toast.success("Signin successful!");
@@ -523,6 +526,7 @@ const signing = async () => {
   
           // Store org details and tokens in localStorage
           localStorage.setItem("orgId", acceptEmailPassword.data.org_id);
+          localStorage.setItem("entityId", acceptEmailPassword.date.org_id)
           localStorage.setItem("access_token", acceptEmailPassword.data.access_token); // Save access token
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Save refresh token
 
@@ -620,6 +624,10 @@ const signing = async () => {
       localStorage.removeItem("firstName");
       localStorage.removeItem("userEmail")
       localStorage.removeItem("orgId")
+      localStorage.removeItem('entityId')
+      localStorage.removeItem("chat_id");
+      localStorage.removeItem("messages");
+      localStorage.removeItem('chats');
     window.location.href = "/auth/organization"// Redirect to login page
   };
   const organizationSignin = async () => {
@@ -663,6 +671,9 @@ const signing = async () => {
         let orgType = response.data.org_id ? "organization" : "user"; // If id exists, it's a organization; otherwise, it's an user
         // Store user type in localStorage
         localStorage.setItem("orgType", orgType);
+        const entityId = response.data.org_id;
+localStorage.setItem("entityId", entityId);
+
   
         setCurrentSlide("org-signin-success");
         toast("Signin successful");

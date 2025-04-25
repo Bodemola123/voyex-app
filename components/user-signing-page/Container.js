@@ -169,6 +169,9 @@ useEffect(() => {
             if (apiResponse.data.refresh_token) {
               localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
             }
+            const entityId = apiResponse.data.org_id;
+localStorage.setItem("entityId", entityId);
+
   
             // Store User Details
             dispatch(
@@ -249,6 +252,9 @@ useEffect(() => {
           if (apiResponse.status === 200 && apiResponse.data.valid === true) {
             let userType = apiResponse.data.user_id ? "user" : "organization";
             localStorage.setItem("userType", userType);
+            const entityId = apiResponse.data.user_id;
+localStorage.setItem("entityId", entityId);
+
       
             // Fetch full name if user
             if (userType === "user") {
@@ -425,6 +431,8 @@ useEffect(() => {
         
           // ✅ Save both access and refresh tokens in localStorage
           localStorage.setItem("userId", acceptEmailPassword.data.user_id);
+localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
+
           localStorage.setItem("access_token", acceptEmailPassword.data.access_token);
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token);
         
@@ -515,6 +523,7 @@ useEffect(() => {
       //  console.warn("Logout triggered but temporarily disabled for debugging.");
       // console.log("Access Token Before Logout:", localStorage.getItem('access_token'));
       // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
+      localStorage.removeItem('chats');
       localStorage.removeItem("userType");
       localStorage.removeItem("orgType");
       localStorage.removeItem("access_token");
@@ -526,6 +535,9 @@ useEffect(() => {
       localStorage.removeItem("firstName");
       localStorage.removeItem("userEmail")
       localStorage.removeItem("orgId")
+      localStorage.removeItem('entityId')
+      localStorage.removeItem("chat_id");
+      localStorage.removeItem("messages");
     window.location.href = "/auth/user"// Redirect to login page
   };
   const userSignin = async () => {
@@ -562,7 +574,9 @@ useEffect(() => {
   
         let userType = response.data.user_id ? "user" : "organization";
         localStorage.setItem("userType", userType);
-  
+        const entityId = response.data.user_id || response.data.org_id;
+        localStorage.setItem("entityId", entityId);
+
         // Fetch full name if user
         if (userType === "user") {
           const userId = response.data.user_id;

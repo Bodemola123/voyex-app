@@ -3,207 +3,268 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaPen, FaRegTrashCan } from "react-icons/fa6";
-import { MdDelete, MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { LuArchive, LuLogIn } from 'react-icons/lu';
 import { PiUserPlusFill } from "react-icons/pi";
-import { CiShare2 } from 'react-icons/ci';
+import { IoShareSocial } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
 import DeleteChatModal from './Modals/DeleteChatModal';
 import RenameChatModal from './Modals/RenameChatModal';
-import { IoShareSocial } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 
-const HomeNav = () => {
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [expandToday, setExpandToday] = useState(false);
-  const [expandYesterday, setExpandYesterday] = useState(false);
+const HomeNav = (fetchChatById,   chats, 
+  loading,
+  isLoggedIn,
+  setChats,
+  setLoading, error) => {
+
   const [dropdownIndex, setDropdownIndex] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRenameModal, setShowRenameModal] = useState(false);
-  const [activeChat, setActiveChat] = useState({ index: null, isToday: true });
 
-  const [todayItems, setTodayItems] = useState([
-    "How to be a better person?",
-    "Hacking FBI server with linux",
-    "How to get rich from youtube as an influencer",
-    "Help me with web development tasks from client",
-    "REACT NEXTJS Tutorial",
-    "How to make your AI chatbot smarter",
-    "Examples of Python decorators"
-  ]);
+  const handleDeleteChat = async () => {
+    const chatToDelete = chats[selectedChat];
+    if (!chatToDelete) return;
 
-  const [yesterdayItems, setYesterdayItems] = useState([
-    "Mobile app prototypes library",
-    "ROM Types and uses",
-    "Fix SSL/TLS Error",
-    "Platform template for developers",
-    "Mobile development with golang",
-    "Next.js Routing Simplified",
-    "How to build an API in Golang"
-  ]);
+    try {
+      const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chatToDelete.chat_id}`, {
+        method: 'DELETE',
+      });
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUserType = localStorage.getItem("userType");
-      const storedOrgType = localStorage.getItem("orgType");
-      setIsLoggedIn(!!storedUserType || !!storedOrgType);
+      if (!res.ok) throw new Error("Failed to delete chat");
+
+      setChats(prev => prev.filter((_, i) => i !== selectedChat));
+      toast.success("Chat deleted successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete chat.");
+    } finally {
+      setShowDeleteModal(false);
     }
-  }, []);
-
-  const handleDeleteChat = () => {
-    const { index, isToday } = activeChat;
-    if (isToday) {
-      setTodayItems(todayItems.filter((_, i) => i !== index));
-    } else {
-      setYesterdayItems(yesterdayItems.filter((_, i) => i !== index));
-    }
-    setShowDeleteModal(false);  // Close modal after deletion
   };
-
   const handleRenameChat = (newName) => {
-    const { index, isToday } = activeChat;
-    if (index === null || !newName.trim()) return;
-    if (isToday) {
-      setTodayItems(prev => prev.map((item, i) => i === index ? newName : item));
-    } else {
-      setYesterdayItems(prev => prev.map((item, i) => i === index ? newName : item));
+    if (!newName.trim()) return;
+  
+    try {
+      setChats(prev =>
+        prev.map((chat, i) =>
+          i === selectedChat
+            ? { ...chat, title: newName } // Update the title
+            : chat
+        )
+      );
+      toast.success("Chat renamed successfully!");
+  
+      // Also update the selectedChat state to reflect the changes in the UI
+      setSelectedChat(selectedChat); // Force re-render by updating the selectedChat
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to rename chat.");
+    } finally {
+      setShowRenameModal(false);
     }
-    setShowRenameModal(false);
+  };
+  
+  
+
+  const categorizeChatsByDate = (chats) => {
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    const todayChats = [];
+    const pastSevenDaysChats = [];
+    const olderChats = [];
+
+    chats.forEach((chat) => {
+      const createdAt = new Date(chat.created_at);
+      if (createdAt.toDateString() === today.toDateString()) {
+        todayChats.push(chat);
+      } else if (createdAt >= sevenDaysAgo) {
+        pastSevenDaysChats.push(chat);
+      } else {
+        olderChats.push(chat);
+      }
+    });
+
+    return { todayChats, pastSevenDaysChats, olderChats };
   };
 
-  const renderDropdown = (index, isToday) => (
-    <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none outline-0 focus:ring-0 focus:outline-0">
-      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center  rounded-lg">
-        <IoShareSocial className='text-base '/>
+  const renderDropdown = (index) => (
+    <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none">
+      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg">
+        <IoShareSocial className='text-base' />
         <p className='text-sm'>Share Chat</p>
       </button>
       <button
         onClick={() => {
-          setActiveChat({ index, isToday });
+          setSelectedChat(index);
           setShowRenameModal(true);
         }}
         className="flex gap-2.5 p-2 w-full group hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg"
       >
-        <FaPen className='text-base '/>
+        <FaPen className='text-base' />
         <p className='text-sm'>Rename chat</p>
-
       </button>
       <button className="flex gap-2.5 p-2 w-full text-[#f4f4f4] hover:bg-[#131314] justify-start items-center">
-        <LuArchive className='text-base '/>
-       <p className='text-sm '> Archive chat</p>
+        <LuArchive className='text-base' />
+        <p className='text-sm '>Archive chat</p>
       </button>
       <button
         onClick={() => {
-          setActiveChat({ index, isToday });
+          setSelectedChat(index);
           setShowDeleteModal(true);
         }}
         className="flex flex-row gap-2.5 p-2 w-full hover:bg-[#131314] text-[#FF1E1E] justify-start items-center"
       >
-        <FaRegTrashCan className='text-base '/>
-       <p className='text-sm '> Delete chat</p>
+        <FaRegTrashCan className='text-base' />
+        <p className='text-sm '>Delete chat</p>
       </button>
     </div>
   );
 
+  const { todayChats, pastSevenDaysChats, olderChats } = categorizeChatsByDate(chats);
+
   return (
     <>
-      <nav className='flex flex-col w-full bg-[#131314] h-screen gap-2 px-6 pt-4'>
-        <div className='flex flex-col gap-6'>
-          <div className='flex gap-4 flex-row items-center'>
-            <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
-            <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
-          </div>
-          <button className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 w-full items-center justify-center'>
-            <FaPlus className='text-[10px] text-white/40' />
-            <p className='text-xs text-white/60'>New chat</p>
-          </button>
+      <nav className='flex flex-col w-full bg-[#131314] h-screen gap-6 px-6 pt-4'>
+        <div className='flex gap-4 flex-row items-center'>
+          <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
+          <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
         </div>
 
         {isLoggedIn ? (
-          <div className='overflow-y-scroll scrollbar-hide flex flex-col gap-2 pb-1'>
-            {/* Today Section */}
-            <div className='flex flex-col py-1 gap-1 border-b border-[#3A3A40]'>
-              <div className='flex flex-row justify-between items-center text-base'>
-                <p className='text-[#f4f4f4] font-bold'>Today</p>
-                <button onClick={() => setExpandToday(!expandToday)} className='flex flex-row gap-2 justify-center items-center'>
-                  <p className='text-[#f4f4f4] font-medium'>{todayItems.length} Total</p>
-                  <MdOutlineKeyboardArrowDown className={`text-xl text-[#f4f4f4] transition-transform duration-200 ${expandToday ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
-              <div className='flex flex-col text-xs font-medium gap-3'>
-                {(expandToday ? todayItems : todayItems.slice(0, 5)).map((item, index) => (
-                  <div
-                    key={index}
-                    className='relative rounded-xl px-2 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
-                    onClick={() => {
-                      setSelectedChat(index);
-                      setDropdownIndex(null);
-                    }}
-                  >
-                    <p className='truncate'>{item}</p>
-                    <div className='relative'>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDropdownIndex(dropdownIndex === index ? null : index);
+          <div className='overflow-y-scroll scrollbar-hide flex flex-col gap-2 pb-1 h-full'>
+            {loading && <p>Loading chats...</p>}
+            {error && <p className="text-red-500">{error}</p>}
+            {chats.length === 0 && !loading && !error && <p>No chats in history</p>}
+
+            {todayChats.length > 0 && (
+              <div className='flex flex-col py-1 gap-3'>
+                <div className='flex flex-row justify-between items-center text-base'>
+                  <p className='text-[#f4f4f4] font-bold'>Today</p>
+                  <p className='text-[#f4f4f4] font-medium'>{todayChats.length} Total</p>
+                </div>
+                <div className='flex flex-col text-xs font-medium gap-3'>
+                  {todayChats.map((chat, index) => {
+                    const firstUserMessage = chat.chat?.find(msg => msg.role === "user");
+                    const title = firstUserMessage?.text?.split(" ")[0] || "Untitled";                    
+                    return (
+                      <div
+                        key={chat.chat_id}
+                        className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
+                        onClick={() => {
+                          setSelectedChat(index);
+                          setDropdownIndex(null);
+                          fetchChatById(chat.chat_id)
                         }}
                       >
-                        <BsThreeDots className='text-base' />
-                      </button>
-                      {dropdownIndex === index && renderDropdown(index, true)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Yesterday Section */}
-            <div className='flex flex-col py-1 gap-1'>
-              <div className='flex flex-row justify-between items-center text-base'>
-                <p className='text-[#f4f4f4] font-bold'>Yesterday</p>
-                <button onClick={() => setExpandYesterday(!expandYesterday)} className='flex flex-row gap-2 justify-center items-center'>
-                  <p className='text-[#f4f4f4] font-medium'>{yesterdayItems.length} Total</p>
-                  <MdOutlineKeyboardArrowDown className={`text-xl text-[#f4f4f4] transition-transform duration-200 ${expandYesterday ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
-              <div className='flex flex-col text-xs font-medium gap-3'>
-                {(expandYesterday ? yesterdayItems : yesterdayItems.slice(0, 5)).map((item, index) => {
-                  const adjustedIndex = index + 100;
-                  return (
-                    <div
-                      key={adjustedIndex}
-                      className='relative rounded-xl px-2 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
-                      onClick={() => {
-                        setSelectedChat(adjustedIndex);
-                        setDropdownIndex(null);
-                      }}
-                    >
-                      <p className='truncate'>{item}</p>
-                      <div className='relative'>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setDropdownIndex(dropdownIndex === adjustedIndex ? null : adjustedIndex);
-                          }}
-                        >
-                          <BsThreeDots className='text-base' />
-                        </button>
-                        {dropdownIndex === adjustedIndex && renderDropdown(index, false)}
+                        <p className='truncate'>{title}</p>
+                        <div className='relative'>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDropdownIndex(dropdownIndex === index ? null : index);
+                            }}
+                          >
+                            <BsThreeDots className='text-base' />
+                          </button>
+                          {dropdownIndex === index && renderDropdown(index)}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
+
+            {pastSevenDaysChats.length > 0 && (
+              <div className='flex flex-col py-1 gap-3'>
+                <div className='flex flex-row justify-between items-center text-base'>
+                  <p className='text-[#f4f4f4] font-bold'>Past 7 Days</p>
+                  <p className='text-[#f4f4f4] font-medium'>{pastSevenDaysChats.length} Total</p>
+                </div>
+                <div className='flex flex-col text-xs font-medium gap-3'>
+                  {pastSevenDaysChats.map((chat, index) => {
+                    const firstUserMessage = chat.chat?.find(msg => msg.role === "user");
+                    const title = firstUserMessage?.text?.split(" ")[0] || "Untitled";                                 
+                    return (
+                      <div
+                        key={chat.chat_id}
+                        className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
+                        onClick={() => {
+                          setSelectedChat(index);
+                          setDropdownIndex(null);
+                          fetchChatById(chat.chat_id)
+                        }}
+                      >
+                        <p className='truncate'>{title}</p>
+                        <div className='relative'>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDropdownIndex(dropdownIndex === index ? null : index);
+                            }}
+                          >
+                            <BsThreeDots className='text-base' />
+                          </button>
+                          {dropdownIndex === index && renderDropdown(index)}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {olderChats.length > 0 && (
+              <div className='flex flex-col py-1 gap-3'>
+                <div className='flex flex-row justify-between items-center text-base'>
+                  <p className='text-[#f4f4f4] font-bold'>Older Chats</p>
+                  <p className='text-[#f4f4f4] font-medium'>{olderChats.length} Total</p>
+                </div>
+                <div className='flex flex-col text-xs font-medium gap-3'>
+                  {olderChats.map((chat, index) => {
+                    const firstUserMessage = chat.chat?.find(msg => msg.role === "user");
+                    const title = firstUserMessage?.text?.split(" ")[0] || "Untitled";                    
+                    return (
+                      <div
+                        key={chat.chat_id}
+                        className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
+                        onClick={() => {
+                          setSelectedChat(index);
+                          setDropdownIndex(null);
+                          fetchChatById(chat.chat_id)
+                        }}
+                      >
+                        <p className='truncate'>{title}</p>
+                        <div className='relative'>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDropdownIndex(dropdownIndex === index ? null : index);
+                            }}
+                          >
+                            <BsThreeDots className='text-base' />
+                          </button>
+                          {dropdownIndex === index && renderDropdown(index)}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className='flex flex-col gap-6 pt-2 border-t border-[#3A3A40]'>
             <div className='flex flex-col justify-center items-start gap-3'>
-              <Link href='/auth/user' className='py-4 flex flex-row gap-2.5 bg-transparent items-center group'>
+              <Link href='/auth/user' className='py-4 flex flex-row gap-2.5 items-center group'>
                 <LuLogIn className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
                 <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Log in</p>
               </Link>
-              <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 bg-transparent items-center group'>
+              <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 items-center group'>
                 <PiUserPlusFill className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
                 <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Sign up</p>
               </Link>
@@ -211,25 +272,23 @@ const HomeNav = () => {
           </div>
         )}
       </nav>
+      {showDeleteModal && selectedChat !== null && selectedChat !== undefined && chats[selectedChat] && (
+  <DeleteChatModal
+    chatName={chats[selectedChat]?.title || "Untitled"} // Use title or fallback to "Untitled"
+    onClose={() => setShowDeleteModal(false)}
+    onDelete={handleDeleteChat}
+  />
+)}
+{showRenameModal && selectedChat !== null && selectedChat !== undefined && chats[selectedChat] && (
+  <RenameChatModal
+    chatName={chats[selectedChat]?.title || "Untitled"} // Use title or fallback to "Untitled"
+    onClose={() => setShowRenameModal(false)}
+    onRename={handleRenameChat}
+  />
+)}
 
-      {/* Delete Chat Modal */}
-      {showDeleteModal && selectedChat !== null && (
-        <DeleteChatModal
-          chatName={activeChat.isToday ? todayItems[activeChat.index] : yesterdayItems[activeChat.index]}
-          onClose={() => setShowDeleteModal(false)}
-          onDelete={handleDeleteChat}
-        />
-      )}
-      {/* Rename Chat Modal */}
-      {showRenameModal && selectedChat !== null && (
-        <RenameChatModal
-          chatName={activeChat.isToday ? todayItems[activeChat.index] : yesterdayItems[activeChat.index]}
-          onClose={() => setShowRenameModal(false)}
-          onRename={handleRenameChat}
-        />
-      )}
     </>
   );
-}
+};
 
 export default HomeNav;

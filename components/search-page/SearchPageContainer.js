@@ -1,9 +1,6 @@
 "use client";
 
-import React from "react";
-
-import { useState, useEffect, KeyboardEvent, ChangeEvent } from "react";
-
+import React, { useState, useEffect, KeyboardEvent, ChangeEvent } from "react";
 import SearchMain from "../search-page/SearchMain";
 import ChatBotContainer from "@/components/search-page/ChatBotContainer";
 
@@ -12,25 +9,146 @@ function SearchPageContainer() {
   const [selectedFeatures, setSelectedFeatures] = useState({});
   const [showRecommendationButton, setShowRecommendationButton] = useState(false);
   const [userInput, setUserInput] = useState("");
-  const [chat, setChat] = useState(null);
   const [error, setError] = useState(null);
   const [showChat, setShowChat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [visibleButtons, setVisibleButtons] = useState({});
   const [resetRecommendation, setResetRecommendation] = useState(false);
-  // New state to track number of selections after reset
-const [selectionCount, setSelectionCount] = useState(0);
+  const [selectionCount, setSelectionCount] = useState(0);
+    const [chats, setChats] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const entityId = localStorage.getItem("entityId");
+        const entityType = localStorage.getItem("userType") || localStorage.getItem("orgType");
+        setIsLoggedIn(!!entityId && !!entityType);
+  
+        if (entityId && entityType) {
+          setLoading(true);
+          fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?entity_id=${entityId}&entity_type=${entityType}`)
+            .then(res => res.json())
+            .then(data => {
+              console.log("📦 Chat API Response:", data);
+              setChats(data.chats || []);
+              setLoading(false);
+            })
+            .catch(err => {
+              console.error("Failed to fetch chats:", err);
+              setError("Failed to load chats. Please try again later.");
+              setLoading(false);
+            });
+        }
+      }
+    }, []);
+  
+  const [chat, setChat] = useState(null); // Store chat_id here
+    // Persist chat state across page reloads using localStorage
+    useEffect(() => {
+      const savedChatId = localStorage.getItem("chat_id");
+      const savedMessages = localStorage.getItem("messages");
+  
+      if (savedChatId && savedMessages) {
+        setChat({ chat_id: savedChatId });
+        setMessages(JSON.parse(savedMessages));
+        setShowChat(true);
+      }
+    }, []);
 
   const handleResetRecommendationButton = () => {
     setShowRecommendationButton(false);
-    setResetRecommendation(true);  // Mark the reset state to start fresh
-    // ;  // Clear selected features
+    setResetRecommendation(true);
     setSelectionCount(0);
+  };
+
+  const saveChatToAPI = async (userMessage, botResponse) => {
+    const entityId = localStorage.getItem("entityId");
+    const entityType = localStorage.getItem("userType") || localStorage.getItem("orgType");
+  
+    const newMessages = [
+      { role:"user", text: userMessage, timestamp: new Date() },
+      { role:"bot", text: botResponse, timestamp: new Date() }
+    ];
+  
+    if (!entityId || !entityType) return;
+  
+    try {
+      if (chat?.chat_id) {
+        // PUT request to update chat with new message
+        const putBody = {
+          chat_id: chat.chat_id,
+          chat: [...messages, ...newMessages],  // Append new messages
+          metadata: { using: "chatbot" }
+        };
+  
+        const res = await fetch(
+          `https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chat.chat_id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(putBody)
+          }
+        );
+  
+        const data = await res.json();
+        console.log("PUT Response:", data);
+  
+        if (data.chat) {
+          setMessages(data.chat); // Ensure state is updated with new messages from the API
+          localStorage.setItem("messages", JSON.stringify(data.chat)); // Persist chat messages
+        }
+      } else {
+        // POST request to create a new chat
+        const postBody = {
+          entity_id: parseInt(entityId),
+          entity_type: entityType,
+          chat: newMessages
+        };
+  
+        const res = await fetch(
+          "https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(postBody)
+          }
+        );
+  
+        const data = await res.json();
+        console.log("POST Response:", data);
+  
+        if (data.chat_id) {
+          setChat({ chat_id: data.chat_id });
+          localStorage.setItem("chat_id", data.chat_id); // Persist chat_id
+        }
+      }
+    } catch (err) {
+      console.error("Error saving chat:", err);
+    }
+  };
+
+  const fetchChatById = async (chat_id) => {
+    try {
+      const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chat_id}`);
+      const data = await res.json();
+  
+      if (Array.isArray(data.chat)) {
+        setMessages(data.chat);  // Update the chat messages
+        setChat({ chat_id });    // Store the current chat_id
+        setShowChat(true);       // Show the chat view
+        localStorage.setItem("messages", JSON.stringify(data.chat)); // Persist messages
+        localStorage.setItem("chat_id", chat_id); // Persist chat_id
+      } else {
+        console.error("Invalid chat format from API");
+      }
+    } catch (err) {
+      console.error("Error fetching chat:", err);
+    }
   };
   
   
-
   const handleSendMessage = async (message = null) => {
     try {
       const text = message || userInput.trim();
@@ -38,53 +156,36 @@ const [selectionCount, setSelectionCount] = useState(0);
   
       setIsLoading(true);
   
-      // Add user message
       const userMessage = { text, role: "user", timestamp: new Date() };
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-      setUserInput(""); // Reset input field
+      setMessages((prev) => [...prev, userMessage]);
+      setUserInput("");
   
-      // Check for hardcoded reply
       const hardcodedReply = getHardcodedReply(text);
+      const botText = hardcodedReply || `Default bot reply goes here...`;
   
-      if (hardcodedReply) {
-        setIsBotTyping(true);
+          // Check if the last message is a bot's message and if it has finished typing
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage && lastMessage.role === "bot" && !isBotTyping) {
+      setIsBotTyping(false);  // Skip typing animation if the last message is from the bot and is already complete
+    } else {
+      setIsBotTyping(true);  // Initiate typing animation if it's a new response
+    }
   
-        setTimeout(() => {
-          const botMessage = { text: hardcodedReply, role: "bot", timestamp: new Date() };
-  
-          setMessages((prevMessages) => [...prevMessages, botMessage]);
-          setIsBotTyping(false);
-          setIsLoading(false);
-  
-          // ✅ If the hardcoded reply matches the special message, trigger the button after bot finishes typing
-          if (hardcodedReply.toLowerCase().includes("nice! let's recommend some tools for you")) {
-            setTimeout(() => {
-              setShowRecommendationButton(true); // ✅ Delayed by 1.5 second
-            }, 1500);
-          }
-        }, 2000);
-  
-        return;
-      }
-  
-      // Simulated bot fallback
-      setIsBotTyping(true);
-      setTimeout(() => {
-        const botText = `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
-    1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
-    2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. Androids lack empathy, making them vulnerable to detection.
-    3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`;
-  
+      setTimeout(async () => {
         const botMessage = { text: botText, role: "bot", timestamp: new Date() };
-  
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
+        setMessages((prev) => [...prev, botMessage]);
         setIsBotTyping(false);
         setIsLoading(false);
   
-        // ✅ Same condition check can apply here if fallback might contain trigger text
         if (botText.toLowerCase().includes("nice! let's recommend some tools for you")) {
-          setShowRecommendationButton(true);
+          setTimeout(() => {
+            setShowRecommendationButton(true);
+          }, 1500);
         }
+  
+        // Save to API without updating state again
+        await saveChatToAPI(text, botText);
+  
       }, 2000);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -93,12 +194,6 @@ const [selectionCount, setSelectionCount] = useState(0);
       setIsLoading(false);
     }
   };
-  
-  
-  
-  
-  
-
   
   // Function to get a hardcoded reply based on keyword matching
   const getHardcodedReply = (message) => {
@@ -374,14 +469,16 @@ const [selectionCount, setSelectionCount] = useState(0);
     return null; // No match found
   };
   
- 
-  
 
-const handleNewConversation = () => {
-  setMessages([]);
-  setSelectedFeatures({});
-  setVisibleButtons({}); // Reset options visibility for new conversation
-};
+  const handleNewConversation = () => {
+    console.log("Starting new conversation, clearing chat_id");
+    setMessages([]);
+    setSelectedFeatures({});
+    setVisibleButtons({}); // Reset options visibility for new conversation
+    setChat(null); // Reset chat_id when starting a new conversation
+    localStorage.removeItem("chat_id");
+    localStorage.removeItem("messages");
+  };
 
   return !showChat ? (
     <SearchMain
@@ -391,6 +488,12 @@ const handleNewConversation = () => {
       setUserInput={setUserInput}
       setShowChat={setShowChat}
       handleSendMessage={handleSendMessage}
+      fetchChatById={fetchChatById}
+      chats={chats} 
+      loading={loading} 
+      isLoggedIn={isLoggedIn} 
+      setChats={setChats} 
+      setLoading={setLoading} 
     />
   ) : (
     <ChatBotContainer
@@ -415,6 +518,12 @@ const handleNewConversation = () => {
       handleResetRecommendationButton={handleResetRecommendationButton}
       selectionCount={selectionCount}
       setSelectionCount={setSelectionCount}
+      fetchChatById={fetchChatById}
+      chats={chats} 
+      loading={loading} 
+      isLoggedIn={isLoggedIn} 
+      setChats={setChats} 
+      setLoading={setLoading} 
     />
   );
 }

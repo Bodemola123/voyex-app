@@ -70,6 +70,10 @@ export const logoutUser = () => {
     localStorage.removeItem("firstName");
     localStorage.removeItem("userEmail")
     localStorage.removeItem("orgId")
+    localStorage.removeItem('entityId')
+    localStorage.removeItem("chat_id");
+    localStorage.removeItem("messages");
+    localStorage.removeItem('chats');
 
   window.location.href = "/auth/user"// Redirect to login page
 };

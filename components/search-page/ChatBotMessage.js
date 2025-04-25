@@ -365,8 +365,6 @@ const handleOptionClick = (index, option) => {
           <ChatTop
           messages={messages}
           setShowChat={setShowChat}
-          handleNewConversation={handleNewConversation}
-          handleResetRecommendationButton={handleResetRecommendationButton}
         />
       <div className="pb-9 px-1 overflow-y-auto scrollbar-hide pt-5 " ref={scrollContainerRef}>
       {renderedMessages}

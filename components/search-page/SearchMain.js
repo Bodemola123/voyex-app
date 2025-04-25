@@ -38,6 +38,12 @@ function SearchMain({
   setShowChat,
   setUserInput,
   handleSendMessage,
+  fetchChatById,
+  chats, 
+  loading,
+  isLoggedIn,
+  setChats,
+  setLoading,
 }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [predictiveText, setPredictiveText] = useState("");
@@ -210,7 +216,12 @@ null
           isHistoryVisible ? "w-[300px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
-        {isHistoryVisible && <HomeNav />}
+        {isHistoryVisible && <HomeNav fetchChatById={fetchChatById}         chats={chats} 
+        loading={loading} 
+        error={error} 
+        isLoggedIn={isLoggedIn} 
+        setChats={setChats} 
+        setLoading={setLoading}  />}
       </div>
       </div>
       <div className="flex-grow relative flex flex-col w-full h-full justify-between items-center overflow-y-scroll pb-6 pt-1 px-6 scrollbar-hide scroll-container">

@@ -18,6 +18,10 @@ function Security() {
     localStorage.removeItem("firstName");
     localStorage.removeItem("userEmail")
     localStorage.removeItem("orgId")
+    localStorage.removeItem('entityId')
+    localStorage.removeItem("chat_id");
+    localStorage.removeItem("messages");
+    localStorage.removeItem('chats');
 
     console.log("User logged out");
     toast.success("Logging out. Redirecting to Sign-in");

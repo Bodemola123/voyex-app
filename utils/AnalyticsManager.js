@@ -1,47 +1,52 @@
 // utils/AnalyticsManager.js
 
-const ANALYTICS_KEY = 'analyticsData';
-const SESSION_KEY = '__tea_session_id_515785';
-const COOKIE_KEY = 'session_meta'
+// Constants for keys and API endpoint
+const ANALYTICS_KEY = 'analyticsData'; // Key used to store events in sessionStorage
+const SESSION_KEY = '__tea_session_id_515785'; // Session ID saved in sessionStorage
+const COOKIE_KEY = 'session_meta'; // Cookie key expected to be set by the server
 const API_ENDPOINT = 'https://r98ngavlng.execute-api.ap-southeast-2.amazonaws.com/default/voyex_analytics';
 
-let analyticsTimer = null;
+// let analyticsTimer = null; // Used to throttle the sending of analytics events
 
 const AnalyticsManager = {
   async init() {
+    // Ensure the session is established by hitting the API once
     await this.ensureSessionIdFromServer();
 
+    // Add event listeners for user interactions
     document.addEventListener('click', this.handleClick.bind(this));
     window.addEventListener('scroll', this.handleScroll.bind(this));
-    window.addEventListener('beforeunload', this.sendAnalyticsData.bind(this));
-    document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+    window.addEventListener('beforeunload', this.sendAnalyticsData.bind(this)); // Trigger on page exit
+    document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this)); // Trigger on tab visibility change
   },
 
   async ensureSessionIdFromServer() {
-    const existing = this.getCookie(COOKIE_KEY);
+    const existing = this.getCookie(COOKIE_KEY); // Check if the cookie is already set
     if (!existing) {
       try {
+        // Fire a session initiation request to backend
         const res = await fetch(API_ENDPOINT, {
           method: 'POST',
-          credentials: 'include', // Allows the server to set cookies
+          credentials: 'include', // This ensures cookies set by server are accepted
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             service: 'session',
             entity_type: 'user',
             entity_id: '21123',
-            referrer: document.referrer || 'direct',
-            path: window.location.pathname,
+            referrer: document.referrer || 'direct', // Where the user came from
+            path: window.location.pathname, // Current page path
           }),
         });
-  
+
         console.log('📡 Session initiation request sent. Status:', res.status);
+        // Nothing is stored from this call; the server is expected to handle cookie and session setup
       } catch (err) {
         console.error('❌ Failed to trigger session setup API:', err);
       }
     } else {
       console.log('🔄 session_meta cookie present. Session already established.', existing);
     }
-  }, 
+  },
 
   handleClick(event) {
     const payload = {
@@ -52,17 +57,20 @@ const AnalyticsManager = {
       tag: event.target.tagName,
       button_id: event.target.id || null,
     };
-    this.storeEvent('click', payload);
 
-    if (!analyticsTimer) {
-      analyticsTimer = setTimeout(() => {
-        this.sendAnalyticsData();
-        analyticsTimer = null;
-      }, 3000);
-    }
+    this.storeEvent('click', payload); // Save click event
+
+    // // Throttle send to once every 3 seconds
+    // if (!analyticsTimer) {
+    //   analyticsTimer = setTimeout(() => {
+    //     this.sendAnalyticsData();
+    //     analyticsTimer = null;
+    //   }, 3000);
+    // }
   },
 
   handleScroll() {
+    // Calculate scroll depth percentage
     const scrollPercent = Math.round(
       (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
     );
@@ -70,24 +78,26 @@ const AnalyticsManager = {
   },
 
   storeEvent(type, payload) {
+    // Retrieve current analytics events from sessionStorage
     const current = JSON.parse(sessionStorage.getItem(ANALYTICS_KEY)) || [];
+
+    // Append new event
     current.push({
       type,
       event: payload,
       timestamp: new Date().toISOString(),
     });
+
+    // Save updated events back to sessionStorage
     sessionStorage.setItem(ANALYTICS_KEY, JSON.stringify(current));
   },
 
   sendAnalyticsData() {
-    const existing = this.getCookie(COOKIE_KEY);
-    const raw = sessionStorage.getItem(ANALYTICS_KEY);
-    const sessionId = sessionStorage.getItem(SESSION_KEY)
+    const raw = sessionStorage.getItem(ANALYTICS_KEY); // Get stored events
 
-    console.log("session meta is:", existing)
 
-    if (!raw || !sessionId) {
-      console.warn('❌ Missing session or events. Aborting send.', { sessionId, raw });
+    if (!raw) {
+      console.warn('❌ Missing events. Aborting send.', { raw });
       return;
     }
 
@@ -106,31 +116,29 @@ const AnalyticsManager = {
     const payload = {
       service: 'analytics',
       action: 'insert',
-      eventTypes: [...new Set(eventTypes)],
+      eventTypes: [...new Set(eventTypes)], // Deduplicated event types
       event: mergedEventData,
       metadata: {
         user_agent: navigator.userAgent,
         device: window.innerWidth < 768 ? 'mobile' : 'desktop',
-        session_id: sessionId,
       },
     };
 
     console.log('📦 Final payload being sent:', payload);
-
 
     fetch(API_ENDPOINT, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-      keepalive: true,
+      keepalive: true, // Helps ensure request gets sent even on tab close
     })
     .then(res => {
       if (!res.ok) {
         console.error('❌ Analytics send failed:', res.status, res.statusText);
         return;
       }
-      sessionStorage.removeItem(ANALYTICS_KEY);
+      sessionStorage.removeItem(ANALYTICS_KEY); // Clear stored events on success
       console.log('✅ Analytics sent');
     })
     .catch(err => {
@@ -139,12 +147,14 @@ const AnalyticsManager = {
   },
 
   handleVisibilityChange() {
+    // If user switches tab or minimizes, try sending analytics
     if (document.visibilityState === 'hidden') {
       this.sendAnalyticsData();
     }
   },
 
   getCookie(name) {
+    // Utility to retrieve a cookie value by name
     return document.cookie
       .split('; ')
       .find(row => row.startsWith(name + '='))
