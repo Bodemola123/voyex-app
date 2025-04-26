@@ -55,18 +55,22 @@ setShowChat,}) => {
   const handleDeleteChat = async () => {
     const chatToDelete = chats[selectedChat];
     if (!chatToDelete) return;
-
+  
     try {
       const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chatToDelete.chat_id}`, {
         method: 'DELETE',
       });
-
+  
       if (!res.ok) throw new Error("Failed to delete chat");
+  
+      // Check if the chat being deleted is the one currently being viewed
+      if (chatToDelete.chat_id === chats.chat_id) {
+        setShowChat(false);  // Hide the chat if it's the current one
+      }
 
       setChats(prev => prev.filter((_, i) => i !== selectedChat));
-          // Clear selected chat after deletion
-    setSelectedChat(null);
-    setShowChat(false)
+  
+      setSelectedChat(null);  // Clear selected chat after deletion
       toast.success("Chat deleted successfully!");
     } catch (error) {
       console.error(error);
@@ -75,6 +79,7 @@ setShowChat,}) => {
       setShowDeleteModal(false);
     }
   };
+  
   const handleRenameChat = (newName) => {
     if (!newName.trim()) return;
   
