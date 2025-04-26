@@ -82,7 +82,8 @@ function ChatBotContainer({
         error={error} 
         isLoggedIn={isLoggedIn} 
         setChats={setChats} 
-        setLoading={setLoading}  />}
+        setLoading={setLoading}
+        setShowChat={setShowChat}  />}
       </div>
       </div>
 

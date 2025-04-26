@@ -20,6 +20,7 @@ const HomeNav = ({
   setChats,
   setLoading,
   error,
+  setShowChat
 }) => {
 
 
@@ -40,6 +41,9 @@ const HomeNav = ({
       if (!res.ok) throw new Error("Failed to delete chat");
 
       setChats(prev => prev.filter((_, i) => i !== selectedChat));
+                // Clear selected chat after deletion
+    setSelectedChat(null);
+    setShowChat(false)
       toast.success("Chat deleted successfully!");
     } catch (error) {
       console.error(error);
@@ -282,7 +286,7 @@ const HomeNav = ({
     onDelete={handleDeleteChat}
   />
 )}
-{showDeleteModal && selectedChat && (
+{showRenameModal && selectedChat && (
   <RenameChatModal
   chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowRenameModal(false)}

@@ -223,7 +223,8 @@ null
         error={error} 
         isLoggedIn={isLoggedIn} 
         setChats={setChats} 
-        setLoading={setLoading}  />}
+        setLoading={setLoading} 
+        setShowChat={setShowChat} />}
       </div>
       </div>
       <div className="flex-grow relative flex flex-col w-full h-full justify-between items-center overflow-y-scroll pb-6 pt-1 px-6 scrollbar-hide scroll-container">

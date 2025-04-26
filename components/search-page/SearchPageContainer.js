@@ -515,6 +515,7 @@ function SearchPageContainer() {
       isLoggedIn={isLoggedIn} 
       setChats={setChats} 
       setLoading={setLoading} 
+      showChat={showChat}
     />
   ) : (
     <ChatBotContainer

@@ -29,7 +29,8 @@ const SearchNavOpen = ({
   isLoggedIn,
   setChats,
   setLoading,
-  error, }) => {
+  error, 
+setShowChat,}) => {
 
   const [activeModal, setActiveModal] = useState(null);
   const [firstModalData, setFirstModalData] = useState({});
@@ -65,6 +66,7 @@ const SearchNavOpen = ({
       setChats(prev => prev.filter((_, i) => i !== selectedChat));
           // Clear selected chat after deletion
     setSelectedChat(null);
+    setShowChat(false)
       toast.success("Chat deleted successfully!");
     } catch (error) {
       console.error(error);
