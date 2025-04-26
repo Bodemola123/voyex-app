@@ -164,12 +164,14 @@ function SearchPageContainer() {
       setUserInput("");
   
       const hardcodedReply = getHardcodedReply(text);
+      const botText = hardcodedReply;
+      
       if (hardcodedReply) {
         setIsBotTyping(true);
   
         setTimeout(() => {
-          const botMessage = { text: hardcodedReply, role: "bot", timestamp: new Date() };
-          setMessages((prevMessages) => [...prevMessages, botMessage]);
+          const botMessage = { text: botText, role: "bot", timestamp: new Date() };
+          setMessages((prev) => [...prev, botMessage]);
           setIsBotTyping(false);
           setIsLoading(false);
   
@@ -179,7 +181,6 @@ function SearchPageContainer() {
             }, 1500);
           }
         }, 2000);
-  
         return;
       }
   
@@ -205,7 +206,6 @@ function SearchPageContainer() {
   
         // ✅ Properly awaited now
         await saveChatToAPI(text, botText);
-  
       }, 2000);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -214,6 +214,7 @@ function SearchPageContainer() {
       setIsLoading(false);
     }
   };
+  
   
   
   // Function to get a hardcoded reply based on keyword matching

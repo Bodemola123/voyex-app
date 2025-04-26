@@ -290,18 +290,19 @@ const HomeNav = ({
       </nav>
       {showDeleteModal && selectedChat && (
   <DeleteChatModal
-  chatName={selectedChat.title || "Untitled"}
+    chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowDeleteModal(false)}
     onDelete={handleDeleteChat}
   />
 )}
-{showRenameModal && selectedChat && (
+{showRenameModal && selectedChat && ( // ← this should be showRenameModal instead of showDeleteModal
   <RenameChatModal
-  chatName={selectedChat.title || "Untitled"}
+    chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowRenameModal(false)}
     onRename={handleRenameChat}
   />
 )}
+
 
     </>
   );
