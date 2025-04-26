@@ -20,7 +20,6 @@ const HomeNav = ({
   setChats,
   setLoading,
   error,
-  chatTitle
 }) => {
 
 
@@ -82,10 +81,10 @@ const HomeNav = ({
     const olderChats = [];
 
     chats.forEach((chat) => {
-      const createdAt = new Date(chat.created_at);
-      if (createdAt.toDateString() === today.toDateString()) {
+      const updatedAt = new Date(chat.updated_at);
+      if (updatedAt.toDateString() === today.toDateString()) {
         todayChats.push(chat);
-      } else if (createdAt >= sevenDaysAgo) {
+      } else if (updatedAt >= sevenDaysAgo) {
         pastSevenDaysChats.push(chat);
       } else {
         olderChats.push(chat);
