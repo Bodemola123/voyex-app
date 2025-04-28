@@ -203,16 +203,11 @@ useEffect(() => {
   
     const latestMessage = messages[messages.length - 1];
   
-    // Check if the latest message is from the bot
     if (latestMessage.role === "bot") {
-      // Only trigger typing animation if the typedMessage is empty (i.e., it's not already typed)
-      if (typedMessage === "") {
-        setTypedMessage(""); // Clear previous typed message
-        typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
-      }
+      setTypedMessage(""); 
+      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
     }
-  }, [messages, typedMessage]);
-  
+  }, [messages]);
 
   useEffect(() => {
     const timers = [];
