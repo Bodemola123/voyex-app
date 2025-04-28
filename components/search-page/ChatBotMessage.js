@@ -121,22 +121,6 @@ useEffect(() => {
     };
   }, []);
 
-  useEffect(() => {
-    if (isRestoredChat) {
-      setIsRestoredChat(false); // reset after skipping once
-      return;
-    }
-  
-    if (messages.length === 0) return;
-  
-    const latestMessage = messages[messages.length - 1];
-  
-    if (latestMessage.role === "bot") {
-      setTypedMessage(""); 
-      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
-    }
-  }, [messages]);
-  
 
   
 
@@ -209,6 +193,26 @@ useEffect(() => {
 
   // const [hiddenMessages, setHiddenMessages] = useState([]); // to track hidden messages
 
+  useEffect(() => {
+    if (isRestoredChat) {
+      setIsRestoredChat(false); // reset after skipping once
+      return;
+    }
+  
+    if (messages.length === 0) return;
+  
+    const latestMessage = messages[messages.length - 1];
+  
+    // Check if the latest message is from the bot
+    if (latestMessage.role === "bot") {
+      // Only trigger typing animation if the typedMessage is empty (i.e., it's not already typed)
+      if (typedMessage === "") {
+        setTypedMessage(""); // Clear previous typed message
+        typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
+      }
+    }
+  }, [messages, typedMessage]);
+  
 
   useEffect(() => {
     const timers = [];
@@ -248,10 +252,13 @@ useEffect(() => {
       const isSpeaking = speakingMessages[index];
       const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
   
-      let displayedText = msg.text;
-      if (isBotMessage && index === messages.length - 1) {
-        displayedText = typedMessage;
-      }
+let displayedText = msg.text;
+if (isBotMessage && index === messages.length - 1 && typedMessage !== "") {
+  displayedText = typedMessage;
+} else if (isBotMessage && index === messages.length - 1) {
+  displayedText = msg.text;
+}
+
 
 // Option click handler to track new selections
 const handleOptionClick = (index, option) => {

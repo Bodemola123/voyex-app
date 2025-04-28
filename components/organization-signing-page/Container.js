@@ -385,7 +385,7 @@ localStorage.setItem("entityId", entityId);
                             `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
                           );
                           console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
-                          const organization_email = profileResponse.data?.email
+                          const organization_email = profileResponse.data?.organization_email
                           localStorage.setItem("orgEmail", organization_email);
                           const orgName = profileResponse.data?.organization_name || "No name inputed";
                           const poc = profileResponse.data?.poc
@@ -704,7 +704,7 @@ localStorage.setItem("entityId", entityId);
                   `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
                 );
                 console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
-                const organization_email = profileResponse.data?.email
+                const organization_email = profileResponse.data?.organization_email
                 localStorage.setItem("orgEmail", organization_email);
                 const orgName = profileResponse.data?.organization_name || "No name inputed";
       

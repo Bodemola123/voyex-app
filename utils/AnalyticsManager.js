@@ -1,53 +1,91 @@
 // utils/AnalyticsManager.js
 
-// Constants for keys and API endpoint
-const ANALYTICS_KEY = 'analyticsData'; // Key used to store events in sessionStorage
-const SESSION_KEY = '__tea_session_id_515785'; // Session ID saved in sessionStorage
-const COOKIE_KEY = 'session_meta'; // Cookie key expected to be set by the server
+const ANALYTICS_KEY = 'analyticsData';
+const SESSION_KEY = '__tea_session_id_515785';
+const COOKIE_KEY = 'session_meta';
 const API_ENDPOINT = 'https://r98ngavlng.execute-api.ap-southeast-2.amazonaws.com/default/voyex_analytics';
 
-let pageStartTime = null; // To track how long user stays on page
+let pageStartTime = null;
+let userEngaged = false;
 
 const AnalyticsManager = {
   async init() {
-    // Ensure the session is established by calling the API once
     await this.ensureSessionIdFromServer();
-
-    // Record the timestamp when user lands on the page
     pageStartTime = Date.now();
 
-    // Log a page load event immediately
     this.storeEvent('page_load', {
-      path: window.location.pathname, // Current page path
+      path: window.location.pathname,
     });
 
-    // Add event listeners for user interactions
-    document.addEventListener('click', this.handleClick.bind(this)); // Track clicks
-    window.addEventListener('scroll', this.handleScroll.bind(this)); // Track scrolls
-    window.addEventListener('beforeunload', this.handlePageUnload.bind(this)); 
-    // 'beforeunload' triggers when user closes tab, reloads, or navigates away
+    document.addEventListener('click', this.handleClick.bind(this));
+    window.addEventListener('scroll', this.handleScroll.bind(this));
+    window.addEventListener('beforeunload', this.handlePageUnload.bind(this));
+    document.addEventListener('click', this.handleRedirect.bind(this));
+
+    // Track random queries
+    const recommendedQuery = document.getElementById('randomqueries_clicked');
+    if (recommendedQuery) {
+      recommendedQuery.addEventListener('click', () => {
+        this.storeEvent('recommended_query_click', { count: 1, query: recommendedQuery.textContent });
+      });
+    }
+
+    // Track trending queries
+    const trendingQuery = document.getElementById('trendingqueries_clicked');
+    if (trendingQuery) {
+      trendingQuery.addEventListener('click', () => {
+        this.storeEvent('trending_query_click', { count: 1, query: trendingQuery.textContent });
+      });
+    }
+
+    // Track search keywords
+    const searchInput = document.getElementById('search_input');
+    if (searchInput) {
+      searchInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          const keyword = searchInput.value.trim();
+          if (keyword.length > 0) {
+            this.storeEvent('search', { keyword });
+          }
+        }
+      });
+    }
+
+    // Track loginButton click
+    const loginButton = document.getElementById('log_in_button');
+    if (loginButton) {
+      loginButton.addEventListener('click', () => {
+        this.storeEvent('auth_click', { action: 'login' });
+      });
+    }
+
+    // Track SignUpButton click
+    const signUpButton = document.getElementById('sign_up_button');
+    if (signUpButton) {
+      signUpButton.addEventListener('click', () => {
+        this.storeEvent('auth_click', { action: 'signup' });
+      });
+    }
   },
 
   async ensureSessionIdFromServer() {
-    const existing = this.getCookie(COOKIE_KEY); // Check if session cookie exists
+    const existing = this.getCookie(COOKIE_KEY);
     if (!existing) {
       try {
-        // Send request to server to initiate a session
         const res = await fetch(API_ENDPOINT, {
           method: 'POST',
-          credentials: 'include', // Accept cookies set by server
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             service: 'session',
             entity_type: 'user',
-            entity_id: '21123', // Dummy user ID for example
-            referrer: document.referrer || 'direct', // Where the user came from
-            path: window.location.pathname, // Current page path
+            entity_id: '21123', // Dummy ID
+            referrer: document.referrer || 'direct',
+            path: window.location.pathname,
           }),
         });
-
         console.log('📡 Session initiation request sent. Status:', res.status);
-        // Nothing is stored manually; the server handles cookie/session setting
       } catch (err) {
         console.error('❌ Failed to trigger session setup API:', err);
       }
@@ -57,103 +95,130 @@ const AnalyticsManager = {
   },
 
   handleClick(event) {
-    // Prepare click event payload
+    userEngaged = true;
+    if (event.target.id === 'randomqueries_clicked' || event.target.id === 'trendingqueries_clicked') {
+      const queryText = event.target.textContent;
+      this.storeEvent('query_usage', { query: queryText });
+      this.trackQueryClick(queryText); // Track the specific query clicked
+    }
     const payload = {
       click_position: {
         x: event.clientX,
         y: event.clientY,
       },
       tag: event.target.tagName,
-      button_id: event.target.id || null, // The button id you assigned
+      button_id: event.target.id || null,
     };
-
-    this.storeEvent('click', payload); // Store the click event
+    this.storeEvent('click', payload);
   },
 
   handleScroll() {
-    // Calculate how far the user has scrolled (as a percentage)
     const scrollPercent = Math.round(
       (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
     );
-    this.storeEvent('scroll', { scroll_depth: `${scrollPercent}%` }); // Store scroll event
+    this.storeEvent('scroll', { scroll_depth: `${scrollPercent}%` });
+  },
+
+  handleRedirect(event) {
+    if (event.target.tagName === 'A') {
+      this.storeEvent('redirected_from_page', { to: event.target.href });
+    }
   },
 
   handlePageUnload() {
-    // Before user leaves, calculate how long they stayed
+    if (!userEngaged) {
+      this.storeEvent('non_engagement', { reason: 'no clicks or interactions' });
+    }
     if (pageStartTime) {
-      const timeSpentSeconds = Math.floor((Date.now() - pageStartTime) / 1000); // in seconds
+      const timeSpentSeconds = Math.floor((Date.now() - pageStartTime) / 1000);
       this.storeEvent('page_stay', {
         path: window.location.pathname,
         duration_seconds: timeSpentSeconds,
       });
     }
-
-    this.sendAnalyticsData(); // Send all collected data
+    this.sendAnalyticsData();
   },
 
   storeEvent(type, payload) {
-    // Retrieve any existing analytics events from sessionStorage
     const current = JSON.parse(sessionStorage.getItem(ANALYTICS_KEY)) || [];
-
-    // Add the new event to the list
     current.push({
-      type,
+      type: type,
       event: payload,
       timestamp: new Date().toISOString(),
     });
-
-    // Save updated events back into sessionStorage
     sessionStorage.setItem(ANALYTICS_KEY, JSON.stringify(current));
   },
 
-  sendAnalyticsData() {
-    const raw = sessionStorage.getItem(ANALYTICS_KEY); // Fetch stored events
-
-    if (!raw) {
-      console.warn('❌ Missing events. Aborting send.', { raw });
-      return;
+  trackQueryClick(queryText) {
+    let queryData = JSON.parse(sessionStorage.getItem('queryClicks')) || {};
+    if (!queryData[queryText]) {
+      queryData[queryText] = 0;
     }
+    queryData[queryText]++;
+    sessionStorage.setItem('queryClicks', JSON.stringify(queryData));
+    this.sendQueryDataPeriodically();
+  },
 
-    const events = JSON.parse(raw);
-    if (!Array.isArray(events) || events.length === 0) {
-      console.warn('📭 No valid events to send.');
-      return;
+  trackSearchKeyword(keyword) {
+    let searchData = JSON.parse(sessionStorage.getItem('searchKeywords')) || {};
+    if (!searchData[keyword]) {
+      searchData[keyword] = 0;
     }
+    searchData[keyword]++;
+    sessionStorage.setItem('searchKeywords', JSON.stringify(searchData));
+    this.sendSearchDataPeriodically();
+  },
 
-    // Extract event types and merge all event data into one object
-    const eventTypes = events.map(e => e.type);
-    const mergedEventData = events.reduce((acc, curr) => {
-      acc = { ...acc, ...curr.event };
-      return acc;
-    }, {});
+  sendQueryDataPeriodically() {
+    // Optionally send query data to backend every 5 minutes
+    setTimeout(() => {
+      const queryData = JSON.parse(sessionStorage.getItem('queryClicks')) || {};
+      if (Object.keys(queryData).length > 0) {
+        this.sendAnalyticsData(queryData, 'query_usage');
+        sessionStorage.removeItem('queryClicks');
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+  },
 
+  sendSearchDataPeriodically() {
+    // Optionally send search keyword data to backend every 10 minutes
+    setTimeout(() => {
+      const searchData = JSON.parse(sessionStorage.getItem('searchKeywords')) || {};
+      if (Object.keys(searchData).length > 0) {
+        this.sendAnalyticsData(searchData, 'search');
+        sessionStorage.removeItem('searchKeywords');
+      }
+    }, 10 * 60 * 1000); // 10 minutes
+  },
+
+  sendAnalyticsData(data, type) {
     const payload = {
       service: 'analytics',
       action: 'insert',
-      eventTypes: [...new Set(eventTypes)], // Deduplicate event types
-      event: mergedEventData,
+      eventTypes: [type],
+      event: {
+        [type]: data,
+      },
       metadata: {
-        user_agent: navigator.userAgent, // Browser details
-        device: window.innerWidth < 768 ? 'mobile' : 'desktop', // Device type
+        user_agent: navigator.userAgent,
+        device: window.innerWidth < 768 ? 'mobile' : 'desktop',
       },
     };
 
     console.log('📦 Final payload being sent:', payload);
 
-    // Send the collected analytics data to the backend
     fetch(API_ENDPOINT, {
       method: 'POST',
-      credentials: 'include', // Important to maintain session cookies
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-      keepalive: true, // Allow sending even during page unload
+      keepalive: true,
     })
     .then(res => {
       if (!res.ok) {
         console.error('❌ Analytics send failed:', res.status, res.statusText);
         return;
       }
-      sessionStorage.removeItem(ANALYTICS_KEY); // Clear stored events after successful send
       console.log('✅ Analytics sent');
     })
     .catch(err => {
@@ -162,11 +227,9 @@ const AnalyticsManager = {
   },
 
   getCookie(name) {
-    // Utility function to retrieve a cookie value by name
     return document.cookie
       .split('; ')
-      .find(row => row.startsWith(name + '='))
-      ?.split('=')[1];
+      .find(row => row.startsWith(name + '='))?.split('=')[1];
   },
 };
 

@@ -339,7 +339,7 @@ null
       {/* Expandable Input field */}
       <div className="relative w-full flex items-center justify-center my-auto">
       <textarea
-      id="chat_input"
+      id="search_input"
         placeholder="Start Exploration"
         value={userInput}
         onChange={handleInputChange}
@@ -380,6 +380,7 @@ null
     <ul className="">
       {filteredSuggestions.map((suggestion, index) => (
         <li
+        id="randomqueries_clicked"
           key={index}
           className="px-3 py-3 flex items-center text-white hover:text-[#0a0a0b] hover:bg-[#c088fb] rounded-[37px] cursor-pointer"
           onClick={() => {
@@ -414,7 +415,7 @@ null
       }}
     >
       <button
-      id="suggestion_clicked"
+      id="trendingqueries_clicked"
         className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl items-center justify-center px-4"
         onClick={() => {
           setUserInput(search); // Set the random trending search to userInput
