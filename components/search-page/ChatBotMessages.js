@@ -69,6 +69,7 @@ const ChatBotMessages = ({ messages, setMessages }) => {
       <div className="bg-[#f3f3f3] sticky bottom-2 py-3.5 px-5 justify-between rounded-3xl flex flex-row items-center text-[#000000]">
         <div className="flex flex-row justify-center items-center gap-4 w-full relative">
           <button
+          id="support_emoji_button"
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
             disabled={botTyping}
             className={botTyping ? "opacity-50" : ""}
@@ -81,6 +82,7 @@ const ChatBotMessages = ({ messages, setMessages }) => {
             <div className="absolute bottom-12 left-0 bg-white shadow-lg rounded-xl p-2 w-48 h-32 overflow-y-scroll scrollbar-hide flex flex-wrap gap-2 border">
               {emojiList.map((emoji, index) => (
                 <button
+                id="support_emoji_picked"
                   key={index}
                   className="text-xl hover:bg-gray-200 rounded-md p-1"
                   onClick={() => setInputMessage((prev) => prev + emoji)}
@@ -92,6 +94,7 @@ const ChatBotMessages = ({ messages, setMessages }) => {
           )}
 
 <input
+id="support_messages_input"
   className={`flex-grow outline-none bg-transparent text-sm ${
     botTyping ? "opacity-50" : ""
   }`}
@@ -108,6 +111,7 @@ const ChatBotMessages = ({ messages, setMessages }) => {
             <AiOutlinePaperClip className="text-base" />
           </button>
           <button
+          id="support_messages_sendMessage"
             onClick={sendMessage}
             disabled={botTyping}
             className={botTyping ? "opacity-50" : ""}

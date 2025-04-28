@@ -39,6 +39,7 @@ const ChatBotHelp = ({ setMessages, setActiveTab }) => {
       <div className="rounded-2xl px-2.5 py-3 gap-2 flex flex-row justify-start items-center bg-[#F3F3F3] w-full">
         <FiSearch className="text-lg text-[#1e1e1e]" />
         <input 
+        id="support_help_input"
           className="w-full flex-grow p-2 bg-transparent outline-none placeholder:text-sm text-sm placeholder:text-[#1E1E1E] text-[#1E1E1E]"
           placeholder="Search for Help"
           value={searchQuery}
@@ -51,6 +52,7 @@ const ChatBotHelp = ({ setMessages, setActiveTab }) => {
         {filteredFaqs.length > 0 ? (
           filteredFaqs.map((faq, index) => (
             <button 
+            id="support_help_faqclicked"
               key={index} 
               className="py-2 px-2 text-left hover:bg-gray-100 rounded-md"
               onClick={() => handleFaqClick(faq)}

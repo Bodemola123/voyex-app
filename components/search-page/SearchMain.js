@@ -339,6 +339,7 @@ null
       {/* Expandable Input field */}
       <div className="relative w-full flex items-center justify-center my-auto">
       <textarea
+      id="chat_input"
         placeholder="Start Exploration"
         value={userInput}
         onChange={handleInputChange}
@@ -356,6 +357,7 @@ null
 
           <button
             className="focus:outline-none"
+            id="microphone_button"
           >
             <GrMicrophone
               className={`md:text-[20px] text-[16px] text-[#94a3b8]`}
@@ -365,6 +367,7 @@ null
 
       {/* Upload button */}
         <button
+        id="send_input"
         onClick={(e) => { handleButtonPress(e)}} // First, handle the upload logic
           disabled={!userInput} // Disable button if no text/file
           className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${!userInput && "opacity-50 cursor-not-allowed"}`}
@@ -388,7 +391,7 @@ null
           <span className="mr-2">
             <LuClock4 />
           </span>
-          <span className="text-[16px] md:text-sm font-medium">{suggestion}</span>
+          <span className="text-[16px] md:text-sm font-medium" id="suggestion_clicked">{suggestion}</span>
         </li>
       ))}
     </ul>
@@ -411,6 +414,7 @@ null
       }}
     >
       <button
+      id="suggestion_clicked"
         className="relative w-full h-full bg-[#0a0a0b] text-[#bfbdbd] flex rounded-3xl items-center justify-center px-4"
         onClick={() => {
           setUserInput(search); // Set the random trending search to userInput

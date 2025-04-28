@@ -6,15 +6,25 @@ const SESSION_KEY = '__tea_session_id_515785'; // Session ID saved in sessionSto
 const COOKIE_KEY = 'session_meta'; // Cookie key expected to be set by the server
 const API_ENDPOINT = 'https://r98ngavlng.execute-api.ap-southeast-2.amazonaws.com/default/voyex_analytics';
 
+let pageStartTime = null; // To track how long user stays on page
+
 const AnalyticsManager = {
   async init() {
     // Ensure the session is established by calling the API once
     await this.ensureSessionIdFromServer();
 
+    // Record the timestamp when user lands on the page
+    pageStartTime = Date.now();
+
+    // Log a page load event immediately
+    this.storeEvent('page_load', {
+      path: window.location.pathname, // Current page path
+    });
+
     // Add event listeners for user interactions
     document.addEventListener('click', this.handleClick.bind(this)); // Track clicks
     window.addEventListener('scroll', this.handleScroll.bind(this)); // Track scrolls
-    window.addEventListener('beforeunload', this.sendAnalyticsData.bind(this)); 
+    window.addEventListener('beforeunload', this.handlePageUnload.bind(this)); 
     // 'beforeunload' triggers when user closes tab, reloads, or navigates away
   },
 
@@ -54,7 +64,7 @@ const AnalyticsManager = {
         y: event.clientY,
       },
       tag: event.target.tagName,
-      button_id: event.target.id || null,
+      button_id: event.target.id || null, // The button id you assigned
     };
 
     this.storeEvent('click', payload); // Store the click event
@@ -66,6 +76,19 @@ const AnalyticsManager = {
       (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
     );
     this.storeEvent('scroll', { scroll_depth: `${scrollPercent}%` }); // Store scroll event
+  },
+
+  handlePageUnload() {
+    // Before user leaves, calculate how long they stayed
+    if (pageStartTime) {
+      const timeSpentSeconds = Math.floor((Date.now() - pageStartTime) / 1000); // in seconds
+      this.storeEvent('page_stay', {
+        path: window.location.pathname,
+        duration_seconds: timeSpentSeconds,
+      });
+    }
+
+    this.sendAnalyticsData(); // Send all collected data
   },
 
   storeEvent(type, payload) {

@@ -53,6 +53,9 @@ function Collapsible() {
     localStorage.removeItem("chat_id");
     localStorage.removeItem("messages");
     localStorage.removeItem('chats');
+    localStorage.removeItem('orgEmail');
+    localStorage.removeItem('orgName');
+    localStorage.removeItem('poc')
 
     console.log("User logged out");
     toast.success("Logging out. Redirecting to Sign-in");

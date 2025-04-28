@@ -22,6 +22,9 @@ function Security() {
     localStorage.removeItem("chat_id");
     localStorage.removeItem("messages");
     localStorage.removeItem('chats');
+    localStorage.removeItem('orgEmail');
+    localStorage.removeItem('orgName');
+    localStorage.removeItem('poc')
 
     console.log("User logged out");
     toast.success("Logging out. Redirecting to Sign-in");
@@ -30,7 +33,7 @@ function Security() {
   };
 
   return (
-    <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
+    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary mb-9">
       <h1 className="text-fontlight text-base font-normal capitalize">
         security
       </h1>

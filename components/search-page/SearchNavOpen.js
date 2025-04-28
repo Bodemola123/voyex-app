@@ -129,11 +129,12 @@ setShowChat,}) => {
 
   const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none">
-      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg">
+      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg" id='share_chat'>
         <IoShareSocial className='text-base' />
         <p className='text-sm'>Share Chat</p>
       </button>
       <button
+      id='rename_chat'
         onClick={() => {
           setSelectedChat(chat);
           setShowRenameModal(true);
@@ -143,11 +144,8 @@ setShowChat,}) => {
         <FaPen className='text-base' />
         <p className='text-sm'>Rename chat</p>
       </button>
-      <button className="flex gap-2.5 p-2 w-full text-[#f4f4f4] hover:bg-[#131314] justify-start items-center">
-        <LuArchive className='text-base' />
-        <p className='text-sm '>Archive chat</p>
-      </button>
       <button
+      id='delete_chat'
         onClick={() => {
           setSelectedChat(chat);
           setShowDeleteModal(true);
@@ -170,18 +168,18 @@ setShowChat,}) => {
             <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
           </div>
           <div className='flex flex-col justify-center items-start'>
-            <button className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 w-full items-center justify-center'    onClick={() => {
+            <button id='new_chat' className='rounded-[66px] mx-auto bg-[#1d1d1f] flex flex-row gap-3 py-3 w-full items-center justify-center'    onClick={() => {
     handleResetRecommendationButton();
     handleNewConversation();
   }}>
               <FaPlus className='text-[10px] text-white/40' />
               <p className='text-xs text-white/60'>New chat</p>
             </button>
-            <Link href='/galactimart' className='py-4 flex flex-row gap-2.5 bg-transparent items-center'>
+            <Link href='/galactimart' className='py-4 flex flex-row gap-2.5 bg-transparent items-center' id='galactimart'>
               <FiShoppingCart className='text-[18px] text-[#94a3b8]' />
               <p className='font-medium text-base text-[#f4f4f4]'>Galactimart</p>
             </Link>
-            <button onClick={() => openModal('first')} className='py-4 flex flex-row gap-2.5 bg-transparent items-center'>
+            <button onClick={() => openModal('first')} className='py-4 flex flex-row gap-2.5 bg-transparent items-center' id='custom_instructions'>
               <PiLightbulb className='text-[18px] text-[#94a3b8]' />
               <p className='font-medium text-base text-[#f4f4f4]'>Custom Instructions</p>
             </button>
@@ -216,6 +214,7 @@ setShowChat,}) => {
                         <p className='truncate'>{title}</p>
                         <div className='relative'>
                           <button
+                          id='chats_today_dropdown'
                             onClick={(e) => {
                               e.stopPropagation();
                               setDropdownIndex(dropdownIndex === index ? null : index);
@@ -255,6 +254,7 @@ setShowChat,}) => {
                         <p className='truncate'>{title}</p>
                         <div className='relative'>
                           <button
+                          id='chats_pastSevendays_dropdown'
                             onClick={(e) => {
                               e.stopPropagation();
                               setDropdownIndex(dropdownIndex === index ? null : index);
@@ -294,6 +294,7 @@ setShowChat,}) => {
                         <p className='truncate'>{title}</p>
                         <div className='relative'>
                           <button
+                          id='chats_older_dropdown'
                             onClick={(e) => {
                               e.stopPropagation();
                               setDropdownIndex(dropdownIndex === index ? null : index);

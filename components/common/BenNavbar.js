@@ -37,6 +37,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
       <div className="flex flex-col gap-8 justify-center items-center">
         {/* Toggle History Button */}
         <button
+        id="nav_toggle"
           onClick={toggleHistoryVisibility}
           className="bg-[#000000] border-[0.5px] border-[#FFFFFF52] rounded-[12px] w-8 flex items-center justify-center text-[20px] font-black text-transparent"
         >
@@ -49,6 +50,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
           {/* Home Link */}
           <div className="relative group">
             <Link
+            id="nav_home"
               href="/search"
               className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
                 isActive("/") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
@@ -68,6 +70,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
           {/* Templates Link */}
           <div className="relative group">
             <Link
+            id="nav_templates"
               href="/templates"
               className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
                 isActive("/templates") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
@@ -87,6 +90,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
           {/* Galactimart Link */}
           <div className="relative group">
             <Link
+            id="nav_galactimart"
               href="/galactimart"
               className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
                 isActive("/galactimart") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
@@ -107,6 +111,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
           {(loggedInAsOrg || orgType === "organization") && (
             <div className="relative group">
               <Link
+              id="nav_organization"
                 href="/workspace"
                 className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
                   isActive("/workspace") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
@@ -133,6 +138,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
 {(loggedInAsUser || loggedInAsOrg) && (
   <div className="relative group">
     <Link
+    id="nav_settings"
       href="/settings"
       className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
         isActive("/settings") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
@@ -152,7 +158,9 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
 
 
         {/* Profile Avatar */}
-        <button className="flex justify-center items-center gap-2.5">
+        <button 
+        id="nav_avatar"
+        className="flex justify-center items-center gap-2.5">
           <RxAvatar className="text-[28px]" />
         </button>
       </div>

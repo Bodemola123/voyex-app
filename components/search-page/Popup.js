@@ -54,6 +54,7 @@ const Popup = ({ isOpen, onClose }) => {
       {/* Bottom Navigation */}
       <div className="flex justify-around py-2.5 px-7 bg-[#ffffff] rounded-2xl shadow-2xl">
         <button
+        id="support_home"
           onClick={() => setActiveTab("home")}
           className={`gap-2 flex flex-col items-center ${
             activeTab === "home" ? "text-black" : "text-[#6D6D6D]"
@@ -63,6 +64,7 @@ const Popup = ({ isOpen, onClose }) => {
           <span className="text-sm">Home</span>
         </button>
         <button
+        id="support_messages"
           onClick={() => setActiveTab("messages")}
           className={`gap-2 flex flex-col items-center ${
             activeTab === "messages" ? "text-black" : "text-[#6D6D6D]"
@@ -72,6 +74,7 @@ const Popup = ({ isOpen, onClose }) => {
           <span className="text-sm">Message</span>
         </button>
         <button
+        id="support_help"
           onClick={() => setActiveTab("help")}
           className={`gap-2 flex flex-col items-center ${
             activeTab === "help" ? "text-black" : "text-[#6D6D6D]"

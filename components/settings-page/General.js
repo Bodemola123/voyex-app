@@ -5,7 +5,7 @@ import FlexibleFooter from "../common/FlexibleFooter";
 
 function General() {
   return (
-    <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
+    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary mb-9">
       <h1 className="text-fontlight text-base font-normal capitalize">
         General
       </h1>

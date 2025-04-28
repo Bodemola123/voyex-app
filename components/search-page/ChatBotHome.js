@@ -57,7 +57,7 @@ const ChatBotHome = ({ setActiveTab, messages, setMessages }) => {
 
           <div className="bg-[#f3f3f3] py-3.5 px-5 justify-between rounded-3xl flex flex-row items-center text-[#000000] w-full">
             <div className="flex flex-row justify-center items-center gap-4 w-full relative">
-              <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+              <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} id="support_emoji_clicked">
                 <GoSmiley className="text-base" />
               </button>
 
@@ -66,6 +66,7 @@ const ChatBotHome = ({ setActiveTab, messages, setMessages }) => {
                 <div className="absolute top-[40px] left-0 bg-white shadow-lg rounded-xl p-2 w-48 h-32 overflow-y-scroll scrollbar-hide flex flex-wrap gap-2 border">
                   {emojiList.map((emoji, index) => (
                     <button 
+                    id="support_emoji_picked"
                       key={index} 
                       className="text-xl hover:bg-gray-200 rounded-md p-1"
                       onClick={() => {
@@ -89,7 +90,7 @@ const ChatBotHome = ({ setActiveTab, messages, setMessages }) => {
             </div>
             <div className="flex flex-row justify-center items-center gap-4">
               <button><AiOutlinePaperClip className="text-base" /></button>
-              <button onClick={() => sendMessage(inputMessage)}><IoSend className="text-base" /></button>
+              <button id="support_home_sendMessage" onClick={() => sendMessage(inputMessage)}><IoSend className="text-base" /></button>
             </div>
           </div>
         </div>
@@ -111,6 +112,7 @@ const ChatBotHome = ({ setActiveTab, messages, setMessages }) => {
         {filteredFaqs.length > 0 ? (
           filteredFaqs.map((faq, index) => (
             <button 
+            id="support_home_faqClicked"
               key={index} 
               className="py-2 px-2 text-left hover:bg-gray-100 rounded-md"
               onClick={() => sendMessage(faq)}

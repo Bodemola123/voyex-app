@@ -109,7 +109,7 @@ const HomeNav = ({
 
   const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none">
-      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg">
+      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg" id='share_chat'>
         <IoShareSocial className='text-base' />
         <p className='text-sm'>Share Chat</p>
       </button>
@@ -119,20 +119,17 @@ const HomeNav = ({
           setShowRenameModal(true);
         }}
         className="flex gap-2.5 p-2 w-full group hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg"
+        id='rename_chat'
       >
         <FaPen className='text-base' />
         <p className='text-sm'>Rename chat</p>
-      </button>
-      <button className="flex gap-2.5 p-2 w-full text-[#f4f4f4] hover:bg-[#131314] justify-start items-center">
-        <LuArchive className='text-base' />
-        <p className='text-sm '>Archive chat</p>
       </button>
       <button
         onClick={() => {
           setSelectedChat(chat);
           setShowDeleteModal(true);
         }}
-        className="flex flex-row gap-2.5 p-2 w-full hover:bg-[#131314] text-[#FF1E1E] justify-start items-center"
+        className="flex flex-row gap-2.5 p-2 w-full hover:bg-[#131314] text-[#FF1E1E] justify-start items-center" id='delete_chat'
       >
         <FaRegTrashCan className='text-base' />
         <p className='text-sm '>Delete chat</p>
@@ -179,6 +176,7 @@ const HomeNav = ({
                         <p className='truncate'>{title}</p>
                         <div className='relative'>
                           <button
+                          id='chat_today_dropdown'
                             onClick={(e) => {
                               e.stopPropagation();
                               setDropdownIndex(dropdownIndex === index ? null : index);
@@ -218,6 +216,7 @@ const HomeNav = ({
                         <p className='truncate'>{title}</p>
                         <div className='relative'>
                           <button
+                          id='chat_pastSevendays_dropdown'
                             onClick={(e) => {
                               e.stopPropagation();
                               setDropdownIndex(dropdownIndex === index ? null : index);
@@ -257,6 +256,7 @@ const HomeNav = ({
                         <p className='truncate'>{title}</p>
                         <div className='relative'>
                           <button
+                          id='chat_olderChats_dropdown'
                             onClick={(e) => {
                               e.stopPropagation();
                               setDropdownIndex(dropdownIndex === index ? null : index);
@@ -276,11 +276,11 @@ const HomeNav = ({
         ) : (
           <div className='flex flex-col gap-6 pt-2 border-t border-[#3A3A40]'>
             <div className='flex flex-col justify-center items-start gap-3'>
-              <Link href='/auth/user' className='py-4 flex flex-row gap-2.5 items-center group'>
+              <Link href='/auth/user' className='py-4 flex flex-row gap-2.5 items-center group' id='log_in_button'>
                 <LuLogIn className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
                 <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Log in</p>
               </Link>
-              <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 items-center group'>
+              <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 items-center group' id='sign_up_button'>
                 <PiUserPlusFill className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
                 <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Sign up</p>
               </Link>

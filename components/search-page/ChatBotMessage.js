@@ -320,6 +320,7 @@ const handleOptionClick = (index, option) => {
   <div className="flex flex-row gap-2">
     {buttonOptions[matchingKey].map((option) => (
       <button
+      id="chat_option"
         key={option}
         className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
           selectedFeatures[index] === option
@@ -342,20 +343,24 @@ const handleOptionClick = (index, option) => {
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
                   <div className="absolute z-20 bg-transparent p-4 rounded-lg transition-opacity duration-300 opacity-100 left-0 top-[100%] flex-row flex gap-6">
-                    <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
+                    <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" id="chat_refresh"/>
                     <LuThumbsUp
+                    id="chat_thumbsup"
                       className={`text-sm ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleReactionClick(index, "thumbsUp")}
                     />
                     <LuThumbsDown
+                    id="chat_thumbsdown"
                       className={`text-sm ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleReactionClick(index, "thumbsDown")}
                     />
                     <LuClipboard
+                    id="chat_copy"
                       className="text-sm text-[#7C7676] hover:text-[#c088fb]"
                       onClick={() => handleCopyToClipboard(msg.text)}
                     />
                     <PiSpeakerHigh
+                    id="chat_speaker"
                       className={`text-sm ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleTextToSpeech(index, msg.text)}
                     />

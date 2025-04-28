@@ -16,6 +16,7 @@ export default function SearchPage() {
 
       {/* Chatbot Button */}
       <button
+      id="support_button_clicked"
         onClick={() => setIsChatOpen(!isChatOpen)}
         className="fixed bottom-[20px] right-[32px] w-[55px] h-[55px] rounded-full shadow-lg bg-transparent flex items-center justify-center z-50 message-bubble"
       >

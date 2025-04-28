@@ -376,7 +376,26 @@ const handleRevenueSelect = (revenueValue) => {
             localStorage.setItem("orgType", orgType);
             const entityId = apiResponse.data.org_id;
 localStorage.setItem("entityId", entityId);
-
+                      // Fetch full name if user
+                      if (orgType === "organization") {
+                        const orgId = apiResponse.data.org_id;
+                
+                        try {
+                          const profileResponse = await axios.get(
+                            `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
+                          );
+                          console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+                          const organization_email = profileResponse.data?.email
+                          localStorage.setItem("orgEmail", organization_email);
+                          const orgName = profileResponse.data?.organization_name || "No name inputed";
+                          const poc = profileResponse.data?.poc
+                          localStorage.setItem("poc", poc)
+                
+                          localStorage.setItem("orgName", orgName);
+                        } catch (profileErr) {
+                          console.error("Failed to fetch org profile:", profileErr);
+                        }
+                      }
   
             setCurrentSlide("org-signin-success");
             toast.success("Signin successful!");
@@ -628,6 +647,9 @@ const signing = async () => {
       localStorage.removeItem("chat_id");
       localStorage.removeItem("messages");
       localStorage.removeItem('chats');
+      localStorage.removeItem('orgEmail');
+      localStorage.removeItem('orgName')
+      localStorage.removeItem('poc')
     window.location.href = "/auth/organization"// Redirect to login page
   };
   const organizationSignin = async () => {
@@ -673,6 +695,26 @@ const signing = async () => {
         localStorage.setItem("orgType", orgType);
         const entityId = response.data.org_id;
 localStorage.setItem("entityId", entityId);
+            // Fetch full name if user
+            if (orgType === "organization") {
+              const orgId = response.data.org_id;
+      
+              try {
+                const profileResponse = await axios.get(
+                  `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
+                );
+                console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+                const organization_email = profileResponse.data?.email
+                localStorage.setItem("orgEmail", organization_email);
+                const orgName = profileResponse.data?.organization_name || "No name inputed";
+      
+                localStorage.setItem("orgName", orgName);
+                const poc = profileResponse.data?.poc
+                localStorage.setItem("poc", poc)
+              } catch (profileErr) {
+                console.error("Failed to fetch org profile:", profileErr);
+              }
+            }
 
   
         setCurrentSlide("org-signin-success");

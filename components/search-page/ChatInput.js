@@ -162,6 +162,7 @@ null
       {/* Expandable Input field */}
       <div className="relative w-full flex items-center justify-center my-auto">
       <textarea
+      id="chat_input"
   placeholder="Start Exploration"
   value={userInput}
   onChange={(e) => setUserInput(e.target.value)}
@@ -179,6 +180,7 @@ null
       </div>
       
                 <button
+                id="chat_microphone"
                   className="focus:outline-none"
                 >
                   <GrMicrophone
@@ -189,6 +191,7 @@ null
 
       {/* Upload button */}
       <button
+      id="chat_sendinput"
       className={`flex items-center justify-center p-1.5 bg-[#C088fb] rounded-full focus:outline-none ${userInput.trim() === "" ? "opacity-50" : ""}`}
       onClick={() => {
         handleButtonPress();

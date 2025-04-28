@@ -74,6 +74,9 @@ export const logoutUser = () => {
     localStorage.removeItem("chat_id");
     localStorage.removeItem("messages");
     localStorage.removeItem('chats');
+    localStorage.removeItem('orgEmail');
+    localStorage.removeItem('orgName');
+    localStorage.removeItem('poc')
 
   window.location.href = "/auth/user"// Redirect to login page
 };

@@ -1,55 +1,75 @@
 "use client"
-import React from "react";
-import { Separator } from "../ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
+import React, { useEffect, useState } from 'react'
+import { Separator } from '../ui/separator'
+import Image from 'next/image'
+import TeamMemberTable from './TeamMember'
 
-function Profile() {
+const Profile = () => {
+  // State to hold the organization name and email
+  const [orgName, setOrgName] = useState(null);
+  const [orgEmail, setOrgEmail] = useState(null);
+
+  // Retrieve orgName and orgEmail from localStorage
+  useEffect(() => {
+    const storedOrgName = localStorage.getItem('orgName');
+    const storedOrgEmail = localStorage.getItem('orgEmail');
+
+    // Set the state with the values or placeholders
+    setOrgName(storedOrgName || 'Organization Name');
+    setOrgEmail(storedOrgEmail || 'organization@example.com');
+  }, []);
+
   return (
-    <div className="w-full rounded-[25px] py-10 px-11 bg-secondary mb-9">
-      <h1 className="text-fontlight text-base font-normal capitalize">
-        personalization
-      </h1>
-      <Separator className="my-5 bg-[#6D6D6D]" />
-      {/*////////////*/}
-      <div className="">
-        <h2 className="text-base font-normal text-fontlight">
-          Introduce yourself for personalized answers. Share any information or
-          instructions that the AI should know.
-        </h2>
-        <p className="text-sm font-thin text-[#d9d9d9] mt-2">
-          Your profile is private and only used to instruct the AI to be more
-          useful to you. Pause or clear your profile at any time.
-        </p>
-      </div>
-      {/*////////////*/}
-      <div className="mt-6">
-        <h3 className="text-base font-normal text-fontlight">
-          Introduce yourself, share what you like
-        </h3>
-        <Textarea
-          className="max-w-[619px] min-h-[105px] rounded-3base bg-[#171920] border-none px-4 py-4 mt-2"
-          placeholder="Type your message here."
-        />
-      </div>
-      {/*////////////*/}
-      <div className="flex items-end justify-between mt-6 w-full">
-        <div className="w-full">
-          <h2 className="text-base font-normal text-fontlight capitalize">
-            location
-          </h2>
-          <Input
-            type="text"
-            className="max-w-[619px] w-full rounded-3base bg-[#171920] border-none py-4 mt-2 placeholder:capitalize"
-            placeholder="current location"
-          />
+    <div className='flex flex-col gap-4 items-center justify-center w-full h-full'>
+      <div className="w-full rounded-[25px] py-7 px-11 bg-secondary">
+        <h1 className="text-fontlight text-base font-normal capitalize">
+          Organization and plans 
+        </h1>
+        <Separator className="my-5 bg-[#6D6D6D]" />
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-normal text-fontlight">
+              Plan 
+            </h2>
+            <p className="text-base font-thin text-[#d9d9d9] mt-2">
+              The language used in the user interface
+            </p>
+          </div>
+          <button
+            className='relative h-[4.88rem] w-[4.88rem] rounded-full border-[4px] border-[#FFAE00] bg-[#d9d9d9]'
+          >
+            <span
+              className='absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs font-light text-white capitalize bg-[#FFAE00] w-[4.5rem] py-1 rounded-2base'
+            >
+              Premium+
+            </span>
+          </button>
         </div>
-        <button className="text-base font-normal text-center text-[#032400] capitalize w-[170px] py-2 rounded-[22px] bg-purple hover:bg-purple/70">
-          save
-        </button>
+        <div className="flex items-center justify-between mt-6">
+          <h2 className="text-base font-normal text-fontlight capitalize">
+            Organization Name
+          </h2>
+          <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
+            <span className="text-base font-normal text-fontlight">
+              {orgName}
+            </span>
+            <Image src="/edit.png" alt="edit" width={20} height={20} />
+          </button>
+        </div>
+        <div className="flex items-center justify-between mt-6">
+          <h2 className="text-base font-normal text-fontlight capitalize">
+            Organization Email
+          </h2>
+          <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
+            <span className="text-base font-normal text-fontlight">
+              {orgEmail}
+            </span>
+          </button>
+        </div>
       </div>
+      <TeamMemberTable/>
     </div>
-  );
+  )
 }
 
 export default Profile;
