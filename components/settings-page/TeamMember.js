@@ -7,7 +7,7 @@ const TeamMemberTable = () => {
   // Initial team member data (the first member is non-deletable)
   const initialData = [
     {
-      name: localStorage.getItem("poc") || "No name in database",
+      name: localStorage.getItem("poc") || "No Name",
       email: localStorage.getItem("orgEmail") || "N/A",
       role: "Creator",
       accessLevel: "Owner",
@@ -54,7 +54,7 @@ const TeamMemberTable = () => {
       </div>
 
       {/* Team Members Table */}
-      <table className="w-full text-left">
+      <table className="w-full text-center border-separate border-spacing-y-3">
         <thead>
           <tr>
             <th className="text-sm font-normal ">Name</th>
@@ -70,8 +70,8 @@ const TeamMemberTable = () => {
               <td className="text-sm font-bold">{member.name}</td>
               <td className="text-sm font-bold">{member.email}</td>
               <td className="text-sm font-bold">{member.role}</td>
-              <td className="bg-[#C088FB33] p-2 rounded-[10.5px] gap-2 flex flex-row text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] text-base font-bold">{member.accessLevel}</td>
-              <td>
+              <td className="text-transparent bg-clip-text bg-gradient-to-r from-[#C088FB] via-[#8E3EFF] to-[#8E3EFF] text-base font-bold">{member.accessLevel}</td>
+              <td className="flex justify-center items-center">
                 {index !== 0 && (
                   <button
                   id="settings_delete_member"

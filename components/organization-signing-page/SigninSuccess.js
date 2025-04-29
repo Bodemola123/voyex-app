@@ -20,7 +20,7 @@ function SigninSuccess() {
                 /> */}
         <FiCheckCircle className="text-9xl text-green-500" />
         <h1 className="text-fontlight text-3xl font-bold text-center">
-          Sign in Successfull
+          Sign in Successful
         </h1>
         <p className="text-base text-fontlight text-center font-light">
           Sign in authentication completed

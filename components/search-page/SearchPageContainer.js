@@ -172,8 +172,6 @@ const fetchChatById = async (chat_id) => {
     const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chat_id}`);
     const data = await res.json();
 
-    console.log("Data is", data)
-
     if (Array.isArray(data.chat)) {
       // Assuming the chat history includes both user and bot messages
       setMessages(data.chat);  // Directly set the fetched messages

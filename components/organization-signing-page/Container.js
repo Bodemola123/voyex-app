@@ -385,10 +385,10 @@ localStorage.setItem("entityId", entityId);
                             `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
                           );
                           console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
-                          const organization_email = profileResponse.data?.organization_email
+                          const organization_email = profileResponse.data?.organization_email || "Example@gmail.com"
                           localStorage.setItem("orgEmail", organization_email);
                           const orgName = profileResponse.data?.organization_name || "No name inputed";
-                          const poc = profileResponse.data?.poc
+                          const poc = profileResponse.data?.poc || "No Name"
                           localStorage.setItem("poc", poc)
                 
                           localStorage.setItem("orgName", orgName);
@@ -704,12 +704,12 @@ localStorage.setItem("entityId", entityId);
                   `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
                 );
                 console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
-                const organization_email = profileResponse.data?.organization_email
+                const organization_email = profileResponse.data?.organization_email || "Example@gmail.com"
                 localStorage.setItem("orgEmail", organization_email);
                 const orgName = profileResponse.data?.organization_name || "No name inputed";
       
                 localStorage.setItem("orgName", orgName);
-                const poc = profileResponse.data?.poc
+                const poc = profileResponse.data?.poc || "No Name"
                 localStorage.setItem("poc", poc)
               } catch (profileErr) {
                 console.error("Failed to fetch org profile:", profileErr);
