@@ -1,16 +1,15 @@
 "use client";
 import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaPlus, FaPen, FaRegTrashCan } from "react-icons/fa6";
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import { LuArchive, LuLogIn } from 'react-icons/lu';
-import { PiUserPlusFill } from "react-icons/pi";
 import { IoShareSocial } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
 import DeleteChatModal from './Modals/DeleteChatModal';
 import RenameChatModal from './Modals/RenameChatModal';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
+import { LuLogIn } from 'react-icons/lu';
+import { PiUserPlusFill } from 'react-icons/pi';
 
 const HomeNav = ({
   fetchChatById,
@@ -20,62 +19,51 @@ const HomeNav = ({
   setChats,
   setLoading,
   error,
-  setShowChat
+  setShowChat,
+   activeChatId
 }) => {
-
-
-  const [dropdownIndex, setDropdownIndex] = useState(null);
+  const [dropdownChatId, setDropdownChatId] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRenameModal, setShowRenameModal] = useState(false);
 
   const handleDeleteChat = async () => {
-    const chatToDelete = chats[selectedChat];
-    if (!chatToDelete) return;
-  
+    if (!selectedChat) return;
+
     try {
-      const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chatToDelete.chat_id}`, {
-        method: 'DELETE',
-      });
-  
+      const res = await fetch(
+        `https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${selectedChat.chat_id}`,
+        { method: 'DELETE' }
+      );
+
       if (!res.ok) throw new Error("Failed to delete chat");
-  
-      // If deleting the currently viewed chat, hide the chat view
-      if (chatToDelete.chat_id === chats.chat_id) {
-        setShowChat(false);  // Hide the chat if it's the one currently being viewed
+
+      setChats(prev => prev.filter(chat => chat.chat_id !== selectedChat.chat_id));
+      if (selectedChat.chat_id === activeChatId) {
+        setShowChat(false);
       }
-  
-      // Update the chats list by removing the deleted chat
-      setChats(prev => prev.filter((_, i) => i !== selectedChat));
-  
-      // Clear selected chat after deletion
-      setSelectedChat(null);
-  
       toast.success("Chat deleted successfully!");
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete chat.");
     } finally {
       setShowDeleteModal(false);
+      setSelectedChat(null);
     }
   };
-  
-  
+
   const handleRenameChat = (newName) => {
-    if (!newName.trim()) return;
-  
+    if (!newName.trim() || !selectedChat) return;
+
     try {
       setChats(prev =>
-        prev.map((chat, i) =>
-          i === selectedChat
-            ? { ...chat, title: newName } // Update the title
+        prev.map(chat =>
+          chat.chat_id === selectedChat.chat_id
+            ? { ...chat, title: newName }
             : chat
         )
       );
       toast.success("Chat renamed successfully!");
-  
-      // Also update the selectedChat state to reflect the changes in the UI
-      setSelectedChat(selectedChat); // Force re-render by updating the selectedChat
     } catch (error) {
       console.error(error);
       toast.error("Failed to rename chat.");
@@ -86,14 +74,14 @@ const HomeNav = ({
 
   const categorizeChatsByDate = (chats) => {
     const today = new Date();
-    const sevenDaysAgo = new Date(today);
+    const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(today.getDate() - 7);
 
     const todayChats = [];
     const pastSevenDaysChats = [];
     const olderChats = [];
 
-    chats.forEach((chat) => {
+    chats.forEach(chat => {
       const updatedAt = new Date(chat.updated_at);
       if (updatedAt.toDateString() === today.toDateString()) {
         todayChats.push(chat);
@@ -108,32 +96,72 @@ const HomeNav = ({
   };
 
   const renderDropdown = (chat) => (
-    <div className="absolute right-0 top-full mt-2 w-max items-center justify-center bg-[#1c1d1f] flex flex-col gap-2 text-white rounded-md p-4 z-50 border border-transparent shadow-none">
-      <button className="flex gap-2.5 p-2 w-full hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg" id='share_chat'>
-        <IoShareSocial className='text-base' />
-        <p className='text-sm'>Share Chat</p>
+    <div className="absolute right-0 top-full mt-2 bg-[#1c1d1f] z-50 text-white rounded-md p-4 w-max border border-transparent shadow-none flex flex-col gap-2">
+      <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full">
+        <IoShareSocial className="text-base" />
+        <span className="text-sm">Share Chat</span>
       </button>
       <button
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setSelectedChat(chat);
           setShowRenameModal(true);
         }}
-        className="flex gap-2.5 p-2 w-full group hover:bg-[#131314] text-[#f4f4f4] justify-start items-center rounded-lg"
-        id='rename_chat'
+        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full"
       >
-        <FaPen className='text-base' />
-        <p className='text-sm'>Rename chat</p>
+        <FaPen className="text-base" />
+        <span className="text-sm">Rename Chat</span>
       </button>
       <button
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setSelectedChat(chat);
           setShowDeleteModal(true);
         }}
-        className="flex flex-row gap-2.5 p-2 w-full hover:bg-[#131314] text-[#FF1E1E] justify-start items-center" id='delete_chat'
+        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#FF1E1E] rounded-lg w-full"
       >
-        <FaRegTrashCan className='text-base' />
-        <p className='text-sm '>Delete chat</p>
+        <FaRegTrashCan className="text-base" />
+        <span className="text-sm">Delete Chat</span>
       </button>
+    </div>
+  );
+
+  const renderChatList = (label, chatsList) => (
+    <div className="flex flex-col gap-3 py-1">
+      <div className="flex justify-between items-center text-base text-[#f4f4f4]">
+        <p className="font-bold">{label}</p>
+        <p className="font-medium">{chatsList.length} Total</p>
+      </div>
+      <div className="flex flex-col gap-3 text-xs font-medium">
+        {chatsList.map((chat) => {
+          const firstUserMessage = chat.chat?.find(msg => msg.role === 'user');
+          const title = firstUserMessage?.text?.split(' ')[0] || 'Untitled';
+
+          return (
+            <div
+              key={chat.chat_id}
+              className="relative rounded-xl px-3 py-2 flex justify-between items-center text-sm text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] cursor-pointer"
+              onClick={() => {
+                fetchChatById(chat.chat_id);
+                setDropdownChatId(null);
+              }}
+            >
+              <p className="truncate">{title}</p>
+              <div className="relative">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDropdownChatId(dropdownChatId === chat.chat_id ? null : chat.chat_id);
+                  }}
+                >
+                  <BsThreeDots className="text-base" />
+                </button>
+                {dropdownChatId === chat.chat_id && renderDropdown(chat)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 
@@ -141,137 +169,21 @@ const HomeNav = ({
 
   return (
     <>
-      <nav className='flex flex-col w-full bg-[#131314] h-screen gap-6 px-6 pt-4'>
-        <div className='flex gap-4 flex-row items-center'>
-          <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
-          <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
+      <nav className="flex flex-col w-full h-screen bg-[#131314] px-6 pt-4 gap-6">
+        <div className="flex gap-4 items-center">
+          <Image src="/Crown.svg" alt="crown" width={32} height={32} />
+          <p className="text-3xl font-extrabold text-[#f4f4f4]">Voyex</p>
         </div>
 
         {isLoggedIn ? (
           <div className='overflow-y-scroll scrollbar-hide flex flex-col gap-2 pb-1 h-full'>
             {loading && <p>Loading chats...</p>}
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="text-red-500">Failed to load chats, Try Again later</p>}
             {chats.length === 0 && !loading && !error && <p>No chats in history</p>}
 
-            {todayChats.length > 0 && (
-              <div className='flex flex-col py-1 gap-3'>
-                <div className='flex flex-row justify-between items-center text-base'>
-                  <p className='text-[#f4f4f4] font-bold'>Today</p>
-                  <p className='text-[#f4f4f4] font-medium'>{todayChats.length} Total</p>
-                </div>
-                <div className='flex flex-col text-xs font-medium gap-3'>
-                  {todayChats.map((chat, index) => {
-                    const firstUserMessage = chat.chat?.find(msg => msg.role === "user");
-                    const title = firstUserMessage?.text?.split(" ")[0] || "Untitled";                    
-                    return (
-                      <div
-                        key={chat.chat_id}
-                        className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
-                        onClick={() => {
-                          setSelectedChat(chat);
-                          setDropdownIndex(null);
-                          fetchChatById(chat.chat_id)
-                        }}
-                      >
-                        <p className='truncate'>{title}</p>
-                        <div className='relative'>
-                          <button
-                          id='chat_today_dropdown'
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDropdownIndex(dropdownIndex === index ? null : index);
-                            }}
-                          >
-                            <BsThreeDots className='text-base' />
-                          </button>
-                          {dropdownIndex === index && renderDropdown(index)}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {pastSevenDaysChats.length > 0 && (
-              <div className='flex flex-col py-1 gap-3'>
-                <div className='flex flex-row justify-between items-center text-base'>
-                  <p className='text-[#f4f4f4] font-bold'>Past 7 Days</p>
-                  <p className='text-[#f4f4f4] font-medium'>{pastSevenDaysChats.length} Total</p>
-                </div>
-                <div className='flex flex-col text-xs font-medium gap-3'>
-                  {pastSevenDaysChats.map((chat, index) => {
-                    const firstUserMessage = chat.chat?.find(msg => msg.role === "user");
-                    const title = firstUserMessage?.text?.split(" ")[0] || "Untitled";                                 
-                    return (
-                      <div
-                        key={chat.chat_id}
-                        className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
-                        onClick={() => {
-                          setSelectedChat(chat);
-                          setDropdownIndex(null);
-                          fetchChatById(chat.chat_id)
-                        }}
-                      >
-                        <p className='truncate'>{title}</p>
-                        <div className='relative'>
-                          <button
-                          id='chat_pastSevendays_dropdown'
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDropdownIndex(dropdownIndex === index ? null : index);
-                            }}
-                          >
-                            <BsThreeDots className='text-base' />
-                          </button>
-                          {dropdownIndex === index && renderDropdown(index)}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {olderChats.length > 0 && (
-              <div className='flex flex-col py-1 gap-3'>
-                <div className='flex flex-row justify-between items-center text-base'>
-                  <p className='text-[#f4f4f4] font-bold'>Older Chats</p>
-                  <p className='text-[#f4f4f4] font-medium'>{olderChats.length} Total</p>
-                </div>
-                <div className='flex flex-col text-xs font-medium gap-3'>
-                  {olderChats.map((chat, index) => {
-                    const firstUserMessage = chat.chat?.find(msg => msg.role === "user");
-                    const title = firstUserMessage?.text?.split(" ")[0] || "Untitled";                    
-                    return (
-                      <div
-                        key={chat.chat_id}
-                        className='relative rounded-xl px-3 py-2 gap-3 text-sm flex flex-row justify-between text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] items-center w-full cursor-pointer'
-                        onClick={() => {
-                          setSelectedChat(chat);
-                          setDropdownIndex(null);
-                          fetchChatById(chat.chat_id)
-                        }}
-                      >
-                        <p className='truncate'>{title}</p>
-                        <div className='relative'>
-                          <button
-                          id='chat_olderChats_dropdown'
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDropdownIndex(dropdownIndex === index ? null : index);
-                            }}
-                          >
-                            <BsThreeDots className='text-base' />
-                          </button>
-                          {dropdownIndex === index && renderDropdown(index)}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+            {todayChats.length > 0 && renderChatList("Today", todayChats)}
+            {pastSevenDaysChats.length > 0 && renderChatList("Past 7 Days", pastSevenDaysChats)}
+            {olderChats.length > 0 && renderChatList("Older Chats", olderChats)}
           </div>
         ) : (
           <div className='flex flex-col gap-6 pt-2 border-t border-[#3A3A40]'>
@@ -288,21 +200,25 @@ const HomeNav = ({
           </div>
         )}
       </nav>
-      {showDeleteModal && selectedChat && (
+      {showDeleteModal && (
   <DeleteChatModal
-    chatName={selectedChat.title || "Untitled"}
     onClose={() => setShowDeleteModal(false)}
-    onDelete={handleDeleteChat}
-  />
-)}
-{showRenameModal && selectedChat && ( // ← this should be showRenameModal instead of showDeleteModal
-  <RenameChatModal
-    chatName={selectedChat.title || "Untitled"}
-    onClose={() => setShowRenameModal(false)}
-    onRename={handleRenameChat}
+    onConfirm={handleDeleteChat}
+    currentTitle={
+      selectedChat?.chat?.find(msg => msg.role === 'user')?.text || 'Untitled'
+    }
   />
 )}
 
+{showRenameModal && (
+  <RenameChatModal
+    onClose={() => setShowRenameModal(false)}
+    onConfirm={handleRenameChat}
+    currentTitle={
+      selectedChat?.chat?.find(msg => msg.role === 'user')?.text || 'Untitled'
+    }
+  />
+)}
 
     </>
   );

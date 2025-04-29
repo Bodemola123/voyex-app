@@ -11,6 +11,7 @@ import PipelineComponent from "./PipelineComponent";
 import ChatTop from "./ChatTop";
 import Recommendations from "./Recommendations";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { buttonOptions } from "@/constants/search-page";
 
 
 const TypingAnimation = () => {
@@ -52,27 +53,10 @@ export const typeText = (setTypedMessage, text, speed, setBotTyping) => {
 
 
 
-function ChatBotMessage({ messages, 
-  error,
-  isLoading, 
-  setBotTyping, 
-  userInput,
-  setUserInput, 
-  isBotTyping,
+function ChatBotMessage({ messages, error, isLoading, setBotTyping, userInput,
+  setUserInput, isBotTyping,
   handleSendMessage,
-  handleNewConversation, 
-  setShowChat, 
-  selectedFeatures, 
-  setSelectedFeatures, 
-  setShowRecommendationButton, 
-  showRecommendationButton,
-  visibleButtons, 
-  setVisibleButtons,
-  handleResetRecommendationButton,  
-  selectionCount,
-  setSelectionCount,
-  isRestoredChat, 
-  setIsRestoredChat}) {
+  handleNewConversation, setShowChat, selectedFeatures, setSelectedFeatures, setShowRecommendationButton, showRecommendationButton,visibleButtons, setVisibleButtons,handleResetRecommendationButton,   selectionCount,setSelectionCount, isRestoredChat}) {
   const scrollContainerRef = useRef(null);
   const [typedMessage, setTypedMessage] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
@@ -121,6 +105,26 @@ useEffect(() => {
     };
   }, []);
 
+  useEffect(() => {
+    if (messages.length === 0) return;
+  
+    const latestMessage = messages[messages.length - 1];
+  
+    // Always clear the typed message before processing a new one
+    setTypedMessage("");
+  
+    if (latestMessage.role === "bot") {
+      if (isRestoredChat) {
+        // Skip animation for restored chats
+        setTypedMessage(latestMessage.text);
+        setBotTyping(false);
+      } else {
+        // Use typing animation
+        typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
+      }
+    }
+  }, [messages, isRestoredChat]);
+  
 
   
 
@@ -172,42 +176,9 @@ useEffect(() => {
     }, 300); // 0.3 seconds delay
   };
 
-  const buttonOptions = {
-    "type of marketing": ["Brand Awareness", "Engagement", "User Acquisition"],
-    "social media content creation": ["Educate", "Entertain", "Inspire", "Promote"],
-    "area of business": ["Product-based", "Digital"],
-    "ideas are you brainstorming": ["Educate", "Business"],
-    "task management": ["Daily to-do lists", "Project planning", "Collaboration tools"],
-    "aspect of design": ["Motion graphics", "Graphic design"],
-    "automation": ["Marketing", "Schedule", "Data Entry"],
-    "data analysis": ["Business Analytics", "Research Data", "Machine Learning"],
-    "writing skills": ["Creative writing", "Copywriting", "Technical Writing"],
-    "kind of collaboration": ["Project Management", "Document Sharing", "Team Communication"],
-    "online course": ["Content Creation", "Course Hosting", "Student Engagement"],
-    "digital business": ["Content Creation", "Software Development"],
-    "educating your audience":["Videos", "Blog Posts"],
-    "product-based business":["Production", "Customer Acquisition"],
-    "type of videos":["Long", "Short"],
-    "type of blog posts":["Fictional", "Non-Fictional"]
-  };
 
   // const [hiddenMessages, setHiddenMessages] = useState([]); // to track hidden messages
 
-  useEffect(() => {
-    if (isRestoredChat) {
-      setIsRestoredChat(false); // reset after skipping once
-      return;
-    }
-  
-    if (messages.length === 0) return;
-  
-    const latestMessage = messages[messages.length - 1];
-  
-    if (latestMessage.role === "bot") {
-      setTypedMessage(""); 
-      typeText(setTypedMessage, latestMessage.text, 10, setBotTyping);
-    }
-  }, [messages]);
 
   useEffect(() => {
     const timers = [];
@@ -247,14 +218,12 @@ useEffect(() => {
       const isSpeaking = speakingMessages[index];
       const containsPipeline = isBotMessage && msg.text.toLowerCase().includes("pipeline");
   
-let displayedText = msg.text;
-if (isBotMessage && index === messages.length - 1 && typedMessage !== "") {
-  displayedText = typedMessage;
-} else if (isBotMessage && index === messages.length - 1) {
-  displayedText = msg.text;
-}
+      let displayedText = msg.text;
 
-
+      if (isBotMessage && index === messages.length - 1) {
+        displayedText = isRestoredChat ? msg.text : typedMessage;
+      }
+      
 // Option click handler to track new selections
 const handleOptionClick = (index, option) => {
   if (selectedFeatures.hasOwnProperty(index)) return;
@@ -309,12 +278,9 @@ const handleOptionClick = (index, option) => {
                   }`}
                   style={{ whiteSpace: "pre-wrap" }}
                 >
-                <span className="flex-1 break-words text-sm">
-  {(displayedText === "__typing__" && !isRestoredChat) 
-    ? <TypingAnimation /> 
-    : displayedText}
-                </span>
-
+                                    <span className="flex-1 break-words text-sm">
+  {displayedText === "__typing__" ? <TypingAnimation /> : displayedText}
+</span>
                 </div>
   
                 {/* Render Buttons if Matching Key is Found */}
@@ -322,7 +288,6 @@ const handleOptionClick = (index, option) => {
   <div className="flex flex-row gap-2">
     {buttonOptions[matchingKey].map((option) => (
       <button
-      id="chat_option"
         key={option}
         className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
           selectedFeatures[index] === option
@@ -345,24 +310,20 @@ const handleOptionClick = (index, option) => {
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
                   <div className="absolute z-20 bg-transparent p-4 rounded-lg transition-opacity duration-300 opacity-100 left-0 top-[100%] flex-row flex gap-6">
-                    <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" id="chat_refresh"/>
+                    <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
                     <LuThumbsUp
-                    id="chat_thumbsup"
                       className={`text-sm ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleReactionClick(index, "thumbsUp")}
                     />
                     <LuThumbsDown
-                    id="chat_thumbsdown"
                       className={`text-sm ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleReactionClick(index, "thumbsDown")}
                     />
                     <LuClipboard
-                    id="chat_copy"
                       className="text-sm text-[#7C7676] hover:text-[#c088fb]"
                       onClick={() => handleCopyToClipboard(msg.text)}
                     />
                     <PiSpeakerHigh
-                    id="chat_speaker"
                       className={`text-sm ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
                       onClick={() => handleTextToSpeech(index, msg.text)}
                     />

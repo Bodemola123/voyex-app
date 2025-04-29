@@ -94,7 +94,7 @@ function Personalization() {
           {isOrganization ? "Organization Email" : "Email"}
         </h2>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
-          <span className="text-base font-normal text-fontlight">
+          <span className="text-base font-normal text-fontlight capitalize">
             {displayEmail}
           </span>
         </button>

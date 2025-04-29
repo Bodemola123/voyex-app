@@ -40,8 +40,9 @@ const TeamMemberTable = () => {
   return (
     <div className="flex flex-col gap-4 px-11 py-7 rounded-3xl bg-secondary w-full">
     <h1 className="text-left font-bold text-base text-[#f4f4f4]"> Team Members and Roles</h1>
-      {/* Team Members Header */}
-      <div className="flex justify-between w-full p-4">
+    <div className="bg-[#1c1d1f] flex flex-col gap-2.5 rounded-2xl">
+            {/* Team Members Header */}
+            <div className="flex justify-between w-full p-4">
         <h1 className="text-base font-bold text-[#f4f4f4]">Team Members</h1>
         <button
           onClick={handleAddMember}
@@ -85,6 +86,8 @@ const TeamMemberTable = () => {
           ))}
         </tbody>
       </table>
+    </div>
+
 
       {/* Add Member Modal */}
       {isModalOpen && (

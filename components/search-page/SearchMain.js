@@ -44,6 +44,7 @@ function SearchMain({
   isLoggedIn,
   setChats,
   setLoading,
+  activeChatId,
 }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [predictiveText, setPredictiveText] = useState("");
@@ -224,7 +225,8 @@ null
         isLoggedIn={isLoggedIn} 
         setChats={setChats} 
         setLoading={setLoading} 
-        setShowChat={setShowChat} />}
+        setShowChat={setShowChat}
+        activeChatId={activeChatId} />}
       </div>
       </div>
       <div className="flex-grow relative flex flex-col w-full h-full justify-between items-center overflow-y-scroll pb-6 pt-1 px-6 scrollbar-hide scroll-container">
