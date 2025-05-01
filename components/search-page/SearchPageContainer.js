@@ -81,15 +81,16 @@ function SearchPageContainer() {
     
   
   const [chat, setChat] = useState(null); // Store chat_id here
-    // Persist chat state across page reloads using localStorage
+    // Persist chat state across page reloads using sessionStorage
     useEffect(() => {
-      const savedChatId = localStorage.getItem("chat_id");
-      const savedMessages = localStorage.getItem("messages");
+      const savedChatId = sessionStorage.getItem("chat_id");
+      const savedMessages = sessionStorage.getItem("messages");    
   
       if (savedChatId && savedMessages) {
         setChat({ chat_id: savedChatId });
         setMessages(JSON.parse(savedMessages));
         setShowChat(true);
+        setIsRestoredChat(true); // ✅ This ensures restored messages skip typing animation
       }
     }, []);
 
@@ -133,7 +134,7 @@ function SearchPageContainer() {
   
         if (data.chat) {
           setMessages(data.chat); // Ensure state is updated with new messages from the API
-          localStorage.setItem("messages", JSON.stringify(data.chat)); // Persist chat messages
+          sessionStorage.setItem("messages", JSON.stringify(data.chat)); // Persist chat messages
           await fetchChats(); // Refresh chat list
         }
       } else {
@@ -158,7 +159,7 @@ function SearchPageContainer() {
   
         if (data.chat_id) {
           setChat({ chat_id: data.chat_id });
-          localStorage.setItem("chat_id", data.chat_id); // Persist chat_id
+          sessionStorage.setItem("chat_id", data.chat_id); // Persist chat_id
           await fetchChats(); // Refresh chat list
         }
       }
@@ -178,8 +179,8 @@ const fetchChatById = async (chat_id) => {
       setActiveChatId(data.chat_id);
       setChat({ chat_id });    // Store the current chat_id
       setShowChat(true);       // Show the chat view
-      localStorage.setItem("messages", JSON.stringify(data.chat)); // Persist messages
-      localStorage.setItem("chat_id", chat_id); // Persist chat_id
+      sessionStorage.setItem("messages", JSON.stringify(data.chat)); // Persist messages
+      sessionStorage.setItem("chat_id", chat_id); // Persist chat_id
       setIsRestoredChat(true); // 🔥 set this after restoring
     } else {
       console.error("Invalid chat format from API");
@@ -251,10 +252,11 @@ const handleSendMessage = async (message = null) => {
       setChat(null); // Reset chat_id
       setIsRestoredChat(false);
       setActiveChatId(null);
+      setShowChat(false)
     
-      // Remove persisted chat information from localStorage
-      localStorage.removeItem("chat_id");
-      localStorage.removeItem("messages");
+      // Remove persisted chat information from sessionStorage
+      sessionStorage.removeItem("chat_id");
+      sessionStorage.removeItem("messages");
     };
     
   return !showChat ? (

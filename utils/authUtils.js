@@ -77,6 +77,8 @@ export const logoutUser = () => {
     localStorage.removeItem('orgEmail');
     localStorage.removeItem('orgName');
     localStorage.removeItem('poc')
+    localStorage.removeItem('role')
+    localStorage.removeItem('accessLevel')
 
   window.location.href = "/auth/user"// Redirect to login page
 };

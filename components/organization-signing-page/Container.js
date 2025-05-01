@@ -650,6 +650,8 @@ const signing = async () => {
       localStorage.removeItem('orgEmail');
       localStorage.removeItem('orgName')
       localStorage.removeItem('poc')
+      localStorage.removeItem('role')
+      localStorage.removeItem('accessLevel')
     window.location.href = "/auth/organization"// Redirect to login page
   };
   const organizationSignin = async () => {

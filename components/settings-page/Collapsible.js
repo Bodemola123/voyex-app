@@ -56,7 +56,8 @@ function Collapsible() {
     localStorage.removeItem('orgEmail');
     localStorage.removeItem('orgName');
     localStorage.removeItem('poc')
-
+    localStorage.removeItem('role')
+    localStorage.removeItem('accessLevel')
     console.log("User logged out");
     toast.success("Logging out. Redirecting to Sign-in");
 

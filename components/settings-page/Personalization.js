@@ -10,6 +10,27 @@ function Personalization() {
   const [orgName, setOrgName] = useState("");
   const [isOrganization, setIsOrganization] = useState(false);
 
+    const [role, setRole] = useState("None");
+  
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const savedRole = localStorage.getItem("role");
+        if (savedRole) {
+          setRole(savedRole);
+        }
+      }
+    }, []);
+    const [accessLevel, setAccessLevel] = useState("None");
+  
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const savedAccessLevel = localStorage.getItem("accessLevel");
+        if (savedAccessLevel) {
+          setAccessLevel(savedAccessLevel);
+        }
+      }
+    }, []);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedUserEmail = localStorage.getItem("userEmail");
@@ -99,6 +120,22 @@ function Personalization() {
           </span>
         </button>
       </div>
+
+      
+      {/* User Role and Access Level */}
+      {!isOrganization && (
+        <div className="flex flex-col gap-6 mt-6">
+          <div className="flex flex-row items-center justify-center">
+            <p>Role</p>
+            <p>{role}</p>
+          </div>
+          <div className="flex flex-row items-center justify-center">
+            <p>Access Level</p>
+            <p>{accessLevel}</p>
+          </div>
+        </div>
+      )
+      }
 
       {/* AI Data Retention (Hidden for Organization) */}
       {!isOrganization && (

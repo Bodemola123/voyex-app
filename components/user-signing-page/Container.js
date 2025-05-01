@@ -264,7 +264,11 @@ localStorage.setItem("entityId", entityId);
                 const profileResponse = await axios.get(
                   `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
                 );
-                console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+                console.log("✅ Profile data:", profileResponse.data); 
+                const role = profileResponse.data?.org_details?.role || "None"
+                localStorage.setItem("role", role)
+                const accessLevel = profileResponse.data?.org_details?.access_level || "None"
+                localStorage.setItem("accessLevel", accessLevel)// <-- Add this line
                 const email = profileResponse.data?.email
                 localStorage.setItem("userEmail", email);
                 const fullName = profileResponse.data?.fullname || "Explorer";
@@ -541,6 +545,8 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
       localStorage.removeItem('orgEmail');
       localStorage.removeItem('orgName');
       localStorage.removeItem('poc')
+      localStorage.removeItem('role')
+      localStorage.removeItem('accessLevel')
     window.location.href = "/auth/user"// Redirect to login page
   };
   const userSignin = async () => {
@@ -589,6 +595,10 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
               `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
             );
             console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+            const role = profileResponse.data?.org_details?.role || "None"
+            localStorage.setItem("role", role)
+            const accessLevel = profileResponse.data?.org_details?.access_level || "None"
+            localStorage.setItem("accessLevel", accessLevel)
             const email = profileResponse.data?.email
             localStorage.setItem("userEmail", email);
             const fullName = profileResponse.data?.fullname || "Explorer";
