@@ -20,9 +20,9 @@ function Settings() {
       <SettingsHeader activeTab={activeTab} onTabChange={handleTabChange} />      
       {activeTab === 'account' ? (
         <div className="flex flex-col gap-4">
-          <div id="general"><General /></div>
+          {/* <div id="general"><General /></div> */}
           <div id="personalization"><Personalization /></div>
-          <div id="data-control"><DataControl /></div>
+          {/* <div id="data-control"><DataControl /></div> */}
           <div id="security"><Security /></div>
         </div>
       ) : (

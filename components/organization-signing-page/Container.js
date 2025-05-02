@@ -417,7 +417,7 @@ localStorage.setItem("entityId", entityId);
             break;
   
           case 404:
-            toast.warn("User not registered. Please Sign up.");
+            toast.warn("Organization not registered. Please Sign up.");
             setCurrentSlide("signing"); // Redirect to signup slide
             break;
   
@@ -427,7 +427,7 @@ localStorage.setItem("entityId", entityId);
         }
       } catch (err) {
         console.error(err);
-        toast.error(err.response?.data?.message || "Something went wrong!");
+        toast.error("Something went wrong!");
       } finally {
         setLoadingGoogle(false);
       }
@@ -735,7 +735,7 @@ localStorage.setItem("entityId", entityId);
         console.error("Error response data:", error.response.data);
       }
       if (error.response?.data?.message) {
-        toast(error.response.data.message);
+        toast.error("Organization not registered");
         setCurrentSlide("signing");
       } else {
         toast(error.message);

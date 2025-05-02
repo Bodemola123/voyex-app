@@ -103,11 +103,11 @@ activeChatId}) => {
     const today = new Date();
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(today.getDate() - 7);
-
+  
     const todayChats = [];
     const pastSevenDaysChats = [];
     const olderChats = [];
-
+  
     chats.forEach(chat => {
       const updatedAt = new Date(chat.updated_at);
       if (updatedAt.toDateString() === today.toDateString()) {
@@ -118,10 +118,55 @@ activeChatId}) => {
         olderChats.push(chat);
       }
     });
-
-    return { todayChats, pastSevenDaysChats, olderChats };
+  
+    const sortByUpdatedAtDesc = (a, b) => new Date(b.updated_at) - new Date(a.updated_at);
+  
+    return {
+      todayChats: todayChats.sort(sortByUpdatedAtDesc),
+      pastSevenDaysChats: pastSevenDaysChats.sort(sortByUpdatedAtDesc),
+      olderChats: olderChats.sort(sortByUpdatedAtDesc)
+    };
   };
-
+  
+  const renderChatList = (label, chatsList) => (
+    <div className="flex flex-col gap-3 py-1">
+      <div className="flex justify-between items-center text-base text-[#f4f4f4]">
+        <p className="font-bold">{label}</p>
+        <p className="font-medium">{chatsList.length} Total</p>
+      </div>
+      <div className="flex flex-col gap-3 text-xs font-medium">
+        {chatsList.map((chat) => {
+          const firstUserMessage = chat.chat?.find(msg => msg.role === 'user');
+          const title = firstUserMessage?.text || 'Untitled';
+  
+          return (
+            <div
+              key={chat.chat_id}
+              className="relative rounded-xl px-3 py-2 flex justify-between items-center text-sm text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] cursor-pointer"
+              onClick={() => {
+                fetchChatById(chat.chat_id);
+                setDropdownChatId(null);
+              }}
+            >
+              <p className="truncate line-clamp-1">{title}</p>
+              <div className="relative">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDropdownChatId(dropdownChatId === chat.chat_id ? null : chat.chat_id);
+                  }}
+                >
+                  <BsThreeDots className="text-base" />
+                </button>
+                {dropdownChatId === chat.chat_id && renderDropdown(chat)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+  
   const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 bg-[#1c1d1f] z-50 text-white rounded-md p-4 w-max border border-transparent shadow-none flex flex-col gap-2">
       <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full">
@@ -150,45 +195,6 @@ activeChatId}) => {
         <FaRegTrashCan className="text-base" />
         <span className="text-sm">Delete Chat</span>
       </button>
-    </div>
-  );
-
-  const renderChatList = (label, chatsList) => (
-    <div className="flex flex-col gap-3 py-1">
-      <div className="flex justify-between items-center text-base text-[#f4f4f4]">
-        <p className="font-bold">{label}</p>
-        <p className="font-medium">{chatsList.length} Total</p>
-      </div>
-      <div className="flex flex-col gap-3 text-xs font-medium">
-        {chatsList.map((chat) => {
-          const firstUserMessage = chat.chat?.find(msg => msg.role === 'user');
-          const title = firstUserMessage?.text?.split(' ')[0] || 'Untitled';
-
-          return (
-            <div
-              key={chat.chat_id}
-              className="relative rounded-xl px-3 py-2 flex justify-between items-center text-sm text-[#565656] hover:bg-[#1D1F20] hover:text-[#f4f4f4] cursor-pointer"
-              onClick={() => {
-                fetchChatById(chat.chat_id);
-                setDropdownChatId(null);
-              }}
-            >
-              <p className="truncate">{title}</p>
-              <div className="relative">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setDropdownChatId(dropdownChatId === chat.chat_id ? null : chat.chat_id);
-                  }}
-                >
-                  <BsThreeDots className="text-base" />
-                </button>
-                {dropdownChatId === chat.chat_id && renderDropdown(chat)}
-              </div>
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 

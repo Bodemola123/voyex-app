@@ -105,8 +105,8 @@ function SearchPageContainer() {
     const entityType = localStorage.getItem("userType") || localStorage.getItem("orgType");
   
     const newMessages = [
-      { role:"user", text: userMessage, timestamp: new Date() },
-      { role:"bot", text: botResponse, timestamp: new Date() }
+      { role: "user", text: userMessage, timestamp: new Date() },
+      { role: "bot", text: botResponse, timestamp: new Date(), selectedOption: selectedFeatures[messages.length] }  // Add selected option if any
     ];
   
     if (!entityId || !entityType) return;
@@ -167,28 +167,42 @@ function SearchPageContainer() {
       console.error("Error saving chat:", err);
     }
   };
+  
+  
 
-const fetchChatById = async (chat_id) => {
-  try {
-    const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chat_id}`);
-    const data = await res.json();
-
-    if (Array.isArray(data.chat)) {
-      // Assuming the chat history includes both user and bot messages
-      setMessages(data.chat);  // Directly set the fetched messages
-      setActiveChatId(data.chat_id);
-      setChat({ chat_id });    // Store the current chat_id
-      setShowChat(true);       // Show the chat view
-      sessionStorage.setItem("messages", JSON.stringify(data.chat)); // Persist messages
-      sessionStorage.setItem("chat_id", chat_id); // Persist chat_id
-      setIsRestoredChat(true); // 🔥 set this after restoring
-    } else {
-      console.error("Invalid chat format from API");
+  const fetchChatById = async (chat_id) => {
+    try {
+      const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chat_id}`);
+      const data = await res.json();
+  
+      if (Array.isArray(data.chat)) {
+        // Assuming the chat history includes both user and bot messages
+        setMessages(data.chat);  // Directly set the fetched messages
+        setActiveChatId(data.chat_id);
+        setChat({ chat_id });    // Store the current chat_id
+        setShowChat(true);       // Show the chat view
+        sessionStorage.setItem("messages", JSON.stringify(data.chat)); // Persist messages
+        sessionStorage.setItem("chat_id", chat_id); // Persist chat_id
+        
+        // Restore selected button options (if any were previously saved in data)
+        const restoredButtonSelections = data.chat.reduce((acc, message, index) => {
+          if (message.selectedOption) {
+            acc[index] = message.selectedOption;  // Restore selection
+          }
+          return acc;
+        }, {});
+  
+        setSelectedFeatures(restoredButtonSelections); // Update state with restored selections
+        setIsRestoredChat(true); // 🔥 set this after restoring
+  
+      } else {
+        console.error("Invalid chat format from API");
+      }
+    } catch (err) {
+      console.error("Error fetching chat:", err);
     }
-  } catch (err) {
-    console.error("Error fetching chat:", err);
-  }
-};
+  };
+  
 
   
   

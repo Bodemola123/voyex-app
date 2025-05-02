@@ -320,9 +320,9 @@ localStorage.setItem("entityId", entityId);
       } catch (err) {
         console.error(err);
         if (err.response?.data?.message) {
-          toast.warn(err.response.data.message);
+          toast.warn("User not found");
         } else {
-          toast.warn(err.message);
+          toast.warn("User not found");
         }
       } finally {
         setLoadingGoogle(false);
@@ -621,15 +621,16 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
       }
   
       if (response.status === 404) {
+        toast.warning("User not registered")
         setCurrentSlide("signing");
         return;
       }
     } catch (error) {
       console.log("user_signin_error", error);
       if (error.response?.data?.message) {
-        toast(error.response.data.message);
+        toast("User not registered");
       } else {
-        toast(error.message || "Something went wrong");
+        toast( "Something went wrong");
       }
   
       if (error.message?.toLowerCase().includes("network error")) {
