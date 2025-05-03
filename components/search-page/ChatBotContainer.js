@@ -64,6 +64,8 @@ function ChatBotContainer({
       {/* The SideNav */}
       <div className="flex flex-row">
       <BenNavbar
+        handleNewConversation={handleNewConversation}
+        handleResetRecommendationButton={handleResetRecommendationButton} 
         toggleHistoryVisibility={toggleHistoryVisibility}
         isHistoryVisible={isHistoryVisible}
       />

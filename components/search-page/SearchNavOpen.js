@@ -148,7 +148,7 @@ activeChatId}) => {
                 setDropdownChatId(null);
               }}
             >
-              <p className="truncate line-clamp-1">{title}</p>
+              <p className="truncate line-clamp-1 pr-1">{title}</p>
               <div className="relative">
                 <button
                   onClick={(e) => {

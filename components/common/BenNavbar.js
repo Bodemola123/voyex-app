@@ -11,7 +11,7 @@ import {
 } from "react-icons/lu";
 import { RxAvatar } from "react-icons/rx";
 
-const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
+const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConversation,handleResetRecommendationButton  }) => {
   const pathname = usePathname(); // Get the current path
   const [userType, setUserType] = useState(null); // Initialize state for userType
   const [orgType, setOrgType] = useState(null); // Initialize state for orgType
@@ -55,6 +55,10 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible }) => {
               className={`p-2 flex justify-center items-center gap-2.5 rounded-[123px] ${
                 isActive("/") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
               }`}
+              onClick={() => {
+                handleResetRecommendationButton();
+                handleNewConversation();
+              }}
             >
               <HiOutlineHome
                 className={`text-[20px] ${

@@ -100,23 +100,22 @@ function SearchPageContainer() {
     setSelectionCount(0);
   };
 
-  const saveChatToAPI = async (userMessage, botResponse) => {
+  const saveChatToAPI = async (userMessage, botResponse, recommendationButton) => {
     const entityId = localStorage.getItem("entityId");
     const entityType = localStorage.getItem("userType") || localStorage.getItem("orgType");
   
     const newMessages = [
       { role: "user", text: userMessage, timestamp: new Date() },
-      { role: "bot", text: botResponse, timestamp: new Date(), selectedOption: selectedFeatures[messages.length] }  // Add selected option if any
+      { role: "bot", text: botResponse, timestamp: new Date(), recommendationButton }
     ];
   
     if (!entityId || !entityType) return;
   
     try {
       if (chat?.chat_id) {
-        // PUT request to update chat with new message
         const putBody = {
           chat_id: chat.chat_id,
-          chat: [...messages, ...newMessages],  // Append new messages
+          chat: [...messages, ...newMessages],
           metadata: { using: "chatbot" }
         };
   
@@ -133,12 +132,11 @@ function SearchPageContainer() {
         console.log("PUT Response:", data);
   
         if (data.chat) {
-          setMessages(data.chat); // Ensure state is updated with new messages from the API
-          sessionStorage.setItem("messages", JSON.stringify(data.chat)); // Persist chat messages
-          await fetchChats(); // Refresh chat list
+          setMessages(data.chat);
+          sessionStorage.setItem("messages", JSON.stringify(data.chat));
+          await fetchChats();
         }
       } else {
-        // POST request to create a new chat
         const postBody = {
           entity_id: parseInt(entityId),
           entity_type: entityType,
@@ -159,16 +157,14 @@ function SearchPageContainer() {
   
         if (data.chat_id) {
           setChat({ chat_id: data.chat_id });
-          sessionStorage.setItem("chat_id", data.chat_id); // Persist chat_id
-          await fetchChats(); // Refresh chat list
+          sessionStorage.setItem("chat_id", data.chat_id);
+          await fetchChats();
         }
       }
     } catch (err) {
       console.error("Error saving chat:", err);
     }
   };
-  
-  
 
   const fetchChatById = async (chat_id) => {
     try {
@@ -176,25 +172,18 @@ function SearchPageContainer() {
       const data = await res.json();
   
       if (Array.isArray(data.chat)) {
-        // Assuming the chat history includes both user and bot messages
-        setMessages(data.chat);  // Directly set the fetched messages
+        setMessages(data.chat);
         setActiveChatId(data.chat_id);
-        setChat({ chat_id });    // Store the current chat_id
-        setShowChat(true);       // Show the chat view
-        sessionStorage.setItem("messages", JSON.stringify(data.chat)); // Persist messages
-        sessionStorage.setItem("chat_id", chat_id); // Persist chat_id
-        
-        // Restore selected button options (if any were previously saved in data)
-        const restoredButtonSelections = data.chat.reduce((acc, message, index) => {
-          if (message.selectedOption) {
-            acc[index] = message.selectedOption;  // Restore selection
-          }
-          return acc;
-        }, {});
+        setChat({ chat_id });
+        setShowChat(true);
+        sessionStorage.setItem("messages", JSON.stringify(data.chat));
+        sessionStorage.setItem("chat_id", chat_id);
   
-        setSelectedFeatures(restoredButtonSelections); // Update state with restored selections
-        setIsRestoredChat(true); // 🔥 set this after restoring
+        // Restore the recommendation button state from the fetched chat
+        const recommendationState = data.chat.some(message => message.recommendationButton === true);
+        setShowRecommendationButton(recommendationState);  // Restore the state
   
+        setIsRestoredChat(true); // Mark that the chat has been restored
       } else {
         console.error("Invalid chat format from API");
       }
@@ -203,10 +192,11 @@ function SearchPageContainer() {
     }
   };
   
+  
 
   
   
-const handleSendMessage = async (message = null) => {
+const handleSendMessage = async (message = null, selectedIndex = null) => {
   try {
     const text = message || userInput.trim();
     if (!text) return;
@@ -233,18 +223,26 @@ const handleSendMessage = async (message = null) => {
     }
 
     setTimeout(async () => {
-      const botMessage = { text: botText, role: "bot", timestamp: new Date() };
+      const botMessage = {
+        text: botText,
+        role: "bot",
+        timestamp: new Date(),
+        selectedOption: selectedFeatures[selectedIndex ?? messages.length], // fallback just in case
+        recommendationButton: botText.toLowerCase().includes("nice! let's recommend some tools for you")
+      };
+      
       setMessages((prev) => [...prev, botMessage]);
       setIsBotTyping(false);
       setIsLoading(false);
 
-      if (botText.toLowerCase().includes("nice! let's recommend some tools for you")) {
-        setTimeout(() => {
-          setShowRecommendationButton(true);
-        }, 1500);
-      }
+  // Only set the recommendation button if the text contains the trigger phrase
+  if (botMessage.recommendationButton) {
+    setTimeout(() => {
+      setShowRecommendationButton(true);
+    }, 1500);
+  }
 
-      await saveChatToAPI(text, botText);
+      await saveChatToAPI(text, botText, botMessage.recommendationButton);
 
     }, 2000);
   } catch (error) {

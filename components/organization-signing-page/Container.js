@@ -310,12 +310,12 @@ const handleRevenueSelect = (revenueValue) => {
             break;
   
           case 400: // ❌ Bad request (User might already exist)
-            toast.warn(apiResponse.data.message || "Signup failed, please try again.");
+            toast.warn("Signup failed, please try again.");
             setCurrentSlide("signing");
             break;
   
           case 200: // 🟡 Edge case - already signed up?
-            toast.info(apiResponse.data.message || "Already signed up?");
+            toast.info( "Already signed up?");
             setCurrentSlide("signing");
             break;
   
@@ -658,9 +658,10 @@ const signing = async () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z]).{8,16}$/;
     try {
       if (!orgEmail || !orgPassword1) {
-        toast("All input fields required!");
+        toast.error("All input fields are required!");
         return;
       }
+  
       setLoading(true);
       setCurrentSlide("org-signin-loading");
   
@@ -672,81 +673,76 @@ const signing = async () => {
         }
       );
   
-      console.log("Full response from API:", response); // Log full response
-      console.log("Response data:", response.data); // Log response data
+      console.log("Full response from API:", response);
+      console.log("Response data:", response.data);
   
       if (response.status === 200) {
-        console.log("Access Token:", response.data.access_token);
-        console.log("Refresh Token:", response.data.refresh_token);
-  
         if (response.data.access_token) {
           localStorage.setItem("access_token", response.data.access_token);
-          console.log("Stored Access Token:", localStorage.getItem("access_token"));
         } else {
-          console.warn("No access_token received!");
+          toast.warning("No access token received.");
         }
-        
+  
         if (response.data.refresh_token) {
           localStorage.setItem("refresh_token", response.data.refresh_token);
-          console.log("Stored Refresh Token:", localStorage.getItem("refresh_token"));
         } else {
-          console.warn("No refresh_token received!");
+          toast.warning("No refresh token received.");
         }
-        let orgType = response.data.org_id ? "organization" : "user"; // If id exists, it's a organization; otherwise, it's an user
-        // Store user type in localStorage
+  
+        let orgType = response.data.org_id ? "organization" : "user";
         localStorage.setItem("orgType", orgType);
+  
         const entityId = response.data.org_id;
-localStorage.setItem("entityId", entityId);
-            // Fetch full name if user
-            if (orgType === "organization") {
-              const orgId = response.data.org_id;
-      
-              try {
-                const profileResponse = await axios.get(
-                  `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
-                );
-                console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
-                const organization_email = profileResponse.data?.organization_email || "Example@gmail.com"
-                localStorage.setItem("orgEmail", organization_email);
-                const orgName = profileResponse.data?.organization_name || "No name inputed";
-      
-                localStorage.setItem("orgName", orgName);
-                const poc = profileResponse.data?.poc || "No Name"
-                localStorage.setItem("poc", poc)
-              } catch (profileErr) {
-                console.error("Failed to fetch org profile:", profileErr);
-              }
-            }
-
+        localStorage.setItem("entityId", entityId);
+  
+        if (orgType === "organization") {
+          const orgId = response.data.org_id;
+  
+          try {
+            const profileResponse = await axios.get(
+              `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
+            );
+  
+            const organization_email = profileResponse.data?.organization_email || "Example@gmail.com";
+            localStorage.setItem("orgEmail", organization_email);
+  
+            const orgName = profileResponse.data?.organization_name || "No name provided";
+            localStorage.setItem("orgName", orgName);
+  
+            const poc = profileResponse.data?.poc || "No Name";
+            localStorage.setItem("poc", poc);
+          } catch (profileErr) {
+            console.error("Failed to fetch org profile:", profileErr);
+            toast.error("Failed to fetch organization profile.");
+          }
+        }
   
         setCurrentSlide("org-signin-success");
-        toast("Signin successful");
-                // Wait 10 seconds before running checkAccessToken to prevent interference
-  setTimeout(() => {
-    checkAccessToken();
-  }, 10000);
+        toast.success("Sign-in successful!");
+  
+        setTimeout(() => {
+          checkAccessToken();
+        }, 10000);
       } else if (response.status === 404) {
         setCurrentSlide("signing");
-        return;
+        toast.error("Organization not found. Try Forgot Password if password is forgotten");
       }
     } catch (error) {
       console.error("Sign-in error:", error);
-      if (error.response) {
-        console.error("Error response data:", error.response.data);
-      }
+      setCurrentSlide("signing");
+  
       if (error.response?.data?.message) {
-        toast.error("Organization not registered");
-        setCurrentSlide("signing");
+        toast.error("Organization not registered.");
+      } else if (error.message.includes("Network Error")) {
+        toast.error("Network error. Please try again.");
       } else {
-        toast(error.message);
-      }
-      if (error.message.includes("Network Error")) {
-        toast("Network Error, Try again!");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setLoading(false);
     }
   };
+  
   
   const handleOrgSignin = async () => {
     organizationSignin();
