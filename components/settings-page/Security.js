@@ -85,7 +85,7 @@ function Security() {
             Active account
           </h2>
           <p className="text-base font-thin text-[#d9d9d9] mt-2">
-            You are signed in as henryjnr96486
+            You are currently signed in.
           </p>
         </div>
         <button

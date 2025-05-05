@@ -125,13 +125,13 @@ function Personalization() {
       {/* User Role and Access Level */}
       {!isOrganization && (
         <div className="flex flex-col gap-6 mt-6">
-          <div className="flex flex-row items-center justify-center">
+          <div className="flex flex-row items-center justify-between">
             <p>Role</p>
-            <p>{role}</p>
+            <p className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">{role}</p>
           </div>
-          <div className="flex flex-row items-center justify-center">
+          <div className="flex flex-row items-center justify-between">
             <p>Access Level</p>
-            <p>{accessLevel}</p>
+            <p className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">{accessLevel}</p>
           </div>
         </div>
       )
