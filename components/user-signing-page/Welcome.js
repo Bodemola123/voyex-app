@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 function Welcome() {
   const router = useRouter();
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] flex flex-col items-center justify-center p-6 rounded-[29px] bg-black overflow-y-scroll shadow-1s">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] flex flex-col items-center justify-center p-6 rounded-[29px] bg-[#1C1D1F] overflow-y-scroll shadow-1s">
       <div className=" flex flex-col items-center justify-center h-full">
         <h2 className="text-center text-4xl font-bold text-fontlight capitalize">
           explore voyex

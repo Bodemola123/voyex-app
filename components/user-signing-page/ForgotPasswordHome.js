@@ -23,7 +23,7 @@ function ForgotPassword({
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
-      <div className="bg-black rounded-[29px] p-10 max-w-[665px] w-full h-[600px] relative flex justify-center items-center flex-col shadow-1s">
+      <div className="bg-[#1C1D1F] rounded-[29px] p-10 max-w-[665px] w-full h-[600px] relative flex justify-center items-center flex-col shadow-1s">
         <button
           className="absolute top-6 left-6 text-2xl font-bold p-2 bg-purple bg-opacity-0 hover:bg-opacity-20 rounded-xl text-white transition-opacity duration-800"
           onClick={() => setCurrentSlide("signing")}

@@ -6,7 +6,7 @@ function PasswordChanged({ setCurrentSlide }) {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
       <div
-        className="bg-[#000000] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px] flex flex-col items-center justify-center gap-[43px] shadow-1s"
+        className="bg-[#1C1D1F] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px] flex flex-col items-center justify-center gap-[43px] shadow-1s"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Circular Loading Animation */}
