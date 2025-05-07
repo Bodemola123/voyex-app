@@ -25,6 +25,7 @@ function SearchPageContainer() {
     const [loading, setLoading] = useState(true);
     const [activeChatId, setActiveChatId] = useState(null);
 
+
     
 
     useEffect(() => {
@@ -82,37 +83,48 @@ function SearchPageContainer() {
     
   
   const [chat, setChat] = useState(null); // Store chat_id here
-    // Persist chat state across page reloads using sessionStorage
-    useEffect(() => {
-      const savedChatId = sessionStorage.getItem("chat_id");
-      const savedMessages = sessionStorage.getItem("messages");
+
+ useEffect(() => {
+  // Persist selectedFeatures to sessionStorage on change
+  sessionStorage.setItem("selectedFeatures", JSON.stringify(selectedFeatures));
+}, [selectedFeatures]);
+
+useEffect(() => {
+  if (messages.length > 0) {
+    sessionStorage.setItem("messages", JSON.stringify(messages));
+  }
+}, [messages]);
+
+useEffect(() => {
+  if (chat?.chat_id) {
+    sessionStorage.setItem("chat_id", chat.chat_id);
+  }
+}, [chat?.chat_id]);
+
+
+useEffect(() => {
+  const savedChatId = sessionStorage.getItem("chat_id");
+  const savedMessages = sessionStorage.getItem("messages");
+  const savedSelectedFeatures = sessionStorage.getItem("selectedFeatures");
+  const savedShowRecommendationButton = sessionStorage.getItem("showRecommendationButton");
+
+  if (savedChatId && savedMessages) {
+    setChat({ chat_id: savedChatId });
+    setMessages(JSON.parse(savedMessages));
+    setShowChat(true);
+    setIsRestoredChat(true); // ✅ Skip typing animation for restored chat
+
+    if (savedSelectedFeatures) {
+      setSelectedFeatures(JSON.parse(savedSelectedFeatures));
+    }
+
+    if (savedShowRecommendationButton) {
+      setShowRecommendationButton(JSON.parse(savedShowRecommendationButton));
+    }
+  }
+}, []);
+
     
-      if (savedChatId && savedMessages) {
-        setChat({ chat_id: savedChatId });
-        const parsedMessages = JSON.parse(savedMessages);
-        setMessages(parsedMessages);
-        setShowChat(true);
-        setIsRestoredChat(true); // ✅ This ensures restored messages skip typing animation
-    
-        // Rebuild selectedFeatures from saved messages
-        const restoredFeatures = {};
-        parsedMessages.forEach((msg, i) => {
-          if (msg.role === "bot" && msg.selectedOption) {
-            restoredFeatures[i] = msg.selectedOption;
-          }
-        });
-        setSelectedFeatures(restoredFeatures);
-    
-        // Restore visibleButtons based on saved messages
-        const restoredVisibleButtons = {};
-        parsedMessages.forEach((msg, i) => {
-          if (msg.role === "bot" && msg.options) {
-            restoredVisibleButtons[i] = true;
-          }
-        });
-        setVisibleButtons(restoredVisibleButtons);
-      }
-    }, []);
     
 
   const handleResetRecommendationButton = () => {
@@ -121,11 +133,10 @@ function SearchPageContainer() {
     setSelectionCount(0);
   };
 
-  const saveChatToAPI = async (userMessage, botResponse, recommendationButton, selectedOption) => {
+  const saveChatToAPI = async (userMessage, botResponse, recommendationButton, selectedIndex = null, selectedOption = null) => {
     const entityId = localStorage.getItem("entityId");
     const entityType = localStorage.getItem("userType") || localStorage.getItem("orgType");
   
-    const botIndex = messages.length + 1;
     const newMessages = [
       { role: "user", text: userMessage, timestamp: new Date() },
       {
@@ -133,10 +144,11 @@ function SearchPageContainer() {
         text: botResponse,
         timestamp: new Date(),
         recommendationButton,
-        selectedOption, // Directly use selectedOption here
-        ...(visibleButtons[botIndex] ? { options: buttonOptions[Object.keys(buttonOptions).find(key => botResponse.toLowerCase().includes(key))] } : {})
+        selectedOptionIndex: selectedIndex,
+        selectedOption: selectedOption
       }
     ];
+    
   
     if (!entityId || !entityType) return;
   
@@ -195,57 +207,54 @@ function SearchPageContainer() {
     }
   };
   
-
+  
+  
   const fetchChatById = async (chat_id) => {
     try {
       const res = await fetch(`https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${chat_id}`);
       const data = await res.json();
+  
+      setIsRestoredChat(true);
   
       if (Array.isArray(data.chat)) {
         setMessages(data.chat);
         setActiveChatId(data.chat_id);
         setChat({ chat_id });
         setShowChat(true);
+  
         sessionStorage.setItem("messages", JSON.stringify(data.chat));
         sessionStorage.setItem("chat_id", chat_id);
   
-        // Restore the recommendation button state
-        const recommendationState = data.chat.some(message => message.recommendationButton === true);
-        setShowRecommendationButton(recommendationState);
-  
+        // ✅ Rebuild selectedFeatures from bot messages
         const restoredSelectedFeatures = {};
-        const restoredVisibleButtons = {};
-        data.chat.forEach((message, index) => {
-          if (message.role === "bot" && message.selectedOption) {
-            restoredSelectedFeatures[index] = message.selectedOption;
-          }
-          if (message.role === "bot" && message.options) {
-            restoredVisibleButtons[index] = true;
+        data.chat.forEach((msg) => {
+          if (msg.role === "bot" && msg.selectedOptionIndex !== undefined && msg.selectedOption !== undefined) {
+            restoredSelectedFeatures[msg.selectedOptionIndex] = msg.selectedOption;
           }
         });
+        console.log("🔁 Restored selectedFeatures from chat:", restoredSelectedFeatures);
         setSelectedFeatures(restoredSelectedFeatures);
-        setVisibleButtons(restoredVisibleButtons);
-        
-                
-        
-        console.log("Restored selected features:", restoredSelectedFeatures);
-
+        sessionStorage.setItem("selectedFeatures", JSON.stringify(restoredSelectedFeatures));
   
-        setIsRestoredChat(true);
+        const recommendationState = data.chat.some(msg => msg.recommendationButton === true);
+        setShowRecommendationButton(recommendationState);
+        sessionStorage.setItem("showRecommendationButton", JSON.stringify(recommendationState));
       } else {
         console.error("Invalid chat format from API");
       }
     } catch (err) {
       console.error("Error fetching chat:", err);
     }
-  }; 
+  };
+  
+  
   
   const handleSendMessage = async (message = null, selectedIndex = null, selectedOption = null) => {
     try {
       const text = message || userInput.trim();
       if (!text) return;
   
-      setIsRestoredChat(false); // Ensure it's treated as a new live chat
+      setIsRestoredChat(false);
       setIsLoading(true);
   
       const userMessage = { text, role: "user", timestamp: new Date() };
@@ -253,11 +262,10 @@ function SearchPageContainer() {
       setUserInput("");
   
       const hardcodedReply = getHardcodedReply(text);
-          const botText = hardcodedReply || `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
+      const botText = hardcodedReply || `Do Androids Dream of Electric Sheep? is a 1968 dystopian science fiction novel by American writer Philip K. Dick. Set in a post-apocalyptic San Francisco, the story unfolds after a devastating global war.
       1. Androids and Humans: The novel explores the uneasy coexistence of humans and androids. Androids, manufactured on Mars, rebel, kill their owners, and escape to Earth, where they hope to remain undetected.
       2. Empathy and Identity: To distinguish androids from humans, the Voigt-Kampff Test measures emotional responses. Androids lack empathy, making them vulnerable to detection.
       3. Status Symbols: Owning real animals is a status symbol due to mass extinctions. Poor people resort to realistic electric robotic imitations of live animals, concealing their true nature from neighbors.`;
-  
   
       const lastMessage = messages[messages.length - 1];
       if (lastMessage && lastMessage.role === "bot" && !isBotTyping) {
@@ -267,27 +275,13 @@ function SearchPageContainer() {
       }
   
       setTimeout(async () => {
-        const matchingKey = Object.keys(buttonOptions).find((key) =>
-          botText.toLowerCase().includes(key)
-        );
-        const options = matchingKey ? buttonOptions[matchingKey] : null;
-  
-        // Debugging: Log the selectedFeatures and selectedIndex
-        console.log("selectedFeatures:", selectedFeatures);
-        console.log("selectedIndex:", selectedIndex);
-  
-        // Ensure selectedOption is set correctly before sending
-        const finalSelectedOption = selectedOption;
-  
-        console.log("selectedOption before sending:", finalSelectedOption);  // Debugging
-  
         const botMessage = {
           text: botText,
           role: "bot",
           timestamp: new Date(),
-          selectedOption: finalSelectedOption,
           recommendationButton: botText.toLowerCase().includes("nice! let's recommend some tools for you"),
-          ...(options ? { options } : {})
+          selectedOptionIndex: selectedIndex, // 👈 add this
+          selectedOption: selectedOption,     // 👈 add this
         };
   
         setMessages((prev) => [...prev, botMessage]);
@@ -300,7 +294,9 @@ function SearchPageContainer() {
           }, 2000);
         }
   
-        await saveChatToAPI(text, botText, botMessage.recommendationButton, selectedOption);
+        // 👇 Send selectedOption info with bot message
+        await saveChatToAPI(text, botText, botMessage.recommendationButton, selectedIndex, selectedOption);
+        
       }, 2000);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -310,9 +306,6 @@ function SearchPageContainer() {
     }
   };
   
-  
-
-
     const handleNewConversation = async () => {
       console.log("Starting new conversation, clearing chat_id");
     
