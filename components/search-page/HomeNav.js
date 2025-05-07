@@ -20,7 +20,7 @@ const HomeNav = ({
   setLoading,
   error,
   setShowChat,
-   activeChatId
+   activeChatId, handleNewConversation,handleResetRecommendationButton
 }) => {
   const [dropdownChatId, setDropdownChatId] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -41,6 +41,8 @@ const HomeNav = ({
       setChats(prev => prev.filter(chat => chat.chat_id !== selectedChat.chat_id));
       if (selectedChat.chat_id === activeChatId) {
         setShowChat(false);
+        handleNewConversation()
+        handleResetRecommendationButton()
       }
       toast.success("Chat deleted successfully!");
     } catch (error) {

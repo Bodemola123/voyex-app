@@ -87,7 +87,7 @@ function ChatBotContainer({
         setChats={setChats} 
         setLoading={setLoading}
         setShowChat={setShowChat}
-        activeChatId={activeChatId}  />}
+        activeChatId={activeChatId} />}
       </div>
       </div>
 

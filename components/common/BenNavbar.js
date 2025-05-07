@@ -33,7 +33,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
   const loggedInAsOrg = orgType === "organization";
 
   return (
-    <nav className="h-screen z-10 w-16 bg-[#1D1F20] border-r flex flex-col justify-between items-center py-6 text-white">
+    <nav className="h-screen z-10 w-16 bg-[#1D1F20] border-r border-[#F4F4F41A] flex flex-col justify-between items-center py-6 text-white">
       <div className="flex flex-col gap-8 justify-center items-center">
         {/* Toggle History Button */}
         <button

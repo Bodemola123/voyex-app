@@ -45,6 +45,8 @@ function SearchMain({
   setChats,
   setLoading,
   activeChatId,
+  handleNewConversation,
+  handleResetRecommendationButton
 }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [predictiveText, setPredictiveText] = useState("");
@@ -226,7 +228,9 @@ null
         setChats={setChats} 
         setLoading={setLoading} 
         setShowChat={setShowChat}
-        activeChatId={activeChatId} />}
+        activeChatId={activeChatId}
+        handleNewConversation={handleNewConversation}
+        handleResetRecommendationButton={handleResetRecommendationButton} />}
       </div>
       </div>
       <div className="flex-grow relative flex flex-col w-full h-full justify-between items-center overflow-y-scroll pb-6 pt-1 px-6 scrollbar-hide scroll-container">

@@ -31,7 +31,7 @@ const SearchNavOpen = ({
   setLoading,
   error, 
 setShowChat,
-activeChatId}) => {
+activeChatId,}) => {
 
   const [activeModal, setActiveModal] = useState(null);
   const [firstModalData, setFirstModalData] = useState({});
@@ -67,6 +67,8 @@ activeChatId}) => {
       setChats(prev => prev.filter(chat => chat.chat_id !== selectedChat.chat_id));
       if (selectedChat.chat_id === activeChatId) {
         setShowChat(false);
+        handleNewConversation()
+        handleResetRecommendationButton()
       }
       
       toast.success("Chat deleted successfully!");

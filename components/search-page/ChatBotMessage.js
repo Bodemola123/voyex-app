@@ -226,14 +226,19 @@ useEffect(() => {
       
 // Option click handler to track new selections
 const handleOptionClick = (index, option) => {
+  if (selectedFeatures[index]) return; // already selected
   if (selectedFeatures.hasOwnProperty(index)) return;
 
-  const newSelectedFeatures = {
-    ...selectedFeatures,
+  // const newSelectedFeatures = {
+  //   ...selectedFeatures,
+  //   [index]: option,
+  // };
+  setSelectedFeatures((prev) => ({
+    ...prev,
     [index]: option,
-  };
+  }));
 
-  setSelectedFeatures(newSelectedFeatures);
+  // setSelectedFeatures(newSelectedFeatures);
 
   // Add the selected option to hiddenMessages to prevent display in the UI
   // setHiddenMessages((prev) => [...prev, option]);
@@ -242,7 +247,7 @@ const handleOptionClick = (index, option) => {
   // setTimeout(() => {
   //   handleSendMessage(option); // Send the option but don't display as user message
   // }, 0);
-  handleSendMessage(option, index)
+  handleSendMessage(option, index, option)
   // Track the number of new selections after reset
   setSelectionCount((prev) => prev + 1);
 
@@ -286,22 +291,23 @@ const handleOptionClick = (index, option) => {
                 {/* Render Buttons if Matching Key is Found */}
                 {matchingKey && visibleButtons[index] && (
   <div className="flex flex-row gap-2">
-    {buttonOptions[matchingKey].map((option) => (
-      <button
-        key={option}
-        className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
-          selectedFeatures[index] === option
-            ? "bg-[#f4f4f4] text-[#1C1D1F]"
-            : selectedFeatures[index]
-            ? "bg-[#1C1D1F] text-[#f4f4f4]"
-            : "bg-[#1C1D1F] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#1C1D1F]"
-        }`}
-        onClick={() => handleOptionClick(index, option)}
-        disabled={!!selectedFeatures[index]}
-      >
-        {option}
-      </button>
-    ))}
+{buttonOptions[matchingKey].map((option) => (
+  <button
+    key={option}
+    className={`py-2 px-4 rounded-3xl transition-colors duration-200 text-sm ${
+      selectedFeatures[index] === option
+        ? "bg-[#f4f4f4] text-[#1C1D1F]" // ✅ Style for selected option
+        : selectedFeatures[index]
+        ? "bg-[#1C1D1F] text-[#f4f4f4] opacity-50" // ✅ Style for unselected but already chosen
+        : "bg-[#1C1D1F] text-[#f4f4f4] hover:bg-[#f4f4f4] hover:text-[#1C1D1F]"
+    }`}
+    onClick={() => handleOptionClick(index, option)}
+    disabled={Boolean(selectedFeatures[index])} // ✅ Disable button if selectedFeatures exists
+  >
+    {option}
+  </button>
+))}
+
   </div>
 )}
 
