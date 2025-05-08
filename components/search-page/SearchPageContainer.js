@@ -8,19 +8,9 @@ import { buttonOptions } from "@/constants/search-page";
 
 function SearchPageContainer() {
   const [messages, setMessages] = useState([]);
-  const [selectedFeatures, setSelectedFeatures] = useState(() => {
-    const stored = sessionStorage.getItem("selectedFeatures");
-    try {
-      return stored ? JSON.parse(stored) : {};
-    } catch {
-      return {};
-    }
-  });
+  const [selectedFeatures, setSelectedFeatures] = useState({})
   
-  const [showRecommendationButton, setShowRecommendationButton] = useState(() => {
-    const stored = sessionStorage.getItem("showRecommendationButton");
-    return stored ? JSON.parse(stored) : false;
-  });
+  const [showRecommendationButton, setShowRecommendationButton] = useState(false);
   
   const [userInput, setUserInput] = useState("");
   const [error, setError] = useState(null);
@@ -36,6 +26,23 @@ function SearchPageContainer() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const [activeChatId, setActiveChatId] = useState(null);
+
+    useEffect(() => {
+      // This runs only on the client
+      const storedFeatures = sessionStorage.getItem("selectedFeatures");
+      if (storedFeatures) {
+        try {
+          setSelectedFeatures(JSON.parse(storedFeatures));
+        } catch (e) {
+          console.warn("Failed to parse selectedFeatures from sessionStorage");
+        }
+      }
+    
+      const storedRecommendation = sessionStorage.getItem("showRecommendationButton");
+      if (storedRecommendation !== null) {
+        setShowRecommendationButton(JSON.parse(storedRecommendation));
+      }
+    }, []);
 
 
     
