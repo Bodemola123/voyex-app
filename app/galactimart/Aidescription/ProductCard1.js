@@ -11,7 +11,7 @@ const ProductCard = ( {product} ) => {
     const [hovered, setHovered] = useState(false);
 
   return (
-    <div className='w-[341px] flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]'
+    <div className='w-full max-w-[421px] flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
@@ -34,8 +34,7 @@ const ProductCard = ( {product} ) => {
             </div>
         </div>
         <div className='text-sm font-normal '>
-            <p>Supports GPT-4 and GPT-3.5. OpenAI&apos;s</p>
-            <p className='truncate'>next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
+          <p className='line-clamp-2'>Supports GPT-4 and GPT-3.5. OpenAI&apos;s next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.</p>
         </div>
         {!hovered && (
         <div className='flex flex-row items-center justify-start gap-2 mt-4'>
