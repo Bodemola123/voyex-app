@@ -9,7 +9,7 @@ const ReviewSecond = () => {
 
 
   return (
-    <div className="relative bg-[#131314] rounded-3xl p-6 grid grid-row-2 gap-[22.46px] scroll-container">
+    <div className="relative bg-[#131314] rounded-3xl p-6 grid grid-row-2 gap-[22.46px] border border-[#D0D5DD1A]">
         <div className='flex flex-row items-center justify-between'>
             <p className='font-bold text-2xl text-[#F4F4F4]'>Reviews</p>
             <button className='flex flex-row items-center gap-[5.62px] px-3.5 pt-3.5  '>

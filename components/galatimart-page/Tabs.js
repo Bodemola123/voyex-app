@@ -28,7 +28,7 @@ const Tabs = () => {
     ),
 
     'From the Developer': (
-      <div className="p-6 bg-[#131314] rounded-3xl">
+      <div className="p-6 bg-[#131314] rounded-3xl border border-[#D0D5DD1A]">
         <h2 className="text-xl font-semibold">Developers Note</h2>
         <p className="mt-4">
           This platform is continuously evolving, and we value your feedback.

@@ -9,12 +9,7 @@ import './CardsSection.css';
 const Body = () => {
 
   return (
-    <div className='flex flex-col gap-8 w-[100%]'>
-        <div className='border w-full rounded-[18px] border-card h-[610px] bg-cover bg-center bg-no-repeat flex justify-center items-center' style={{ backgroundImage: "url('/Logged-in.svg')" }}>
-                <button className=' p-[23.86px] gap-[23.86px] border rounded-3xl flex  items-center justify-center bg-custom-gradient backdrop-blur-custom'>
-                    <CiPlay1 className='text-white w-10 h-10'/>
-                </button>
-        </div>
+    <div className='flex flex-col gap-8 w-full'>
         <Tabs/>
         <div className='flex flex-col gap-4'>
             <span className='text-[#F4F4F4] text-2xl font-bold'>Other Apps like CHATGPT</span>

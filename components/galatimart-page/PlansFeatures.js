@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const PlansFeatures = () => {
   return (
-    <div className=" text-[#F4F4F4] p-6 gap-6 flex flex-col bg-[#131314] rounded-3xl">
+    <div className=" text-[#F4F4F4] p-6 gap-6 flex flex-col bg-[#131314] rounded-3xl border border-[#D0D5DD1A]">
     <div className='flex justify-start items-center'>
         <p className='font-bold text-[22.46px] leading-[33.7px]'>Deal Terms and Conditions</p>
     </div>

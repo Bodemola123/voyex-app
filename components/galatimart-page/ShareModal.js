@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { AiOutlineCopy, AiOutlineInstagram, AiOutlineWhatsApp } from 'react-icons/ai';
+import { IoCopyOutline } from 'react-icons/io5';
 import { RxCross2 } from "react-icons/rx";
 
 const ShareModal = ({ isOpen, onClose, position }) => {
@@ -22,13 +23,13 @@ const ShareModal = ({ isOpen, onClose, position }) => {
   return (
     <div
       ref={modalRef}
-      className="absolute z-50 bg-[#010202] p-6 w-[385px] rounded-lg shadow-lg flex flex-col gap-4"
+      className="absolute z-50 bg-[#010202] p-6 w-[450px] rounded-[25px] shadow-lg flex flex-col gap-4"
       style={{ top: position?.top, right: position?.right }}
     >
-      <div className='flex justify-between'>
-        <p>Share ChatGPT</p>
+      <div className='flex justify-between flex-row items-center'>
+        <p className='text-2xl font-semibold text-[#ffffff]'>Share ChatGPT</p>
         <button onClick={onClose}>
-          <RxCross2 className='text-white' />
+          <RxCross2 className='text-white text-lg' />
         </button>
       </div>
       <div className="flex gap-4">
@@ -44,11 +45,11 @@ const ShareModal = ({ isOpen, onClose, position }) => {
       </div>
 
       <div className='flex flex-col gap-2'>
-        <p>Copy Link</p>
-        <div className="bg-gray-800 bg-[#131314] rounded-md p-3 flex items-center justify-between">
-          <p className="text-white text-sm">https://app.voyex.xyz/s/chatGPT</p>
+        <p className='text-base font-normal text-white'>Copy Link</p>
+        <div className="bg-[#171920] rounded-[51px] p-4 flex items-center justify-between">
+          <p className="text-white text-base font-medium">https://app.voyex.xyz/s/chatGPT</p>
           <button>
-            <AiOutlineCopy className="w-6 h-6 text-white" />
+            <IoCopyOutline className="w-6 h-6 text-white" />
           </button>
         </div>
       </div>

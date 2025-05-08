@@ -348,7 +348,7 @@ const handleOptionClick = (index, option) => {
   
  
   return (
-    <div className="relative w-[950px]" >
+    <div className="relative w-[1000px]" >
             {showRecommendations ? (
         <Recommendations setShowRecommendations={setShowRecommendations} /> 
       ) :
