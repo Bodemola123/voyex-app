@@ -632,26 +632,8 @@ const signing = async () => {
       //  console.warn("Logout triggered but temporarily disabled for debugging.");
       // console.log("Access Token Before Logout:", localStorage.getItem('access_token'));
       // console.log("Refresh Token Before Logout:", localStorage.getItem('refresh_token'));
-      localStorage.removeItem("userType");
-      localStorage.removeItem("orgType");
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("user_email");
-      localStorage.removeItem("user_password");
-      localStorage.removeItem("fullName");
-      localStorage.removeItem("firstName");
-      localStorage.removeItem("userEmail")
-      localStorage.removeItem("orgId")
-      localStorage.removeItem('entityId')
-      localStorage.removeItem("chat_id");
-      localStorage.removeItem("messages");
-      localStorage.removeItem('chats');
-      localStorage.removeItem('orgEmail');
-      localStorage.removeItem('orgName')
-      localStorage.removeItem('poc')
-      localStorage.removeItem('role')
-      localStorage.removeItem('accessLevel')
+      localStorage.clear();      // Clears all localStorage keys
+      sessionStorage.clear();    // Optional: also clear sessionStorage
     window.location.href = "/auth/organization"// Redirect to login page
   };
   const organizationSignin = async () => {

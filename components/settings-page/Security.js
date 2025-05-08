@@ -7,26 +7,8 @@ function Security() {
 
   const logoutUser = () => {
     // Clear tokens and user details from localStorage
-    localStorage.removeItem("userType");
-    localStorage.removeItem("orgType");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("user_email");
-    localStorage.removeItem("user_password");
-    localStorage.removeItem("fullName");
-    localStorage.removeItem("firstName");
-    localStorage.removeItem("userEmail")
-    localStorage.removeItem("orgId")
-    localStorage.removeItem('entityId')
-    localStorage.removeItem("chat_id");
-    localStorage.removeItem("messages");
-    localStorage.removeItem('chats');
-    localStorage.removeItem('orgEmail');
-    localStorage.removeItem('orgName');
-    localStorage.removeItem('poc')
-    localStorage.removeItem('role')
-    localStorage.removeItem('accessLevel')
+    localStorage.clear();      // Clears all localStorage keys
+    sessionStorage.clear();    // Optional: also clear sessionStorage
 
     console.log("User logged out");
     toast.success("Logging out. Redirecting to Sign-in");
