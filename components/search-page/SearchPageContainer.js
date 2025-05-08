@@ -8,8 +8,20 @@ import { buttonOptions } from "@/constants/search-page";
 
 function SearchPageContainer() {
   const [messages, setMessages] = useState([]);
-  const [selectedFeatures, setSelectedFeatures] = useState({});
-  const [showRecommendationButton, setShowRecommendationButton] = useState(false);
+  const [selectedFeatures, setSelectedFeatures] = useState(() => {
+    const stored = sessionStorage.getItem("selectedFeatures");
+    try {
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  });
+  
+  const [showRecommendationButton, setShowRecommendationButton] = useState(() => {
+    const stored = sessionStorage.getItem("showRecommendationButton");
+    return stored ? JSON.parse(stored) : false;
+  });
+  
   const [userInput, setUserInput] = useState("");
   const [error, setError] = useState(null);
   const [showChat, setShowChat] = useState(false);
@@ -84,10 +96,10 @@ function SearchPageContainer() {
   
   const [chat, setChat] = useState(null); // Store chat_id here
 
- useEffect(() => {
-  // Persist selectedFeatures to sessionStorage on change
-  sessionStorage.setItem("selectedFeatures", JSON.stringify(selectedFeatures));
-}, [selectedFeatures]);
+  useEffect(() => {
+    sessionStorage.setItem("selectedFeatures", JSON.stringify(selectedFeatures));
+  }, [selectedFeatures]);
+  
 
 useEffect(() => {
   if (messages.length > 0) {
@@ -101,22 +113,23 @@ useEffect(() => {
   }
 }, [chat?.chat_id]);
 
+useEffect(() => {
+  sessionStorage.setItem("showRecommendationButton", JSON.stringify(showRecommendationButton));
+}, [showRecommendationButton]);
+
+
 
 useEffect(() => {
   const savedChatId = sessionStorage.getItem("chat_id");
   const savedMessages = sessionStorage.getItem("messages");
-  const savedSelectedFeatures = sessionStorage.getItem("selectedFeatures");
   const savedShowRecommendationButton = sessionStorage.getItem("showRecommendationButton");
 
   if (savedChatId && savedMessages) {
     setChat({ chat_id: savedChatId });
     setMessages(JSON.parse(savedMessages));
     setShowChat(true);
+    setActiveChatId(savedChatId)
     setIsRestoredChat(true); // ✅ Skip typing animation for restored chat
-
-    if (savedSelectedFeatures) {
-      setSelectedFeatures(JSON.parse(savedSelectedFeatures));
-    }
 
     if (savedShowRecommendationButton) {
       setShowRecommendationButton(JSON.parse(savedShowRecommendationButton));
@@ -124,7 +137,20 @@ useEffect(() => {
   }
 }, []);
 
-    
+useEffect(() => {
+  const savedSelectedFeatures = sessionStorage.getItem("selectedFeatures");
+
+  if (savedSelectedFeatures) {
+    try {
+      const parsed = JSON.parse(savedSelectedFeatures);
+      setSelectedFeatures(parsed);
+      console.log("✅ Restored selectedFeatures on load:", parsed);
+    } catch (e) {
+      console.error("❌ Failed to parse selectedFeatures from sessionStorage", e);
+    }
+  }
+}, []);
+
     
 
   const handleResetRecommendationButton = () => {
@@ -148,6 +174,11 @@ useEffect(() => {
         selectedOption: selectedOption
       }
     ];
+
+    console.log("📦 Payload to API:", {
+      selectedIndex,
+      selectedOption
+    });
     
   
     if (!entityId || !entityType) return;
@@ -173,6 +204,7 @@ useEffect(() => {
         console.log("PUT Response:", data);
   
         if (data.chat) {
+          setActiveChatId(data.chat_id);
           setMessages(data.chat);
           sessionStorage.setItem("messages", JSON.stringify(data.chat));
           await fetchChats();
@@ -199,6 +231,7 @@ useEffect(() => {
         if (data.chat_id) {
           setChat({ chat_id: data.chat_id });
           sessionStorage.setItem("chat_id", data.chat_id);
+          setActiveChatId(data.chat_id);
           await fetchChats();
         }
       }
@@ -221,6 +254,8 @@ useEffect(() => {
         setActiveChatId(data.chat_id);
         setChat({ chat_id });
         setShowChat(true);
+        console.log("📥 API data:", data);
+
   
         sessionStorage.setItem("messages", JSON.stringify(data.chat));
         sessionStorage.setItem("chat_id", chat_id);
@@ -283,6 +318,13 @@ useEffect(() => {
           selectedOptionIndex: selectedIndex, // 👈 add this
           selectedOption: selectedOption,     // 👈 add this
         };
+
+        console.log("📤 Sending botMessage with selectedOption data:", {
+          botText,
+          selectedIndex,
+          selectedOption,
+        });
+        
   
         setMessages((prev) => [...prev, botMessage]);
         setIsBotTyping(false);
@@ -293,7 +335,7 @@ useEffect(() => {
             setShowRecommendationButton(true);
           }, 2000);
         }
-  
+
         // 👇 Send selectedOption info with bot message
         await saveChatToAPI(text, botText, botMessage.recommendationButton, selectedIndex, selectedOption);
         

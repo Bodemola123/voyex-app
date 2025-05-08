@@ -243,7 +243,7 @@ const handleOptionClick = (index, option) => {
   // setTimeout(() => {
   //   handleSendMessage(option); // Send the option but don't display as user message
   // }, 0);
-  handleSendMessage(option, index)
+  handleSendMessage(option, index, option)
   // Track the number of new selections after reset
   setSelectionCount((prev) => prev + 1);
 
