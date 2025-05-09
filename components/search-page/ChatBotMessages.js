@@ -15,6 +15,24 @@ const ChatBotMessages = ({ messages, setMessages }) => {
   const [botTyping, setBotTyping] = useState(false); // Bot typing state
   const messagesEndRef = useRef(null);
 
+  const getBotReply = (userInput) => {
+    const question = userInput.toLowerCase();
+  
+    if (question.includes("hello") || question.includes("hi")) {
+      return "Hello! How can I assist you today?";
+    } else if (question.includes("price") || question.includes("cost")) {
+      return "Our pricing depends on your needs. Can you share more details?";
+    } else if (question.includes("support")) {
+      return "Our support team is available 24/7. You can reach out anytime!";
+    } else if (question.includes("refund")) {
+      return "Refunds are processed within 5-7 business days after approval.";
+    } else if (question.includes("features")) {
+      return "We offer a wide range of features including analytics, integrations, and real-time support.";
+    }
+  
+    return "Thank you for reaching out! How can I assist you?";
+  };
+
   // Function to handle sending messages
   const sendMessage = () => {
     if (inputMessage.trim() !== "" && !botTyping) {

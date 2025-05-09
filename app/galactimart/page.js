@@ -17,6 +17,7 @@ function GalactiMart() {
   const [priceFilter, setPriceFilter] = useState("All");
   const [ratingFilter, setRatingFilter] = useState("All");
   const [error, setError] = useState(null); // State for error
+  const [recommendedToolsBase, setRecommendedToolsBase] = useState([]);
 
   useEffect(() => {
     const fetchTools = async () => {
@@ -49,6 +50,9 @@ function GalactiMart() {
 
         setCategories(allSections);
         setToolsData(parsedTools);
+            // Set 6 random tools only once after fetching
+    const shuffled = [...parsedTools].sort(() => 0.5 - Math.random());
+    setRecommendedToolsBase(shuffled.slice(0, 6));
         setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch tools:", error);
@@ -90,6 +94,27 @@ function GalactiMart() {
       return 0;
     });
 
+    const filteredRecommendedTools = recommendedToolsBase.filter((tool) => {
+      if (selectedCategory && tool.category !== selectedCategory) return false;
+      if (searchQuery && !tool.tool_name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+      if (priceFilter === "Free" && tool.pricing_model !== "Freemium") return false;
+      if (priceFilter === "Paid" && tool.pricing_model !== "Paid") return false;
+    
+      if (ratingFilter !== "All") {
+        const ratingRange = {
+          1: [0.0, 1.99],
+          2: [2.0, 2.99],
+          3: [3.0, 3.99],
+          4: [4.0, 4.99],
+          5: [5.0, 5.0],
+        };
+        const [min, max] = ratingRange[ratingFilter];
+        if (tool.rating < min || tool.rating > max) return false;
+      }
+    
+      return true;
+    });
+    
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
@@ -153,6 +178,7 @@ function GalactiMart() {
         />
         <div className="w-full">
           <Card1
+            recommendedTools={filteredRecommendedTools}
             toolsData={filteredTools}
             categories={categories}
             selectedCategory={selectedCategory}

@@ -3,13 +3,8 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 
-// Helper function to get N random items from an array
-const getRandomTools = (tools, count) => {
-  const shuffled = [...tools].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-};
 
-const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error }) => {
+const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error, recommendedTools }) => {
   if (error) {
     return (
       <div className="text-red-500 p-4 bg-[#1c1d1f] rounded-lg text-center">
@@ -26,8 +21,6 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error }) =>
     );
   }
 
-  // Use already-filtered toolsData to pick top 6 random tools
-  const recommendedTools = getRandomTools(toolsData, 6);
 
   // Group filtered tools by category
   const toolsByCategory = categories.reduce((acc, category) => {
@@ -44,34 +37,36 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error }) =>
   return (
     <div className="flex flex-col gap-12">
       {/* ⭐ TOP RECOMMENDATIONS FOR YOU */}
-      {recommendedTools.length > 0 && (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-row items-center justify-between w-full">
-            <div className="flex gap-2 flex-col w-full">
-              <h1 className="text-2xl font-bold capitalize">⭐ TOP RECOMMENDATIONS FOR YOU</h1>
-              <p>
-                Here are some stellar tools we think you&apos;ll love. Discover something new every time!
-              </p>
-            </div>
-          </div>
+      {recommendedTools && recommendedTools.length > 0 && (
+  <div className="flex flex-col gap-4">
+    <div className="flex flex-row items-center justify-between w-full">
+      <div className="flex gap-2 flex-col w-full">
+        <h1 className="text-2xl font-bold capitalize">⭐ Top Recommendations for You</h1>
+        <p>
+          Handpicked galactic gems tailored for your journey across the stars. 
+          These are the top tools we think you&apos;ll love!
+        </p>
+      </div>
+    </div>
 
-          <div className="grid grid-cols-3 gap-4 w-full">
-            {recommendedTools.map((tool) => (
-              <ProductCard
-                key={tool.tool_id}
-                product={{
-                  id: tool.tool_id,
-                  title: tool.tool_name,
-                  image: tool.icon,
-                  rating: tool.rating,
-                  description: tool.large_description,
-                  tags: tool.use_case_tags,
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+    <div className="grid grid-cols-3 gap-4 w-full">
+      {recommendedTools.map((tool) => (
+        <ProductCard
+          key={tool.tool_id}
+          product={{
+            id: tool.tool_id,
+            title: tool.tool_name,
+            image: tool.icon,
+            rating: tool.rating,
+            description: tool.large_description,
+            tags: tool.use_case_tags,
+          }}
+        />
+      ))}
+    </div>
+  </div>
+)}
+
 
       {/* Tools by Category */}
       {Object.entries(toolsByCategory).map(([category, tools]) => {
