@@ -3,6 +3,12 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 
+// Helper function to get N random items from an array
+const getRandomTools = (tools, count) => {
+  const shuffled = [...tools].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+};
+
 const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error }) => {
   if (error) {
     return (
@@ -11,6 +17,7 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error }) =>
       </div>
     );
   }
+
   if (isLoading) {
     return (
       <div className="w-full h-64 flex justify-center items-center">
@@ -19,26 +26,55 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error }) =>
     );
   }
 
-// Group tools by category after filtering and sort by created_at (newest first)
-const toolsByCategory = categories.reduce((acc, category) => {
-  const toolsInCategory = toolsData
-    .filter((tool) => tool.category === category)
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // <-- sort here
+  // Use already-filtered toolsData to pick top 6 random tools
+  const recommendedTools = getRandomTools(toolsData, 6);
 
+  // Group filtered tools by category
+  const toolsByCategory = categories.reduce((acc, category) => {
+    const toolsInCategory = toolsData
+      .filter((tool) => tool.category === category)
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-  if (toolsInCategory.length > 0) {
-    acc[category] = toolsInCategory;
-  }
-  return acc;
-}, {});
-
-
-
+    if (toolsInCategory.length > 0) {
+      acc[category] = toolsInCategory;
+    }
+    return acc;
+  }, {});
 
   return (
     <div className="flex flex-col gap-12">
+      {/* ⭐ TOP RECOMMENDATIONS FOR YOU */}
+      {recommendedTools.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-row items-center justify-between w-full">
+            <div className="flex gap-2 flex-col w-full">
+              <h1 className="text-2xl font-bold capitalize">⭐ TOP RECOMMENDATIONS FOR YOU</h1>
+              <p>
+                Here are some stellar tools we think you&apos;ll love. Discover something new every time!
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4 w-full">
+            {recommendedTools.map((tool) => (
+              <ProductCard
+                key={tool.tool_id}
+                product={{
+                  id: tool.tool_id,
+                  title: tool.tool_name,
+                  image: tool.icon,
+                  rating: tool.rating,
+                  description: tool.large_description,
+                  tags: tool.use_case_tags,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tools by Category */}
       {Object.entries(toolsByCategory).map(([category, tools]) => {
-        // Only show selected category if one is selected
         if (selectedCategory && category !== selectedCategory) return null;
 
         const toolsToDisplay = tools.slice(0, 6);
@@ -49,8 +85,7 @@ const toolsByCategory = categories.reduce((acc, category) => {
               <div className="flex gap-2 flex-col w-full">
                 <h1 className="text-2xl font-bold capitalize">{category}</h1>
                 <p>
-                  A stellar selection of tools tailored to your interstellar
-                  adventures in {category}.
+                  A stellar selection of tools tailored to your interstellar adventures in {category}.
                 </p>
               </div>
               <div className="w-[100px]">

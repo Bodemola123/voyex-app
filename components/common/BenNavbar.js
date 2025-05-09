@@ -66,7 +66,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                 } group-hover:text-[#f4f4f4]`}
               />
             </Link>
-            <span className="absolute top-full -mt-2 left-full text-sm text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="absolute top-full -mt-2 left-full text-sm text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
               Home
             </span>
           </div>
@@ -86,7 +86,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                 } group-hover:text-[#f4f4f4]`}
               />
             </Link>
-            <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
               Templates
             </span>
           </div>
@@ -106,7 +106,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                 } group-hover:text-[#f4f4f4]`}
               />
             </Link>
-            <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
               Galactimart
             </span>
           </div>
@@ -127,7 +127,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                   } group-hover:text-[#f4f4f4]`}
                 />
               </Link>
-              <span className="absolute hidden top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] group-hover:flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="absolute hidden top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
                 Workspace
               </span>
             </div>
@@ -154,7 +154,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
         } group-hover:text-[#f4f4f4]`}
       />
     </Link>
-    <span className="absolute hidden top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-[#131314] px-2.5 py-1.5 rounded-[13px] group-hover:flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+    <span className="absolute hidden top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
       Settings
     </span>
   </div>
