@@ -7,11 +7,7 @@ import { getHardcodedReply } from "@/constants/search-page";
 import { buttonOptions } from "@/constants/search-page";
 
 function SearchPageContainer() {
-  const [messages, setMessages] = useState([]);
-  const [selectedFeatures, setSelectedFeatures] = useState({})
-  
-  const [showRecommendationButton, setShowRecommendationButton] = useState(false);
-  
+  const [messages, setMessages] = useState([]);  
   const [userInput, setUserInput] = useState("");
   const [error, setError] = useState(null);
   const [showChat, setShowChat] = useState(false);
@@ -26,6 +22,22 @@ function SearchPageContainer() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const [activeChatId, setActiveChatId] = useState(null);
+    const [selectedFeatures, setSelectedFeatures] = useState(() => {
+      if (typeof window !== "undefined") {
+        const saved = sessionStorage.getItem("selectedFeatures");
+        return saved ? JSON.parse(saved) : {};
+      }
+      return {};
+    });
+    
+    const [showRecommendationButton, setShowRecommendationButton] = useState(() => {
+      if (typeof window !== "undefined") {
+        const saved = sessionStorage.getItem("showRecommendationButton");
+        return saved ? JSON.parse(saved) : false;
+      }
+      return false;
+    });
+    
 
     useEffect(() => {
       // This runs only on the client
@@ -370,6 +382,8 @@ useEffect(() => {
       // Remove persisted chat information from sessionStorage
       sessionStorage.removeItem("chat_id");
       sessionStorage.removeItem("messages");
+      sessionStorage.removeItem("selectedFeatures");
+      sessionStorage.removeItem("showRecommendationButton");
     };
     
   return !showChat ? (
