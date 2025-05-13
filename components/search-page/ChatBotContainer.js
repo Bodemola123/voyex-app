@@ -39,6 +39,7 @@ function ChatBotContainer({
   isRestoredChat,
   setIsRestoredChat,
   activeChatId,
+  fetchChats
 }) {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   
@@ -87,7 +88,8 @@ function ChatBotContainer({
         setChats={setChats} 
         setLoading={setLoading}
         setShowChat={setShowChat}
-        activeChatId={activeChatId} />}
+        activeChatId={activeChatId}
+        fetchChats={fetchChats} />}
       </div>
       </div>
 

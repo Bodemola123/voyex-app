@@ -20,7 +20,7 @@ const HomeNav = ({
   setLoading,
   error,
   setShowChat,
-   activeChatId, handleNewConversation,handleResetRecommendationButton
+   activeChatId, handleNewConversation,handleResetRecommendationButton, fetchChats
 }) => {
   const [dropdownChatId, setDropdownChatId] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -54,25 +54,48 @@ const HomeNav = ({
     }
   };
 
-  const handleRenameChat = (newName) => {
+  const handleRenameChat = async (newName) => {
     if (!newName.trim() || !selectedChat) return;
-
+  
     try {
-      setChats(prev =>
-        prev.map(chat =>
-          chat.chat_id === selectedChat.chat_id
-            ? { ...chat, title: newName }
-            : chat
-        )
+      const res = await fetch(
+        `https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${selectedChat.chat_id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: selectedChat.chat_id,
+            chat_title: newName,
+            chat: selectedChat.chat || [],
+            metadata: { using: "chatbot" }
+          })
+        }
       );
-      toast.success("Chat renamed successfully!");
+  
+      const data = await res.json();
+  
+      if (data.chat_id) {
+        // Update local state
+        setChats((prev) =>
+          prev.map((chat) =>
+            chat.chat_id === selectedChat.chat_id
+              ? { ...chat, chat_title: newName } // 👈 Make sure you're using `chat_title`
+              : chat
+          )
+        );
+        toast.success("Chat renamed successfully!");
+      } else {
+        throw new Error("Rename failed");
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Rename error:", error);
       toast.error("Failed to rename chat.");
     } finally {
+      await fetchChats(); // Refresh chat list
       setShowRenameModal(false);
     }
   };
+  
 
   const categorizeChatsByDate = (chats) => {
     const today = new Date();
@@ -111,8 +134,7 @@ const HomeNav = ({
       </div>
       <div className="flex flex-col gap-3 text-xs font-medium">
         {chatsList.map((chat) => {
-          const firstUserMessage = chat.chat?.find(msg => msg.role === 'user');
-          const title = firstUserMessage?.text || 'Untitled';
+          const title = chat.chat_title || 'Untitled';
   
           return (
             <div
@@ -212,9 +234,7 @@ const HomeNav = ({
   <DeleteChatModal
     onClose={() => setShowDeleteModal(false)}
     onConfirm={handleDeleteChat}
-    currentTitle={
-      selectedChat?.chat?.find(msg => msg.role === 'user')?.text || 'Untitled'
-    }
+    currentTitle={selectedChat.chat_title || 'Untitled'}
   />
 )}
 
@@ -222,9 +242,7 @@ const HomeNav = ({
   <RenameChatModal
     onClose={() => setShowRenameModal(false)}
     onConfirm={handleRenameChat}
-    currentTitle={
-      selectedChat?.chat?.find(msg => msg.role === 'user')?.text || 'Untitled'
-    }
+    currentTitle={selectedChat.chat_title || 'Untitled'}
   />
 )}
 

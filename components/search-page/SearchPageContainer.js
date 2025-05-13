@@ -229,12 +229,18 @@ useEffect(() => {
           await fetchChats();
         }
       } else {
+        const chatTitle = userMessage;
+
         const postBody = {
           entity_id: parseInt(entityId),
           entity_type: entityType,
-          chat: newMessages
+          chat_title: chatTitle,
+          chat: newMessages,
         };
-  
+        
+        console.log("ChatTitle is:", chatTitle);
+        
+        
         const res = await fetch(
           "https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat",
           {
@@ -243,6 +249,7 @@ useEffect(() => {
             body: JSON.stringify(postBody)
           }
         );
+        console.log("ChatTitle is:", chat_title)
   
         const data = await res.json();
         console.log("POST Response:", data);
@@ -404,6 +411,7 @@ useEffect(() => {
       activeChatId={activeChatId}
       handleNewConversation={handleNewConversation}
       handleResetRecommendationButton={handleResetRecommendationButton}
+      fetchChats={fetchChats}
     />
   ) : (
     <ChatBotContainer
@@ -437,6 +445,7 @@ useEffect(() => {
       isRestoredChat={isRestoredChat}
       setIsRestoredChat={setIsRestoredChat}
       activeChatId={activeChatId}
+      fetchChats={fetchChats}
     />
   );
 }
