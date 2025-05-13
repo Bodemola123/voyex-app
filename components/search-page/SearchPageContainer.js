@@ -238,7 +238,7 @@ useEffect(() => {
           chat: newMessages,
         };
         
-        console.log("ChatTitle is:", chatTitle);
+
         
         
         const res = await fetch(
@@ -249,10 +249,11 @@ useEffect(() => {
             body: JSON.stringify(postBody)
           }
         );
-        console.log("ChatTitle is:", chat_title)
-  
+        console.log("ChatTitle is:", chatTitle);
         const data = await res.json();
         console.log("POST Response:", data);
+        console.log("ChatTitle is:", postBody.chat_title);
+
   
         if (data.chat_id) {
           setChat({ chat_id: data.chat_id });
