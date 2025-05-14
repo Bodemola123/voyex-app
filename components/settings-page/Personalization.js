@@ -138,7 +138,7 @@ function Personalization() {
       }
 
       {/* AI Data Retention (Hidden for Organization) */}
-      {!isOrganization && (
+      {/* {!isOrganization && (
         <div className="flex items-center justify-between mt-6">
           <div>
             <h2 className="text-base font-normal text-fontlight capitalize">
@@ -156,7 +156,7 @@ function Personalization() {
             </span>
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

@@ -69,7 +69,27 @@ const AnalyticsManager = {
     }
   },
 
+  getEntityInfo() {
+    let entityId = localStorage.getItem("entityId");
+    let entityType = localStorage.getItem("userType") || localStorage.getItem("orgType");
+  
+    if (!entityId || !entityType) {
+      // Generate guest ID if missing
+      entityId = localStorage.getItem("guestId");
+      if (!entityId) {
+        entityId = 'guest_' + Math.random().toString(36).substring(2, 15);
+        localStorage.setItem("guestId", entityId);
+      }
+      entityType = "guest";
+    }
+  
+    return { entityId, entityType };
+  },
+
+  
+  
   async ensureSessionIdFromServer() {
+    const { entityId, entityType } = this.getEntityInfo();
     const existing = this.getCookie(COOKIE_KEY);
     if (!existing) {
       try {
@@ -79,11 +99,12 @@ const AnalyticsManager = {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             service: 'session',
-            entity_type: 'user',
-            entity_id: '21123', // Dummy ID
+            entity_type: entityType,
+            entity_id: entityId,
             referrer: document.referrer || 'direct',
             path: window.location.pathname,
           }),
+          
         });
         console.log('📡 Session initiation request sent. Status:', res.status);
       } catch (err) {
@@ -192,6 +213,7 @@ const AnalyticsManager = {
   },
 
   sendAnalyticsData(data, type) {
+    const { entityId, entityType } = this.getEntityInfo();
     const payload = {
       service: 'analytics',
       action: 'insert',
@@ -202,6 +224,8 @@ const AnalyticsManager = {
       metadata: {
         user_agent: navigator.userAgent,
         device: window.innerWidth < 768 ? 'mobile' : 'desktop',
+        entity_id: entityId,
+        entity_type: entityType,
       },
     };
 

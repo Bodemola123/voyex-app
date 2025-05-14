@@ -23,7 +23,7 @@ function Security() {
       </h1>
       <Separator className="my-5 bg-[#6D6D6D]" />
 
-      {/* Multi-factor authentication */}
+      {/* Multi-factor authentication
       <div className="flex items-center justify-between gap-5">
         <div>
           <h2 className="text-base font-normal text-fontlight">
@@ -41,10 +41,10 @@ function Security() {
           </span>
           <FaChevronDown />
         </button>
-      </div>
+      </div> */}
 
       {/* Log out of all devices */}
-      <div className="flex items-center justify-between gap-5 mt-6">
+      {/* <div className="flex items-center justify-between gap-5 mt-6">
         <div>
           <h2 className="text-base font-normal text-fontlight capitalize">
             Log out of all devices
@@ -58,7 +58,7 @@ function Security() {
         <button className="block text-base font-normal text-fontlight w-[170px] py-3 rounded-[36px] border border-card bg-card/20">
           Log out all
         </button>
-      </div>
+      </div> */}
 
       {/* Active account section with Log out button */}
       <div className="flex items-center justify-between mt-6">

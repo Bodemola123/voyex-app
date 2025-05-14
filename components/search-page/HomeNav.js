@@ -1,6 +1,6 @@
 "use client";
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaPlus, FaPen, FaRegTrashCan } from "react-icons/fa6";
 import { IoShareSocial } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
@@ -26,6 +26,8 @@ const HomeNav = ({
   const [selectedChat, setSelectedChat] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRenameModal, setShowRenameModal] = useState(false);
+  const dropdownRef = useRef(null);
+
 
   const handleDeleteChat = async () => {
     if (!selectedChat) return;
@@ -96,7 +98,24 @@ const HomeNav = ({
     }
   };
   
-
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownChatId(null);
+      }
+    };
+  
+    if (dropdownChatId) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownChatId]);
+  
   const categorizeChatsByDate = (chats) => {
     const today = new Date();
     const sevenDaysAgo = new Date();
@@ -169,7 +188,7 @@ const HomeNav = ({
   const { todayChats, pastSevenDaysChats, olderChats } = categorizeChatsByDate(chats);
 
   const renderDropdown = (chat) => (
-    <div className="absolute right-0 top-full mt-2 bg-[#1c1d1f] z-50 text-white rounded-md p-4 w-max border border-transparent shadow-none flex flex-col gap-2">
+    <div className="absolute right-0 top-full mt-2 bg-[#1c1d1f] z-50 text-white rounded-md p-4 w-max border border-transparent shadow-none flex flex-col gap-2" ref={dropdownRef}>
       <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full" id="sharechat_clicked">
         <IoShareSocial className="text-base" />
         <span className="text-sm">Share Chat</span>
