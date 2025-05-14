@@ -299,6 +299,7 @@ const handleOptionClick = (index, option) => {
         }`}
         onClick={() => handleOptionClick(index, option)}
         disabled={!!selectedFeatures[index]}
+        id="options_clicked"
       >
         {option}
       </button>
@@ -311,21 +312,21 @@ const handleOptionClick = (index, option) => {
                 {/* HOVER ACTIONS (ONLY ON BOT MESSAGES) */}
                 {isHovered && (
                   <div className="absolute z-20 bg-transparent p-4 rounded-lg transition-opacity duration-300 opacity-100 left-0 top-[100%] flex-row flex gap-6">
-                    <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" />
+                    <LuRefreshCcw className="text-base text-[#7C7676] hover:text-[#c088fb]" id="refresh_chat" />
                     <LuThumbsUp
-                      className={`text-sm ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      className={`text-sm ${selectedReaction === "thumbsUp" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} id="thumbsup_clicked"
                       onClick={() => handleReactionClick(index, "thumbsUp")}
                     />
                     <LuThumbsDown
-                      className={`text-sm ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      className={`text-sm ${selectedReaction === "thumbsDown" ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} id="thumbsdown_clicked"
                       onClick={() => handleReactionClick(index, "thumbsDown")}
                     />
                     <LuClipboard
-                      className="text-sm text-[#7C7676] hover:text-[#c088fb]"
+                      className="text-sm text-[#7C7676] hover:text-[#c088fb]" id="clipboard_clicked"
                       onClick={() => handleCopyToClipboard(msg.text)}
                     />
                     <PiSpeakerHigh
-                      className={`text-sm ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`}
+                      className={`text-sm ${isSpeaking ? "text-[#c088fb]" : "text-[#7C7676]"} hover:text-[#c088fb]`} id="speaker_clicked"
                       onClick={() => handleTextToSpeech(index, msg.text)}
                     />
                   </div>
@@ -392,7 +393,7 @@ const handleOptionClick = (index, option) => {
              {/* Render "Show Recommendation" button conditionally */}
         {showRecommendationButton && (
       <div className="flex justify-center mx-auto pt-1">
-        <button className="py-4 px-6 rounded-3xl transition-colors font-bold duration-200 text-base text-[#0a0a0b] bg-[#f4f4f4]" onClick={() => setShowRecommendations(true)} >
+        <button className="py-4 px-6 rounded-3xl transition-colors font-bold duration-200 text-base text-[#0a0a0b] bg-[#f4f4f4]" onClick={() => setShowRecommendations(true)} id="recommendation_button">
           Show Recommendation
         </button>
       </div>

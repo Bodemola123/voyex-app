@@ -144,6 +144,7 @@ const HomeNav = ({
                 fetchChatById(chat.chat_id);
                 setDropdownChatId(null);
               }}
+              id='chat_fetched'
             >
               <p className="truncate line-clamp-1 pr-1">{title}</p>
               <div className="relative">
@@ -151,7 +152,7 @@ const HomeNav = ({
                   onClick={(e) => {
                     e.stopPropagation();
                     setDropdownChatId(dropdownChatId === chat.chat_id ? null : chat.chat_id);
-                  }}
+                  }} id='dropdown_chat_clicked'
                 >
                   <BsThreeDots className="text-base" />
                 </button>
@@ -169,7 +170,7 @@ const HomeNav = ({
 
   const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 bg-[#1c1d1f] z-50 text-white rounded-md p-4 w-max border border-transparent shadow-none flex flex-col gap-2">
-      <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full">
+      <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full" id="sharechat_clicked">
         <IoShareSocial className="text-base" />
         <span className="text-sm">Share Chat</span>
       </button>
@@ -179,7 +180,7 @@ const HomeNav = ({
           setSelectedChat(chat);
           setShowRenameModal(true);
         }}
-        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full"
+        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full" id="renamechat_clicked"
       >
         <FaPen className="text-base" />
         <span className="text-sm">Rename Chat</span>
@@ -190,7 +191,7 @@ const HomeNav = ({
           setSelectedChat(chat);
           setShowDeleteModal(true);
         }}
-        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#FF1E1E] rounded-lg w-full"
+        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#FF1E1E] rounded-lg w-full" id="deletechat_clicked"
       >
         <FaRegTrashCan className="text-base" />
         <span className="text-sm">Delete Chat</span>

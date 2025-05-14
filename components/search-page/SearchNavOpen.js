@@ -101,28 +101,30 @@ fetchChats}) => {
       );
   
       const data = await res.json();
+      console.log("PUT response:", data);
   
-      if (data.chat_id) {
-        // Update local state
-        setChats((prev) =>
-          prev.map((chat) =>
-            chat.chat_id === selectedChat.chat_id
-              ? { ...chat, chat_title: newName } // 👈 Make sure you're using `chat_title`
-              : chat
-          )
-        );
-        toast.success("Chat renamed successfully!");
-      } else {
-        throw new Error("Rename failed");
+      if (!res.ok) {
+        throw new Error("Rename failed"); // catch non-200 status codes
       }
+  
+      // Update local state
+      setChats((prev) =>
+        prev.map((chat) =>
+          chat.chat_id === selectedChat.chat_id
+            ? { ...chat, chat_title: newName }
+            : chat
+        )
+      );
+      await fetchChats(); // Refresh chat list
+      toast.success("Chat renamed successfully!");
     } catch (error) {
       console.error("Rename error:", error);
       toast.error("Failed to rename chat.");
     } finally {
-      await fetchChats(); // Refresh chat list
       setShowRenameModal(false);
     }
   };
+  
 
   const categorizeChatsByDate = (chats) => {
     const today = new Date();
@@ -171,6 +173,7 @@ fetchChats}) => {
                 fetchChatById(chat.chat_id);
                 setDropdownChatId(null);
               }}
+              id='chatfetched'
             >
               <p className="truncate line-clamp-1 pr-1">{title}</p>
               <div className="relative">
@@ -179,6 +182,7 @@ fetchChats}) => {
                     e.stopPropagation();
                     setDropdownChatId(dropdownChatId === chat.chat_id ? null : chat.chat_id);
                   }}
+                  id='dropdown_chat_clicked'
                 >
                   <BsThreeDots className="text-base" />
                 </button>
@@ -193,7 +197,7 @@ fetchChats}) => {
   
   const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 bg-[#1c1d1f] z-50 text-white rounded-md p-4 w-max border border-transparent shadow-none flex flex-col gap-2">
-      <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full">
+      <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full" id="sharechat_clicked">
         <IoShareSocial className="text-base" />
         <span className="text-sm">Share Chat</span>
       </button>
@@ -203,7 +207,7 @@ fetchChats}) => {
           setSelectedChat(chat);
           setShowRenameModal(true);
         }}
-        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full"
+        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full" id="renamechat_clicked"
       >
         <FaPen className="text-base" />
         <span className="text-sm">Rename Chat</span>
@@ -214,7 +218,7 @@ fetchChats}) => {
           setSelectedChat(chat);
           setShowDeleteModal(true);
         }}
-        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#FF1E1E] rounded-lg w-full"
+        className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#FF1E1E] rounded-lg w-full" id="deletechat_clicked"
       >
         <FaRegTrashCan className="text-base" />
         <span className="text-sm">Delete Chat</span>
@@ -239,7 +243,7 @@ fetchChats}) => {
               <FaPlus className='text-[10px] text-white/40' />
               <p className='text-xs text-white/60'>New chat</p>
             </button>
-            <Link href='/galactimart' className='py-4 flex flex-row gap-2.5 bg-transparent items-center' id='galactimart'>
+            <Link href='/galactimart' className='py-4 flex flex-row gap-2.5 bg-transparent items-center' id='galactimart_link'>
               <FiShoppingCart className='text-[18px] text-[#94a3b8]' />
               <p className='font-medium text-base text-[#f4f4f4]'>Galactimart</p>
             </Link>
@@ -262,11 +266,11 @@ fetchChats}) => {
         ) : (
           <div className='flex flex-col gap-6'>
             <div className='flex flex-col justify-center items-start gap-3'>
-              <Link href='/auth/user' className='py-4 flex flex-row gap-2.5 bg-transparent items-center group'>
+              <Link href='/auth/user' className='py-4 flex flex-row gap-2.5 bg-transparent items-center group' id='log_in_button_search'>
                 <LuLogIn className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
                 <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Log in</p>
               </Link>
-              <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 bg-transparent items-center group'>
+              <Link href="/auth/user" className='py-4 flex flex-row gap-2.5 bg-transparent items-center group' id='sign_up_button_search'>
                 <PiUserPlusFill className='text-[18px] text-[#94a3b8] group-hover:text-[#c088fb]' />
                 <p className='font-medium text-base text-[#f4f4f4] group-hover:text-[#c088fb]'>Sign up</p>
               </Link>
