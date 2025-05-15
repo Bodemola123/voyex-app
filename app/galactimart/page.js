@@ -51,8 +51,13 @@ function GalactiMart() {
         setCategories(allSections);
         setToolsData(parsedTools);
             // Set 6 random tools only once after fetching
-    const shuffled = [...parsedTools].sort(() => 0.5 - Math.random());
-    setRecommendedToolsBase(shuffled.slice(0, 6));
+// ✅ Replace with this:
+const recommendedToolIds = [2132, 1173, 1455, 2123, 1228];
+const recommendedTools = parsedTools.filter((tool) =>
+  recommendedToolIds.includes(tool.tool_id)
+);
+setRecommendedToolsBase(recommendedTools);
+
         setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch tools:", error);

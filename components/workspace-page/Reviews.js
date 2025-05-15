@@ -2,7 +2,7 @@ import { FaChevronRight } from "react-icons/fa";
 import ReviewsNumber from "./ReviewsNumber";
 import ReviewsRating from "./ReviewsRating";
 import ReviewsCarousel from "./ReviewsCarousel";
-import Reviewed from "@/app/galactimart/Aidescription/Reviewed";
+import Reviewed from "@/app/galactimart/[slug]/Reviewed";
 import '@/app/galactimart/Aidescription/CardsSection.css'
 
 function Reviews() {

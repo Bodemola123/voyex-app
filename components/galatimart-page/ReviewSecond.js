@@ -3,9 +3,9 @@ import React from 'react'
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import '@/app/galactimart/Aidescription/CardsSection.css'
-import Reviewed from '@/app/galactimart/Aidescription/Reviewed';
+import Reviewed from '@/app/galactimart/[slug]/Reviewed';
 
-const ReviewSecond = () => {
+const ReviewSecond = ({rating, userReviews}) => {
 
 
   return (
@@ -20,7 +20,7 @@ const ReviewSecond = () => {
         <div className='grid grid-cols-3 gap-20'>
             <div className='flex flex-row gap-4'>
                 <div className='flex flex-col justify-center items-center'>
-                    <p className='font-bold text-6xl text-[#F4F4F4]'>3.5</p>
+                    <p className='font-bold text-6xl text-[#F4F4F4]'>{rating}</p>
                     <div className='flex flex-row gap-[5.62px]'>
                     <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
                     <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
@@ -98,7 +98,7 @@ const ReviewSecond = () => {
             </div>
         </div>
         <div className='scroll-container'>
-            <Reviewed/>
+            <Reviewed userReviews={userReviews}/>
         </div>
     </div>
     

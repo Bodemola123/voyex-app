@@ -55,9 +55,9 @@ const Card = ({ toolsData, category, isLoading, error }) => {
   return (
     <div className="flex flex-col gap-6 w-full">
       <div className="flex flex-col gap-2">
-        {/* <p>
+        <p>
           Dive deeper into the cosmos of <span className="capitalize">{category}</span> tools.
-        </p> */}
+        </p>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {currentTools.map((tool) => (

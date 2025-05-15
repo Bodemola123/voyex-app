@@ -8,7 +8,7 @@ import ReviewSection from '@/components/galatimart-page/ReviewSection';
 import ReviewSecond from '@/components/galatimart-page/ReviewSecond';
 import '@/app/galactimart/Aidescription/CardsSection.css'
 
-const Tabs = () => {
+const Tabs = ({description,  developerNote, plansBenefits, userReviews, rating, title}) => {
   const [activeTab, setActiveTab] = useState('About ChatGPT');
 
   const tabs = [
@@ -20,18 +20,21 @@ const Tabs = () => {
 
   const content = {
     'About ChatGPT': (
-        <AboutChatgpt/>
+        <AboutChatgpt
+        description={description}/>
     ),
 
     'Plans and features': (
-        <PlansFeatures/>
+        <PlansFeatures
+        plansBenefits={plansBenefits}
+        title={title}/>
     ),
 
     'From the Developer': (
       <div className="p-6 bg-[#131314] rounded-3xl border border-[#D0D5DD1A]">
         <h2 className="text-xl font-semibold">Developers Note</h2>
         <p className="mt-4">
-          This platform is continuously evolving, and we value your feedback.
+          {developerNote}
         </p>
       </div>
     ),
@@ -39,7 +42,9 @@ const Tabs = () => {
     'Reviews': (
       <div className='flex flex-col gap-4'>
         <ReviewSection/>
-        <ReviewSecond/>
+        <ReviewSecond
+        userReviews={userReviews}
+        rating={rating}/>
       </div>
         
     ),

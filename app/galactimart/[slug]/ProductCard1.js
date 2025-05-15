@@ -1,23 +1,25 @@
-'use client';
-import React, { useState } from 'react';
-import { FaRegStar, FaStar } from 'react-icons/fa';
-import { PiAirplaneBold } from 'react-icons/pi';
-import Image from 'next/image';
+'use client'
+import React, { useState } from 'react'
+
+import { FaRegStar, FaStar } from "react-icons/fa";
+import { PiAirplaneBold } from "react-icons/pi";
+import Image from "next/image";
 import Link from 'next/link';
+
 
 // ✅ Slugify function to convert title to URL-friendly slug
 const slugify = (str) =>
   str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
-const ProductCard = ({ product }) => {
-  const [hovered, setHovered] = useState(false);
-  const slug = `${product.id}-${slugify(product.title)}`; // e.g. "2132-ai-writer-pro"
+const ProductCard = ( {product} ) => {
+
+    const [hovered, setHovered] = useState(false);
+    const slug = `${product.id}-${slugify(product.title)}`; // e.g. "2132-ai-writer-pro"
 
   return (
-    <div
-      className="w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+    <div className='w-full max-w-[421px] flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]'
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
     >
       <div className="flex justify-between flex-row">
         <div className="flex flex-col gap-2.5">
@@ -43,8 +45,8 @@ const ProductCard = ({ product }) => {
         <p>{product.description}</p>
       </div>
 
-      {!hovered && (
-        <div className="flex flex-wrap items-center gap-2 w-full h-[35px]">
+        {!hovered && (
+        <div className='flex flex-row items-center justify-start gap-2 mt-4'>
           {product.tags?.length > 0 ? (
             product.tags.map((tag, index) => (
               <span
@@ -60,20 +62,21 @@ const ProductCard = ({ product }) => {
             </span>
           )}
         </div>
-      )}
-
-      {hovered && (
-        <div className="h-[35px]">
+        )
+        }
+        {hovered && (
+            <div>
           <Link href={`/galactimart/tool/${slug}`} passHref>
             <button className="w-full bg-[#c088fb] py-2 px-4 gap-2.5 rounded-3xl flex items-center justify-center">
               <PiAirplaneBold className="text-[#032400]" />
               <p className="text-base font-medium text-[#032400]">Takeoff to App</p>
             </button>
           </Link>
-        </div>
-      )}
+            </div>
+        )
+        }
     </div>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard
