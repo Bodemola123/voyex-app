@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
 import { IoShareOutline } from "react-icons/io5";
 import { PiAirplaneBold } from 'react-icons/pi';
-import ShareModal from '../../../components/galatimart-page/ShareModal';
+import ShareModal from '../../../../components/galatimart-page/ShareModal';
 
 const Header = ({ logo, title, rating, userCount, toolUrl, tags, category }) => {
   const [isShareOpen, setShareOpen] = useState(false);

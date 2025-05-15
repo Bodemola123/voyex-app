@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import { CiPlay1 } from "react-icons/ci";
-import Usecard from '../../../components/galatimart-page/Usecard';
-import Tabs from '../../../components/galatimart-page/Tabs';
+import Usecard from '../../../../components/galatimart-page/Usecard';
+import Tabs from '../../../../components/galatimart-page/Tabs';
 import Card2 from './Card2';
 import './CardsSection.css';
 
