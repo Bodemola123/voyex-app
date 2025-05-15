@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import '../../../app/globals.css'
+import "../../../globals.css"
 import BenNavbar from '@/components/common/BenNavbar'
 import BenFooter from '@/components/common/BenFooter'
 import AiNavOpen from '@/components/galatimart-page/AiNavOpen'

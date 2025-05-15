@@ -6,7 +6,7 @@ import PlansFeatures from './PlansFeatures';
 import { PiBookOpenText } from 'react-icons/pi';
 import ReviewSection from '@/components/galatimart-page/ReviewSection';
 import ReviewSecond from '@/components/galatimart-page/ReviewSecond';
-import '@/app/galactimart/Aidescription/CardsSection.css'
+import '../../app/galactimart/tool/[slug]/CardsSection.css'
 
 const Tabs = ({description,  developerNote, plansBenefits, userReviews, rating, title}) => {
   const [activeTab, setActiveTab] = useState('About ChatGPT');

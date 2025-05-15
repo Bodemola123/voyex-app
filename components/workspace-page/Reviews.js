@@ -3,7 +3,7 @@ import ReviewsNumber from "./ReviewsNumber";
 import ReviewsRating from "./ReviewsRating";
 import ReviewsCarousel from "./ReviewsCarousel";
 import Reviewed from "@/app/galactimart/tool/[slug]/Reviewed";
-import '@/app/galactimart/Aidescription/CardsSection.css'
+import '../../app/galactimart/tool/[slug]/CardsSection.css'
 
 function Reviews() {
   return (
