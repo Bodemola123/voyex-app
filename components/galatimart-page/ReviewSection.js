@@ -71,6 +71,10 @@ const ReviewForm = ({ rating, onPrevious, onNext }) => {
       <h1 className="text-[22.46px] leading[33.7px] font-bold">Leave Review</h1>
       <div className='grid grid-cols-3 gap-[22px]'>
         <div className='flex flex-col col-span-2 gap-[22px]'>
+        <div className='flex flex-col gap-2'>
+                <h1 className='font-medium text-base text-[#FFFFFF] leading-[22px]'>Review Title</h1>
+                <input type='text' placeholder='abc@example.com' className='flex gap-2.5 p-4 rounded-[51px] bg-[#171920] text-[#FFFFFF] placeholder-[#FFFFFF] '/>
+            </div>
             <div className='flex flex-col gap-2'>
                 <h1 className='font-medium text-base text-[#FFFFFF] leading-[22px]'>Review Description</h1>
                 <textarea 
