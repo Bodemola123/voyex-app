@@ -24,7 +24,7 @@ const PlansFeatures = ({title, plansBenefits}) => {
           <div className='flex flex-col gap-6'>
             <div className='flex flex-col gap-4'>
               <span className='text-4xl font-medium text-[#377CFD]'>Individual</span>
-              <span className='text-[#AFAFAF]'>Create an account for your Organization and start using.</span>
+              <span className='text-[#AFAFAF]'>Create an account for yourself and start using.</span>
             </div>
             <ul className='flex flex-col gap-2'>
               {plansBenefits?.individual?.length > 0 ? (
@@ -48,10 +48,10 @@ const PlansFeatures = ({title, plansBenefits}) => {
               <span className='text-4xl font-medium text-[#46ba3c]'>Organization</span>
               <span className='text-[#AFAFAF]'>Create an account for your Organization and start using.</span>
             </div>
-            <div className='flex flex-col gap-2'>
+            {/* <div className='flex flex-col gap-2'>
               <span className='text-[#46ba3c]'>Let&apos;s talk</span>
               <span className='text-[#f4f4f4]'>Price is based on Number of seats</span>
-            </div>
+            </div> */}
             <ul className='flex flex-col gap-2'>
               {plansBenefits?.enterprise?.length > 0 ? (
                 plansBenefits.enterprise.map((benefit, i) => (

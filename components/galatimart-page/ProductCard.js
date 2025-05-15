@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
       </div>
 
       {!hovered && (
-        <div className="flex flex-wrap items-center gap-2 w-full h-[35px]">
+        <div className="flex flex-wrap items-center overflow-x-auto scrollbar-hide gap-2 w-full h-[35px]">
           {product.tags?.length > 0 ? (
             product.tags.map((tag, index) => (
               <span

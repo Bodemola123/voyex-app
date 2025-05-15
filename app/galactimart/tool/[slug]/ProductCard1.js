@@ -17,7 +17,7 @@ const ProductCard = ( {product} ) => {
     const slug = `${product.id}-${slugify(product.title)}`; // e.g. "2132-ai-writer-pro"
 
   return (
-    <div className='w-full max-w-[421px] flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]'
+    <div className='w-full max-w-[421px] h-full flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
@@ -46,7 +46,7 @@ const ProductCard = ( {product} ) => {
       </div>
 
         {!hovered && (
-        <div className='flex flex-row items-center justify-start gap-2 mt-4'>
+        <div className='flex flex-wrap items-center overflow-x-auto scrollbar-hide gap-2 w-full h-[35px]'>
           {product.tags?.length > 0 ? (
             product.tags.map((tag, index) => (
               <span
@@ -65,7 +65,7 @@ const ProductCard = ( {product} ) => {
         )
         }
         {hovered && (
-            <div>
+            <div className='h-[35px]'>
           <Link href={`/galactimart/tool/${slug}`} passHref>
             <button className="w-full bg-[#c088fb] py-2 px-4 gap-2.5 rounded-3xl flex items-center justify-center">
               <PiAirplaneBold className="text-[#032400]" />

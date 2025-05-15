@@ -49,22 +49,29 @@ const Aidescription = () => {
 if (!tool) throw new Error("Invalid tool data received.");
         setToolData(tool);
   
-        // Fetch tools in same category
         if (tool.category) {
           const categoryRes = await fetch(
             `https://2zztcz7h0a.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_api?category=${tool.category}`
           );
           const categoryData = await categoryRes.json();
-          const tools = categoryData.data?.[tool.category] || [];
-  
+        
+          const tools = Array.isArray(categoryData.data?.[tool.category])
+            ? categoryData.data[tool.category]
+            : [];
+        
+          console.log("Category API response:", categoryData);
+        
           // Filter out current tool
-          const filtered = tools.filter(t => t.id !== tool.id);
-  
+          const filtered = tools.filter(t => t.tool_id !== tool.tool_id);
+        
           // Shuffle and pick 5 random tools
           const shuffled = filtered.sort(() => 0.5 - Math.random());
           const randomFive = shuffled.slice(0, 5);
+        
           setRelatedTools(randomFive);
+          console.log("The random five", randomFive);
         }
+        
       } catch (err) {
         console.error('Error fetching tool data or related tools:', err);
         setError('Failed to load tool data.');
@@ -92,7 +99,11 @@ if (!tool) throw new Error("Invalid tool data received.");
 
       <div className='text-white relative flex flex-grow flex-col gap-10 p-6 justify-between w-full h-full overflow-y-scroll scrollbar-hide scroll-container'>
         {loading ? (
-          <p className="text-lg text-white text-center mx-auto my-auto">Fetching Tool Data</p>
+                <div className="w-full h-full flex justify-center items-center mx-auto my-auto">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
+                <p className="text-lg text-white text-center">Fetching Tool Data.... Please wait</p>
+              </div>
+
         ) : error ? (
           <p className="text-red-400 text-lg text-center mx-auto my-auto">{error}</p>
         ) : (
@@ -104,7 +115,7 @@ if (!tool) throw new Error("Invalid tool data received.");
               userCount={"5M+"}
               category={toolData.category}
               toolUrl={toolData.tool_url}
-              tags={[toolData.category, ...(toolData.use_case_tags || [])]}
+              tags={toolData.use_case_tags}
             />
             <Body
             description={toolData.large_description}
@@ -117,7 +128,6 @@ if (!tool) throw new Error("Invalid tool data received.");
             />
           </>
         )}
-        <BenFooter />
       </div>
     </div>
   );

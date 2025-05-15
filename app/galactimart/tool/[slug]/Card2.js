@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard1";
 
 const Card2 = ({ relatedTools }) => {
   return (
-    <div className="flex-row cards-wrapper">
+    <div className="flex-row cards-wrapper h-full pb-6">
       {relatedTools?.map((tool) => (
         <ProductCard
           key={tool.tool_id}

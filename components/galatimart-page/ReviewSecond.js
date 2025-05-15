@@ -6,6 +6,26 @@ import '../../app/galactimart/tool/[slug]/CardsSection.css'
 import Reviewed from '@/app/galactimart/tool/[slug]/Reviewed';
 
 const ReviewSecond = ({rating, userReviews}) => {
+      const renderStars = (rating) => {
+        const stars = [];
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating - fullStars >= 0.5;
+    
+        for (let i = 0; i < fullStars; i++) {
+          stars.push(<FaStar key={`full-${i}`} className='text-[#FCD53F] w-[16.85px] h-[16.85px]' />);
+        }
+    
+        if (hasHalfStar) {
+          stars.push(<FaStarHalfAlt key="half" className='text-[#FCD53F] w-[16.85px] h-[16.85px]' />);
+        }
+    
+        const emptyStars = 5 - stars.length;
+        for (let i = 0; i < emptyStars; i++) {
+          stars.push(<FaRegStar key={`empty-${i}`} className='text-[#FCD53F] w-[16.85px] h-[16.85px]' />);
+        }
+    
+        return stars;
+      };
 
 
   return (
@@ -22,11 +42,7 @@ const ReviewSecond = ({rating, userReviews}) => {
                 <div className='flex flex-col justify-center items-center'>
                     <p className='font-bold text-6xl text-[#F4F4F4]'>{rating}</p>
                     <div className='flex flex-row gap-[5.62px]'>
-                    <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
-                    <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
-                    <FaStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
-                    <FaStarHalfAlt className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
-                    <FaRegStar className='text-[#FCD53F] w-[16.85] h-[16.85]'/>
+                    {renderStars(rating)}
                     </div>
                 </div>
                 <div className='flex flex-col justify-center items-center'>
