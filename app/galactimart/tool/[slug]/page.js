@@ -99,7 +99,7 @@ if (!tool) throw new Error("Invalid tool data received.");
 
       <div className='text-white relative flex flex-grow flex-col gap-10 p-6 justify-between w-full h-full overflow-y-scroll scrollbar-hide scroll-container'>
         {loading ? (
-                <div className="w-full h-full flex justify-center items-center mx-auto my-auto">
+                <div className="w-full h-full flex flex-col gap-2 justify-center items-center mx-auto my-auto">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
                 <p className="text-lg text-white text-center">Fetching Tool Data.... Please wait</p>
               </div>

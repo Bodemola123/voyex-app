@@ -42,7 +42,8 @@ const Usecard = ({ usecase }) => {
       </div>
       <div>
         <p className='leading-[20.48px] text-base font-normal text-[#C6C6C6]'>
-          {truncateText(usecase.description, 8)}
+          {/* {truncateText(usecase.description, 8)} */}
+          {usecase.description}
         </p>
       </div>
     </div>
