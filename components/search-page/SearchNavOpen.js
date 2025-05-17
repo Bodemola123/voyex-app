@@ -17,6 +17,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { IoShareSocial } from 'react-icons/io5';
 import RenameChatModal from './Modals/RenameChatModal';
 import DeleteChatModal from './Modals/DeleteChatModal';
+import ShareChatModal from './Modals/ShareChatModal';
 import { toast } from 'react-toastify';
 
 const SearchNavOpen = ({
@@ -40,6 +41,7 @@ fetchChats}) => {
   const [dropdownChatId, setDropdownChatId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showRenameModal, setShowRenameModal] = useState(false);
+    const [showShareModal, setShowShareModal] = useState(false)
     const [selectedChat, setSelectedChat] = useState(null);  // Track selected chat
 
 
@@ -63,6 +65,10 @@ fetchChats}) => {
         { method: 'DELETE' }
       );
 
+
+    const data = await res.json();
+    console.log("Delete response:", data);
+
       if (!res.ok) throw new Error("Failed to delete chat");
 
       setChats(prev => prev.filter(chat => chat.chat_id !== selectedChat.chat_id));
@@ -71,7 +77,6 @@ fetchChats}) => {
         handleNewConversation()
         handleResetRecommendationButton()
       }
-      
       toast.success("Chat deleted successfully!");
     } catch (error) {
       console.error(error);
@@ -81,49 +86,49 @@ fetchChats}) => {
       setSelectedChat(null);
     }
   };
+  
+const handleRenameChat = async (newName) => {
+  if (!newName.trim() || !selectedChat) return;
 
-  const handleRenameChat = async (newName) => {
-    if (!newName.trim() || !selectedChat) return;
-  
-    try {
-      const res = await fetch(
-        `https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${selectedChat.chat_id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: selectedChat.chat_id,
-            chat_title: newName,
-            chat: selectedChat.chat || [],
-            metadata: { using: "chatbot" }
-          })
-        }
-      );
-  
-      const data = await res.json();
-      console.log("PUT response:", data);
-  
-      if (!res.ok) {
-        throw new Error("Rename failed"); // catch non-200 status codes
+  try {
+    const res = await fetch(
+      `https://jxj7b9c08d.execute-api.ap-southeast-2.amazonaws.com/default/voyex_chat?chat_id=${selectedChat.chat_id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: selectedChat.chat_id,
+          chat_title: newName,
+          chat: selectedChat.chat || [],
+          metadata: { using: "chatbot" }
+        })
       }
-  
-      // Update local state
-      setChats((prev) =>
-        prev.map((chat) =>
-          chat.chat_id === selectedChat.chat_id
-            ? { ...chat, chat_title: newName }
-            : chat
-        )
-      );
-      await fetchChats(); // Refresh chat list
-      toast.success("Chat renamed successfully!");
-    } catch (error) {
-      console.error("Rename error:", error);
-      toast.error("Failed to rename chat.");
-    } finally {
-      setShowRenameModal(false);
+    );
+
+    const data = await res.json();
+    console.log("Rename response:", data);
+
+    if (!res.ok || data.message !== "Chat updated successfully") {
+      throw new Error("Rename failed");
     }
-  };
+
+    setChats((prev) =>
+      prev.map((chat) =>
+        chat.chat_id === selectedChat.chat_id
+          ? { ...chat, chat_title: newName }
+          : chat
+      )
+    );
+
+    toast.success("Chat renamed successfully!");
+  } catch (error) {
+    console.error("Rename error:", error);
+    toast.error("Failed to rename chat.");
+  } finally {
+    setShowRenameModal(false);
+  }
+};
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -214,7 +219,12 @@ fetchChats}) => {
   
   const renderDropdown = (chat) => (
     <div className="absolute right-0 top-full mt-2 bg-[#1c1d1f] z-50 text-white rounded-md p-4 w-max border border-transparent shadow-none flex flex-col gap-2"  ref={dropdownRef} >
-      <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full" id="sharechat_clicked">
+            <button className="flex items-center gap-2.5 p-2 hover:bg-[#131314] text-[#f4f4f4] rounded-lg w-full" id="sharechat_clicked"
+                    onClick={(e) => {
+                e.stopPropagation();
+                setSelectedChat(chat);
+                setShowShareModal(true);
+              }}>
         <IoShareSocial className="text-base" />
         <span className="text-sm">Share Chat</span>
       </button>
@@ -312,6 +322,11 @@ fetchChats}) => {
   />
 )}
 
+{showShareModal && (
+  <ShareChatModal
+  onClose={() => setShowShareModal(false)}
+  />
+)}
 
       {/* Modals */}
       {activeModal === 'first' && (
