@@ -50,7 +50,7 @@ const SecondModal = ({ closeModal, openModal }) => {
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-[#000000] text-white rounded-[41px] w-[794px] p-[26px] relative">
+      <div className="bg-[#1C1D1F] border border-[#D0D5DD1A] text-white rounded-[41px] w-[794px] p-[26px] relative">
         {/* Header */}
         <div className="flex justify-between items-center">
           <h2
