@@ -171,31 +171,33 @@ useEffect(() => {
             }
             const entityId = apiResponse.data.org_id;
 localStorage.setItem("entityId", entityId);
-            // Fetch full name if user
-            if (userType === "user") {
-              const userId = apiResponse.data.user_id;
-      
-              try {
-                const profileResponse = await axios.get(
-                  `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
-                );
-                console.log("✅ Profile data:", profileResponse.data); 
-                const role = profileResponse.data?.org_details?.role || "None"
-                localStorage.setItem("role", role)
-                const accessLevel = profileResponse.data?.org_details?.access_level || "None"
-                localStorage.setItem("accessLevel", accessLevel)// <-- Add this line
-                const email = profileResponse.data?.email
-                localStorage.setItem("userEmail", email);
-                const fullName = profileResponse.data?.fullname || "Explorer";
-                const firstName = fullName.trim().split(" ")[0];
-      
-                localStorage.setItem("fullName", fullName);
-                localStorage.setItem("firstName", firstName);
-              } catch (profileErr) {
-                console.error("Failed to fetch user profile:", profileErr);
-                localStorage.setItem("firstName", "Explorer");
-              }
-            }
+
+
+        // Fetch full name if user
+        if (userType === "user") {
+          const userId = apiResponse.data.user_id;
+  
+          try {
+            const profileResponse = await axios.get(
+              `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
+            );
+            console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
+            const role = profileResponse.data?.org_details?.role || "None"
+            localStorage.setItem("role", role)
+            const accessLevel = profileResponse.data?.org_details?.access_level || "None"
+            localStorage.setItem("accessLevel", accessLevel)
+            const email = profileResponse.data?.email
+            localStorage.setItem("userEmail", email);
+            const fullName = profileResponse.data?.fullname || "Explorer";
+            const firstName = fullName.trim().split(" ")[0];
+  
+            localStorage.setItem("fullName", fullName);
+            localStorage.setItem("firstName", firstName);
+          } catch (profileErr) {
+            console.error("Failed to fetch user profile:", profileErr);
+            localStorage.setItem("firstName", "Explorer");
+          }
+        }
 
   
             // Store User Details
@@ -451,19 +453,20 @@ localStorage.setItem("entityId", entityId);
         
         if (acceptEmailPassword.status === 201) {
           setLoading(false);
-          toast(acceptEmailPassword.data.message);
+          toast("Sign up Successful");
           setCurrentSlide("user-signup-success");
         
           // ✅ Log tokens from the response
           console.log("Access Token from API:", acceptEmailPassword.data.access_token);
           console.log("Refresh Token from API:", acceptEmailPassword.data.refresh_token);
-                  let userType = acceptEmailPassword.data.user_id ? "user" : "organization";
-        localStorage.setItem("userType", userType);
-                    const email = acceptEmailPassword.data?.email
-            localStorage.setItem("userEmail", email);
-                    // Fetch full name if user
+        
+          // ✅ Save both access and refresh tokens in localStorage
+          localStorage.setItem("userId", acceptEmailPassword.data.user_id);
+localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
+
+        // Fetch full name if user
         if (userType === "user") {
-          const userId = response.data.user_id;
+          const userId = acceptEmailPassword.data.user_id;
   
           try {
             const profileResponse = await axios.get(
@@ -486,11 +489,6 @@ localStorage.setItem("entityId", entityId);
             localStorage.setItem("firstName", "Explorer");
           }
         }
-        
-          // ✅ Save both access and refresh tokens in localStorage
-          localStorage.setItem("userId", acceptEmailPassword.data.user_id);
-localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
-
           localStorage.setItem("access_token", acceptEmailPassword.data.access_token);
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token);
         
