@@ -4,7 +4,7 @@ import Image from 'next/image';
 const DeleteMemory = ({ detail, onClose, onDelete }) => {
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)]  flex items-center justify-center z-50">
-      <div className="bg-[#000000] text-white rounded-[41px] p-6 w-[482px] relative">
+      <div className="bg-[#1C1D1F] border border-[#D0D5DD1A] text-white rounded-[41px] p-6 w-[482px] relative">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Delete Memory?</h2>
