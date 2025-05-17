@@ -297,6 +297,33 @@ const handleRevenueSelect = (revenueValue) => {
             // ✅ Store tokens
             apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
             apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
+                    let orgType = response.data.org_id ? "organization" : "user";
+        localStorage.setItem("orgType", orgType);
+  
+        const entityId = apiResponse.data.org_id;
+        localStorage.setItem("entityId", entityId);
+  
+        if (orgType === "organization") {
+          const orgId = apiResponse.data.org_id;
+  
+          try {
+            const profileResponse = await axios.get(
+              `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
+            );
+  
+            const organization_email = profileResponse.data?.organization_email || "Example@gmail.com";
+            localStorage.setItem("orgEmail", organization_email);
+  
+            const orgName = profileResponse.data?.organization_name || "No name provided";
+            localStorage.setItem("orgName", orgName);
+  
+            const poc = profileResponse.data?.poc || "No Name";
+            localStorage.setItem("poc", poc);
+          } catch (profileErr) {
+            console.error("Failed to fetch org profile:", profileErr);
+            toast.error("Failed to fetch organization profile.");
+          }
+        }
   
             // Store User Details
             dispatch(
@@ -548,6 +575,33 @@ const signing = async () => {
           localStorage.setItem("entityId", acceptEmailPassword.date.org_id)
           localStorage.setItem("access_token", acceptEmailPassword.data.access_token); // Save access token
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token); // Save refresh token
+        let orgType = acceptEmailPassword.data.org_id ? "organization" : "user";
+        localStorage.setItem("orgType", orgType);
+  
+        const entityId = acceptEmailPassword.data.org_id;
+        localStorage.setItem("entityId", entityId);
+  
+        if (orgType === "organization") {
+          const orgId = acceptEmailPassword.data.org_id;
+  
+          try {
+            const profileResponse = await axios.get(
+              `https://p2xeehk5x9.execute-api.ap-southeast-2.amazonaws.com/default/org_voyex_api?org_id=${orgId}`
+            );
+  
+            const organization_email = profileResponse.data?.organization_email || "Example@gmail.com";
+            localStorage.setItem("orgEmail", organization_email);
+  
+            const orgName = profileResponse.data?.organization_name || "No name provided";
+            localStorage.setItem("orgName", orgName);
+  
+            const poc = profileResponse.data?.poc || "No Name";
+            localStorage.setItem("poc", poc);
+          } catch (profileErr) {
+            console.error("Failed to fetch org profile:", profileErr);
+            toast.error("Failed to fetch organization profile.");
+          }
+        }
 
         }
         if (acceptEmailPassword.status === 409) {
