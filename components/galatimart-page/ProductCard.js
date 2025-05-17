@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div
-      className="w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]"
+      className="w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

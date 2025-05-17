@@ -144,16 +144,6 @@ const handleRevenueSelect = (revenueValue) => {
         let orgType = response.data.org_id ? "organization" : "user"; // If id exists, it's a organization; otherwise, it's an user
         // Store user type in localStorage
         localStorage.setItem("orgType", orgType);
-                    const entityId = response.data.org_id;
-localStorage.setItem("entityId", entityId);
-                                  const organization_email = response.data?.organization_email || "Example@gmail.com"
-                          localStorage.setItem("orgEmail", organization_email);
-                          const orgName = response.data?.organization_name || "No name inputed";
-                          const poc = response.data?.poc || "No Name"
-                          localStorage.setItem("poc", poc)
-                
-                          localStorage.setItem("orgName", orgName);
-
         setCurrentSlide("org-upload-success");
       }
       if (response.status !== 200) {

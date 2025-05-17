@@ -17,7 +17,7 @@ const ProductCard = ( {product} ) => {
     const slug = `${product.id}-${slugify(product.title)}`; // e.g. "2132-ai-writer-pro"
 
   return (
-    <div className='w-full max-w-[421px] h-full flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]'
+    <div className='w-full max-w-[421px] h-full flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]  border border-[#D0D5DD1A]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >

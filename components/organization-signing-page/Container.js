@@ -528,7 +528,7 @@ const signing = async () => {
     } catch (error) {
         console.log(error);
         if (error.response?.data) {
-            toast(error.response.data);
+            toast(error.response.data, "Wrong code, please try again");
         } else toast(error.message);
         setCurrentSlide("signing");
     } finally {

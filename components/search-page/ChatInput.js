@@ -179,14 +179,14 @@ null
 
       </div>
       
-                <button
+                {/* <button
                 id="chat_microphone"
                   className="focus:outline-none"
                 >
                   <GrMicrophone
                     className={`text-[20px] text-[#94a3b8]`}
                   />
-                </button>
+                </button> */}
       
 
       {/* Upload button */}

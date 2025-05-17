@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const ProductCard = ({ product, onClick }) => {
   return (
-    <div className="w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]">
+    <div className="w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]">
       <div className="flex justify-between flex-row">
         <div className="flex flex-col gap-2.5">
           <Image src={"/chatgpt.svg"} alt="chatgpt" width={52} height={52} />

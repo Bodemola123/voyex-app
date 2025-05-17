@@ -217,7 +217,7 @@ null
       {/* History with Smooth Transition */}
       <div
         className={`transition-all duration-300 ${
-          isHistoryVisible ? "w-[300px]" : "w-0"
+          isHistoryVisible ? "w-[360px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <HomeNav 
@@ -363,14 +363,14 @@ null
             )} */}
       </div>
 
-          <button
+          {/* <button
             className="focus:outline-none"
             id="microphone_button"
           >
             <GrMicrophone
               className={`md:text-[20px] text-[16px] text-[#94a3b8]`}
             />
-          </button>
+          </button> */}
 
 
       {/* Upload button */}

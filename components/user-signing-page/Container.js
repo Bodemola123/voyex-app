@@ -464,31 +464,6 @@ localStorage.setItem("entityId", entityId);
           localStorage.setItem("userId", acceptEmailPassword.data.user_id);
 localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
 
-        // Fetch full name if user
-        if (userType === "user") {
-          const userId = acceptEmailPassword.data.user_id;
-  
-          try {
-            const profileResponse = await axios.get(
-              `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
-            );
-            console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
-            const role = profileResponse.data?.org_details?.role || "None"
-            localStorage.setItem("role", role)
-            const accessLevel = profileResponse.data?.org_details?.access_level || "None"
-            localStorage.setItem("accessLevel", accessLevel)
-            const email = profileResponse.data?.email
-            localStorage.setItem("userEmail", email);
-            const fullName = profileResponse.data?.fullname || "Explorer";
-            const firstName = fullName.trim().split(" ")[0];
-  
-            localStorage.setItem("fullName", fullName);
-            localStorage.setItem("firstName", firstName);
-          } catch (profileErr) {
-            console.error("Failed to fetch user profile:", profileErr);
-            localStorage.setItem("firstName", "Explorer");
-          }
-        }
           localStorage.setItem("access_token", acceptEmailPassword.data.access_token);
           localStorage.setItem("refresh_token", acceptEmailPassword.data.refresh_token);
         
@@ -749,7 +724,7 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
     } catch (error) {
       console.log(error);
       if (error.response?.data) {
-        toast(error.response.data);
+        toast(error.response.data, "Wrong code, please try again");
       } else toast(error.message);
       if (error.message) {
         setCurrentSlide("signing");

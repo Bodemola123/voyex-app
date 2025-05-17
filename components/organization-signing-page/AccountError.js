@@ -8,7 +8,7 @@ import React from "react";
 function AccountError({ setCurrentSlide }) {
   const router = useRouter();
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-[#1c1d1f] overflow-y-scroll border border-[#D0D5DD1A]">
       <div className=" flex flex-col items-center justify-center gap-7 h-full">
         <Image
           src="/loading.png"

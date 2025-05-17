@@ -1,21 +1,22 @@
 'use client'
 import React, { useState } from 'react';
-import { FaTags, FaCode, FaStar } from 'react-icons/fa';
+import { FaTags, FaCode, FaStar, FaRegStar } from 'react-icons/fa';
 import AboutChatgpt from './AboutChatgpt';
 import PlansFeatures from './PlansFeatures';
 import { PiBookOpenText } from 'react-icons/pi';
 import ReviewSection from '@/components/galatimart-page/ReviewSection';
 import ReviewSecond from '@/components/galatimart-page/ReviewSecond';
 import '../../app/galactimart/tool/[slug]/CardsSection.css'
+import { BsTags } from 'react-icons/bs';
 
 const Tabs = ({description,  developerNote, plansBenefits, userReviews, rating, title}) => {
-  const [activeTab, setActiveTab] = useState('About ChatGPT');
+  const [activeTab, setActiveTab] = useState({title});
 
   const tabs = [
-    { name: 'About ChatGPT', icon: <PiBookOpenText /> },
-    { name: 'Plans and features', icon: <FaTags /> },
+    { name: {title}, icon: <PiBookOpenText /> },
+    { name: 'Plans and features', icon: <BsTags /> },
     { name: 'From the Developer', icon: <FaCode /> },
-    { name: 'Reviews', icon: <FaStar /> },
+    { name: 'Reviews', icon: <FaRegStar /> },
   ];
 
   const content = {

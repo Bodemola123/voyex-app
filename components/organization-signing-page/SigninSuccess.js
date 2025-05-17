@@ -9,7 +9,7 @@ import { FiCheckCircle } from "react-icons/fi";
 function SigninSuccess() {
   const router = useRouter();
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-[#1C1D1F] overflow-y-scroll">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-[#1C1D1F] border border-[#D0D5DD1A] overflow-y-scroll">
       <div className=" flex flex-col items-center justify-center gap-7 h-full">
         {/* <Image
                   src="/loading.png"

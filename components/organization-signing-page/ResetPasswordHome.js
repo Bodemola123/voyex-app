@@ -91,7 +91,7 @@ function ResetPassword({ setCurrentSlide }) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
-      <div className="bg-[#1C1D1F] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px] flex flex-col gap-4 justify-center items-center shadow-1s">
+      <div className="bg-[#1C1D1F] p-[26px] max-w-[665px] w-full h-[600px] relative rounded-[41px] flex flex-col gap-4 justify-center items-center border border-[#D0D5DD1A]">
         <LuFolderKey className="text-[7rem] text-purple" />
         <h2 className="text-3xl font-bold text-center text-[#f4f4f4]">
           Reset Password

@@ -30,7 +30,7 @@ function VerifyEmailAuthentication({
   const elapsed = mins && secs != "00";
 
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-[#1C1D1F] overflow-y-scroll shadow-1s">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-[#1C1D1F] overflow-y-scroll border border-[#D0D5DD1A]">
       <div className=" flex flex-col items-center justify-center gap-6 h-full">
         <div
           className={`w-28 h-28 border-[7px] border-t-purple border-r-purple border-b-purple border-purple/30 rounded-full ${
@@ -106,13 +106,13 @@ function VerifyEmailAuthentication({
             secs ? secs : "00"
           }`}</span>
         </div>
-        <p
+        {/* <p
           className={`text-[#F54135] text-base font-normal ${
             otpError ? "opacity-100" : "opacity-0"
           }`}
         >
           Wrong code, please try again
-        </p>
+        </p> */}
       </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
         <Link href="/terms_of_use" className="">
