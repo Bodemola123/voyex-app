@@ -5,7 +5,7 @@ import { IoCopyOutline } from 'react-icons/io5';
 const ShareChatModal = ({onClose}) => {
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)] flex items-center justify-center z-50">
-      <div className="bg-[#000000] flex flex-col gap-4 text-white rounded-[25px] p-6 w-[619px] relative">
+      <div className="bg-[#1C1D1F] border border-[#D0D5DD1A] flex flex-col gap-4 text-white rounded-[25px] p-6 w-[619px] relative">
         {/* Header */}
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">Share Chat</h2>
