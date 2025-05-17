@@ -53,7 +53,7 @@ function Collapsible() {
       </div>
 
       {/* Sidebar Links */}
-      <div className="flex flex-col mt-10 px-2 gap-6 overflow-y-scroll scrollbar-hide scroll-container">
+      <div className="flex flex-col mt-10 px-2 gap-3 overflow-y-scroll scrollbar-hide scroll-container">
         {navbar.map((nav, i) => (
           <button
             key={i}

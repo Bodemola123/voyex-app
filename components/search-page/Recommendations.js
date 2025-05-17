@@ -122,7 +122,7 @@ function Recommendations({ setShowRecommendations }) {
             </button>
             {(sectionType === "content" && contentOpenDropdown === "price") ||
             (sectionType === "video" && videoOpenDropdown === "price") ? (
-              <div className="absolute mt-2 bg-[#1c1d1f] p-2 rounded-[8px] flex flex-col gap-2 text-[#f4f4f4] z-50">
+              <div className="absolute mt-2 bg-[#1c1d1f] w-[100px] p-2 rounded-[8px] flex flex-col gap-2 text-[#f4f4f4] z-50">
                 {["Free", "Paid", "All"].map((option) => (
                   <span
                     key={option}
@@ -187,7 +187,7 @@ function Recommendations({ setShowRecommendations }) {
   return (
     <>
       <div className="flex flex-col gap-9 w-full h-full bg-transparent p-6 text-[#f4f4f4] overflow-y-auto scrollbar-hide">
-        <div className="flex flex-row gap-3 items-center justify-start">
+        <div className="flex flex-row items-center justify-between">
           <button
             className="w-[48px] h-[32px] border border-card gap-2.5 flex items-center justify-center rounded-lg"
             onClick={() => setShowRecommendations(false)}
@@ -202,12 +202,12 @@ function Recommendations({ setShowRecommendations }) {
 
         <div className="flex flex-row justify-between">
           <button
-            className="px-7 py-4 rounded-3xl border border-[#FFFFFF26] font-medium"
+            className="px-[47px] py-4 rounded-[32px] border border-[#FFFFFF26] font-medium"
             onClick={handleOverallFeedbackClick}
           >
             Give Feedback
           </button>
-          <button className="flex flex-row gap-2.5 px-7 py-4 rounded-3xl bg-white text-[#0a0a0b] text-xl font-bold items-center justify-center">
+          <button className="flex flex-row gap-2.5 px-7 py-4 rounded-[32px] bg-white text-[#0a0a0b] text-xl font-bold items-center justify-center">
             <p className="text-base">Suggest More Tools</p>
             <LuRefreshCw />
           </button>

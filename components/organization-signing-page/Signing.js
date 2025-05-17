@@ -49,7 +49,7 @@ function Signing({
   return (
     <main className="grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden scrollbar-hide items-center">
       <DynamicCard/>
-      <section className="relative p-6 h-full w-full rounded-[29px] bg-[#1C1d1f] border border-[#D0D5DD1A] overflow-y-scroll scrollbar-hide">
+      <section className="relative p-6 h-full w-full rounded-[29px] bg-[#1c1d1f] border border-[#D0D5DD1A] overflow-y-scroll scrollbar-hide">
         <div className=" flex flex-col items-center h-full">
           <h1 className="text-3xl font-bold text-fontlight capitalize">
             voyex
@@ -85,7 +85,7 @@ function Signing({
                       type="email"
                       placeholder="Email address"
                       onChange={emailInput}
-                      className={`rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus-visible:ring-0 focus:ring-offset-0 focus:border-none focus-within:border-none`}
+                      className={`rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus:outline-none focus:border-none outline-none focus:shadow-none`}
                     />
                     {signupEmailError && (
                       <span className="text-red-500 text-sm">
@@ -105,7 +105,7 @@ function Signing({
                       type={`${showPassword ? "text" : "password"}`}
                       placeholder="Password"
                       onChange={passwordInput}
-                      className="rounded-[28px] bg-card/30 border-none outline-none focus-within:border-none focus:border-none focus-visible:border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] pr-16"
+                      className="rounded-[28px] bg-card/30 focus:outline-none  outline-none focus:shadow-none focus-within:border-none focus:border-none focus-visible:border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] pr-16"
                     />
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"
@@ -177,7 +177,7 @@ function Signing({
                       type="email"
                       placeholder="Organization email"
                       onChange={orgEmailInput1}
-                      className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
+                      className="rounded-[28px] bg-card/30 border-none focus:outline-none focus:border-none outline-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                     />
                   </div>
                   <div className="relative space-y-1">
@@ -192,7 +192,7 @@ function Signing({
                       type={`${showPassword ? "text" : "password"}`}
                       placeholder="Password"
                       onChange={passwordInput1}
-                      className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16"
+                      className="rounded-[28px] bg-card/30 border-none focus:outline-none focus:border-none outline-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16"
                     />
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"

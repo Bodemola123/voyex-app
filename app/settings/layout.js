@@ -46,15 +46,15 @@ function SettingsPageLayout({ children }) {
         toggleHistoryVisibility={toggleHistoryVisibility}
         isHistoryVisible={isHistoryVisible}
       />
-      <div
+      {/* <div
         className={`transition-all duration-300 ${
           isHistoryVisible ? "w-[360px]" : "w-0"
         } bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && <Collapsible />}
-      </div>
+      </div> */}
       <div className="relative flex-grow w-full h-full py-5 px-11 overflow-y-scroll flex flex-col justify-between gap-4 tracking-wide">
-        <div className="flex flex-col">
+        <div className="flex flex-col w-[1000px] justify-center mx-auto">
           {children}
         </div>
         <BenFooter />

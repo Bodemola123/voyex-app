@@ -84,7 +84,7 @@ function Signing({
                       type="email"
                       placeholder="Your email"
                       onChange={emailInput}
-                      className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]`}
+                      className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none`}
                     />
                   </div>
                   <div className="relative space-y-1">
@@ -99,7 +99,7 @@ function Signing({
                       type={`${showPassword ? "text" : "password"}`}
                       placeholder="****"
                       onChange={passwordInput}
-                      className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16 focus:outline-none focus-within:outline-none"
+                      className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16  focus:outline-none focus:border-none outline-none focus:shadow-none"
                     />
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"
@@ -166,7 +166,7 @@ function Signing({
                       type="email"
                       placeholder="Email address"
                       onChange={(e) => setEmailAddress(e.target.value)}
-                      className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
+                      className="rounded-[28px] bg-card/30 border-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:ring-0 focus:outline-none outline-none"
                     />
                   </div>
                   <div className="relative space-y-1">
@@ -181,7 +181,7 @@ function Signing({
                       type={`${showPassword ? "text" : "password"}`}
                       placeholder="Password"
                       onChange={(e) => setUserPassword1(e.target.value)}
-                      className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16 focus:outline-none focus-within:outline-none"
+                      className="rounded-[28px]  bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16 focus:outline-none focus:border-none outline-none focus:shadow-none"
                     />
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"

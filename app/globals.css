@@ -9,6 +9,13 @@
   font-family: "DM Sans", sans-serif;
 }
 
+input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: white !important;
+  transition: none !important;
+}
+
+
 @font-face {
   font-family: "poppins";
   src: url("./fonts/Poppins/Poppins-Thin.ttf") format("truetype");

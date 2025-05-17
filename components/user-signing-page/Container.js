@@ -171,35 +171,13 @@ useEffect(() => {
             }
             const entityId = apiResponse.data.user_id;
 localStorage.setItem("entityId", entityId);
+        let userType = apiResponse.data.user_id ? "user" : "organization";
+        localStorage.setItem("userType", userType);
+                        const email = res.data?.email
+                localStorage.setItem("userEmail", email);
 
 
-        // Fetch full name if user
-        if (userType === "user") {
-          const userId = apiResponse.data.user_id;
-  
-          try {
-            const profileResponse = await axios.get(
-              `https://cqceokwaza.execute-api.eu-north-1.amazonaws.com/default/users_voyex_api?user_id=${userId}`
-            );
-            console.log("✅ Profile data:", profileResponse.data); // <-- Add this line
-            const role = profileResponse.data?.org_details?.role || "None"
-            localStorage.setItem("role", role)
-            const accessLevel = profileResponse.data?.org_details?.access_level || "None"
-            localStorage.setItem("accessLevel", accessLevel)
-            const email = profileResponse.data?.email
-            localStorage.setItem("userEmail", email);
-            const fullName = profileResponse.data?.fullname || "Explorer";
-            const firstName = fullName.trim().split(" ")[0];
-  
-            localStorage.setItem("fullName", fullName);
-            localStorage.setItem("firstName", firstName);
-          } catch (profileErr) {
-            console.error("Failed to fetch user profile:", profileErr);
-            localStorage.setItem("firstName", "Explorer");
-          }
-        }
 
-  
             // Store User Details
             dispatch(
               updateGoogleUserDetails({
@@ -395,6 +373,7 @@ localStorage.setItem("entityId", entityId);
 
         // Step 4: Send OTP for email verification
         localStorage.setItem("user_email", email);
+        localStorage.setItem("userEmail", email);
         localStorage.setItem("user_password", userPassword);
         const send_otp = await axios.post(
             `https://xi92wp7t87.execute-api.eu-north-1.amazonaws.com/default/voyex_otp`,
@@ -403,7 +382,7 @@ localStorage.setItem("entityId", entityId);
 
         if (send_otp.status === 200) {
             setCurrentSlide("email-verify");
-            toast("OTP sent to email");
+            toast("OTP sent to email. Kindly check spam mail if not seen in inbox");
         }
 
     } catch (error) {
@@ -459,6 +438,8 @@ localStorage.setItem("entityId", entityId);
           // ✅ Log tokens from the response
           console.log("Access Token from API:", acceptEmailPassword.data.access_token);
           console.log("Refresh Token from API:", acceptEmailPassword.data.refresh_token);
+                  let userType = acceptEmailPassword.data.user_id ? "user" : "organization";
+        localStorage.setItem("userType", userType);
         
           // ✅ Save both access and refresh tokens in localStorage
           localStorage.setItem("userId", acceptEmailPassword.data.user_id);
@@ -688,7 +669,7 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
       if (sendOtpResponse.status === 200) {
         localStorage.setItem("reset_password_email", forgotEmail);
         setCurrentSlide("reset-verifyotp");
-        toast("OTP sent to email");
+        toast("OTP sent to email. Kindly check spam mail if not seen in inbox");
       }
     } catch (error) {
       console.log(error);
@@ -719,7 +700,7 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
       if (resend_otp.status === 200) {
         setLoading(false);
         setCurrentSlide("email-verify");
-        toast("OTP resent to email");
+        toast("OTP resent to email. Kindly check spam mail if not seen in inbox");
       }
     } catch (error) {
       console.log(error);

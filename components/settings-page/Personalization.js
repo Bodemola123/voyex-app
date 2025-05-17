@@ -75,7 +75,7 @@ function Personalization() {
           <h2 className="text-base font-normal text-fontlight">
             {isOrganization ? "Logo" : "Avatar"}
           </h2>
-          <p className="text-base font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-light text-[#d9d9d9] mt-2">
             {isOrganization
               ? "The logo displayed for your organization"
               : "The language used in the user interface"}

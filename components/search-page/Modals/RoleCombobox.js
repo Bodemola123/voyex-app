@@ -114,7 +114,7 @@ const RoleCombobox = ({ setSelectedRoles }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[482px] p-0 text-fontlight border-none">
-        <Command className="bg-black text-fontlight p-3 border-none max-h-[308px] overflow-y-scroll">
+        <Command className="bg-[#1c1d1f] text-fontlight p-3 border-none max-h-[308px] overflow-y-scroll">
           <div className="relative">
             <CommandInput
               placeholder="Search role"

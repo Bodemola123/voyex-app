@@ -50,37 +50,37 @@ function EmailVerify({
           <InputOTPGroup className="gap-2 w-full justify-center">
             <InputOTPSlot
               index={0}
-              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  transition-opacity focus:outline-none focus:border-none outline-none focus:shadow-none${
                 otpError && "border-opacity-100 text-red-500 border-red-500"
               }`}
             />
             <InputOTPSlot
               index={1}
-              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center transition-opacity focus:outline-none focus:border-none outline-none focus:shadow-none${
                 otpError && "border-opacity-100 text-red-500 border-red-500"
               }`}
             />
             <InputOTPSlot
               index={2}
-              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  transition-opacity focus:outline-none focus:border-none outline-none focus:shadow-none${
                 otpError && "border-opacity-100 text-red-500 border-red-500"
               }`}
             />
             <InputOTPSlot
               index={3}
-              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center transition-opacity focus:outline-none focus:border-none outline-none focus:shadow-none${
                 otpError && "border-opacity-100 text-red-500 border-red-500"
               }`}
             />
             <InputOTPSlot
               index={4}
-              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  transition-opacity focus:outline-none focus:border-none outline-none focus:shadow-none${
                 otpError && "border-opacity-100 text-red-500 border-red-500"
               }`}
             />
             <InputOTPSlot
               index={5}
-              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  border border-opacity-0 transition-opacity ${
+              className={`h-[60px] w-[90px] bg-card/30 rounded-[18px] p-4 text-3xl text-center  transition-opacity focus:outline-none focus:border-none outline-none focus:shadow-none ${
                 otpError && "border-opacity-100 text-red-500 border-red-500"
               }`}
             />
