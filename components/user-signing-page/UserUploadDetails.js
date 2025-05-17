@@ -155,7 +155,7 @@ function UserUploadDetails({ setUserDisplay }) {
             localStorage.setItem("userType", userType);
 
             const firstName = userFullName.trim().split(" ")[0];
-                            const role = response.data?.org_details?.role || "None"
+                const role = response.data?.org_details?.role || "None"
                 localStorage.setItem("role", role)
                 const accessLevel = response.data?.org_details?.access_level || "None"
                 localStorage.setItem("accessLevel", accessLevel)// <-- Add this line

@@ -169,7 +169,7 @@ useEffect(() => {
             if (apiResponse.data.refresh_token) {
               localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
             }
-            const entityId = apiResponse.data.org_id;
+            const entityId = apiResponse.data.user_id;
 localStorage.setItem("entityId", entityId);
 
 
