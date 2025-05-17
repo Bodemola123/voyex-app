@@ -44,7 +44,7 @@ const ShareModal = ({ isOpen, onClose, position, toolUrl, toolName }) => {
   return (
     <div
       ref={modalRef}
-      className="absolute z-50 bg-[#010202] p-6 w-[450px] rounded-[25px] shadow-lg flex flex-col gap-4"
+      className="absolute z-50 bg-[#1C1D1F] border border-[#D0D5DD1A] p-6 w-[450px] rounded-[25px] shadow-lg flex flex-col gap-4"
       style={{ top: position?.top, right: position?.right }}
     >
       <div className='flex justify-between items-center'>
