@@ -10,10 +10,10 @@ import '../../app/galactimart/tool/[slug]/CardsSection.css'
 import { BsTags } from 'react-icons/bs';
 
 const Tabs = ({description,  developerNote, plansBenefits, userReviews, rating, title}) => {
-  const [activeTab, setActiveTab] = useState({title});
+  const [activeTab, setActiveTab] = useState("About ChatGPT");
 
   const tabs = [
-    { name: {title}, icon: <PiBookOpenText /> },
+    { name: 'About ChatGPT', icon: <PiBookOpenText /> },
     { name: 'Plans and features', icon: <BsTags /> },
     { name: 'From the Developer', icon: <FaCode /> },
     { name: 'Reviews', icon: <FaRegStar /> },
