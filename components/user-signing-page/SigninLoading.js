@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function SigninLoading() {
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-black overflow-y-scroll">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-[#1C1D1F] overflow-y-scroll">
       <div className=" flex flex-col items-center justify-center gap-7 h-full">
         <div
           className={`w-28 h-28 border-[7px] border-t-purple border-r-purple border-purple/30 rounded-full animate-spin`}
