@@ -13,7 +13,7 @@ const ChatProductCard = ({ product }) => {
   return (
     <>
       <div
-        className='flex flex-row justify-around items-center p-6 gap-6 rounded-3xl w-full h-full bg-[#131314]'
+        className='flex flex-row justify-around items-center p-6 gap-6 rounded-3xl w-full h-full bg-[#131314] border border-[#D0D5DD1A]'
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
