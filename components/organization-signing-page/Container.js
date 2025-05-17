@@ -297,7 +297,7 @@ const handleRevenueSelect = (revenueValue) => {
             // ✅ Store tokens
             apiResponse.data.access_token && localStorage.setItem("access_token", apiResponse.data.access_token);
             apiResponse.data.refresh_token && localStorage.setItem("refresh_token", apiResponse.data.refresh_token);
-                    let orgType = response.data.org_id ? "organization" : "user";
+                    let orgType = apiResponse.data.org_id ? "organization" : "user";
         localStorage.setItem("orgType", orgType);
   
         const entityId = apiResponse.data.org_id;
