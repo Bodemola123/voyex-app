@@ -44,7 +44,7 @@ const reasonOptions = [
       };
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)] flex items-center justify-center z-50">
-      <div className="bg-[#1c1d1f] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[623px]">
+      <div className="bg-[#1C1D1F] border border-[#D0D5DD1A] text-white rounded-[24px] gap-8 py-[30px] px-[29px] flex flex-col relative max-w-[623px]">
         {/* Header */}
 
           <div className="flex flex-col gap-6">
