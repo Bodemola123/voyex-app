@@ -23,15 +23,15 @@ import { useState } from "react";
 const skillLevel = [
   {
     value: "beginner",
-    label: "Beginner",
+    label: "1-3 years",
   },
   {
     value: "intermediate",
-    label: "Intermediate",
+    label: "3-5 years",
   },
   {
     value: "advanced",
-    label: "Advanced",
+    label: "5+ years",
   },
 ];
 

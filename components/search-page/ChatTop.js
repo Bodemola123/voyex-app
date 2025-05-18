@@ -33,8 +33,8 @@ function ChatTop({ messages, setShowChat }) {
   return (
     <div className="w-full z-30 flex border-b border-[#3A3A40]  items-center justify-end pb-3">
       <button className='flex flex-row items-center justify-center gap-1' id="chat_sharechat">
-          <FaShare className='text-[16px] text-white/60'/>
-          <p className='text-white/60 text-sm'>Share Chat</p>
+          <MdOutlineRestartAlt className='text-[16px] text-white/60'/>
+          <p className='text-white/60 text-sm'>Clear Chat</p>
         </button>
     </div>
   );

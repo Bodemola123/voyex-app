@@ -6,6 +6,7 @@ import { HiOutlineBolt, HiOutlineSquares2X2 } from "react-icons/hi2";
 import { GrTag } from "react-icons/gr";
 import Link from 'next/link';
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import Advert from "@/components/galatimart-page/Advert";
 
 const Header1 = ({
   searchQuery,
@@ -39,7 +40,7 @@ const Header1 = ({
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-row justify-between">
         <div className='flex flex-row w-[697px] gap-4'>
           <Link href={`/galactimart`} passHref>
@@ -67,6 +68,7 @@ const Header1 = ({
           </div>
         </div>
       </div>
+      <Advert/>
       <div className='flex flex-row justify-between'>
         <div className='h-8 w-52 flex flex-row gap-4 mt-4'>
           <button className='w-28 h-8 rounded-3xl gap-3 text-sm flex justify-center items-center bg-[#131314]'>
@@ -157,9 +159,9 @@ const Header1 = ({
             )}
           </div>
 
-          <button className="w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
+          {/* <button className="w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center bg-[#131314]">
             <HiOutlineSquares2X2 /> View
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

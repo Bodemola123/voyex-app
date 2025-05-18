@@ -104,6 +104,9 @@ const handleRevenueSelect = (revenueValue) => {
   const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
   const [mins, setMins] = useState("");
   const [secs, setSecs] = useState("");
+  const resetTimer = () => {
+  setTimeLeft(300);
+};
 
   //////// forgot password section
   const [forgotEmail, setForgotEmail] = useState("");
@@ -111,21 +114,13 @@ const handleRevenueSelect = (revenueValue) => {
   
 
   //////////// Countdown timer
-  useEffect(() => {
-    // Update the timer every second
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+useEffect(() => {
+  const timer = setInterval(() => {
+    setTimeLeft(prev => (prev <= 1 ? (clearInterval(timer), 0) : prev - 1));
+  }, 1000);
 
-    // Cleanup the interval on component unmount
-    return () => clearInterval(timer);
-  }, []);
+  return () => clearInterval(timer);
+}, []);
 
   // Format the time as mm:ss
   // const formatTime = () => {
@@ -136,18 +131,12 @@ const handleRevenueSelect = (revenueValue) => {
   //     .padStart(2, "0")}`;
   // };
 
-  useEffect(() => {
-    const formatTime = () => {
-      setMins(
-        Math.floor(timeLeft / 60)
-          .toString()
-          .padStart(2, "0")
-      );
-      setSecs((timeLeft % 60).toString().padStart(2, "0"));
-    };
-    currentSlide === "email-verify" && formatTime();
-    currentSlide === "reset-verifyotp" && formatTime();
-  }, [timeLeft, currentSlide]);
+useEffect(() => {
+  if (currentSlide === "email-verify" || currentSlide === "reset-verifyotp") {
+    setMins(Math.floor(timeLeft / 60).toString().padStart(2, "0"));
+    setSecs((timeLeft % 60).toString().padStart(2, "0"));
+  }
+}, [timeLeft, currentSlide]);
 
   useEffect(() => {
     if (googleUserDetails) {
@@ -807,6 +796,7 @@ const signing = async () => {
       );
       console.log("OTP response", resend_otp);
       if (resend_otp.status === 200) {
+        resetTimer();
         setLoading(false);
         setCurrentSlide("email-verify");
         toast("OTP resent to email. Kindly check spam mail if not seen in inbox");
@@ -839,6 +829,7 @@ const signing = async () => {
       );
       console.log("OTP response", resend_otp);
       if (resend_otp.status === 200) {
+        resetTimer();
         setLoading(false);
         setCurrentSlide("reset-verifyotp");
         toast("OTP resent to email. Kindly check spam mail if not seen in inbox");

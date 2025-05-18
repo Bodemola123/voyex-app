@@ -16,12 +16,12 @@ function OrgLoading() {
         </p>
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
-        <Link href="/terms_of_use" className="">
+        <a href="https://voyex-landing.vercel.app/terms" target="_blank" rel="noopener noreferrer">
           Terms of use
-        </Link>
-        <Link href="/privacy_policy" className="">
+        </a>
+        <a href="https://voyex-landing.vercel.app/privacy" target="_blank" rel="noopener noreferrer">
           Privacy Policy
-        </Link>
+        </a>
       </div>
     </main>
   );

@@ -25,7 +25,7 @@ function BasicInfoContainer({
   return (
     <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden scrollbar-hide items-center justify-center">
       <DynamicCard />
-      <div className="flex flex-col items-center justify-start h-full max-w-[494px] py-[33px] w-full mx-auto pt-6 px-2 rounded-[29px] bg-[#1C1D1F] border border-[#D0D5DD1A] text-white overflow-y-scroll scrollbar-hide basic">
+      <div className="flex flex-col items-center justify-start h-full max-w-[494px] py-[33px] w-full mx-auto pt-6 px-2 rounded-[29px] bg-[#0D0D0D] border border-[#D0D5DD1A] text-white overflow-y-scroll scrollbar-hide basic">
         <p className="text-center font-bold text-5xl mb-10">Voyex</p>
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#c088fb]"></span>

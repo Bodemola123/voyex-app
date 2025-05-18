@@ -394,7 +394,7 @@ const handleOptionClick = (index, option) => {
         {showRecommendationButton && (
       <div className="flex justify-center mx-auto pt-1">
         <button className="py-4 px-[27px] rounded-3xl transition-colors font-bold duration-200 text-base text-[#0a0a0b] bg-[#f4f4f4]" onClick={() => setShowRecommendations(true)} id="recommendation_button">
-          Show Recommendation
+          Show Recommended Tools
         </button>
       </div>
     )}

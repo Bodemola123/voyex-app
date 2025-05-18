@@ -17,12 +17,12 @@ function SettingsHeader({ activeTab, onTabChange }) {
   }, []); // Run on component mount
 
   return (
-    <div className="flex items-center justify-between w-full z-10 mb-11">
-      <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-end w-full z-10 mb-11">
+      {/* <div className="flex items-center justify-center gap-2">
         <h3 className="text-3xl text-fontlight font-bold capitalize">
           settings
         </h3>
-      </div>
+      </div> */}
       <div className="flex items-center gap-4 justify-center text-xl">
         <button
           className={`text-base font-semibold ${activeTab === 'account' ? 'text-[#565656]' : 'text-[#f4f4f4]'} hover:text-[#565656]`}

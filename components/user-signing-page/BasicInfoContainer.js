@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import SkillLevelDropdown from "./SkillLevelDropdown";
 import DynamicCard from "../common/DynamicCard";
+import CountryDropdown from "./CountryDropdown";
 
 function BasicInfoContainer({
   setUserFullName,
@@ -16,7 +17,7 @@ function BasicInfoContainer({
   return (
     <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden items-center justify-center">
       <DynamicCard/>
-      <div className=" flex flex-col items-center max-w-[444px] py-10 px-4 w-full h-max rounded-[29px] bg-[#1C1D1F] mx-auto border border-[#D0D5DD1A] overflow-y-scroll">
+      <div className=" flex flex-col items-center max-w-[444px] py-10 px-4 w-full h-max rounded-[29px] bg-[#0D0D0D] mx-auto border border-[#D0D5DD1A] overflow-y-scroll">
         <div className="flex items-center justify-center gap-2 max-w-[293px] w-full">
           <span className="w-[35px] h-[9px] rounded-[28px] bg-purple"></span>
           <span className="w-[35px] h-[9px] rounded-[28px] bg-[#1D1D1F]"></span>
@@ -57,15 +58,9 @@ function BasicInfoContainer({
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="country" className="text-fontlight font-normal">
-            Region/TimeZone
+            Country of residence
           </Label>
-          <Input
-            id="country"
-            type="text"
-            placeholder="Country name"
-            onChange={(e) => setUserCountry(e.target.value)}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] focus:ring-0 focus:outline-none focus:border-none focus:shadow-none`}
-          />
+          <CountryDropdown setUserCountry={setUserCountry}/>
         </div>
         <div className="flex items-center justify-between max-w-[500px] py-6 w-full px-2">
           <button

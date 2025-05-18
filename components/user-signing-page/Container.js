@@ -62,21 +62,14 @@ function Container() {
   const [resetValue, setResetValue] = useState("");
 
   //////////// Countdown timer
-  useEffect(() => {
-    // Update the timer every second
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
 
-    // Cleanup the interval on component unmount
-    return () => clearInterval(timer);
-  }, []);
+useEffect(() => {
+  const timer = setInterval(() => {
+    setTimeLeft(prev => (prev <= 1 ? (clearInterval(timer), 0) : prev - 1));
+  }, 1000);
+
+  return () => clearInterval(timer);
+}, []);
 
   // Format the time as mm:ss
   // const formatTime = () => {
@@ -87,18 +80,16 @@ function Container() {
   //     .padStart(2, "0")}`;
   // };
 
-  useEffect(() => {
-    const formatTime = () => {
-      setMins(
-        Math.floor(timeLeft / 60)
-          .toString()
-          .padStart(2, "0")
-      );
-      setSecs((timeLeft % 60).toString().padStart(2, "0"));
-    };
-    currentSlide === "email-verify" && formatTime();
-    currentSlide === "reset-verifyotp" && formatTime();
-  }, [timeLeft, currentSlide]);
+useEffect(() => {
+  if (currentSlide === "email-verify" || currentSlide === "reset-verifyotp") {
+    setMins(Math.floor(timeLeft / 60).toString().padStart(2, "0"));
+    setSecs((timeLeft % 60).toString().padStart(2, "0"));
+  }
+}, [timeLeft, currentSlide]);
+
+const resetTimer = () => {
+  setTimeLeft(300); // reset to 5 minutes
+};
 
 useEffect(() => {
   if (googleUserDetails) {
@@ -698,6 +689,7 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
       );
       console.log("OTP response", resend_otp);
       if (resend_otp.status === 200) {
+        resetTimer();
         setLoading(false);
         setCurrentSlide("email-verify");
         toast("OTP resent to email. Kindly check spam mail if not seen in inbox");
@@ -729,6 +721,7 @@ localStorage.setItem("entityId", acceptEmailPassword.data.user_id);
       );
       console.log("OTP response", resend_otp);
       if (resend_otp.status === 200) {
+        resetTimer(); // <-- reset timer here
         setLoading(false);
         setCurrentSlide("reset-verifyotp");
         toast("OTP resent to email");

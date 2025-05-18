@@ -28,7 +28,7 @@ function EmailVerify({
   const last = localStorage.getItem("user_email").slice(-10);
 
   /////// resend otp code if...
-  const elapsed = mins && secs != "00";
+  const elapsed = mins !== "00" || secs !== "00";
 
   return (
     <main className="relative max-w-[666px] w-full h-[600px] z-[2] p-6 rounded-[29px] bg-[#1C1D1F] overflow-y-scroll border border-[#D0D5DD1A] ">
@@ -88,23 +88,23 @@ function EmailVerify({
             />
           </InputOTPGroup>
         </InputOTP>
-        <div className="flex items-center gap-2 text-base text-fontlight font-medium">
-          {elapsed ? (
-            <span>Time left:</span>
-          ) : (
-            <button
-              className={`hover:underline transition-all duration-300 disabled:cursor-not-allowed disabled:hover:no-underline`}
-              // disabled={elapsed}
-              onClick={() => handleUserResendOtp()}
-            >
-              Send code again
-            </button>
-          )}
+{/* Timer / Resend OTP UI */}
+<div className="flex items-center gap-2 text-base text-fontlight font-medium">
+  {mins === "00" && secs === "00" ? (
+    <button
+      className="hover:underline transition-all duration-300"
+      onClick={handleUserResendOtp}
+    >
+      Send code again
+    </button>
+  ) : (
+    <>
+      <span>Time left:</span>
+      <span className="text-purple font-normal">{`${mins} : ${secs}`}</span>
+    </>
+  )}
+</div>
 
-          <span className="text-purple font-normal">{`${mins ? mins : "00"} : ${
-            secs ? secs : "00"
-          }`}</span>
-        </div>
         <p
           className={`text-[#F54135] text-base font-normal ${
             otpError ? "opacity-100" : "opacity-0"
@@ -114,12 +114,12 @@ function EmailVerify({
         </p>
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 text-base font-normal text-purple">
-        <Link href="/terms_of_use" className="">
+        <a href="https://voyex-landing.vercel.app/terms" target="_blank" rel="noopener noreferrer">
           Terms of use
-        </Link>
-        <Link href="/privacy_policy" className="">
+        </a>
+        <a href="https://voyex-landing.vercel.app/privacy" target="_blank" rel="noopener noreferrer">
           Privacy Policy
-        </Link>
+        </a>
       </div>
     </main>
   );
