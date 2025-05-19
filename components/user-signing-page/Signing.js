@@ -25,9 +25,6 @@ import ForgotPassword from "./ForgotPasswordHome";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DynamicCard from "../common/DynamicCard";
-import { CiMail } from "react-icons/ci";
-import { HiOutlineLockClosed } from "react-icons/hi";
-
 
 function Signing({
   emailInput,
@@ -75,34 +72,28 @@ function Signing({
             <TabsContent value="sign_up" className="mt-10">
               <Card className="rounded-none border-none">
                 <CardContent className="space-y-4 p-0">
-                  <div className="space-y-1 mb-1">
+                  <div className="relative space-y-1 mb-1">
                     <Label
                       htmlFor="email"
                       className="text-fontlight font-normal"
                     >
                       Email
                     </Label>
-                    <div className="relative">
-                      <CiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
-                      <Input
+                    <Input
                       id="email"
                       type="email"
                       placeholder="Your email"
                       onChange={emailInput}
                       className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none`}
                     />
-                    </div>
-
                   </div>
-                  <div className="space-y-1">
+                  <div className="relative space-y-1">
                     <Label
                       htmlFor="password"
                       className="text-fontlight font-normal"
                     >
                       Password
                     </Label>
-                    <div className="relative">
-                    <HiOutlineLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
                     <Input
                       id="password"
                       type={`${showPassword ? "text" : "password"}`}
@@ -110,8 +101,6 @@ function Signing({
                       onChange={passwordInput}
                       className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16  focus:outline-none focus:border-none outline-none focus:shadow-none"
                     />
-                    </div>
-
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"
                       title={`${showPassword ? "Hide" : "Show"}`}
@@ -172,8 +161,6 @@ function Signing({
                     >
                       Email
                     </Label>
-                    <div className="relative">
-                      <CiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
                     <Input
                       id="email"
                       type="email"
@@ -181,18 +168,14 @@ function Signing({
                       onChange={(e) => setEmailAddress(e.target.value)}
                       className="rounded-[28px] bg-card/30 border-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:ring-0 focus:outline-none outline-none"
                     />
-                    </div>
-
                   </div>
-                  <div className="space-y-1">
+                  <div className="relative space-y-1">
                     <Label
                       htmlFor="password"
                       className="text-fontlight font-normal"
                     >
                       Password
                     </Label>
-                    <div className="relative">
-                      <HiOutlineLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
                     <Input
                       id="password"
                       type={`${showPassword ? "text" : "password"}`}
@@ -200,8 +183,6 @@ function Signing({
                       onChange={(e) => setUserPassword1(e.target.value)}
                       className="rounded-[28px]  bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16 focus:outline-none focus:border-none outline-none focus:shadow-none"
                     />
-                    </div>
-
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"
                       title={`${showPassword ? "Hide" : "Show"}`}
