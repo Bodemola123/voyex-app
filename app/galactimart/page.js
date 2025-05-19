@@ -19,55 +19,79 @@ function GalactiMart() {
   const [error, setError] = useState(null); // State for error
   const [recommendedToolsBase, setRecommendedToolsBase] = useState([]);
 
-  useEffect(() => {
-    const fetchTools = async () => {
-      try {
-        setIsLoading(true);
-        setError(null); // Reset error on new fetch
-        const response = await axios.get(
-          "https://2zztcz7h0a.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_api"
-        );
-        const rawData = response.data.data;
-        const allSections = Object.keys(rawData);
-        const parsedTools = [];
+useEffect(() => {
+  const fetchTools = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
 
-        allSections.forEach((section) => {
-          rawData[section].forEach((tool) => {
-            parsedTools.push({
-              tool_id: tool.tool_id,
-              tool_name: tool.tool_name,
-              large_description: tool.large_description,
-              icon: tool.tool_assets_metadata?.icon,
-              rating: tool.rating,
-              pricing_model: tool.pricing_model,
-              special_tags: tool.special_tags,
-              use_case_tags: tool.use_case_tags,
-              category: section,
-              created_at: tool.created_at,
-            });
+      // ✅ 1. Check if cached data exists
+      const cachedData = sessionStorage.getItem("voyex_tools_data");
+      if (cachedData) {
+        const parsed = JSON.parse(cachedData);
+        setCategories(parsed.categories);
+        setToolsData(parsed.toolsData);
+        setRecommendedToolsBase(parsed.recommendedTools);
+        setIsLoading(false);
+        return;
+      }
+
+      // ✅ 2. Fetch from API if no cache
+      const response = await axios.get(
+        "https://2zztcz7h0a.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_api"
+      );
+      const rawData = response.data.data;
+      const allSections = Object.keys(rawData);
+      const parsedTools = [];
+
+      allSections.forEach((section) => {
+        rawData[section].forEach((tool) => {
+          parsedTools.push({
+            tool_id: tool.tool_id,
+            tool_name: tool.tool_name,
+            large_description: tool.large_description,
+            icon: tool.tool_assets_metadata?.icon,
+            rating: tool.rating,
+            pricing_model: tool.pricing_model,
+            special_tags: tool.special_tags,
+            use_case_tags: tool.use_case_tags,
+            category: section,
+            created_at: tool.created_at,
           });
         });
+      });
 
-        setCategories(allSections);
-        setToolsData(parsedTools);
-            // Set 6 random tools only once after fetching
-// ✅ Replace with this:
-const recommendedToolIds = [2132, 1173, 1455, 2123, 1228];
-const recommendedTools = parsedTools.filter((tool) =>
-  recommendedToolIds.includes(tool.tool_id)
-);
-setRecommendedToolsBase(recommendedTools);
+      const recommendedToolIds = [2132, 1173, 1455, 2123, 1228];
+      const recommendedTools = parsedTools.filter((tool) =>
+        recommendedToolIds.includes(tool.tool_id)
+      );
 
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch tools:", error);
-        setIsLoading(false);
-        setError("Failed to load tools. Please try again later."); // Set error message
-      }
-    };
+      // ✅ Save to state
+      setCategories(allSections);
+      setToolsData(parsedTools);
+      setRecommendedToolsBase(recommendedTools);
 
-    fetchTools();
-  }, []);
+      // ✅ Save to sessionStorage
+      sessionStorage.setItem(
+        "voyex_tools_data",
+        JSON.stringify({
+          categories: allSections,
+          toolsData: parsedTools,
+          recommendedTools,
+        })
+      );
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch tools:", error);
+      setIsLoading(false);
+      setError("Failed to load tools. Please try again later.");
+    }
+  };
+
+  fetchTools();
+}, []);
+
 
   const [sortByNew, setSortByNew] = useState(false);
 

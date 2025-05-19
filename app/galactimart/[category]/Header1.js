@@ -81,7 +81,7 @@ const Header1 = ({
             <HiOutlineBolt /> New
           </button>
         </div>
-        <div className='w-72 h-8 flex flex-row gap-2'>
+        <div className='h-8 flex flex-row gap-2'>
           {/* Rating filter dropdown */}
           <div className="relative" ref={ratingDropdownRef}>
             <button

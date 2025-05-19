@@ -223,7 +223,7 @@ useEffect(() => {
             </button>
             {(sectionType === "content" && contentOpenDropdown === "rating") ||
             (sectionType === "video" && videoOpenDropdown === "rating") ? (
-              <div className="absolute mt-2 bg-[#1c1d1f] p-2 rounded-[8px] flex flex-col gap-2 z-50">
+              <div className="absolute mt-2 bg-[#1c1d1f] w-[120px] p-2 rounded-[8px] flex flex-col gap-2 z-50">
                 {renderStarRow(sectionType)}
               </div>
             ) : null}

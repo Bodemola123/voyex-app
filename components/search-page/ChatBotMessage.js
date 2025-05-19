@@ -349,7 +349,7 @@ const handleOptionClick = (index, option) => {
   
  
   return (
-    <div className="relative w-[1000px]" >
+    <div className="relative xl:w-[1050px] lg:w-[680px]" >
             {showRecommendations ? (
         <Recommendations setShowRecommendations={setShowRecommendations} /> 
       ) :
@@ -398,7 +398,7 @@ const handleOptionClick = (index, option) => {
         </button>
       </div>
     )}
-    <div className="flex flex-col gap-2 bg-black w-[900px] items-center justify-center">
+    <div className="flex flex-col gap-2 bg-black xl:w-[900px] lg:w-[680px] items-center justify-center">
     <ChatInput
             userInput={userInput}
             setUserInput={setUserInput}

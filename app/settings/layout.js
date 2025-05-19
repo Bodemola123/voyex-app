@@ -54,7 +54,7 @@ function SettingsPageLayout({ children }) {
         {isHistoryVisible && <Collapsible />}
       </div> */}
       <div className="relative flex-grow w-full h-full py-5 px-11 overflow-y-scroll flex flex-col justify-between gap-4 tracking-wide">
-        <div className="flex flex-col w-[1000px] justify-center mx-auto">
+        <div className="flex flex-col xl:w-[1000px] lg:w-[900px] justify-center mx-auto">
           {children}
         </div>
         <BenFooter />
