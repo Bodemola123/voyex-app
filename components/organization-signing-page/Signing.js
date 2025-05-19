@@ -24,6 +24,8 @@ import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DynamicCard from "../common/DynamicCard";
+import { CiMail } from "react-icons/ci";
+import { HiOutlineLockClosed } from "react-icons/hi";
 
 function Signing({
   passwordInput,
@@ -73,13 +75,15 @@ function Signing({
             <TabsContent value="sign_up" className="mt-10">
               <Card className="rounded-none border-none">
                 <CardContent className="space-y-4 p-0">
-                  <div className="relative space-y-1">
+                  <div className="space-y-1">
                     <Label
                       htmlFor="email"
                       className="text-fontlight font-normal"
                     >
                       Organization Email
                     </Label>
+                    <div className="relative">
+                     <CiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
                     <Input
                       id="email"
                       type="email"
@@ -87,19 +91,23 @@ function Signing({
                       onChange={emailInput}
                       className={`rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus:outline-none focus:border-none outline-none focus:shadow-none`}
                     />
+                    </div>
+
                     {signupEmailError && (
                       <span className="text-red-500 text-sm">
                         {signupEmailError}
                       </span>
                     )}
                   </div>
-                  <div className="relative space-y-1">
+                  <div className="space-y-1">
                     <Label
                       htmlFor="password"
                       className="text-fontlight font-normal"
                     >
                       Password
                     </Label>
+                    <div className="relative">
+                    <HiOutlineLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
                     <Input
                       id="password"
                       type={`${showPassword ? "text" : "password"}`}
@@ -107,6 +115,7 @@ function Signing({
                       onChange={passwordInput}
                       className="rounded-[28px] bg-card/30 focus:outline-none  outline-none focus:shadow-none focus-within:border-none focus:border-none focus-visible:border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] pr-16"
                     />
+                    </div>
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"
                       title={`${showPassword ? "Hide" : "Show"}`}
@@ -172,21 +181,27 @@ function Signing({
                     >
                       Organization email
                     </Label>
-                    <Input
+                    <div className="relative">
+                      <CiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
+                      <Input
                       id="email"
                       type="email"
                       placeholder="Organization email"
                       onChange={orgEmailInput1}
                       className="rounded-[28px] bg-card/30 border-none focus:outline-none focus:border-none outline-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                     />
+                    </div>
+
                   </div>
-                  <div className="relative space-y-1">
+                  <div className=" space-y-1">
                     <Label
                       htmlFor="password"
                       className="text-fontlight font-normal"
                     >
                       Password
                     </Label>
+                    <div className="relative">
+                    <HiOutlineLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-fontlight/40 text-xl" />
                     <Input
                       id="password"
                       type={`${showPassword ? "text" : "password"}`}
@@ -194,6 +209,8 @@ function Signing({
                       onChange={passwordInput1}
                       className="rounded-[28px] bg-card/30 border-none focus:outline-none focus:border-none outline-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px] pr-16"
                     />
+                    </div>
+
                     <button
                       className="absolute right-1 top-7 text-xl text-purple p-3"
                       title={`${showPassword ? "Hide" : "Show"}`}

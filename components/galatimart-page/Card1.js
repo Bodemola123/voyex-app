@@ -60,6 +60,7 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error, reco
             rating: tool.rating,
             description: tool.large_description,
             tags: tool.use_case_tags,
+            sponsored:tool.sponsored
           }}
         />
       ))}
@@ -105,6 +106,7 @@ const Card1 = ({ toolsData, categories, selectedCategory, isLoading, error, reco
                     rating: tool.rating,
                     description: tool.large_description,
                     tags: tool.use_case_tags,
+                    sponsored: tool.sponsored
                   }}
                 />
               ))}

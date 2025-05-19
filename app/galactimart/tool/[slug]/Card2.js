@@ -16,6 +16,7 @@ const Card2 = ({ relatedTools }) => {
             rating: tool.rating,
             description: tool.large_description,
             tags: tool.use_case_tags,
+            sponsored: tool.sponsored
           }}
         />
       ))}

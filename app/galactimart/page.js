@@ -57,6 +57,7 @@ useEffect(() => {
             use_case_tags: tool.use_case_tags,
             category: section,
             created_at: tool.created_at,
+            sponsored: tool.sponsored_type
           });
         });
       });

@@ -15,19 +15,33 @@ const ProductCard = ( {product} ) => {
 
     const [hovered, setHovered] = useState(false);
     const slug = `${product.id}-${slugify(product.title)}`; // e.g. "2132-ai-writer-pro"
+      const imageOverrides = {
+  2132: "//chatgptforchat.svg",
+  1173: "/invideo.png",
+  1455: "/typpo.svg",
+  2123: "/applepie.jpg",
+  1228: "/zipwp.png",
+};
+
+const customImage = imageOverrides[product.id] || product.image;
 
   return (
-    <div className='w-full max-w-[421px] h-full flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]  border border-[#D0D5DD1A]'
+    <div className='relative w-full max-w-[421px] h-full flex-shrink-0 rounded-3xl flex flex-col gap-4 p-4 bg-[#131314]  border border-[#D0D5DD1A]'
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
       <div className="flex justify-between flex-row">
         <div className="flex flex-col gap-2.5">
-          {product.image ? (
+          {/* {product.image ? (
             <Image src={product.image} alt={product.title} width={52} height={52} />
           ) : (
             <div className="w-[52px] h-[52px] bg-white rounded-full" />
-          )}
+          )} */}
+          {customImage ? (
+  <Image src={customImage} alt={product.title} width={52} height={52} />
+) : (
+  <div className="w-[52px] h-[52px] bg-white rounded-full" />
+)}
           <h1 className="text-base font-bold">{product.title}</h1>
         </div>
         <FaRegStar />
