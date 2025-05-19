@@ -253,7 +253,7 @@ useEffect(() => {
           >
             <MdKeyboardArrowLeft className="text-white text-[24px]" />
           </button>
-          <p className="text-base font-bold">Showing Recommendations</p>
+          <p className="text-xl font-bold">⚡ Showing Recommendations</p>
         </div>
 
         {renderSection("Content Creation", "content")}

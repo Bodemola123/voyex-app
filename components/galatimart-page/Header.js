@@ -103,7 +103,7 @@ const Header = ({
             {isRatingDropdownOpen && (
               <div className="absolute mt-2 bg-[#1c1d1f] p-2 rounded-[8px] flex flex-col gap-2 text-[#f4f4f4] z-50 w-max">
                   <div
-                  className="flex gap-1 items-center p-1 cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] rounded-[8px]"
+                  className="flex gap-1 items-center p-2 cursor-pointer hover:bg-[#131314] rounded-[8px]"
                   onClick={() => setRatingFilter("All")}
                 >
                   <span>All</span>
@@ -152,7 +152,7 @@ const Header = ({
                       onPriceFilterChange(option);
                       setIsDropdownOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-2 text-sm cursor-pointer hover:bg-[#f4f4f4] hover:text-[#1c1d1f] rounded-[8px] ${
+                    className={`w-full text-left px-3 py-2 text-sm cursor-pointer hover:bg-[#131314] rounded-[8px] ${
                       priceFilter === option ? "" : ""
                     }`}
                   >

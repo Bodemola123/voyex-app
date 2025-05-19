@@ -28,6 +28,12 @@ const customImage = imageOverrides[product.id] || product.image;
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+            {/* Sponsored Banner */}
+      {product.sponsored && (
+        <div className="absolute top-[54px] -right-[12px] transform rotate-45 bg-[#c088fb] text-[#032400] text-xs font-semibold px-12 py-1 shadow-lg z-10 rounded-md">
+          Sponsored
+        </div>
+      )}
 
       <div className="flex justify-between flex-row">
         <div className="flex flex-col gap-2.5">
@@ -37,7 +43,7 @@ const customImage = imageOverrides[product.id] || product.image;
             <div className="w-[52px] h-[52px] bg-white rounded-full" />
           )} */}
           {customImage ? (
-  <Image src={customImage} alt={product.title} width={52} height={52} />
+  <Image src={customImage} alt={product.title} width={52} height={52} className='rounded-full'/>
 ) : (
   <div className="w-[52px] h-[52px] bg-white rounded-full" />
 )}
