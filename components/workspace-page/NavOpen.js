@@ -10,15 +10,15 @@ const NavOpen = () => {
   return (
     <nav className='flex flex-col w-full bg-[#131314] items-center justify-start h-screen pt-6 px-4'>
     <div className='flex flex-col gap-6 justify-center w-full'>
-      <div className='flex gap-4 px-2 flex-row items-center'>
+      <div className='flex gap-4 px-1 flex-row items-center'>
         <Image src={'/Crown.svg'} alt='crown' width={32} height={32} />
         <p className='font-extrabold text-3xl text-[#f4f4f4]'>Voyex</p>
       </div>
-      <div className='flex flex-col gap-2 justify-center w-full border-b border-[#FFFFFF26]'>
-        {/* <div className='px-2'>
+      <div className='flex flex-col gap-4 justify-center w-full border-b border-[#FFFFFF26] pb-2 '>
+        {/* <div className='px-1'>
        <button id='workspace_nav_new_model' className='rounded-[66px] bg-[#1d1d1f]  flex flex-row gap-3 h-[51px] w-[236px] items-center justify-center'>
         <FaPlus className='text-[10px] text-white/40' />
-        <p className='text-xs text-white/60'>New Model</p>
+        <p className='text-base text-white/60'>New Model</p>
           </button>
         </div> */}
 

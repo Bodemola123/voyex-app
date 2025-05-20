@@ -93,7 +93,7 @@ const StepsNavOpen = () => {
       </div>
 
       {/* Upgrade Plan Section */}
-      <div className="mt-auto mb-6 px-6">
+      {/* <div className="mt-auto mb-6 px-6">
         <button className="flex flex-row py-4 gap-4 items-center w-full bg-gray-900 rounded-lg hover:bg-gray-800">
           <Image src={"/IconContainer.svg"} alt="icon" width={40} height={40} />
           <div className="flex flex-col gap-1">
@@ -101,7 +101,7 @@ const StepsNavOpen = () => {
           <p className='text-xs text-[#475569] font-normal'>Get GPT-8 and more</p>
           </div>
         </button>
-      </div>
+      </div> */}
     </nav>
   );
 };

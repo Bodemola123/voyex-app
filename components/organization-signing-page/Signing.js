@@ -53,7 +53,7 @@ function Signing({
   return (
 <main className="grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-auto overflow-x-hidden scrollbar-hide items-center">
   <DynamicCard />
-  <section className="relative p-6 h-full w-full rounded-[29px] bg-[#0D0D0D] border border-[#D0D5DD1A] overflow-y-scroll scrollbar-hide">
+  <section className="relative p-6 h-full w-full rounded-[29px] bg-[#0D0D0D] border border-[#D0D5DD1A] overflow-y-scroll scrollbar-hide scrollbar-hide">
     <div className="flex flex-col items-center h-full">
       <h1 className="text-3xl font-bold text-fontlight capitalize">voyex</h1>
       <Tabs defaultValue="sign_in" className="w-[400px] mt-10">

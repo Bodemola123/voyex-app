@@ -50,7 +50,7 @@ function Signing({
   return (
     <main className="relative grid grid-cols-2 gap-1 w-full h-full z-[2] p-4 overflow-y-hidden overflow-x-hidden items-center">
       <DynamicCard/>
-      <section className="relative p-6 h-full w-full rounded-[29px] bg-[#0D0D0D] overflow-y-scroll border border-[#D0D5DD1A]">
+      <section className="relative p-6 h-full w-full rounded-[29px] bg-[#0D0D0D] overflow-y-scroll scrollbar-hide border border-[#D0D5DD1A]">
         <div className=" flex flex-col items-center h-full">
           <h1 className="text-3xl font-bold text-fontlight capitalize">
             voyex

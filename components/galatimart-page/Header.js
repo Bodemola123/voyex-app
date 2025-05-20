@@ -89,7 +89,7 @@ const Header = ({
                 setIsDropdownOpen(false); // Close price dropdown
               }}
               
-              className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center transition-all border border-[#FFFFFF26]${
+              className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center transition-all border border-[#FFFFFF26] ${
                 isRatingDropdownOpen ? "bg-[#f4f4f4] text-[#0a0a0b]" : "bg-[#131314] text-white hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"
               }`}
             >

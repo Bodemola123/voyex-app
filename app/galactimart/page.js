@@ -29,7 +29,12 @@ useEffect(() => {
       const cachedData = sessionStorage.getItem("voyex_tools_data");
       if (cachedData) {
         const parsed = JSON.parse(cachedData);
-        setCategories([...parsed.categories].sort());
+setCategories([...parsed.categories].sort((a, b) =>
+  a.replace(/[-\s]/g, '').toLowerCase().localeCompare(
+    b.replace(/[-\s]/g, '').toLowerCase()
+  )
+));
+
         setToolsData(parsed.toolsData);
         setRecommendedToolsBase(parsed.recommendedTools);
         setIsLoading(false);
@@ -41,7 +46,11 @@ useEffect(() => {
         "https://2zztcz7h0a.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_api"
       );
       const rawData = response.data.data;
-      const allSections = Object.keys(rawData).sort();
+const allSections = Object.keys(rawData).sort((a, b) =>
+  a.replace(/[-\s]/g, '').toLowerCase().localeCompare(
+    b.replace(/[-\s]/g, '').toLowerCase()
+  )
+);
       const parsedTools = [];
 
       allSections.forEach((section) => {
@@ -183,7 +192,7 @@ useEffect(() => {
         isHistoryVisible={isHistoryVisible}
       />
       <div
-        className={`transition-all duration-300 ${isHistoryVisible ? "w-[360px]" : "w-0"} bg-[#131314] overflow-hidden`}
+        className={`transition-all duration-300 ${isHistoryVisible ? "w-[266px]" : "w-0"} bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && (
           <GalactimartNavOpen

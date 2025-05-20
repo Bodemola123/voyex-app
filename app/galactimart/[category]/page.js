@@ -35,7 +35,11 @@ const CategoryPage = () => {
         const rawData = response.data.data;
         const parsedTools = [];
         
-        const allSections = Object.keys(rawData).sort();
+        const allSections = Object.keys(rawData).sort((a, b) =>
+  a.replace(/[-\s]/g, '').toLowerCase().localeCompare(
+    b.replace(/[-\s]/g, '').toLowerCase()
+  )
+);
         allSections.forEach((section) => {
           rawData[section].forEach((tool) => {
             parsedTools.push({
@@ -127,7 +131,7 @@ const CategoryPage = () => {
         isHistoryVisible={isHistoryVisible}
       />
       <div
-        className={`transition-all duration-300 ${isHistoryVisible ? "w-[360px]" : "w-0"} bg-[#131314] overflow-hidden`}
+        className={`transition-all duration-300 ${isHistoryVisible ? "w-[266px]" : "w-0"} bg-[#131314] overflow-hidden`}
       >
         {isHistoryVisible && (
           <CategoryNavOpen
