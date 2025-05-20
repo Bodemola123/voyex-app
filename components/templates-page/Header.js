@@ -22,12 +22,12 @@ const Header = () => {
       <Advert1/>
         <div className='flex flex-row justify-between'>
           <div className='flex flex-row gap-4'>
-          <button className='w-28 h-8 rounded-3xl  gap-3 text-sm flex justify-center items-center bg-[#131314]'> <FaRegStar/> Featured</button>
-          <button className='h-8 w-20 rounded-3xl  gap-3 text-sm flex justify-center items-center bg-[#131314]'>  <HiOutlineBolt/> New</button>
+          <button className='w-28 h-8 rounded-3xl  gap-3 text-sm flex justify-center items-center bg-[#131314] border border-[#FFFFFF26]'> <FaRegStar/> Featured</button>
+          <button className='h-8 w-20 rounded-3xl  gap-3 text-sm flex justify-center items-center bg-[#131314] border border-[#FFFFFF26]'>  <HiOutlineBolt/> New</button>
           </div>
           <div className='flex flex-row gap-2'>
-          <button className='w-24 h-8 gap-3  text-sm rounded-3xl flex justify-center items-center bg-[#131314]'> <TbFilter/> Filter</button>
-          <button className='w-24 h-8 gap-3  text-sm rounded-3xl flex justify-center items-center bg-[#131314]'> <HiOutlineSquares2X2/> View</button>
+          <button className='w-24 h-8 gap-3  text-sm rounded-3xl flex justify-center items-center bg-[#131314] border border-[#FFFFFF26]'> <TbFilter/> Filter</button>
+          <button className='w-24 h-8 gap-3  text-sm rounded-3xl flex justify-center items-center bg-[#131314] border border-[#FFFFFF26]'> <HiOutlineSquares2X2/> View</button>
           </div>
           </div>
     </div>

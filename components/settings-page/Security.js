@@ -17,7 +17,7 @@ function Security() {
   };
 
   return (
-    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary mb-9">
+    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary">
       <h1 className="text-fontlight text-base font-normal capitalize">
         security
       </h1>
@@ -63,10 +63,10 @@ function Security() {
       {/* Active account section with Log out button */}
       <div className="flex items-center justify-between mt-6">
         <div>
-          <h2 className="text-base font-normal text-fontlight capitalize">
+          <h2 className="text-base font-medium text-fontlight capitalize">
             Active account
           </h2>
-          <p className="text-base font-light text-[#d9d9d9] mt-2">
+          <p className="text-sm font-normal text-[#d9d9d9] mt-2">
             You are currently signed in.
           </p>
         </div>

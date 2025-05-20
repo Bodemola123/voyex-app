@@ -16,7 +16,7 @@ function Settings() {
   };
 
   return (
-    <div className="flex flex-col gap-2 overflow-y-auto scrollbar-hide">
+    <div className="flex flex-col overflow-y-auto gap-4 scrollbar-hide">
       <SettingsHeader activeTab={activeTab} onTabChange={handleTabChange} />      
       {activeTab === 'account' ? (
         <div className="flex flex-col gap-4">

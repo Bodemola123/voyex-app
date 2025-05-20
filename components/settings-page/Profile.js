@@ -22,13 +22,13 @@ const Profile = () => {
   return (
     <div className='flex flex-col gap-4 items-center justify-center w-full h-full'>
       <div className="w-full rounded-[25px] py-7 px-11 bg-secondary">
-        <h1 className="text-fontlight text-base font-normal capitalize">
+        <h1 className="text-fontlight text-base font-medium capitalize">
           Organization and plans 
         </h1>
         <Separator className="my-5 bg-[#6D6D6D]" />
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-normal text-fontlight">
+            <h2 className="text-base font-medium text-fontlight">
               Plan 
             </h2>
             {/* <p className="text-base font-thin text-[#d9d9d9] mt-2">
@@ -46,22 +46,22 @@ const Profile = () => {
           </button>
         </div>
         <div className="flex items-center justify-between mt-6">
-          <h2 className="text-base font-normal text-fontlight capitalize">
+          <h2 className="text-base font-medium text-fontlight capitalize">
             Organization Name
           </h2>
           <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-            <span className="text-base font-normal text-fontlight">
+            <span className="text-base font-medium text-fontlight">
               {orgName}
             </span>
             <Image src="/edit.png" alt="edit" width={20} height={20} />
           </button>
         </div>
         <div className="flex items-center justify-between mt-6">
-          <h2 className="text-base font-normal text-fontlight capitalize">
+          <h2 className="text-base font-medium text-fontlight capitalize">
             Organization Email
           </h2>
           <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
-            <span className="text-base font-normal text-fontlight">
+            <span className="text-base font-medium text-fontlight">
               {orgEmail}
             </span>
           </button>

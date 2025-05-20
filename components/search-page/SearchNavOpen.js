@@ -270,11 +270,11 @@ const handleRenameChat = async (newName) => {
               <FaPlus className='text-[10px] text-white/40' />
               <p className='text-xs text-white/60'>New chat</p>
             </button>
-            <Link href='/galactimart' className='py-4 flex flex-row gap-2.5 bg-transparent items-center' id='galactimart_link'>
+            <Link href='/galactimart' className='py-4 flex flex-row gap-2.5 bg-transparent items-center hover:bg-[#1D1F20]' id='galactimart_link'>
               <FiShoppingCart className='text-[18px] text-[#94a3b8]' />
               <p className='font-medium text-base text-[#f4f4f4]'>Galactimart</p>
             </Link>
-            <button onClick={() => openModal('first')} className='py-4 flex flex-row gap-2.5 bg-transparent items-center' id='custom_instructions'>
+            <button onClick={() => openModal('first')} className='py-4 flex flex-row gap-2.5 bg-transparent items-center hover:bg-[#1D1F20]' id='custom_instructions'>
               <PiLightbulb className='text-[18px] text-[#94a3b8]' />
               <p className='font-medium text-base text-[#f4f4f4]'>Custom Instructions</p>
             </button>

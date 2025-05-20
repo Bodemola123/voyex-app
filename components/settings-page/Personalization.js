@@ -63,7 +63,7 @@ function Personalization() {
     : userEmail || "user@example.com";
 
   return (
-    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary mb-9">
+    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary">
       <h1 className="text-fontlight text-base font-normal capitalize">
         {isOrganization ? "Organization info" : "personalization"}
       </h1>
@@ -72,7 +72,7 @@ function Personalization() {
       {/* Avatar / Logo */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-normal text-fontlight">
+          <h2 className="text-base font-medium text-fontlight">
             {isOrganization ? "Logo" : "Avatar"}
           </h2>
           {/* <p className="text-base font-light text-[#d9d9d9] mt-2">
@@ -98,11 +98,11 @@ function Personalization() {
 
       {/* Username / Organization Name */}
       <div className="flex items-center justify-between mt-6">
-        <h2 className="text-base font-normal text-fontlight capitalize">
+        <h2 className="text-base font-medium text-fontlight capitalize">
           {isOrganization ? "Organization Name" : "Username"}
         </h2>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
-          <span className="text-base font-normal text-fontlight">
+          <span className="text-base font-medium text-fontlight">
             {displayName}
           </span>
           <Image src="/edit.png" alt="edit" width={20} height={20} />
@@ -111,11 +111,11 @@ function Personalization() {
 
       {/* Email / Organization Email */}
       <div className="flex items-center justify-between mt-6">
-        <h2 className="text-base font-normal text-fontlight capitalize">
+        <h2 className="text-base font-medium text-fontlight capitalize">
           {isOrganization ? "Organization Email" : "Email"}
         </h2>
         <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">
-          <span className="text-base font-normal text-fontlight">
+          <span className="text-base font-medium text-fontlight">
             {displayEmail}
           </span>
         </button>
@@ -125,11 +125,11 @@ function Personalization() {
       {/* User Role and Access Level */}
       {!isOrganization && (
         <div className="flex flex-col gap-6 mt-6">
-          <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row items-center justify-between font-medium">
             <p>Role</p>
             <p className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">{role}</p>
           </div>
-          <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row items-center justify-between font-medium">
             <p>Access Level</p>
             <p className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20">{accessLevel}</p>
           </div>

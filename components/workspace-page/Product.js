@@ -34,7 +34,7 @@ function Product({ modalData, deleteProduct }) {
   
   return (
     <div
-      className="rounded-[25px] bg-[#131314] p-6 transition-all"
+      className="rounded-[25px] bg-[#131314] p-6 transition-all border-[#FFFFFF26]"
       aria-label={`View details for ${name}`}
     >
       {/* Image and Menu Dropdown */}

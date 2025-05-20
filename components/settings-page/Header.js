@@ -17,7 +17,7 @@ function SettingsHeader({ activeTab, onTabChange }) {
   }, []); // Run on component mount
 
   return (
-    <div className="flex items-center justify-end w-full z-10 mb-11">
+    <div className="flex items-center justify-end w-full z-10">
       {/* <div className="flex items-center justify-center gap-2">
         <h3 className="text-3xl text-fontlight font-bold capitalize">
           settings

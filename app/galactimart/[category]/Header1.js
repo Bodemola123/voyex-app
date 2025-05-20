@@ -71,11 +71,11 @@ const Header1 = ({
       <Advert/>
       <div className='flex flex-row justify-between'>
         <div className='h-8 w-52 flex flex-row gap-4 mt-4'>
-          <button className='w-28 h-8 rounded-3xl gap-3 text-sm flex justify-center items-center bg-[#131314]'>
+          <button className='w-28 h-8 rounded-3xl gap-3 text-sm flex justify-center items-center bg-[#131314] border border-[#FFFFFF26]'>
             <FaRegStar /> Featured
           </button>
           <button
-            className={`h-8 w-20 rounded-3xl gap-3 text-sm flex justify-center items-center bg-[#131314] ${sortByNew ? "bg-[#f4f4f4] text-[#0a0a0b]" : "hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"}`}
+            className={`h-8 w-20 rounded-3xl gap-3 text-sm flex justify-center items-center border border-[#FFFFFF26] bg-[#131314] ${sortByNew ? "bg-[#f4f4f4] text-[#0a0a0b]" : "hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"}`}
             onClick={() => setSortByNew((prev) => !prev)}
           >
             <HiOutlineBolt /> New
@@ -89,7 +89,7 @@ const Header1 = ({
                 setIsRatingDropdownOpen((prev) => !prev);
                 setIsDropdownOpen(false); // Close price dropdown
               }}
-              className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center transition-all ${
+              className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center transition-all border border-[#FFFFFF26] ${
                 isRatingDropdownOpen ? "bg-[#f4f4f4] text-[#0a0a0b]" : "bg-[#131314] text-white hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"
               }`}
             >
@@ -132,7 +132,7 @@ const Header1 = ({
                 setIsDropdownOpen((prev) => !prev);
                 setIsRatingDropdownOpen(false); // Close rating dropdown
               }}
-              className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center transition-all ${
+              className={`w-24 h-8 gap-3 text-sm rounded-3xl flex justify-center items-center transition-all border border-[#FFFFFF26] ${
                 isDropdownOpen ? "bg-[#f4f4f4] text-[#0a0a0b]" : "bg-[#131314] text-white hover:bg-[#f4f4f4] hover:text-[#0a0a0b]"
               }`}
             >

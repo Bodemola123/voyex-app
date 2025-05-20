@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 function Welcome() {
   const router = useRouter();
   return (
-    <main className="relative max-w-[666px] w-full h-[600px] z-[2] flex flex-col items-center justify-center p-6 rounded-[29px] bg-[#1C1D1F] overflow-y-scroll shadow-1s">
+    <main className="relative max-w-[666px] w-full h-[600px] z-[2] flex flex-col items-center justify-center p-6 rounded-[29px] bg-[#0D0D0D] overflow-y-scroll shadow-1s">
       <div className=" flex flex-col items-center justify-center h-full">
         <h2 className="text-center text-4xl font-bold text-fontlight capitalize">
           explore voyex
@@ -33,9 +33,9 @@ function Welcome() {
       <p className="absolute bottom-8 text-center text-fontlight text-base font-normal">
         By creating an account or signing you agree to our
         <br />
-        <Link href="/" className="text-purple font-medium">
-          Terms and Conditions
-        </Link>
+        <a href="https://voyex-landing.vercel.app/terms" target="_blank" rel="noopener noreferrer" className="text-purple font-medium">
+          Terms and Condition
+        </a>
       </p>
     </main>
   );

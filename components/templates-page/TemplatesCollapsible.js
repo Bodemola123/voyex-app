@@ -40,7 +40,7 @@ const TemplatesCollapsible = () => {
       </div>
 
       {/* Categories List (Matching `StepsNav.js` Styling) */}
-      <div className="mt-2 flex flex-col space-y-5 px-6">
+      <div className="mt-2 flex flex-col space-y-5 px-6 overflow-y-scroll scrollbar-hide" >
         {categories.map((category) =>
           category.href ? (
             <Link
