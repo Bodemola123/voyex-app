@@ -53,9 +53,9 @@ const Card = ({ toolsData, category, isLoading, error }) => {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-6 w-full mt-4">
       <div className="flex flex-col gap-2">
-        <p>
+        <p className='font-semibold text-2xl'>
           Dive deeper into the cosmos of <span className="capitalize">{category}</span> tools.
         </p>
       </div>
@@ -78,7 +78,7 @@ const Card = ({ toolsData, category, isLoading, error }) => {
       {/* Pagination controls */}
       <div className="flex justify-center gap-2 mt-6">
         <button
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 rounded-md"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -97,7 +97,7 @@ const Card = ({ toolsData, category, isLoading, error }) => {
         ))}
         
         <button
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 rounded-md"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >

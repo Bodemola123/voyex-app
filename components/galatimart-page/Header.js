@@ -52,12 +52,8 @@ const Header = ({
   return (
     <div className="flex flex-col gap-y-6 w-full">
       <div className="flex flex-row justify-between">
-        <div className="flex flex-col gap-2 w-[681px] h-20">
+        <div className="flex gap-2">
           <h1 className="text-4xl font-bold">GalactiMart</h1>
-          <p>
-            Where the cosmic meets the artificial, offering a stellar selection
-            of AI companions tailored to your interstellar adventures
-          </p>
         </div>
         <div className="h-10 flex flex-row">
           <div className="relative w-[198px]">

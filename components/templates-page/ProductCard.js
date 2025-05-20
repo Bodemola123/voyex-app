@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const ProductCard = ({ product, onClick }) => {
   return (
-    <div className="w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]">
+    <div className="w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#FFFFFF26]">
       <div className="flex justify-between flex-row">
         <div className="flex flex-col gap-2.5">
           <Image src={"/chatgpt.svg"} alt="chatgpt" width={52} height={52} />
@@ -14,12 +14,8 @@ const ProductCard = ({ product, onClick }) => {
         </div>
         <FaRegStar />
       </div>
-      <div className="text-sm font-normal">
-        <p>Supports GPT-4 and GPT-3.5. OpenAI&apos;s</p>
-        <p className="truncate">
-          next-generation conversational AI, using intelligent Q&A capabilities
-          to solve your tough questions.
-        </p>
+      <div className="text-sm font-normal line-clamp-2">
+        Supports GPT-4 and GPT-3.5. OpenAI&apos;s next-generation conversational AI, using intelligent Q&A capabilities to solve your tough questions.
       </div>
       <div>
         <button

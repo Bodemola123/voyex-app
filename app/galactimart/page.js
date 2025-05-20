@@ -29,7 +29,7 @@ useEffect(() => {
       const cachedData = sessionStorage.getItem("voyex_tools_data");
       if (cachedData) {
         const parsed = JSON.parse(cachedData);
-        setCategories(parsed.categories);
+        setCategories([...parsed.categories].sort());
         setToolsData(parsed.toolsData);
         setRecommendedToolsBase(parsed.recommendedTools);
         setIsLoading(false);
@@ -41,7 +41,7 @@ useEffect(() => {
         "https://2zztcz7h0a.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tools_api"
       );
       const rawData = response.data.data;
-      const allSections = Object.keys(rawData);
+      const allSections = Object.keys(rawData).sort();
       const parsedTools = [];
 
       allSections.forEach((section) => {

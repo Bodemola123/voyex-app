@@ -40,14 +40,14 @@ const TemplatesCollapsible = () => {
       </div>
 
       {/* Categories List (Matching `StepsNav.js` Styling) */}
-      <div className="mt-2 flex flex-col space-y-2 px-6">
+      <div className="mt-2 flex flex-col space-y-5 px-6">
         {categories.map((category) =>
           category.href ? (
             <Link
               key={category.name}
               href={category.href}
-              className={`w-full text-left block py-2 px-4 rounded-lg text-gray-300 hover:bg-gray-800 ${
-                pathname === category.href ? "bg-purple-500 text-white" : ""
+              className={`w-full text-left block py-2 px-4 rounded-lg text-gray-300 hover:bg-[#1D1F20] ${
+                pathname === category.href ? "bg-purple-500 text-white hover:bg-[#1D1F20]" : ""
               }`}
             >
               {category.name}
@@ -56,7 +56,7 @@ const TemplatesCollapsible = () => {
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className="w-full text-left block py-2 px-4 rounded-lg text-gray-300 hover:bg-gray-800"
+              className="w-full text-left block py-2 px-4 rounded-lg text-gray-300 hover:bg-[#1D1F20]"
             >
               {category.name}
             </button>
@@ -65,13 +65,13 @@ const TemplatesCollapsible = () => {
       </div>
 
       {/* Upgrade Plan Section */}
-      <button className="flex flex-row items-start py-4 px-6 gap-4 mt-auto mb-6">
+      {/* <button className="flex flex-row items-start py-4 px-6 gap-4 mt-auto mb-6">
         <Image src="/IconContainer.svg" alt="icon" width={40} height={40} />
         <div className="flex flex-col gap-1 items-start">
         <p className='text-sm text-[#f4f4f4] font-medium '>Upgrade Plan</p>
         <p className='text-xs text-[#475569] font-normal'>Get GPT-8 and more</p>
         </div>
-      </button>
+      </button> */}
     </nav>
   );
 };

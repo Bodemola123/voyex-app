@@ -75,11 +75,11 @@ function Personalization() {
           <h2 className="text-base font-normal text-fontlight">
             {isOrganization ? "Logo" : "Avatar"}
           </h2>
-          <p className="text-base font-light text-[#d9d9d9] mt-2">
+          {/* <p className="text-base font-light text-[#d9d9d9] mt-2">
             {isOrganization
               ? "The logo displayed for your organization"
               : "The language used in the user interface"}
-          </p>
+          </p> */}
         </div>
         <button
           className={`relative h-[4.88rem] w-[4.88rem] rounded-full border-[4px] ${

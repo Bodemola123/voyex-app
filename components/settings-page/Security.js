@@ -66,7 +66,7 @@ function Security() {
           <h2 className="text-base font-normal text-fontlight capitalize">
             Active account
           </h2>
-          <p className="text-base font-thin text-[#d9d9d9] mt-2">
+          <p className="text-base font-light text-[#d9d9d9] mt-2">
             You are currently signed in.
           </p>
         </div>

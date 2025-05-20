@@ -35,7 +35,7 @@ const CategoryPage = () => {
         const rawData = response.data.data;
         const parsedTools = [];
         
-        const allSections = Object.keys(rawData);
+        const allSections = Object.keys(rawData).sort();
         allSections.forEach((section) => {
           rawData[section].forEach((tool) => {
             parsedTools.push({

@@ -4,6 +4,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import SkillLevelDropdown from "./SkillLevelDropdown";
 import DynamicCard from "../common/DynamicCard";
 import CountryDropdown from "./CountryDropdown";
+import LanguageDropdown from "./Languagedropdown";
 
 function BasicInfoContainer({
   setUserFullName,
@@ -42,13 +43,7 @@ function BasicInfoContainer({
           <Label htmlFor="language" className="text-fontlight font-normal">
             Primary Language
           </Label>
-          <Input
-            id="language"
-            type="text"
-            placeholder="language"
-            onChange={(e) => setUserLanguage(e.target.value)}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] focus:ring-0 focus:outline-none focus:border-none focus:shadow-none`}
-          />
+          <LanguageDropdown setUserLanguage={setUserLanguage} />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
           <Label htmlFor="industry" className="text-fontlight font-normal">

@@ -31,9 +31,9 @@ const Profile = () => {
             <h2 className="text-base font-normal text-fontlight">
               Plan 
             </h2>
-            <p className="text-base font-thin text-[#d9d9d9] mt-2">
+            {/* <p className="text-base font-thin text-[#d9d9d9] mt-2">
               The language used in the user interface
-            </p>
+            </p> */}
           </div>
           <button
             className='relative h-[4.88rem] w-[4.88rem] rounded-full border-[4px] border-[#FFAE00] bg-[#d9d9d9]'
