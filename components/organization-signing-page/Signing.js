@@ -58,7 +58,7 @@ function Signing({
     <div className="flex flex-col items-center h-full">
       <h1 className="text-3xl font-bold text-fontlight capitalize">voyex</h1>
       <Tabs defaultValue="sign_in" className="w-[400px] mt-10">
-        <TabsList className="grid w-full grid-cols-2 bg-card/30 text-fontlight rounded-[21px]">
+        <TabsList className="grid w-full grid-cols-2 bg-[#0a0a0b] text-fontlight rounded-[21px]">
           <TabsTrigger
             value="sign_up"
             className="capitalize rounded-[21px] data-[state=active]:bg-black data-[state=active]:text-fontlight"
@@ -98,7 +98,7 @@ function Signing({
                     type="email"
                     placeholder="Email address"
                     onChange={emailInput}
-                    className="pl-10 rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus:outline-none focus:border-none"
+                    className="pl-10 rounded-[28px] bg-[#0a0a0b] placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus:outline-none focus:border-none"
                   />
                 </div>
                 {signupEmailError && (
@@ -119,7 +119,7 @@ function Signing({
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     onChange={passwordInput}
-                    className="pl-10 pr-16 rounded-[28px] bg-card/30 placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus:outline-none"
+                    className="pl-10 pr-16 rounded-[28px] bg-[#0a0a0b] placeholder:text-fontlight/20 text-fontlight h-[56px] border-none focus:outline-none"
                   />
                   <button
                     className="absolute right-1 top-1/2 -translate-y-1/2 text-xl text-purple p-3"
