@@ -8,6 +8,7 @@ import { Label } from "../ui/label";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { TbLockExclamation } from "react-icons/tb";
 import { IoArrowBackOutline } from "react-icons/io5";
+import "../../app/globals.css"
 
 function ForgotPassword({
   setCurrentSlide,
@@ -50,7 +51,7 @@ function ForgotPassword({
               // value={email}
               onChange={(e) => setForgotEmail(e.target.value)}
               onKeyDown={handleKeyDown} // Detect Enter key press
-              className="rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
+              className="rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
             />
           </div>
           <Button

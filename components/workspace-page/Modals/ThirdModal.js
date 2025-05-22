@@ -79,7 +79,7 @@ const handleZipFileRemove = () => {
         </div>
         <section className='overflow-y-auto scrollbar-hide'>
           <Tabs defaultValue="individual" className="w-[740px] flex flex-col gap-[8px]">
-            <TabsList className="grid w-[353px] grid-cols-2 bg-card/30 text-fontlight rounded-[21px]">
+            <TabsList className="grid w-[353px] grid-cols-2 bg-[#0A0A0B]  text-fontlight rounded-[21px]">
               <TabsTrigger value="individual" className="capitalize rounded-[31px] data-[state=active]:bg-black data-[state=active]:text-fontlight">
                 Individual Files
               </TabsTrigger>

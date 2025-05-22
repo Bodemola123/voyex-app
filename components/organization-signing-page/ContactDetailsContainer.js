@@ -47,7 +47,7 @@ function ContactDetailsContainer({
             type="text"
             placeholder="Email Address"
             onChange={EmailInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
@@ -59,7 +59,7 @@ function ContactDetailsContainer({
             type="text"
             placeholder="Your Name"
             onChange={pcpName}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
@@ -71,7 +71,7 @@ function ContactDetailsContainer({
             type="text"
             placeholder="Your Phone Number"
             onChange={NumberInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
@@ -83,7 +83,7 @@ function ContactDetailsContainer({
             type="text"
             placeholder="add url"
             onChange={twitterInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
           />
         </div>
         
@@ -109,7 +109,7 @@ function ContactDetailsContainer({
               type="text"
               placeholder="add url"
               onChange={linkedinInput}
-              className={`rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
+              className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]`}
             />
           </div>
         )}

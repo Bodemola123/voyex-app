@@ -48,11 +48,11 @@ function WorkSpaceLayout({ children }) {
           toggleHistoryVisibility={toggleHistoryVisibility}
           isHistoryVisible={isHistoryVisible}
         />
-        <div
+        {/* <div
           className={`transition-all duration-300 ${isHistoryVisible ? "w-[266px]" : "w-0"} bg-[#131314] overflow-hidden`}
         >
           {isHistoryVisible && <NavOpen />}
-        </div>
+        </div> */}
       </div>
       <div className="relative flex-grow w-full h-full p-6 overflow-y-scroll flex flex-col justify-between gap-4 tracking-wide">
         {children}

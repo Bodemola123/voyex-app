@@ -36,7 +36,7 @@ function BasicInfoContainer({
             type="text"
             placeholder="Your name"
             onChange={(e) => setUserFullName(e.target.value)}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] focus:ring-0 focus:outline-none focus:border-none focus:shadow-none`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-fontlight text-fontlight placeholder:text-fontlight/20 h-[56px] focus:ring-0 focus:outline-none focus:border-none focus:shadow-none`}
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">

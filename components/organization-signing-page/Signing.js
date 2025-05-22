@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import DynamicCard from "../common/DynamicCard";
 import { MdOutlineEmail } from "react-icons/md";
 import { LuLock } from "react-icons/lu";
+import "../../app/globals.css"
 
 function Signing({
   passwordInput,
@@ -180,7 +181,7 @@ function Signing({
                     type="email"
                     placeholder="Organization email"
                     onChange={orgEmailInput1}
-                    className="pl-10 rounded-[28px] bg-card/30 border-none focus:outline-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
+                    className="pl-10 rounded-[28px] bg-[#0A0A0B] border-none focus:outline-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                   />
                 </div>
               </div>
@@ -198,7 +199,7 @@ function Signing({
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     onChange={passwordInput1}
-                    className="pl-10 pr-16 rounded-[28px] bg-card/30 border-none focus:outline-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
+                    className="pl-10 pr-16 rounded-[28px] bg-[#0A0A0B] border-none focus:outline-none placeholder:text-fontlight/20 text-fontlight h-[56px]"
                   />
                   <button
                     className="absolute right-1 top-1/2 -translate-y-1/2 text-xl text-purple p-3"

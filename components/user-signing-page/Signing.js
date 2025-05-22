@@ -27,6 +27,7 @@ import ForgotPassword from "./ForgotPasswordHome";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DynamicCard from "../common/DynamicCard";
+import "../../app/globals.css"
 
 function Signing({
   emailInput,
@@ -56,7 +57,7 @@ function Signing({
             voyex
           </h1>
           <Tabs defaultValue="sign_in" className="w-[400px] mt-10">
-            <TabsList className="grid w-full grid-cols-2 bg-card/30 text-fontlight rounded-[21px]">
+            <TabsList className="grid w-full grid-cols-2 bg-[#0A0A0B]  text-fontlight rounded-[21px]">
               <TabsTrigger
                 value="sign_up"
                 className="capitalize rounded-[21px] data-[state=active]:bg-black data-[state=active]:text-fontlight"
@@ -85,7 +86,7 @@ function Signing({
             type="email"
             placeholder="Your email"
             onChange={emailInput}
-            className="pl-11 rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none"
+            className="pl-11 rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none"
           />
         </div>
       </div>
@@ -101,7 +102,7 @@ function Signing({
             type={showPassword ? "text" : "password"}
             placeholder="****"
             onChange={passwordInput}
-            className="pl-11 pr-16 rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none"
+            className="pl-11 pr-16 rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none"
           />
           <button
             className="absolute right-1 top-1/2 -translate-y-1/2 text-xl text-purple p-3"
@@ -168,7 +169,7 @@ function Signing({
             type="email"
             placeholder="Email address"
             onChange={(e) => setEmailAddress(e.target.value)}
-            className="pl-11 rounded-[28px] bg-card/30 border-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:ring-0 focus:outline-none outline-none"
+            className="pl-11 rounded-[28px] bg-[#0A0A0B]  border-none focus:shadow-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:ring-0 focus:outline-none outline-none"
           />
         </div>
       </div>
@@ -184,7 +185,7 @@ function Signing({
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             onChange={(e) => setUserPassword1(e.target.value)}
-            className="pl-11 pr-16 rounded-[28px] bg-card/30 border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none"
+            className="pl-11 pr-16 rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-fontlight/20 text-fontlight h-[56px] focus:outline-none focus:border-none outline-none focus:shadow-none"
           />
           <button
             className="absolute right-1 top-1/2 -translate-y-1/2 text-xl text-purple p-3"

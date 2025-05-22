@@ -10,6 +10,7 @@ import {
   LuShoppingCart,
 } from "react-icons/lu";
 import { RxAvatar } from "react-icons/rx";
+import { CgOrganisation } from "react-icons/cg";
 
 const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConversation,handleResetRecommendationButton  }) => {
   const pathname = usePathname(); // Get the current path
@@ -121,7 +122,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                   isActive("/workspace") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
                 }`}
               >
-                <LuLockKeyhole
+                <CgOrganisation
                   className={`text-[20px] ${
                     isActive("/workspace") ? "text-[#f4f4f4]" : "text-[#C088fb]"
                   } group-hover:text-[#f4f4f4]`}

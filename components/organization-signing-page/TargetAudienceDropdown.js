@@ -66,7 +66,7 @@ function TargetAudienceDropdown({ setOrgAudience }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-[#0A0A0B]  hover:bg-[#0A0A0B]  border-none text-white/80 hover:text-white h-[56px]"
         >
           {value
             ? audiences.find((audience) => audience.value === value)?.label

@@ -50,7 +50,7 @@ function BasicInfoContainer({
             value={orgName}
             onChange={(e) => setOrgName(e.target.value)}
             onBlur={() => checkOrgNameExists(orgName)}
-            className="rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
+            className="rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
@@ -62,7 +62,7 @@ function BasicInfoContainer({
             type="text"
             placeholder="Add url"
             onChange={websiteInput}
-            className="rounded-[28px] bg-card/30 border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
+            className="rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white text-white placeholder:text-white/20 h-[56px]"
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">

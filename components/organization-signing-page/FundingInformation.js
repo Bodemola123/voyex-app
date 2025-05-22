@@ -48,7 +48,7 @@ export function FundingInformation({ fundingInput, initialValue = "" }) {
           role="combobox"
           aria-label="Select Funding Option"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-white/80 hover:text-white h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-[#0A0A0B]  hover:bg-[#0A0A0B]  border-none text-white/80 hover:text-white h-[56px]"
         >
           {selectedFundingOption || "Select funding option..."}
           <FaCaretDown className="opacity-50" />

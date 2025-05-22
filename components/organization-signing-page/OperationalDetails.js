@@ -43,7 +43,7 @@ function OperationalDetails({
             type="text"
             placeholder="service"
             onChange={serviceInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white/20 text-white h-[56px]`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white/20 text-white h-[56px]`}
           />
         </div> 
         <div className="space-y-[6px] w-full mt-5 px-2">
@@ -64,7 +64,7 @@ function OperationalDetails({
             type="text"
             placeholder="tech"
             onChange={techUsedInput}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white/20 text-white h-[56px]`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white/20 text-white h-[56px]`}
           />
         </div>
         <div className="space-y-[6px] w-full mt-5 px-2">
@@ -76,7 +76,7 @@ function OperationalDetails({
             type="text"
             placeholder="Specialization"
             onChange={setSpecialization}
-            className={`rounded-[28px] bg-card/30 border-none placeholder:text-white/20 text-white h-[56px]`}
+            className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white/20 text-white h-[56px]`}
           />
         </div>
         <div className="flex items-center justify-between max-w-[500px] mt-6 w-full">

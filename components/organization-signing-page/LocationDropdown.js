@@ -90,7 +90,7 @@ export function LocationDropdown({ locationInput }) {
           role="combobox"
           aria-label="Select Location"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px] scrollbar-hide"
+          className="w-full justify-between rounded-[28px] bg-[#0A0A0B]  hover:bg-[#0A0A0B]  border-none text-fontlight/80 hover:text-fontlight h-[56px] scrollbar-hide"
         >
           {value || "Select location..."}
           <FaCaretDown className="opacity-50" />

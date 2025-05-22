@@ -88,7 +88,7 @@ const RoleCombobox = ({ setSelectedRoles }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-[28px] bg-card/30 hover:bg-card/30 border-none text-fontlight/80 hover:text-fontlight h-[56px]"
+          className="w-full justify-between rounded-[28px] bg-[#0A0A0B]  hover:bg-[#0A0A0B]  border-none text-fontlight/80 hover:text-fontlight h-[56px]"
         >
           {selectedRoles.length > 0 ? (
             <div className="flex flex-wrap gap-2">

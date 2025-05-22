@@ -58,7 +58,7 @@ function LeadershipAndTeam ({
           type="text"
           placeholder="Name(s)"
           onChange={founderInput}
-          className={`rounded-[28px] bg-card/30 border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none`}
+          className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none`}
         />
       </div> 
       <div className="space-y-[6px] w-full mt-5 px-2">
@@ -81,7 +81,7 @@ function LeadershipAndTeam ({
           type="text"
           placeholder="Name(s)"
           onChange={excoInput}
-          className={`rounded-[28px] bg-card/30 border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none`}
+          className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none`}
         />
       </div>
       <div className="space-y-[6px] w-full mt-5 px-2">
@@ -101,7 +101,7 @@ function LeadershipAndTeam ({
           type="text"
           placeholder="Team size"
           onChange={setTeamsize}
-          className={`rounded-[28px] bg-card/30 border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none`}
+          className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none`}
         />
       </div>
       <div className="space-y-[6px] w-full mt-5 px-2">
@@ -121,7 +121,7 @@ function LeadershipAndTeam ({
           type="text"
           placeholder="Enter URL"
           onChange={setCareerspage}
-          className={`rounded-[28px] bg-card/30 border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none focus:ring-0`}
+          className={`rounded-[28px] bg-[#0A0A0B]  border-none placeholder:text-white/20 text-white h-[56px] focus:outline-none focus:border-none focus:ring-0`}
         />
       </div>
       <div className="flex items-center justify-between max-w-[500px] mt-6 w-full">

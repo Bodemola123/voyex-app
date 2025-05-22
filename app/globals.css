@@ -10,10 +10,23 @@
 }
 
 input:-webkit-autofill {
-  box-shadow: 0 0 0 1000px transparent inset !important;
-  -webkit-text-fill-color: white !important;
+  box-shadow: 0 0 0 1000px #0A0A0B inset !important;
+  -webkit-text-fill-color: #f4f4f4 !important;
   transition: none !important;
+  border: none !important;
+  outline: none !important;
+  background-clip: padding-box !important;
+  border-radius: 28px !important;
 }
+
+
+input:-webkit-autofill:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 0 0 1000px #0A0A0B inset !important;
+}
+
+
 
 
 @font-face {

@@ -19,7 +19,7 @@ function TemplatesNav() {
           return (
             <Link
               href={link.href}
-              className="text-base text-fontlight font-medium py-3 px-4 border border-card rounded-xl hover:bg-card/30"
+              className="text-base text-fontlight font-medium py-3 px-4 border border-card rounded-xl hover:bg-[#0A0A0B] "
               key={link.name}
             >
               {link.name}

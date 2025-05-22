@@ -129,9 +129,6 @@ function WorkSpace() {
     }
   };
   
-  
-  
-
   const renderModal = () => {
     switch (activeModal) {
       case "first":
