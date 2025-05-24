@@ -1,93 +1,69 @@
 import Image from "next/image";
-import { FaStar } from "react-icons/fa";
-import WorkspaceMenuDropdown from "./MenuDropdown";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
+import { IoStatsChart } from "react-icons/io5";
 
-function Product({ modalData, deleteProduct }) {
-  console.log("Product ModalData:", modalData); // Debugging
+const slugify = (str) =>
+  str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
-  // Destructure modalData properties with fallback values
-  const {
-    name = "Model Name",
-    description = "No description provided.",
-    categories = [], // from modalData.first
-    rating = "9/10",  // Assuming rating comes from modalData.first
-    users = "5m+",
-    image = null    // Expecting image from modalData.fourth.image
-  } = modalData;
+const Product = ({ toolId, name, logo, description, subCategories }) => {
+  const [hovered, setHovered] = useState(false);
+  const analytics = `${toolId}-${slugify(name)}`; 
 
-  // Set a default image source
-  const [imageSrc, setImageSrc] = useState("/gpt.png");
-
-  useEffect(() => {
-    if (typeof image === "string" && image.trim() !== "") {
-      // If the image is a non-empty string, use it directly
-      setImageSrc(image);
-    } else if (typeof image === "object" && image !== null && image.url) {
-      // If the image is an object with a URL property, use the URL
-      setImageSrc(image.url);
-    } else {
-      // Fallback to default image if no valid image is provided
-      setImageSrc("/gpt.png");
-    }
-  }, [image]);
-  
   return (
     <div
       className="rounded-[25px] bg-[#131314] p-6 transition-all border-[#FFFFFF26]"
       aria-label={`View details for ${name}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      tabIndex={0}
+      role="button"
     >
-      {/* Image and Menu Dropdown */}
-      <div className="flex items-start justify-between gap-3">
-        <Image
-          src={imageSrc}
-          alt={name}
-          width={50}
-          height={50}
-          className="object-cover rounded-[14px]"
-          onError={() => setImageSrc("/gpt.png")} // Fallback if image fails to load
-        />
-        <WorkspaceMenuDropdown productName={name} deleteProduct={deleteProduct} />
+      <div className="flex items-start ">
+        {logo ? (
+          <Image src={logo} alt={name} width={52} height={52} />
+        ) : (
+          <div className="w-[52px] h-[52px] bg-white rounded-full" />
+        )}
       </div>
 
-      {/* Model Name */}
       <h3 className="text-fontlight font-bold text-base mt-3">{name}</h3>
 
-      {/* Rating and Users Section */}
-      <div className="flex items-center gap-3 mt-4">
-        <FaStar className="text-yellow-500" />
-        <p className="capitalize">
-          Rating: <span>{rating}</span>
-        </p>
-        <p className="capitalize">
-          Users: <span>{users}</span>
-        </p>
-      </div>
-
-      {/* Model Description */}
-      <p className="text-sm font-normal text-fontlight mt-4 line-clamp-2 text-ellipsis">
+      <p className="text-sm font-normal text-fontlight mt-4 line-clamp-2 text-ellipsis h-[40px]">
         {description}
       </p>
 
-      {/* Dynamic Categories */}
-      <div className="flex flex-wrap justify-start items-center gap-2 mt-4">
-        {categories.length > 0 ? (
-          categories.map((cat, index) => (
-            <span
-              key={`${cat}-${index}`}
-              className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card"
-            >
-              {cat}
+      {!hovered && (
+        <div className="flex flex-wrap items-center overflow-x-auto scrollbar-hide gap-2 w-full h-[35px]">
+          {subCategories?.length > 0 ? (
+            subCategories.map((tag, index) => (
+              <span
+                key={index}
+                className="text-sm capitalize px-2 py-1 rounded-[21px] border border-card"
+              >
+                {tag}
+              </span>
+            ))
+          ) : (
+            <span className="text-sm px-2 py-1 text-white italic rounded-[21px] border border-card">
+              No tags
             </span>
-          ))
-        ) : (
-          <span className="text-[11px] capitalize px-2 py-1 rounded-[21px] border border-card">
-            No categories selected
-          </span>
-        )}
-      </div>
+          )}
+        </div>
+      )}
+
+      {hovered && (
+        <div className="h-[35px]">
+          <Link href={`/workspace/${analytics}`}>
+            <button className="w-full bg-[#c088fb] py-2 px-4 gap-2.5 rounded-3xl flex items-center justify-center">
+              <IoStatsChart className="text-[#032400]" />
+              <p className="text-base font-medium text-[#032400]">View Analysis</p>
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default Product;

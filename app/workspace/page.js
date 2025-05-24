@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BenFooter from "@/components/common/BenFooter";
 import FirstAddModelpage from "@/components/workspace-page/FirstAddModelpage";
 import WorkSpaceHeader from "@/components/workspace-page/Header";
@@ -19,116 +19,236 @@ function WorkSpace() {
   const [isProductCreated, setIsProductCreated] = useState(false); // Track if at least one product has been created
   const [products, setProducts] = useState([]); // Store all created products
   const [searchQuery, setSearchQuery] = useState(""); // Track search input
-  const [loading, setLoading] = useState(false); // Loading state for the API request
+    const [isSubmitting, setIsSubmitting] = useState(false); // new loading for submit
+  const [isLoading, setIsLoading]= useState(true);
+
+
+const fetchProducts = async () => {
+  setIsLoading(true);
+  const entityId = localStorage.getItem("entityId");
+  const entityType = localStorage.getItem("orgType");
+
+  try {
+    const response = await fetch(
+      `https://xklp1j7zp3.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tool_workspace?entity_type=${entityType}&entity_id=${entityId}`
+    );
+    const data = await response.json();
+
+    if (data.tools && data.tools.length > 0) {
+      const simplifiedTools = data.tools.map((tool) => ({
+        tool_id: tool.tool_id,
+        product_name: tool.product_name,
+        product_logo_url: tool.product_logo_url,
+        product_short_description: tool.product_short_description,
+        sub_categories: tool.sub_categories,
+      }));
+
+      setProducts(simplifiedTools);
+      setIsProductCreated(true);
+    } else {
+      setIsProductCreated(false);
+    }
+  } catch (error) {
+    console.error("Error fetching tools:", error);
+    setIsProductCreated(false);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchProducts();
+}, []);
+
+
+
+
 
   // Initialize modalData with default values
   const [modalData, setModalData] = useState({
-    first: { categories: [], name: "", description: "" }, // Ensure first modal has name, description, and categories
-    second: { role: "", resourceType: "" }, // Structure for SecondModal,
-    third: {
-      individualFiles: [], // This will hold the list of individual files uploaded (array)
-      zipFile: null, // This will hold the zip file uploaded (can be null if no zip file)
-    },
-    fourth: {
-      image: null,  // Holds the uploaded brand image file
-    }, // Ensure image is stored here
+      first: {
+    primaryCategory: "",
+    categories: [],
+    name: "",
+    description: "",
+    orgName: "",
+    orgUrl: "",
+    productUrl: "",
+    tags: [],
+  }, // Ensure first modal has name, description, and categories
+      second: {
+    detailedFeatures: "",          // multiline text or comma-separated string
+    pricingModel: "",              // dropdown: "Free", "Paid", "Subscription"
+    pricingDetailsPlanLink: "",    // text input URL
+    availablePlatforms: [],        // multi-select array e.g. ["Web", "Android"]
+    apiAccessAvailable: "",        // string "Yes" or "No"
+    integrationOptions: "",        // text input
+    demoVideoUrl: ""               // text input URL
+  },
+  third: {
+    supportEmail: "",
+    helpCenterUrl: "",
+    contactPersonName: "",
+    contactPersonEmail: "",
+    twitterUrl: "",
+    linkedinUrl: "",
+    discordUrl: "",
+    launchDate: "",          // ISO string or date string
+    regionsAvailable: [],    // multi-select array of continents
+    complianceCertifications: "",
+  },
+  fourth: {
+    productLogo: null,         // Single image file for Product Logo
+    productScreenshots: [],    // Array of image files for Product Screenshots
+    organizationLogo: null,    // Single image file for Organization Logo
+  }, // Ensure image is stored here
   });
 
   const openModal = (modalName) => setActiveModal(modalName);
 
   const closeModal = () => {
     setModalData({
-      first: { categories: [], name: "", description: "" }, // Reset the modal data when closing
-      second: { role: "", resourceType: ""},
-      third: {
-        individualFiles: [], // This will hold the list of individual files uploaded (array)
-        zipFile: null,
-      },
-      fourth: { image: null },
+        first: {
+    primaryCategory: "",
+    categories: [],
+    name: "",
+    description: "",
+    orgName: "",
+    orgUrl: "",
+    productUrl: "",
+    tags: [],
+  }, // Reset the modal data when closing
+      second: {
+    detailedFeatures: "",          // multiline text or comma-separated string
+    pricingModel: "",              // dropdown: "Free", "Paid", "Subscription"
+    pricingDetailsPlanLink: "",    // text input URL
+    availablePlatforms: [],        // multi-select array e.g. ["Web", "Android"]
+    apiAccessAvailable: "",        // string "Yes" or "No"
+    integrationOptions: "",        // text input
+    demoVideoUrl: ""               // text input URL
+  },
+  third: {
+    supportEmail: "",
+    helpCenterUrl: "",
+    contactPersonName: "",
+    contactPersonEmail: "",
+    twitterUrl: "",
+    linkedinUrl: "",
+    discordUrl: "",
+    launchDate: "",          // ISO string or date string
+    regionsAvailable: [],    // multi-select array of continents
+    complianceCertifications: "",
+  },
+      fourth: {
+    productLogo: null,         // Single image file for Product Logo
+    productScreenshots: [],    // Array of image files for Product Screenshots
+    organizationLogo: null,    // Single image file for Organization Logo
+  },
     });
     setActiveModal(null);
   };
   const closeModalWithoutReset = () => {
     setActiveModal(null); // Only close the modal without resetting modalData
   };
-  
 
-  const deleteProduct = (index) => {
-    setProducts((prevProducts) => {
-      const updatedProducts = prevProducts.filter((_, i) => i !== index); // Remove the product at the specified index
+const handleProductCreation = async () => {
+    setIsSubmitting(true);
 
-      // If no products are left, switch back to the default layout
-      if (updatedProducts.length === 0) {
-        setIsProductCreated(false);
-      }
+    const entityId = localStorage.getItem("entityId");
+    const entityType = localStorage.getItem("orgType");
 
-      return updatedProducts;
-    });
-  };
+    // Prepare payload using modalData
+    const payload = {
+      organization_name: modalData.first.orgName,
+      organization_website_url: modalData.first.orgUrl,
+      // For logos and screenshots, you'd typically upload files separately and get URLs, but here
+      // I'll just send null or empty string as placeholder, replace with your uploaded URLs:
+      organization_logo_url: modalData.fourth.organizationLogo ? modalData.fourth.organizationLogo.url || "" : "",
 
+      product_name: modalData.first.name,
+      product_logo_url: modalData.fourth.productLogo ? modalData.fourth.productLogo.url || "" : "",
+      product_website_url: modalData.first.productUrl,
 
-  const handleProductCreation = async () => {
+      product_short_description: modalData.first.description,
+      product_detailed_features: modalData.second.detailedFeatures,
 
-    setLoading(true); // Show loading modal
-  
-    const productData = {
-      Tool_Name: modalData.first.name,
-      Tool_Category: modalData.first.categories, // Convert array to string
-      Tool_URL: "https://example.com", // Replace with actual URL input
-      Tool_Short_Description: modalData.first.description,
-      Tool_Large_Description: "Detailed description here", // Update as needed
-      Tool_Assets_Metadata: {
-        // asset1: modalData.third.zipFile
-        //   ? modalData.third.zipFile.url // Use zip file URL if available
-        //   : modalData.third.individualFiles && modalData.third.individualFiles.length > 0
-        //   ? modalData.third.individualFiles.map(file => file.url).join(", ") // Join URLs of individual files
-        //   : "", // Fallback if no individual files
-        // asset2: modalData.fourth.image ? modalData.fourth.image.url : null, // Use image URL from fourth modal
-        asset1: "https://google.com",
-        asset2: "https://google.com"
+      pricing_model: modalData.second.pricingModel,
+      pricing_details: {
+        // Adjust this based on your actual pricing details input, here is an example fallback:
+        free: modalData.second.pricingModel.toLowerCase() === "free",
+        pro_plan: modalData.second.pricingModel.toLowerCase() === "subscription" ? "$20/month" : "",
       },
-      
-      added_by_entity_type: "org",
-      added_by_entity_id: 132,
-      Pricing_Model: "Free",
-      Rating: 4.5,
-      Approval_Status: true,
-      Partnership_Type: "Affiliate",
-      Special_Tags: ["tag1", "tag2"],
-      Use_Case_Tags: ["use1", "use2"],
-      Comments: ["Good tool", "Needs improvement"],
-      Social_Platforms: {
-        LinkedIn: "https://linkedin.com/company/example",
-        Twitter: "https://twitter.com/example",
-      },
+
+      primary_category: modalData.first.primaryCategory,
+      sub_categories: modalData.first.categories,
+      keywords_tags: modalData.first.tags,
+
+      available_platforms: modalData.second.availablePlatforms,
+      api_access_available: modalData.second.apiAccessAvailable.toLowerCase() === "yes",
+      integration_options: modalData.second.integrationOptions,
+
+      // For screenshots, again you need URLs from your upload process, just placeholder empty array for now
+      product_screenshots: modalData.fourth.productScreenshots
+        ? modalData.fourth.productScreenshots.map((file) => file.url || "")
+        : [],
+
+      demo_video_url: modalData.second.demoVideoUrl,
+
+      support_email: modalData.third.supportEmail,
+      help_center_url: modalData.third.helpCenterUrl,
+      contact_person_name: modalData.third.contactPersonName,
+      contact_person_email: modalData.third.contactPersonEmail,
+
+      twitter_url: modalData.third.twitterUrl,
+      linkedin_url: modalData.third.linkedinUrl,
+      discord_link: modalData.third.discordUrl,
+
+      launch_date: modalData.third.launchDate,
+      available_regions: modalData.third.regionsAvailable,
+      compliance_certifications: modalData.third.complianceCertifications,
+
+      approval_status: "pending",
+      partnership_type: "standard",
+      comments: [],
       metadata: {
-        pythonDetails:modalData.second.role,
-        resourceType:modalData.second.resourceType
+        source: "manual submission",
       },
+
+      added_by_entity_type: entityType,
+      added_by_entity_id: entityId,
     };
-  
+
     try {
       const response = await axios.post(
         "https://xklp1j7zp3.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tool_workspace",
-        productData
+        payload
       );
-  
-      console.log("Product created successfully:", response.data);
-      toast.success("Product creation successful 🎉")
-  
-      // Update local state after successful API call
-      setProducts((prevProducts) => [...prevProducts, { ...modalData.first, image: modalData.fourth.image }]);
-      setIsProductCreated(true);
-      closeModal();
 
+      if (response.status === 200) {
+        toast.success("Product details sent successfully!");
+        setIsSubmitting(false);
+        fetchProducts()
+         // Close modal on success
+        // Optionally refresh product list or add new product to your list
+      } else {
+        throw new Error("Failed to create product");
+      }
     } catch (error) {
-      console.error("Error creating product:", error.response?.data || error.message);
-      toast.error(`Product creation failed: ${errorMessage}`);
-    } finally {
-      setLoading(false); // Hide loading modal once API call is done
+      toast.error("Error creating product: " + error.message);
+      setIsSubmitting(false);
     }
   };
-  
+
+  // In your render method, show the loading spinner when isSubmitting is true:
+  if (isSubmitting) {
+    return (
+      <div className="w-full h-64 flex flex-col justify-center items-center gap-4">
+        <p className="text-white">Please wait while we send your data</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
+      </div>
+    );
+  }
+
   const renderModal = () => {
     switch (activeModal) {
       case "first":
@@ -173,10 +293,12 @@ function WorkSpace() {
     }
   };
 
-  // Filter products based on search query
-  const filteredProducts = products.filter((product) =>
-    product.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+
+const filteredProducts = products.filter((product) =>
+  product.product_name.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
+
 
   return (
     <main className="flex-grow relative flex h-screen w-full flex-col gap-10 pt-6 px-6 justify-between items-center overflow-y-scroll scrollbar-hide">
@@ -206,15 +328,19 @@ function WorkSpace() {
 
           {/* Scrollable Product Grid */}
           <div className="w-full h-full overflow-y-auto scrollbar-hide">
-            <div className="grid grid-cols-3 w-full gap-4">
-              {filteredProducts.map((product, index) => (
-                <Product
-                  key={index}
-                  modalData={product}
-                  deleteProduct={() => deleteProduct(index)} // Pass delete function with index
-                />
-              ))}
-            </div>
+<div className="grid grid-cols-3 w-full gap-4">
+  {filteredProducts.map((product) => (
+    <Product
+      key={product.tool_id}
+      toolId={product.tool_id}
+      name={product.product_name}
+      logo={product.product_logo_url}
+      description={product.product_short_description}
+      subCategories={product.sub_categories}
+    />
+  ))}
+</div>
+
           </div>
         </div>
       )}
@@ -222,11 +348,11 @@ function WorkSpace() {
       {/* Footer */}
       <BenFooter />
 
-      {loading && (
+      {isLoading && (
   <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
     <div className="flex justify-center items-center flex-col bg-[#131314] p-6 rounded-lg shadow-lg">
       <ImSpinner className="animate-spin text-[#c088fb] text-4xl" />
-      <p className="mt-2 text-white">Please Wait...</p>
+      <p className="mt-2 text-white">Please wait while we check if you have any Tool... </p>
     </div>
   </div>
 )}
