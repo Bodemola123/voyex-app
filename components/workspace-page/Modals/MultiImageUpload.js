@@ -98,7 +98,7 @@ const MultiImageUpload = ({ uploadedImages = [], onImagesChange }) => {
               Drag & Drop your Images here or Browse
             </p>
             <p className="text-xs font-bold text-[#888292] text-center">
-              Works with JPEG, PNG, GIF, WEBP, or SVG below 10MB each
+              Works with JPEG, PNG, GIF, WEBP, or SVG total image uploaded 10MB
             </p>
           </div>
           <button

@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import ProductCard from '../../../components/galatimart-page/ProductCard';
+import { MdErrorOutline } from 'react-icons/md';
 
 const Card = ({ toolsData, category, isLoading, error }) => {
   
@@ -9,7 +10,8 @@ const Card = ({ toolsData, category, isLoading, error }) => {
     const toolsPerPage = 15;
     if (error) {
       return (
-        <div className="text-red-500 p-4 bg-[#1c1d1f] rounded-lg text-center">
+        <div className="text-red-500 p-4 bg-[#1c1d1f] rounded-lg text-center flex flex-col gap-2">
+          <MdErrorOutline className='text-5xl text-red-500'/>
           Failed to fetch Tools, Please try again later
         </div>
       );
@@ -17,8 +19,9 @@ const Card = ({ toolsData, category, isLoading, error }) => {
     
   if (isLoading) {
     return (
-      <div className="w-full h-64 flex justify-center items-center">
+      <div className="w-full h-64 flex flex-col gap-2 justify-center items-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
+        <p>Loading Tools, Please Wait...</p>
       </div>
     );
   }

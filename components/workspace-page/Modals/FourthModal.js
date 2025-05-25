@@ -6,6 +6,8 @@ import ImageUpload from "./ImageUpload";
 import MultiImageUpload from "./MultiImageUpload";
 import { toast } from "react-toastify";
 
+const IMGUR_CLIENT_ID = "0d7a8e799d42d15"; // <-- Replace with your actual Client ID
+
 const FourthModal = ({
   closeModal,
   modalData,
@@ -13,54 +15,105 @@ const FourthModal = ({
   createProduct,
   closeModalWithoutReset,
 }) => {
-  // Initialize local state from modalData props (fourth data slice)
   const [productLogo, setProductLogo] = useState(modalData.productLogo || null);
   const [productScreenshots, setProductScreenshots] = useState(
     modalData.productScreenshots || []
   );
   const [organizationLogo, setOrganizationLogo] = useState(modalData.organizationLogo || null);
 
-  // Sync local state if modalData changes (optional)
   useEffect(() => {
     setProductLogo(modalData.productLogo || null);
     setProductScreenshots(modalData.productScreenshots || []);
     setOrganizationLogo(modalData.organizationLogo || null);
   }, [modalData]);
 
-  // Handlers for single image upload (productLogo)
-  const handleProductLogoUpload = (file) => {
-    setProductLogo(file);
-    setModalData({ ...modalData, productLogo: file });
+const uploadToImgur = async (file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    console.log("Uploading to Imgur:", file.name);
+    const response = await fetch("https://api.imgur.com/3/image", {
+      method: "POST",
+      headers: {
+        Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+      },
+      body: formData,
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      console.log("Imgur upload success:", result.data.link);
+      toast.success("Image upload successfull")
+      return result.data.link;
+    } else {
+      console.error("Imgur upload failed:", result);
+      throw new Error("Imgur upload failed");
+    }
+  } catch (error) {
+    console.error("Imgur upload error:", error);
+    toast.error("Image upload failed: " + error.message);
+    return null;
+  }
+};
+
+
+  const handleProductLogoUpload = async (file) => {
+    const url = await uploadToImgur(file);
+    if (url) {
+      const img = { url, name: file.name };
+        console.log("Setting product logo:", img);
+      setProductLogo(img);
+      setModalData({ ...modalData, productLogo: img });
+    }
   };
+
   const handleProductLogoRemove = () => {
     setProductLogo(null);
     setModalData({ ...modalData, productLogo: null });
   };
 
-  // Handlers for single image upload (organizationLogo)
-  const handleOrganizationLogoUpload = (file) => {
-    setOrganizationLogo(file);
-    setModalData({ ...modalData, organizationLogo: file });
+  const handleOrganizationLogoUpload = async (file) => {
+    const url = await uploadToImgur(file);
+    if (url) {
+      const img = { url, name: file.name };
+        console.log("Setting organization logo:", img);
+      setOrganizationLogo(img);
+      setModalData({ ...modalData, organizationLogo: img });
+    }
   };
+
   const handleOrganizationLogoRemove = () => {
     setOrganizationLogo(null);
     setModalData({ ...modalData, organizationLogo: null });
   };
 
-  // Handlers for multi image upload (productScreenshots)
-  const handleScreenshotsUpload = (files) => {
-    const updatedScreenshots = [...productScreenshots, ...files];
-    setProductScreenshots(updatedScreenshots);
-    setModalData({ ...modalData, productScreenshots: updatedScreenshots });
-  };
+const handleScreenshotsUpload = async (files) => {
+  const uploaded = await Promise.all(
+    files.map(async (file) => {
+      const url = await uploadToImgur(file);
+      if (url) {
+        console.log(`Uploaded screenshot ${file.name}:`, url);
+        return { url, name: file.name };
+      }
+      return null;
+    })
+  );
+
+  const filtered = uploaded.filter(Boolean);
+  const updated = [...productScreenshots, ...filtered];
+  console.log("Updated product screenshots:", updated);
+  setProductScreenshots(updated);
+  setModalData({ ...modalData, productScreenshots: updated });
+};
+
 
   const handleScreenshotRemove = (index) => {
-    const updatedScreenshots = productScreenshots.filter((_, i) => i !== index);
-    setProductScreenshots(updatedScreenshots);
-    setModalData({ ...modalData, productScreenshots: updatedScreenshots });
+    const updated = productScreenshots.filter((_, i) => i !== index);
+    setProductScreenshots(updated);
+    setModalData({ ...modalData, productScreenshots: updated });
   };
 
-  // Validation and submit
   const handleNext = () => {
     if (!productLogo) {
       toast.error("Please upload a Product Logo before proceeding.");
@@ -90,7 +143,7 @@ const FourthModal = ({
           </button>
         </div>
 
-        {/* Product Logo Upload */}
+        {/* Product Logo */}
         <div className="flex flex-col gap-3">
           <div className="flex flex-row items-center justify-start gap-2">
             <p className="text-[#ffffff] font-medium text-base">Product Logo</p>
@@ -105,7 +158,7 @@ const FourthModal = ({
           </div>
         </div>
 
-        {/* Product Screenshots Upload */}
+        {/* Product Screenshots */}
         <div className="flex flex-col gap-3">
           <div className="flex flex-row items-center justify-start gap-2">
             <p className="text-[#ffffff] font-medium text-base">Product Screenshots</p>
@@ -122,7 +175,7 @@ const FourthModal = ({
           </div>
         </div>
 
-        {/* Organization Logo Upload */}
+        {/* Organization Logo */}
         <div className="flex flex-col gap-3">
           <div className="flex flex-row items-center justify-start gap-2">
             <p className="text-[#ffffff] font-medium text-base">Organization Logo</p>
@@ -137,7 +190,7 @@ const FourthModal = ({
           </div>
         </div>
 
-        {/* Buttons Section */}
+        {/* Footer Buttons */}
         <div className="flex justify-between items-center mt-4">
           <button
             onClick={closeModal}
@@ -149,9 +202,7 @@ const FourthModal = ({
             onClick={handleNext}
             disabled={!productLogo || productScreenshots.length === 0 || !organizationLogo}
             className={`px-4 py-2 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${
-              productLogo && productScreenshots.length > 0 && organizationLogo
-                ? ""
-                : "opacity-50"
+              productLogo && productScreenshots.length > 0 && organizationLogo ? "" : "opacity-50"
             }`}
           >
             Finalize Details

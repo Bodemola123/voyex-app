@@ -2,12 +2,14 @@
 import React from 'react';
 import Image from 'next/image';
 import { IoCube } from "react-icons/io5";
+import { MdErrorOutline } from 'react-icons/md';
 
 const CategoryNavOpen = ({ categories = [], selectedCategory, isLoading, error }) => {
 
   if (error) {
     return (
-      <div className="text-red-500 p-4 bg-[#1c1d1f] rounded-lg text-center">
+      <div className="text-red-500 p-4 bg-[#1c1d1f] rounded-lg text-center flex flex-col">
+        <MdErrorOutline className='text-5xl text-red-500'/>
         Failed to fetch Categories, Please try again later
       </div>
     );
@@ -26,7 +28,7 @@ const CategoryNavOpen = ({ categories = [], selectedCategory, isLoading, error }
 
       <div className="flex flex-col px-2 gap-2 overflow-y-scroll scrollbar-hide scroll-container">
         {isLoading ? (
-          <p className="text-white text-center">Loading Categories...</p>
+          <p className="text-white text-center my-auto">Loading Categories...</p>
         ) : (
           categories.map((cat) => (
             <div

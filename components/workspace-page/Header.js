@@ -9,7 +9,7 @@ function Header ({openModal}) {
     <div className="flex items-center justify-between w-full z-10">
       <div className="flex items-center gap-2">
         <h3 className="text-4xl text-fontlight font-bold capitalize">
-          Toolss
+          Tools
         </h3>
       </div>
       <div className="flex items-center gap-2 text-xl">

@@ -174,10 +174,12 @@ const handleProductCreation = async () => {
 
       pricing_model: modalData.second.pricingModel,
       pricing_details: {
-        // Adjust this based on your actual pricing details input, here is an example fallback:
         free: modalData.second.pricingModel.toLowerCase() === "free",
-        pro_plan: modalData.second.pricingModel.toLowerCase() === "subscription" ? "$20/month" : "",
+        pro_plan: ["subscription", "paid"].includes(modalData.second.pricingModel.toLowerCase())
+          ? modalData.second.pricingDetailsPlanLink
+          : "",
       },
+
 
       primary_category: modalData.first.primaryCategory,
       sub_categories: modalData.first.categories,
