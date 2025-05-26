@@ -8,10 +8,20 @@ import { IoShareOutline } from "react-icons/io5";
 import { PiAirplaneBold } from 'react-icons/pi';
 import ShareModal from '../../../../components/galatimart-page/ShareModal';
 
-const Header = ({ logo, title, rating, userCount, toolUrl, tags, category }) => {
+const Header = ({ logo, title, rating, userCount, toolUrl, tags, category, toolId }) => {
   const [isShareOpen, setShareOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState(null);
   const shareButtonRef = useRef(null);
+
+        const imageOverrides = {
+  2132: "/chatgptforchat.svg",
+  1173: "/invideo.png",
+  1455: "/typpo.svg",
+  2123: "/applepie.jpg",
+  1228: "/zipwp.png",
+};
+
+const customImage = imageOverrides[toolId] || logo;
 
   const handleShareClick = () => {
     const buttonRect = shareButtonRef.current.getBoundingClientRect();
@@ -33,11 +43,11 @@ const Header = ({ logo, title, rating, userCount, toolUrl, tags, category }) => 
           </Link>
 
           <div className='flex flex-row gap-4'>
-            {logo ? (
-              <Image src={logo} alt={title} width={66} height={66} />
-            ) : (
-              <div className="w-[66px] h-[66px] rounded-full bg-white" />
-            )}
+          {customImage ? (
+  <Image src={customImage} alt={title} width={52} height={52} />
+) : (
+  <div className="w-[52px] h-[52px] bg-white rounded-full" />
+)}
             <div className='flex flex-col gap-2'>
               <p className='font-bold text-4xl'>{title}</p>
               <div className='gap-4 flex flex-row'>

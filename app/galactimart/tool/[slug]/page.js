@@ -109,6 +109,7 @@ if (!tool) throw new Error("Invalid tool data received.");
         ) : (
           <>
             <Header
+            toolId={toolData.tool_id}
               logo={toolData.logo_url}
               title={toolData.tool_name}
               rating={toolData.rating}

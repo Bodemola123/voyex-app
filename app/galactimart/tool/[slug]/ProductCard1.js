@@ -16,7 +16,7 @@ const ProductCard = ( {product} ) => {
     const [hovered, setHovered] = useState(false);
     const slug = `${product.id}-${slugify(product.title)}`; // e.g. "2132-ai-writer-pro"
       const imageOverrides = {
-  2132: "//chatgptforchat.svg",
+  2132: "/chatgptforchat.svg",
   1173: "/invideo.png",
   1455: "/typpo.svg",
   2123: "/applepie.jpg",
