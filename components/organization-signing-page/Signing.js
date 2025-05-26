@@ -58,16 +58,16 @@ function Signing({
     <div className="flex flex-col items-center h-full">
       <h1 className="text-3xl font-bold text-fontlight capitalize">voyex</h1>
       <Tabs defaultValue="sign_in" className="w-[400px] mt-10">
-        <TabsList className="grid w-full grid-cols-2 bg-[#0a0a0b] text-fontlight rounded-[21px]">
+        <TabsList className="grid w-full grid-cols-2 bg-[#131314] text-fontlight rounded-[21px]">
           <TabsTrigger
             value="sign_up"
-            className="capitalize rounded-[21px] data-[state=active]:bg-black data-[state=active]:text-fontlight"
+            className="capitalize rounded-[21px] data-[state=active]:bg-[#1c1d1f] data-[state=active]:text-fontlight"
           >
             sign up
           </TabsTrigger>
           <TabsTrigger
             value="sign_in"
-            className="capitalize rounded-[21px] data-[state=active]:bg-black data-[state=active]:text-fontlight"
+            className="capitalize rounded-[21px] data-[state=active]:bg-[#1c1d1f] data-[state=active]:text-fontlight"
           >
             sign in
           </TabsTrigger>

@@ -63,7 +63,7 @@ function Personalization() {
     : userEmail || "user@example.com";
 
   return (
-    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary">
+    <div className="w-full rounded-[25px] py-7 px-11 bg-secondary border border-[#FFFFFF26]">
       <h1 className="text-fontlight text-base font-normal capitalize">
         {isOrganization ? "Organization info" : "personalization"}
       </h1>

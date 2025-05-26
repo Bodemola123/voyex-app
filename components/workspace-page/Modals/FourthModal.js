@@ -149,7 +149,7 @@ const handleScreenshotsUpload = async (files) => {
             <p className="text-[#ffffff] font-medium text-base">Product Logo</p>
           </div>
           <p className="text-sm font-normal text-[#ffffff]">Recommended dimensions: 512x512</p>
-          <div className="flex gap-2.5 w-full h-[156px] bg-[#131314] p-4 justify-center items-center rounded-[26px]">
+          <div className="flex gap-2.5 w-full h-[156px] bg-[#0a0a0b] p-4 justify-center items-center rounded-[26px]">
             <ImageUpload
               onImageUpload={handleProductLogoUpload}
               uploadedImage={productLogo}
@@ -166,7 +166,7 @@ const handleScreenshotsUpload = async (files) => {
           <p className="text-sm font-normal text-[#ffffff]">
             Upload multiple screenshots showcasing your product
           </p>
-          <div className="flex gap-2.5 w-full min-h-[156px] bg-[#131314] p-4 justify-start items-start rounded-[26px] flex-wrap overflow-auto max-h-[250px]">
+          <div className="flex gap-2.5 w-full min-h-[156px] bg-[#0a0a0b] p-4 justify-start items-start rounded-[26px] flex-wrap overflow-auto max-h-[250px]">
             <MultiImageUpload
               uploadedImages={productScreenshots}
               onImagesUpload={handleScreenshotsUpload}
@@ -181,7 +181,7 @@ const handleScreenshotsUpload = async (files) => {
             <p className="text-[#ffffff] font-medium text-base">Organization Logo</p>
           </div>
           <p className="text-sm font-normal text-[#ffffff]">Recommended dimensions: 512x512</p>
-          <div className="flex gap-2.5 w-full h-[156px] bg-[#131314] p-4 justify-center items-center rounded-[26px]">
+          <div className="flex gap-2.5 w-full h-[156px] bg-[#0a0a0b] p-4 justify-center items-center rounded-[26px]">
             <ImageUpload
               onImageUpload={handleOrganizationLogoUpload}
               uploadedImage={organizationLogo}

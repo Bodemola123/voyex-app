@@ -71,8 +71,6 @@ useEffect(() => {
     categories: [],
     name: "",
     description: "",
-    orgName: "",
-    orgUrl: "",
     productUrl: "",
     tags: [],
   }, // Ensure first modal has name, description, and categories
@@ -156,11 +154,13 @@ const handleProductCreation = async () => {
 
     const entityId = localStorage.getItem("entityId");
     const entityType = localStorage.getItem("orgType");
+    const orgName = localStorage.getItem("orgName")
+    const orgWebsite = localStorage.getItem("orgWebsite")
 
     // Prepare payload using modalData
     const payload = {
-      organization_name: modalData.first.orgName,
-      organization_website_url: modalData.first.orgUrl,
+      organization_name: orgName,
+      organization_website_url: orgWebsite,
       // For logos and screenshots, you'd typically upload files separately and get URLs, but here
       // I'll just send null or empty string as placeholder, replace with your uploaded URLs:
       organization_logo_url: modalData.fourth.organizationLogo ? modalData.fourth.organizationLogo.url || "" : "",

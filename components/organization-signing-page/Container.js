@@ -385,6 +385,7 @@ localStorage.setItem("entityId", entityId);
                           const orgName = profileResponse.data?.organization_name || "No name inputed";
                           const poc = profileResponse.data?.poc || "No Name"
                           localStorage.setItem("poc", poc)
+                          localStorage.setItem("orgWebsite", profileResponse.data?.website_url)
                 
                           localStorage.setItem("orgName", orgName);
                         } catch (profileErr) {
@@ -693,6 +694,7 @@ const signing = async () => {
   
             const poc = profileResponse.data?.poc || "No Name";
             localStorage.setItem("poc", poc);
+            localStorage.setItem("orgWebsite", profileResponse.data?.website_url)
           } catch (profileErr) {
             console.error("Failed to fetch org profile:", profileErr);
             toast.error("Failed to fetch organization profile.");

@@ -26,8 +26,8 @@ function SignupSuccess({ setCurrentSlide }) {
           Your account has been created
           <br /> successfully
         </p>
-        <div className="flex items-center justify-between max-w-[400px] w-full">
-           <button
+        <div className="flex items-center justify-center max-w-[400px] w-full">
+           {/* <button
             className="text-base text-fontlight font-medium rounded-[25px] px-6 py-3 border  border-card"
             onClick={() => {
               setCurrentSlide(""); // Reset to default or an initial state
@@ -35,7 +35,7 @@ function SignupSuccess({ setCurrentSlide }) {
             }}
           >
             Skip
-          </button> 
+          </button>  */}
           <button
             className="text-base text-black font-medium rounded-[25px] px-6 py-3 bg-purple"
             onClick={() => setCurrentSlide("org-upload-details")}

@@ -146,6 +146,7 @@ const handleRevenueSelect = (revenueValue) => {
         localStorage.setItem("poc", orgPcpName)
         console.log(response.data)
         setCurrentSlide("org-upload-success");
+        localStorage.setItem("orgWebsite", orgWebsite)
       }
       if (response.status !== 200) {
         setCurrentSlide("basic-info");

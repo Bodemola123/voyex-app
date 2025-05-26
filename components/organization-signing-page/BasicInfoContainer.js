@@ -79,12 +79,12 @@ function BasicInfoContainer({
         </div>
 
         <div className="flex items-center justify-between max-w-[500px] py-6 w-full">
-          <button
+          {/* <button
             className="text-base text-white font-medium rounded-[25px] px-6 py-3 border border-card"
             onClick={() => router.push("/search")}
           >
             Skip
-          </button> 
+          </button>  */}
           <button
             className={`text-base font-medium rounded-[25px] px-6 py-3 bg-[#c088fb] ml-auto ${
               isDisabled ? "opacity-50 cursor-not-allowed" : "text-black"

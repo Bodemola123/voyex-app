@@ -140,7 +140,7 @@ const handleCategorySelect = (category) => {
               setSelectedCategories={handleCategoryChange}
             />
           </div>
-
+{/* 
           <div className="space-y-1">
   <label className="text-[#F4F4F4] text-sm font-medium">Organization Name</label>
   <input
@@ -164,7 +164,7 @@ const handleCategorySelect = (category) => {
     value={modalData.orgUrl || ""}
     onChange={handleInputChange}
   />
-</div>
+</div> */}
 
 
           {/* Name Input */}
@@ -175,7 +175,7 @@ const handleCategorySelect = (category) => {
               name="name"
               value={modalData.name || ""}
               onChange={handleInputChange}
-              className="w-full max-h-[64px] p-3 resize-none rounded-3xl bg-transparent border border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
+              className="w-full max-h-[64px] p-3 resize-none rounded-3xl bg-[#0a0a0b] border border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
               rows="1"
             ></textarea>
           </div>
