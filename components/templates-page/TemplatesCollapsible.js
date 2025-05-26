@@ -40,14 +40,14 @@ const TemplatesCollapsible = () => {
       </div>
 
       {/* Categories List (Matching `StepsNav.js` Styling) */}
-      <div className="mt-2 flex flex-col space-y-5 px-6 overflow-y-scroll scrollbar-hide" >
+      <div className="mt-2 flex flex-col space-y-5 overflow-y-scroll scrollbar-hide" >
         {categories.map((category) =>
           category.href ? (
             <Link
               key={category.name}
               href={category.href}
-              className={`w-full text-left block py-2 px-4 rounded-lg text-gray-300 hover:bg-[#1D1F20] ${
-                pathname === category.href ? "bg-purple-500 text-white hover:bg-[#1D1F20]" : ""
+              className={`w-full text-left block py-2 px-6 text-[#f4f4f4] hover:bg-[#1D1F20] ${
+                pathname === category.href ? "text-white hover:bg-[#1D1F20]" : ""
               }`}
             >
               {category.name}
@@ -56,7 +56,7 @@ const TemplatesCollapsible = () => {
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className="w-full text-left block py-2 px-4 rounded-lg text-gray-300 hover:bg-[#1D1F20]"
+              className="w-full text-left block py-2 px-6  text-[#f4f4f4] hover:bg-[#1D1F20]"
             >
               {category.name}
             </button>

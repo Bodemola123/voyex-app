@@ -49,7 +49,7 @@ const PlansFeatures = ({ title, plansBenefits }) => {
           return (
             <div
               key={index}
-              className="rounded-3xl flex flex-col gap-16 border border-card p-9 bg-custom-gradient backdrop-blur-custom"
+              className="rounded-3xl flex flex-col gap-16 border border-card p-9 bg-[#1c1d1f]"
             >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-4">
