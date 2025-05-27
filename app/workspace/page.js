@@ -245,8 +245,8 @@ const handleProductCreation = async () => {
   if (isSubmitting) {
     return (
       <div className="w-full h-64 flex flex-col justify-center items-center gap-4">
-        <p className="text-white">Please wait while we send your data</p>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
+        <p className="text-white">Please wait while we send your data</p>
       </div>
     );
   }

@@ -52,36 +52,35 @@ const handleCategorySelect = (category) => {
   };
 
   // Validate tool name before proceeding
-  const handleUpdateClick = async () => {
-    if (!modalData.name?.trim() || !modalData.description?.trim()) {
-      alert("Please fill out all required fields.");
-      return;
-    }
-    if (selectedCategories.length === 0) {
-      alert("Please select at least one category.");
-      return;
-    }
+const handleUpdateClick = async () => {
+  if (!modalData.name?.trim() || !modalData.description?.trim()) {
+    alert("Please fill out all required fields.");
+    return;
+  }
+  if (selectedCategories.length === 0) {
+    alert("Please select at least one category.");
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://xklp1j7zp3.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tool_workspace?tool_name=${modalData.name}`
-      );
-      
-      if (response.status === 200) {
-        toast.error("Tool name already exists. Please choose a different name.");
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        // Tool name does not exist, proceed to next step
-        openModal();
-      } else {
-        toast.error("An error occurred while checking the tool name. Please try again.");
-      }
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  try {
+    const response = await axios.get(
+      `https://xklp1j7zp3.execute-api.ap-southeast-2.amazonaws.com/default/voyex_tool_workspace?tool_name=${modalData.name}`
+    );
+
+    if (response.data.exists === false) {
+      // Tool name does not exist, proceed to next step
+      openModal();
+    } else {
+      toast.error("Tool name already exists. Please choose a different name.");
     }
-  };
+  } catch (error) {
+    toast.error("An error occurred while checking the tool name. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
       useEffect(() => {
       function handleClickOutside(event) {
@@ -140,32 +139,6 @@ const handleCategorySelect = (category) => {
               setSelectedCategories={handleCategoryChange}
             />
           </div>
-{/* 
-          <div className="space-y-1">
-  <label className="text-[#F4F4F4] text-sm font-medium">Organization Name</label>
-  <input
-    type="text"
-    name="orgName"
-    placeholder="Your Organization Name"
-    className="rounded-[28px] bg-[#0a0a0b] placeholder:text-[#f4f4f4] text-[#f4f4f4] h-[56px] w-full px-4 border-none focus:outline-none focus:ring-0"
-    value={modalData.orgName || ""}
-    onChange={handleInputChange}
-  />
-</div>
-
-
-<div className="space-y-1">
-  <label className="text-[#F4F4F4] text-sm font-medium">Organization Website URL</label>
-  <input
-    type="text"
-    name="orgUrl"
-    placeholder="https://yourcompany.com"
-    className="rounded-[28px] bg-[#0a0a0b] placeholder:text-[#f4f4f4] text-[#f4f4f4] h-[56px] w-full px-4 border-none focus:outline-none focus:ring-0"
-    value={modalData.orgUrl || ""}
-    onChange={handleInputChange}
-  />
-</div> */}
-
 
           {/* Name Input */}
           <div className="space-y-1">
