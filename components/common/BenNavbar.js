@@ -11,6 +11,7 @@ import {
 } from "react-icons/lu";
 import { RxAvatar } from "react-icons/rx";
 import { CgOrganisation } from "react-icons/cg";
+import Image from "next/image";
 
 const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConversation,handleResetRecommendationButton  }) => {
   const pathname = usePathname(); // Get the current path
@@ -61,11 +62,25 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                 handleNewConversation();
               }}
             >
-              <HiOutlineHome
-                className={`text-[20px] ${
-                  isActive("/") ? "text-[#f4f4f4]" : "text-[#C088fb]"
-                } group-hover:text-[#f4f4f4]`}
-              />
+                <Image
+                  src={
+                    isActive("/") || pathname === "/"
+                      ? "/HomeHover.svg"
+                      : "/Home.svg"
+                  }
+                  alt="Home"
+                  width={20}
+                  height={20}
+                  className="group-hover:hidden"
+                />
+                <Image
+                  src="/HomeHover.svg"
+                  alt="Home Hover"
+                  width={20}
+                  height={20}
+                  className={`hidden group-hover:block ${isActive("/") ? 'block' : ''}`}
+                />
+
             </Link>
             <span className="absolute top-full -mt-2 left-full text-sm text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
               Home
@@ -81,11 +96,29 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                 isActive("/templates") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
               }`}
             >
-              <LuClipboardList
+              {/* <LuClipboardList
                 className={`text-[20px] ${
                   isActive("/templates") ? "text-[#f4f4f4]" : "text-[#C088fb]"
                 } group-hover:text-[#f4f4f4]`}
-              />
+              /> */}
+                <Image
+                  src={
+                    isActive("/templates") || pathname === "/templates"
+                      ? "/TemplatesHover.svg"
+                      : "/Templates.svg"
+                  }
+                  alt="Templates"
+                  width={20}
+                  height={20}
+                  className="group-hover:hidden"
+                />
+                <Image
+                  src="/TemplatesHover.svg"
+                  alt="Home Hover"
+                  width={20}
+                  height={20}
+                  className={`hidden group-hover:block ${isActive("/templates") ? 'block' : ''}`}
+                />
             </Link>
             <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
               Templates
@@ -106,6 +139,24 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                   isActive("/galactimart") ? "text-[#f4f4f4]" : "text-[#C088fb]"
                 } group-hover:text-[#f4f4f4]`}
               />
+                {/* <Image
+                  src={
+                    isActive("/galactimart") || pathname === "/galactimart"
+                      ? "/Galactimart1Hover.svg"
+                      : "/Galactimart1.svg"
+                  }
+                  alt="Galactimart"
+                  width={20}
+                  height={20}
+                  className="group-hover:hidden"
+                />
+                <Image
+                  src="/Galactimart1Hover.svg"
+                  alt="Galactimart Hover"
+                  width={20}
+                  height={20}
+                  className={`hidden group-hover:block ${isActive("/galactimart") ? 'block' : ''}`}
+                /> */}
             </Link>
             <span className="absolute top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex hidden gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
               Galactimart
@@ -122,10 +173,28 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                   isActive("/workspace") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
                 }`}
               >
-                <CgOrganisation
+                {/* <CgOrganisation
                   className={`text-[20px] ${
                     isActive("/workspace") ? "text-[#f4f4f4]" : "text-[#C088fb]"
                   } group-hover:text-[#f4f4f4]`}
+                /> */}
+                <Image
+                  src={
+                    isActive("/workspace") || pathname === "/workspace"
+                      ? "/WorkspaceHover.svg"
+                      : "/Workspace.svg"
+                  }
+                  alt="Workspace"
+                  width={20}
+                  height={20}
+                  className="group-hover:hidden"
+                />
+                <Image
+                  src="/WorkspaceHover.svg"
+                  alt="Workspace Hover"
+                  width={20}
+                  height={20}
+                  className={`hidden group-hover:block ${isActive("/workspace") ? 'block' : ''}`}
                 />
               </Link>
               <span className="absolute hidden top-full text-sm -mt-2 left-full text-[#ffffff] text-center font-medium bg-black px-2.5 py-1.5 rounded-[13px] group-hover:flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
