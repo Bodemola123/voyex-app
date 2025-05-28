@@ -406,6 +406,8 @@ null
     </ul>
   </div>
 )}
+<div className="flex flex-col gap-4 items-center justify-center">
+  <p className="text-center text-[#ffffff] font-medium text-base">Top Searched Queries</p>
       <div className="md:grid grid-cols-3 gap-6 flex flex-col">
   {randomTrendingSearches.map((search, index) => (
     <div
@@ -446,6 +448,8 @@ null
     </div>
   ))}
       </div>
+</div>
+
       </div>
       <BenFooter/>
 
