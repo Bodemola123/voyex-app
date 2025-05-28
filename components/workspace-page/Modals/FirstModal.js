@@ -132,7 +132,7 @@ const handleUpdateClick = async () => {
   )}
 </div>
 
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5 px-1">
             <p className="text-base font-medium text-left text-[#ffffff]">Sub-Category</p>
             <MultiSelectInput
               selectedCategories={selectedCategories}
@@ -141,18 +141,18 @@ const handleUpdateClick = async () => {
           </div>
 
           {/* Name Input */}
-          <div className="space-y-1">
+          <div className="space-y-1 px-1">
             <label htmlFor="name" className="block text-base text-[#ffffff] font-medium mb-2">Tool Name</label>
             <textarea
               id="name"
               name="name"
               value={modalData.name || ""}
               onChange={handleInputChange}
-              className="w-full max-h-[64px] p-3 resize-none rounded-3xl bg-[#0a0a0b] border border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
+              className="w-full max-h-[64px] p-4 resize-none rounded-3xl bg-[#0a0a0b] border border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
               rows="1"
             ></textarea>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 px-1">
   <label className="text-[#F4F4F4] text-sm font-medium">Product Website / Landing Page</label>
   <input
     type="text"
@@ -166,18 +166,18 @@ const handleUpdateClick = async () => {
 
 
           {/* Description Input */}
-          <div>
+          <div className="px-1">
             <label htmlFor="description" className="block text-base text-[#ffffff] font-medium mb-2">Description</label>
             <textarea
               id="description"
               name="description"
               value={modalData.description || ""}
               onChange={handleInputChange}
-              className="w-full max-h-[130px] scrollbar-hide p-3 resize-none rounded-3xl bg-transparent border border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
+              className="w-full max-h-[130px] scrollbar-hide p-4 resize-none rounded-3xl bg-[#0a0a0b] border border-[#FFFFFF26] text-white focus:outline-none focus:ring focus:ring-[#c088fb]"
               rows="4"
             ></textarea>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 px-1">
   <label className="text-[#F4F4F4] text-sm font-medium">Keywords / Tags</label>
   <input
     type="text"
@@ -191,7 +191,7 @@ const handleUpdateClick = async () => {
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center px-1">
           <button
             onClick={closeModal}
             className="px-[21px] py-2.5 text-sm md:text-base bg-transparent text-white border border-[#FFFFFF26] rounded-[25px] hover:bg-gray-800 hover:border-[#c088fb] hover:scale-105 transition-all"
@@ -200,7 +200,7 @@ const handleUpdateClick = async () => {
           </button>
           <button
             onClick={handleUpdateClick}
-            disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0 || !modalData.tags || modalData.productUrl || modalData.orgUrl || modalData.orgName || modalData.primaryCategory || loading}
+            disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0 || !modalData.tags || modalData.productUrl || modalData.primaryCategory || loading}
             className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && selectedCategories.length > 0 && !loading ? "" : "cursor-not-allowed"}`}
           >
             {loading ? "Checking..." : "Update Version Details"}
