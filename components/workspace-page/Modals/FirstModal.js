@@ -54,11 +54,11 @@ const handleCategorySelect = (category) => {
   // Validate tool name before proceeding
 const handleUpdateClick = async () => {
   if (!modalData.name?.trim() || !modalData.description?.trim()) {
-    alert("Please fill out all required fields.");
+    toast.warn("Please fill out all required fields.");
     return;
   }
   if (selectedCategories.length === 0) {
-    alert("Please select at least one category.");
+    toast.warn("Please select at least one category.");
     return;
   }
 
@@ -122,7 +122,7 @@ const handleUpdateClick = async () => {
       {categoryOptions.map((category) => (
         <div
           key={category}
-          className="px-4 py-2 text-base text-white hover:bg-[#1f1f1f] cursor-pointer capitalize"
+          className="px-4 py-2 text-base text-white hover:bg-[#131314] cursor-pointer capitalize"
           onClick={() => handleCategorySelect(category)}
         >
           {category}
@@ -200,8 +200,8 @@ const handleUpdateClick = async () => {
           </button>
           <button
             onClick={handleUpdateClick}
-            disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0 || !modalData.tags || modalData.productUrl || modalData.primaryCategory || loading}
-            className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && selectedCategories.length > 0 && !loading ? "" : "cursor-not-allowed"}`}
+            disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0 || !modalData.tags || !modalData.productUrl || !modalData.primaryCategory || loading}
+            className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && selectedCategories.length > 0 && !loading ? "" : "cursor-not-allowed opacity-50"}`}
           >
             {loading ? "Checking..." : "Update Version Details"}
           </button>

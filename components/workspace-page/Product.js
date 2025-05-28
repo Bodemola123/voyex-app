@@ -21,7 +21,7 @@ const Product = ({ toolId, name, logo, description, subCategories }) => {
     >
       <div className="flex items-start ">
         {logo ? (
-          <Image src={logo} alt={name} width={52} height={52} />
+          <Image src={logo} alt={name} width={52} height={52} className="rounded-full" />
         ) : (
           <div className="w-[52px] h-[52px] bg-white rounded-full" />
         )}

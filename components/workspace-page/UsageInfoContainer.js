@@ -1,3 +1,4 @@
+"use client"
 import { usageItem } from "@/constants/workspace-page";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
@@ -6,6 +7,7 @@ import AnalyticsNavbar from "./AnalyticsNavbar";
 import { LuTrash2 } from "react-icons/lu";
 import { TbEdit } from "react-icons/tb";
 import DeleteProduct from "./Modals/DeleteProduct";
+import { useState } from "react";
 
 function UsageInfoContainer({toolData}) {
 
@@ -17,9 +19,9 @@ const updatedTime = toolData?.updated_at?.split('T')[1]?.slice(0, 5); // "09:47"
 
   return (
     <>
-      <div className="flex items-center justify-between mt-8">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Image src={toolData.product_logo_url} alt="chatgpt" width={66} height={66} />
+          <Image src={toolData.product_logo_url} alt="chatgpt" width={52} height={52} className="rounded-full"/>
           <div className="flex flex-col gap-1">
             <h1 className="text-fontlight text-4xl">{toolData?.product_name}</h1>
             {/* <div className="flex items-center gap-5">

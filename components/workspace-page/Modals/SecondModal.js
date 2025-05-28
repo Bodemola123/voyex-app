@@ -86,7 +86,7 @@ const handleInputChange = (key, value) => {
 
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)] flex items-center justify-center z-50">
-      <div className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl flex flex-col gap-[20px]"  ref={dropdownRef}>
+      <div className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl flex flex-col gap-[20px] max-h-[637px]"  ref={dropdownRef}>
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">
           <h2 className="text-xl md:text-2xl font-bold">Tool Details</h2>
@@ -96,7 +96,7 @@ const handleInputChange = (key, value) => {
         </div>
 
         {/* Form fields */}
-        <div className="space-y-2 overflow-y-auto scrollbar-hide">
+        <div className="space-y-2 overflow-y-auto scrollbar-hide px-1">
         {/* Detailed Features (textarea) */}
         <div className="space-y-1">
           <label className="text-[#F4F4F4] text-sm font-medium">Detailed Features</label>
@@ -123,7 +123,7 @@ const handleInputChange = (key, value) => {
               {pricingModelOptions.map((option) => (
                 <div
                   key={option}
-                  className="px-4 py-2 text-base text-white hover:bg-[#1f1f1f] cursor-pointer capitalize"
+                  className="px-4 py-2 text-base text-white hover:bg-[#131314] cursor-pointer capitalize"
                   onClick={() => handleSingleSelect("pricingModel", option)}
                 >
                   {option}
@@ -164,7 +164,7 @@ const handleInputChange = (key, value) => {
               {platformOptions.map((platform) => (
                 <div
                   key={platform}
-                  className="px-4 py-2 text-base text-white capitalize hover:bg-[#1f1f1f] cursor-pointer flex justify-between items-center"
+                  className="px-4 py-2 text-base text-white capitalize hover:bg-[#131314] cursor-pointer flex justify-between items-center"
                   onClick={() => togglePlatform(platform)}
                 >
                   <span>{platform}</span>
@@ -192,7 +192,7 @@ const handleInputChange = (key, value) => {
               {apiAccessOptions.map((option) => (
                 <div
                   key={option}
-                  className="px-4 py-2 text-base text-white hover:bg-[#1f1f1f] cursor-pointer capitalize"
+                  className="px-4 py-2 text-base text-white hover:bg-[#131314] cursor-pointer capitalize"
                   onClick={() => handleSingleSelect("apiAccess", option)}
                 >
                   {option}

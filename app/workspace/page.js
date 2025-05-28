@@ -77,7 +77,7 @@ useEffect(() => {
       second: {
     detailedFeatures: "",          // multiline text or comma-separated string
     pricingModel: "",              // dropdown: "Free", "Paid", "Subscription"
-    pricingDetailsPlanLink: "",    // text input URL
+    pricingDetails: "",    // text input URL
     availablePlatforms: [],        // multi-select array e.g. ["Web", "Android"]
     apiAccessAvailable: "",        // string "Yes" or "No"
     integrationOptions: "",        // text input
@@ -119,7 +119,7 @@ useEffect(() => {
       second: {
     detailedFeatures: "",          // multiline text or comma-separated string
     pricingModel: "",              // dropdown: "Free", "Paid", "Subscription"
-    pricingDetailsPlanLink: "",    // text input URL
+    pricingDetails: "",    // text input URL
     availablePlatforms: [],        // multi-select array e.g. ["Web", "Android"]
     apiAccessAvailable: "",        // string "Yes" or "No"
     integrationOptions: "",        // text input
@@ -175,8 +175,8 @@ const handleProductCreation = async () => {
       pricing_model: modalData.second.pricingModel,
       pricing_details: {
         free: modalData.second.pricingModel.toLowerCase() === "free",
-        pro_plan: ["subscription", "paid"].includes(modalData.second.pricingModel.toLowerCase())
-          ? modalData.second.pricingDetailsPlanLink
+        pro_plan: ["Subscription", "Paid"].includes(modalData.second.pricingModel.toLowerCase())
+          ? modalData.second.pricingDetails
           : "",
       },
 
@@ -226,7 +226,12 @@ const handleProductCreation = async () => {
         payload
       );
 
-      if (response.status === 200) {
+        console.log("🚀 Full response from server:", response); // Always logs the response
+        console.log("🚀 Full response from server:", response);
+        console.log("📦 Response status:", response.status);
+
+
+      if (response.status >= 200 && response.status < 300) {
         toast.success("Product details sent successfully!");
         setIsSubmitting(false);
         fetchProducts()
@@ -235,21 +240,24 @@ const handleProductCreation = async () => {
       } else {
         throw new Error("Failed to create product");
       }
-    } catch (error) {
-      toast.error("Error creating product: " + error.message);
-      setIsSubmitting(false);
-    }
+    }catch (error) {
+  if (error.response) {
+    console.error("Response data:", error.response.data);
+    console.error("Response status:", error.response.status);
+    console.error("Response headers:", error.response.headers);
+  } else if (error.request) {
+    console.error("No response received:", error.request);
+  } else {
+    console.error("Error message:", error.message);
+  }
+  console.error("Full error object:", error);
+  toast.error("Error creating product: " + error.message);
+  setIsSubmitting(false);
+}
+
   };
 
-  // In your render method, show the loading spinner when isSubmitting is true:
-  if (isSubmitting) {
-    return (
-      <div className="w-full h-64 flex flex-col justify-center items-center gap-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
-        <p className="text-white">Please wait while we send your data</p>
-      </div>
-    );
-  }
+
 
   const renderModal = () => {
     switch (activeModal) {
@@ -301,11 +309,19 @@ const filteredProducts = products.filter((product) =>
 );
 
 
+if (isSubmitting) {
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-80">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
+      <p className="mt-4 text-white">Please wait while we send your data...</p>
+    </div>
+  );
+}
 
   return (
     <main className="flex-grow relative flex h-screen w-full flex-col gap-10 pt-6 px-6 justify-between items-center overflow-y-scroll scrollbar-hide">
       {/* Default Layout (when no product is created) */}
-      {!isProductCreated ? (
+      {!isProductCreated && !isLoading  && !isSubmitting ? (
         <>
           <WorkSpaceHeader openModal={() => openModal("first")} />
           <FirstAddModelpage openModal={() => openModal("first")} />
@@ -351,9 +367,9 @@ const filteredProducts = products.filter((product) =>
       <BenFooter />
 
       {isLoading && (
-  <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-    <div className="flex justify-center items-center flex-col bg-[#131314] p-6 rounded-lg shadow-lg">
-      <ImSpinner className="animate-spin text-[#c088fb] text-4xl" />
+  <div className="fixed inset-0 flex justify-center items-center bg-opacity-50 z-50">
+    <div className="flex justify-center items-center flex-col p-6 rounded-lg shadow-lg">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C088FB]"></div>
       <p className="mt-2 text-white">Please wait while we check if you have any Tool... </p>
     </div>
   </div>

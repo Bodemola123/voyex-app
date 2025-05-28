@@ -58,7 +58,7 @@ setModalData({
         </div>
 
         {/* Form Fields */}
-        <div className="space-y-2 overflow-y-auto scrollbar-hide">
+        <div className="space-y-2 overflow-y-auto scrollbar-hide px-1">
           {[
             { label: "Support Email", name: "supportEmail" },
             { label: "Help Center URL", name: "helpCenterUrl" },
@@ -102,7 +102,7 @@ setModalData({
                 {regions.map((region) => (
                   <div
                     key={region}
-                    className="px-4 py-2 text-base text-white capitalize hover:bg-[#1f1f1f] cursor-pointer flex justify-between items-center"
+                    className="px-4 py-2 text-base text-white capitalize hover:bg-[#131314] cursor-pointer flex justify-between items-center"
                     onClick={() => toggleRegion(region)}
                   >
                     <span>{region}</span>

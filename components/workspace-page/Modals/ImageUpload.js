@@ -48,7 +48,7 @@ const ImageUpload = ({ onImageUpload, uploadedImage, onImageRemove }) => {
 
     return (
         <div
-            className="flex justify-center items-center gap-2.5 flex-col w-[708px] h-[156px] border-dashed border rounded-[14px] border-[#CCD6E0] relative bg-[#131314] cursor-pointer"
+            className="flex justify-center items-center gap-2.5 flex-col w-[708px] min-h-[156px] border-dashed border rounded-[14px] border-[#CCD6E0] relative bg-[#131314] cursor-pointer"
             onDragOver={handleDragOver}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current.click()}
@@ -57,20 +57,21 @@ const ImageUpload = ({ onImageUpload, uploadedImage, onImageRemove }) => {
             aria-label="Image upload area"
         >
             {uploadedImage ? (
-                <div className="relative flex justify-center items-center w-full h-full bg-[#1E1E1E] rounded-[14px]">
-                    {uploadedImage.type === "image/svg+xml" ? (
-                        <img
-                            src={URL.createObjectURL(uploadedImage)}
-                            alt="Uploaded SVG"
-                            className="max-w-full max-h-full rounded-[14px]"
-                        />
-                    ) : (
-                        <img
-                            src={URL.createObjectURL(uploadedImage)}
-                            alt="Uploaded"
-                            className="max-w-full max-h-full rounded-[14px]"
-                        />
-                    )}
+                <div className="relative flex justify-center items-center w-full max-h-[156px] bg-[#1E1E1E] rounded-[14px]">
+ {uploadedImage?.url ? (
+  <img
+    src={uploadedImage.url}
+    alt="Uploaded"
+    className="max-w-full max-h-full rounded-[14px]"
+  />
+) : uploadedImage instanceof File ? (
+  <img
+    src={URL.createObjectURL(uploadedImage)}
+    alt="Uploaded File"
+    className="max-w-full max-h-full rounded-[14px]"
+  />
+) : null}
+
                     <button
                         className="absolute top-2 right-2 bg-black text-white text-xs rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-500 transition-colors"
                         onClick={(e) => {

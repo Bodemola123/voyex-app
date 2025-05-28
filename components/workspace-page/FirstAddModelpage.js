@@ -11,13 +11,13 @@ const FirstAddModelpage = ({ openModal }) => {
           </div>
         </div>
         <div className="flex flex-col gap-6 max-w-[509px]">
-          <p className="text-4xl text-[#ffffff] font-bold">Create first version of your model</p>
-          <p className="text-base font-normal text-[#FFFFFF]">Upload model files and create the first version of your model.</p>
+          <p className="text-4xl text-[#ffffff] font-bold">Create first version of your tool</p>
+          <p className="text-base font-normal text-[#FFFFFF]">Upload tool files and create the first version of your tool.</p>
         </div>
         <div className="flex items-center justify-center gap-2 text-xl">
           <button onClick={openModal} className="py-4 px-9 rounded-[27px] flex flex-row gap-2.5 bg-[#c088fb] text-[#0a0a0b] hover:scale-105 ">
             <GoPlus className="text-[24px]" />
-            <p className="text-base">Add new Model</p>
+            <p className="text-base">Add first Tool</p>
           </button>
         </div>
       </div>

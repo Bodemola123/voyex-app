@@ -6,8 +6,6 @@ import ImageUpload from "./ImageUpload";
 import MultiImageUpload from "./MultiImageUpload";
 import { toast } from "react-toastify";
 
-const IMGUR_CLIENT_ID = "0d7a8e799d42d15"; // <-- Replace with your actual Client ID
-
 const FourthModal = ({
   closeModal,
   modalData,
@@ -27,39 +25,42 @@ const FourthModal = ({
     setOrganizationLogo(modalData.organizationLogo || null);
   }, [modalData]);
 
-const uploadToImgur = async (file) => {
+const CLOUDINARY_CLOUD_NAME = "dtzgismaw"; // from your Cloudinary dashboard
+const UPLOAD_PRESET = "Voyexs"; // the name you set above
+
+const uploadToCloudinary = async (file) => {
   const formData = new FormData();
-  formData.append("image", file);
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
 
   try {
-    console.log("Uploading to Imgur:", file.name);
-    const response = await fetch("https://api.imgur.com/3/image", {
+    console.log("Uploading to Cloudinary:", file.name);
+
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
       method: "POST",
-      headers: {
-        Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
-      },
       body: formData,
     });
 
-    const result = await response.json();
-    if (result.success) {
-      console.log("Imgur upload success:", result.data.link);
-      toast.success("Image upload successfull")
-      return result.data.link;
+    const data = await response.json();
+
+    if (response.ok && data.secure_url) {
+      console.log("Cloudinary upload success:", data.secure_url);
+      toast.success("Image uploaded successfully!");
+      return data.secure_url;
     } else {
-      console.error("Imgur upload failed:", result);
-      throw new Error("Imgur upload failed");
+      throw new Error(data.error?.message || "Cloudinary upload failed");
     }
   } catch (error) {
-    console.error("Imgur upload error:", error);
+    console.error("Cloudinary upload error:", error);
     toast.error("Image upload failed: " + error.message);
     return null;
   }
 };
 
 
+
   const handleProductLogoUpload = async (file) => {
-    const url = await uploadToImgur(file);
+    const url = await uploadToCloudinary(file);
     if (url) {
       const img = { url, name: file.name };
         console.log("Setting product logo:", img);
@@ -74,7 +75,7 @@ const uploadToImgur = async (file) => {
   };
 
   const handleOrganizationLogoUpload = async (file) => {
-    const url = await uploadToImgur(file);
+    const url = await uploadToCloudinary(file);
     if (url) {
       const img = { url, name: file.name };
         console.log("Setting organization logo:", img);
@@ -91,7 +92,7 @@ const uploadToImgur = async (file) => {
 const handleScreenshotsUpload = async (files) => {
   const uploaded = await Promise.all(
     files.map(async (file) => {
-      const url = await uploadToImgur(file);
+      const url = await uploadToCloudinary(file);
       if (url) {
         console.log(`Uploaded screenshot ${file.name}:`, url);
         return { url, name: file.name };
@@ -149,7 +150,7 @@ const handleScreenshotsUpload = async (files) => {
             <p className="text-[#ffffff] font-medium text-base">Product Logo</p>
           </div>
           <p className="text-sm font-normal text-[#ffffff]">Recommended dimensions: 512x512</p>
-          <div className="flex gap-2.5 w-full h-[156px] bg-[#0a0a0b] p-4 justify-center items-center rounded-[26px]">
+          <div className="flex gap-2.5 w-full min-h-[156px] bg-[#0a0a0b] p-4 justify-center items-center rounded-[26px] flex-wrap overflow-auto max-h-[250px]">
             <ImageUpload
               onImageUpload={handleProductLogoUpload}
               uploadedImage={productLogo}
@@ -169,7 +170,7 @@ const handleScreenshotsUpload = async (files) => {
           <div className="flex gap-2.5 w-full min-h-[156px] bg-[#0a0a0b] p-4 justify-start items-start rounded-[26px] flex-wrap overflow-auto max-h-[250px]">
             <MultiImageUpload
               uploadedImages={productScreenshots}
-              onImagesUpload={handleScreenshotsUpload}
+              onImagesChange={handleScreenshotsUpload}
               onImageRemove={handleScreenshotRemove}
             />
           </div>
@@ -181,7 +182,7 @@ const handleScreenshotsUpload = async (files) => {
             <p className="text-[#ffffff] font-medium text-base">Organization Logo</p>
           </div>
           <p className="text-sm font-normal text-[#ffffff]">Recommended dimensions: 512x512</p>
-          <div className="flex gap-2.5 w-full h-[156px] bg-[#0a0a0b] p-4 justify-center items-center rounded-[26px]">
+          <div className="flex gap-2.5 w-full min-h-[156px] bg-[#0a0a0b] p-4 justify-center items-center rounded-[26px] flex-wrap overflow-auto max-h-[250px]">
             <ImageUpload
               onImageUpload={handleOrganizationLogoUpload}
               uploadedImage={organizationLogo}

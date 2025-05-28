@@ -1,7 +1,9 @@
+"use client"
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+
 
 const DeleteProduct = ({ toolName, onClose, toolId }) => {
   const router = useRouter();
@@ -23,7 +25,7 @@ const DeleteProduct = ({ toolName, onClose, toolId }) => {
         // Redirect to /workspace after a slight delay so toast can be seen
         setTimeout(() => {
           router.push('/workspace');
-        }, 1000);
+        }, 100);
       } else {
         toast.error('Failed to delete the product. Please try again.');
       }

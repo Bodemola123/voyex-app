@@ -67,28 +67,38 @@ const MultiImageUpload = ({ uploadedImages = [], onImagesChange }) => {
     >
       {uploadedImages.length > 0 ? (
         <div className="flex flex-wrap gap-2 w-full max-h-[156px] overflow-y-auto p-2">
-          {uploadedImages.map((image, idx) => (
-            <div
-              key={idx}
-              className="relative w-[140px] h-[140px] bg-[#1E1E1E] rounded-[14px] overflow-hidden flex items-center justify-center"
-            >
-              <img
-                src={URL.createObjectURL(image)}
-                alt={`Uploaded ${idx + 1}`}
-                className="max-w-full max-h-full object-contain"
-              />
-              <button
-                className="absolute top-1 right-1 bg-black text-white text-xs rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-500 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeImage(idx);
-                }}
-                aria-label={`Remove image ${idx + 1}`}
-              >
-                ✕
-              </button>
-            </div>
-          ))}
+{uploadedImages.map((image, idx) => {
+  const imageUrl =
+    image instanceof File
+      ? URL.createObjectURL(image)
+      : image.url || null;
+
+  return (
+    <div
+      key={idx}
+      className="relative w-[140px] h-[140px] bg-[#1E1E1E] rounded-[14px] overflow-hidden flex items-center justify-center"
+    >
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt={`Uploaded ${idx + 1}`}
+          className="max-w-full max-h-full object-contain"
+        />
+      )}
+      <button
+        className="absolute top-1 right-1 bg-black text-white text-xs rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-500 transition-colors"
+        onClick={(e) => {
+          e.stopPropagation();
+          removeImage(idx);
+        }}
+        aria-label={`Remove image ${idx + 1}`}
+      >
+        ✕
+      </button>
+    </div>
+  );
+})}
+
         </div>
       ) : (
         <>

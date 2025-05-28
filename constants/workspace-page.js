@@ -54,28 +54,29 @@ export const usageCards = [
     period: "Last 1 Month",
   },
 ];
-export const analyticsNav = [
+export const getAnalyticsNav = (analyticsId) => [
   {
     name: "conversation",
     icon: <TiChartBarOutline />,
-    link: "/workspace/analytics/conversation",
+    link: `/workspace/${analyticsId}/conversation`,
   },
   {
     name: "user engagements",
     icon: <FaRegStar />,
-    link: "/workspace/analytics/user-engagements",
+    link: `/workspace/${analyticsId}/user-engagements`,
   },
   {
     name: "SEO optimization",
     icon: <FaHashtag />,
-    link: "/workspace/analytics/seo-optimization",
+    link: `/workspace/${analyticsId}/seo-optimization`,
   },
   {
     name: "post performance",
     icon: <TiFlashOutline />,
-    link: "/workspace/analytics/post-performance",
+    link: `/workspace/${analyticsId}/post-performance`,
   },
 ];
+
 export const reveiwCarouselCards = [
   {
     photo: "/user.png",
