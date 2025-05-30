@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import StepsProductCard from './StepsProductCard';
 import ToolDetailsModal from '@/components/ToolDetailsModal';
 
-const Main = ({ templateData, toolsData }) => {
+const Body = ({ templateData, toolsData }) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [selectedTool, setSelectedTool] = useState(null); // modal state
 
@@ -129,4 +129,4 @@ const Main = ({ templateData, toolsData }) => {
   );
 };
 
-export default Main;
+export default Body;

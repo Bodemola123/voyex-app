@@ -5,7 +5,7 @@ import StepsNavOpen from '@/components/templates-page/StepsNavOpen';
 import React, { useEffect, useState } from 'react';
 import StepsHeader from './StepsHeader';
 import { useParams } from 'next/navigation';
-import Main from './Main';
+import Body from './Body';
 
 const Page = () => {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
@@ -139,7 +139,7 @@ const Page = () => {
       />
       <div className="flex-grow relative flex h-full w-full flex-col gap-6 p-6 justify-start items-center overflow-y-scroll scrollbar-hide scroll-container">
         <StepsHeader templateData={templateData} />
-        <Main templateData={templateData} toolsData={toolsData} />
+        <Body templateData={templateData} toolsData={toolsData} />
       </div>
     </div>
   );
