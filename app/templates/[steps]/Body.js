@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import StepsProductCard from './StepsProductCard';
-import ToolDetailsModal from '@/components/ToolDetailsModal';
+import ToolDetailsModal from './ToolDetailsModal';
 
 const Body = ({ templateData, toolsData }) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
