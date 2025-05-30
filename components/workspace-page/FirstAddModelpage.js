@@ -17,7 +17,7 @@ const FirstAddModelpage = ({ openModal }) => {
         <div className="flex items-center justify-center gap-2 text-xl">
           <button onClick={openModal} className="py-4 px-9 rounded-[27px] flex flex-row gap-2.5 bg-[#c088fb] text-[#0a0a0b] hover:scale-105 ">
             <GoPlus className="text-[24px]" />
-            <p className="text-base">Add first Tool</p>
+            <p className="text-base">Add first tool</p>
           </button>
         </div>
       </div>

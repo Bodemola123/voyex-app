@@ -12,6 +12,7 @@ import {
 import { RxAvatar } from "react-icons/rx";
 import { CgOrganisation } from "react-icons/cg";
 import Image from "next/image";
+import { BsStars } from "react-icons/bs";
 
 const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConversation,handleResetRecommendationButton  }) => {
   const pathname = usePathname(); // Get the current path
@@ -134,7 +135,7 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
                 isActive("/galactimart") ? "bg-[#C088fb]" : "hover:bg-[#C088fb]"
               }`}
             >
-              <LuShoppingCart
+              <BsStars
                 className={`text-[20px] ${
                   isActive("/galactimart") ? "text-[#f4f4f4]" : "text-[#C088fb]"
                 } group-hover:text-[#f4f4f4]`}
@@ -232,11 +233,11 @@ const BenNavbar = ({ toggleHistoryVisibility, isHistoryVisible, handleNewConvers
 
 
         {/* Profile Avatar */}
-        <button 
+        {/* <button 
         id="nav_avatar"
         className="flex justify-center items-center gap-2.5">
           <RxAvatar className="text-[28px]" />
-        </button>
+        </button> */}
       </div>
     </nav>
   );

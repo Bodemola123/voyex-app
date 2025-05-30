@@ -720,7 +720,7 @@ const signing = async () => {
       } else if (error.message.includes("Network Error")) {
         toast.error("Network error. Please try again.");
       } else {
-        toast.error("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again or Try Forgot Password if password is forgotten.");
       }
     } finally {
       setLoading(false);

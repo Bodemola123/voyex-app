@@ -319,7 +319,7 @@ if (isSubmitting) {
 }
 
   return (
-    <main className="flex-grow relative flex h-screen w-full flex-col gap-10 pt-6 px-6 justify-between items-center overflow-y-scroll scrollbar-hide">
+    <main className="flex-grow relative flex h-screen w-full flex-col gap-10 px-6 justify-between items-center overflow-y-scroll scrollbar-hide">
       {/* Default Layout (when no product is created) */}
       {!isProductCreated && !isLoading  && !isSubmitting ? (
         <>

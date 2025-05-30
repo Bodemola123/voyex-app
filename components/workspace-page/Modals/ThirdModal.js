@@ -49,6 +49,23 @@ setModalData({
         className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl max-h-[637px] flex flex-col gap-[29px]"
         ref={dropdownRef}
       >
+        <div className="flex flex-row gap-4 items-center justify-center">
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>1</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>2</p>
+          </div>
+            <div className="flex flex-row gap-1.5 justify-center items-center">
+            <div className="bg-[#C088FB] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#0d0d0d] text-center">
+              <p>3</p>
+            </div>
+            <p className="text-sm font-medium text-[#f4f4f4]">Contact Info</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>4</p>
+          </div>
+        </div>
         {/* Header */}
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">Support & Contact Info</h2>
@@ -58,7 +75,7 @@ setModalData({
         </div>
 
         {/* Form Fields */}
-        <div className="space-y-2 overflow-y-auto scrollbar-hide px-1">
+        <div className="space-y-2 overflow-y-auto px-1">
           {[
             { label: "Support Email", name: "supportEmail" },
             { label: "Help Center URL", name: "helpCenterUrl" },
@@ -125,16 +142,69 @@ setModalData({
             Cancel
           </button>
 <button
-  onClick={() => {
-    const {
-      supportEmail,
-      launchDate,
-      contactPersonEmail,
-      contactPersonName,
-      complianceCertifications,
-    } = modalData || {};
+onClick={() => {
+  const {
+    supportEmail,
+    helpCenterUrl,
+    contactPersonName,
+    contactPersonEmail,
+    twitterUrl,
+    linkedinUrl,
+    discordUrl,
+    launchDate,
+    complianceCertifications,
+  } = modalData || {};
 
-    if (
+  // Helper regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/i;
+
+  // Field-specific validations
+  if (!emailRegex.test(supportEmail)) {
+    toast.error("Please enter a valid Support Email.");
+    return;
+  }
+
+  if (!urlRegex.test(helpCenterUrl)) {
+    toast.error("Please enter a valid Help Center URL.");
+    return;
+  }
+
+  if (!contactPersonName?.trim()) {
+    toast.error("Please enter the Contact Person's Name.");
+    return;
+  }
+
+  if (!emailRegex.test(contactPersonEmail)) {
+    toast.error("Please enter a valid Contact Person Email.");
+    return;
+  }
+
+  if (twitterUrl && !urlRegex.test(twitterUrl)) {
+    toast.error("Please enter a valid Twitter URL.");
+    return;
+  }
+
+  if (linkedinUrl && !urlRegex.test(linkedinUrl)) {
+    toast.error("Please enter a valid LinkedIn URL.");
+    return;
+  }
+
+  if (discordUrl && !urlRegex.test(discordUrl)) {
+    toast.error("Please enter a valid Discord URL.");
+    return;
+  }
+
+  if (!launchDate) {
+    toast.error("Please select a Launch Date.");
+    return;
+  }
+
+  if (!complianceCertifications?.trim()) {
+    toast.error("Please enter Compliance Certifications.");
+    return;
+  }
+      if (
       !supportEmail ||
       !launchDate ||
       !contactPersonEmail ||
@@ -145,8 +215,10 @@ setModalData({
       return;
     }
 
-    openModal(); // Proceed to next modal
-  }}
+  // All checks passed
+  openModal();
+}}
+
   className="px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all"
 >
   Save & Continue

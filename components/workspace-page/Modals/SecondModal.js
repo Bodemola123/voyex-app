@@ -81,12 +81,34 @@ const handleInputChange = (key, value) => {
 
   const handleUpdateClick = () => {
     if (!isFormValid()) return;
+      const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/i;
+  if (!urlRegex.test(modalData.demoVideoUrl)) {
+    toast.warn("Please enter a valid Product Website URL.");
+    return;
+  }
     openModal();
   };
 
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)] flex items-center justify-center z-50">
       <div className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl flex flex-col gap-[20px] max-h-[637px]"  ref={dropdownRef}>
+                <div className="flex flex-row gap-4 items-center justify-center">
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>1</p>
+          </div>
+            <div className="flex flex-row gap-1.5 justify-center items-center">
+            <div className="bg-[#C088FB] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#0d0d0d] text-center">
+              <p>2</p>
+            </div>
+            <p className="text-sm font-medium text-[#f4f4f4]">Tool Details</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>3</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>4</p>
+          </div>
+        </div>
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">
           <h2 className="text-xl md:text-2xl font-bold">Tool Details</h2>
@@ -96,7 +118,7 @@ const handleInputChange = (key, value) => {
         </div>
 
         {/* Form fields */}
-        <div className="space-y-2 overflow-y-auto scrollbar-hide px-1">
+        <div className="space-y-2 overflow-y-auto px-1">
         {/* Detailed Features (textarea) */}
         <div className="space-y-1">
           <label className="text-[#F4F4F4] text-sm font-medium">Detailed Features</label>
@@ -244,7 +266,7 @@ const handleInputChange = (key, value) => {
               isFormValid() ? "hover:scale-105" : "cursor-not-allowed opacity-50"
             }`}
           >
-            Update Details
+            Next Step
           </button>
         </div>
       </div>

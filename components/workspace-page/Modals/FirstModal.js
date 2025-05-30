@@ -62,6 +62,12 @@ const handleUpdateClick = async () => {
     return;
   }
 
+  const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/i;
+  if (!urlRegex.test(modalData.productUrl)) {
+    toast.warn("Please enter a valid Product Website URL.");
+    return;
+  }
+
   setLoading(true);
   try {
     const response = await axios.get(
@@ -97,7 +103,24 @@ const handleUpdateClick = async () => {
 
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)]  flex items-center justify-center z-50">
-      <div className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl max-h-[637px] flex flex-col gap-[29px]"  ref={dropdownRef}>
+      <div className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-3xl max-h-[648px] flex flex-col gap-[29px]"  ref={dropdownRef}>
+        <div className="flex flex-row gap-4 items-center justify-center">
+          <div className="flex flex-row gap-1.5 justify-center items-center">
+            <div className="bg-[#C088FB] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#0d0d0d] text-center">
+              <p>1</p>
+            </div>
+            <p className="text-sm font-medium text-[#f4f4f4]">Tool Info</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>2</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>3</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>4</p>
+          </div>
+        </div>
         {/* Header */}
         <div className="flex justify-between items-center">
           <h2 className="text-2xl md:text-2xl font-bold">Create New Tool</h2>
@@ -106,7 +129,7 @@ const handleUpdateClick = async () => {
           </button>
         </div>
         {/* Form */}
-        <div className="space-y-2 overflow-y-auto scrollbar-hide">
+        <div className="space-y-2 overflow-y-auto">
           {/* Category Selection */}
           <div className="space-y-1 relative">
   <label className="text-[#F4F4F4] text-sm font-medium">Primary Category</label>
@@ -203,7 +226,7 @@ const handleUpdateClick = async () => {
             disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0 || !modalData.tags || !modalData.productUrl || !modalData.primaryCategory || loading}
             className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && selectedCategories.length > 0 && !loading ? "" : "cursor-not-allowed opacity-50"}`}
           >
-            {loading ? "Checking..." : "Update Version Details"}
+            {loading ? "Checking..." : "Next step"}
           </button>
         </div>
       </div>

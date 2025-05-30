@@ -235,7 +235,7 @@ null
         fetchChats={fetchChats}/>}
       </div>
       </div>
-      <div className="flex-grow relative flex flex-col w-full h-full justify-between items-center overflow-y-scroll pb-6 pt-1 px-6 scrollbar-hide scroll-container">
+      <div className="flex-grow relative flex flex-col w-full h-full justify-between items-center overflow-y-scroll py-6 px-4 scrollbar-hide scroll-container">
         <Banner/>
       <div className="relative w-full items-center justify-center flex gap-14 flex-col">
       <div className='flex flex-col gap-[8px] justify-center items-center'>

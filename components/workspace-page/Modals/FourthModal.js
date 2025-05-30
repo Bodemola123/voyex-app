@@ -135,16 +135,33 @@ const handleScreenshotsUpload = async (files) => {
 
   return (
     <div className="fixed inset-0 bg-[rgba(19,19,20,0.8)] flex items-center justify-center z-50">
-      <div className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-[794px] flex flex-col gap-[14px] overflow-auto max-h-[90vh]">
+      <div className="bg-[#1c1d1f] text-white rounded-[41px] p-[26px] shadow-xl w-[90%] max-w-[794px] flex flex-col gap-[25px] max-h-[90vh]">
+                <div className="flex flex-row gap-4 items-center justify-center">
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>1</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>2</p>
+          </div>
+          <div className="bg-[#3D324B] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#C088FB] text-center">
+              <p>3</p>
+          </div>
+            <div className="flex flex-row gap-1.5 justify-center items-center">
+            <div className="bg-[#C088FB] px-2.5 py-1.5 rounded-[23.74px] text-sm font-black text-[#0d0d0d] text-center">
+              <p>4</p>
+            </div>
+            <p className="text-sm font-medium text-[#f4f4f4]">Image Files</p>
+          </div>
+        </div>
         {/* Header */}
         <div className="flex justify-between items-center border-gray-700">
-          <h2 className="text-xl md:text-2xl font-bold">Create New Model</h2>
+          <h2 className="text-xl md:text-2xl font-bold">Image Files</h2>
           <button onClick={closeModal} className="flex items-center justify-center">
             <Image src={"/close-square.svg"} alt="X" width={58} height={58} />
           </button>
         </div>
-
-        {/* Product Logo */}
+        <div className="space-y-1 overflow-y-auto px-1">
+                  {/* Product Logo */}
         <div className="flex flex-col gap-3">
           <div className="flex flex-row items-center justify-start gap-2">
             <p className="text-[#ffffff] font-medium text-base">Product Logo</p>
@@ -190,6 +207,8 @@ const handleScreenshotsUpload = async (files) => {
             />
           </div>
         </div>
+        </div>
+
 
         {/* Footer Buttons */}
         <div className="flex justify-between items-center mt-4">
