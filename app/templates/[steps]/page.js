@@ -4,8 +4,8 @@ import BenNavbar from '@/components/common/BenNavbar';
 import StepsNavOpen from '@/components/templates-page/StepsNavOpen';
 import React, { useEffect, useState } from 'react';
 import StepsHeader from './StepsHeader';
-import Main from './main';
 import { useParams } from 'next/navigation';
+import Main from './Main';
 
 const Page = () => {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
