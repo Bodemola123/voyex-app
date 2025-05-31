@@ -20,7 +20,7 @@ const customImage = imageOverrides[tool.tool_id] || tool.logo_url;
 
   return (
     <div
-      className=" relative w-auto rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]"
+      className=" relative w-[421px] rounded-3xl flex flex-col gap-4 p-4 bg-[#131314] border border-[#D0D5DD1A]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

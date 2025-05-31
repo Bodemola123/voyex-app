@@ -2,10 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
-import RenameModal from "./RenameModal";
 
 function Personalization() {
-  const [showRenameModal, setShowRenameModal] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [orgEmail, setOrgEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -55,15 +53,6 @@ function Personalization() {
     }
   }, []);
 
-  
-    const refreshProfile = () => {
-  const savedFirstName = localStorage.getItem("firstName");
-  const savedOrgName = localStorage.getItem("orgName");
-
-  if (savedFirstName) setFirstName(savedFirstName);
-  if (savedOrgName) setOrgName(savedOrgName);
-};
-
   // Set name to display based on type, with fallbacks
   const displayName = isOrganization
     ? orgName || "Organization Name"
@@ -74,7 +63,6 @@ function Personalization() {
     : userEmail || "user@example.com";
 
   return (
-    <>
     <div className="w-full rounded-[25px] py-7 px-11 bg-secondary border border-[#FFFFFF26]">
       <h1 className="text-fontlight text-base font-normal capitalize">
         {isOrganization ? "Organization info" : "personalization"}
@@ -113,8 +101,8 @@ function Personalization() {
         <h2 className="text-base font-medium text-fontlight capitalize">
           {isOrganization ? "Organization Name" : "Username"}
         </h2>
-        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all" onClick={() => setShowRenameModal(true)}>
-          <span className="text-base font-medium text-fontlight capitalize">
+        <button className="flex items-center gap-3 px-4 py-3 rounded-[36px] border border-card bg-card/20 hover:bg-card/50 transition-all">
+          <span className="text-base font-medium text-fontlight">
             {displayName}
           </span>
           <Image src="/edit.png" alt="edit" width={20} height={20} />
@@ -170,15 +158,6 @@ function Personalization() {
         </div>
       )} */}
     </div>
-      {/* Rename Modal */}
-      {showRenameModal && (
-  <RenameModal
-    onClose={() => setShowRenameModal(false)}
-    onSuccess={refreshProfile}
-  />
-)}
-
-    </>
   );
 }
 

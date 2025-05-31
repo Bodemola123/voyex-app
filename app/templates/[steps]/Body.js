@@ -22,17 +22,18 @@ const Body = ({ templateData, toolsData }) => {
     }
   };
 
-  const getToolDetails = (toolIds) => {
-    return toolIds
-      .map((id) => toolsData.find((tool) => tool.tool_id === id))
-      .filter(Boolean);
-  };
+const getToolDetails = (toolIds) => {
+  return toolIds
+    .map((id) => toolsData[id]?.data)
+    .filter(Boolean);
+};
+
 
   return (
     <>
-      <div className="flex flex-col gap-11">
+      <div className="flex flex-col gap-8 w-full">
         {/* Step Timeline */}
-        <div className="bg-[#1c1d1f] border p-4 gap-6 flex flex-row justify-center items-center border-[#FFFFFF26] rounded-2xl">
+        <div className="bg-[#1c1d1f] border p-4 gap-x-6 gap-y-3 flex flex-wrap justify-center items-center border-[#FFFFFF26] rounded-2xl">
           {steps.map((step, index) => (
             <div
               key={step.step_id}
@@ -48,8 +49,8 @@ const Body = ({ templateData, toolsData }) => {
                 <p
                   className={`${
                     index === currentStepIndex
-                      ? 'text-[#0D0D0D] text-[9px] font-black'
-                      : 'text-[#0D0D0D] text-[14px] font-medium'
+                      ? 'text-[#0D0D0D] text-[14px] font-black'
+                      : 'text-[#c088fb] text-[14px] font-black'
                   }`}
                 >
                   {step.step_id}
@@ -76,7 +77,7 @@ const Body = ({ templateData, toolsData }) => {
               </p>
             </div>
           </div>
-          <div className="max-w-[616px] font-normal text-base text-[#ffffff]">
+          <div className="font-normal text-base text-[#ffffff]">
             <p>{currentStep.step_description}</p>
           </div>
         </div>
@@ -84,12 +85,12 @@ const Body = ({ templateData, toolsData }) => {
         {/* Suggested Tools */}
         <div className="flex flex-col gap-4 ">
           <p className="text-[24px] text-[#f4f4f4] font-bold">Suggested Tools</p>
-          <p className="text-base font-normal max-w-[581px]">
+          <p className="text-base font-normal">
             Where the cosmic meets the artificial, these stellar tools will help you chart your
             course and{' '}
             <span className="font-bold lowercase">{currentStep.step_name}</span> with precision:
           </p>
-          <div className="overflow-x-scroll scrollbar-hide flex gap-4">
+          <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-4 w-full">
             {getToolDetails(currentStep.tools).map((tool) => (
               <StepsProductCard
                 key={tool.tool_id}
@@ -101,19 +102,19 @@ const Body = ({ templateData, toolsData }) => {
         </div>
 
         {/* Step Navigation */}
-        <div className="flex justify-between items-center w-full">
+        <div className="flex justify-between items-center w-full -mt-4">
           {currentStepIndex > 0 && (
             <button
               onClick={handlePrevious}
-              className="rounded-[30px] px-4 py-3 bg-[#2a2a2a] hover:bg-[#3a3a3a] transition"
+              className="rounded-[30px] px-4 py-3 bg-[#ffffff] hover:scale-105 transition"
             >
-              <p className="text-sm font-black text-white">Previous Step</p>
+              <p className="text-sm font-black text-black">Previous Step</p>
             </button>
           )}
           {currentStepIndex < steps.length - 1 && (
             <button
               onClick={handleNext}
-              className="rounded-[30px] px-4 py-3 bg-[#C088FB] hover:bg-[#A76DF1] transition"
+              className="rounded-[30px] px-4 py-3 bg-[#ffffff] hover:scale-105 transition"
             >
               <p className="text-sm font-black text-black">Continue to Next Step</p>
             </button>

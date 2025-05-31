@@ -88,7 +88,7 @@ const Page = () => {
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(19,19,20,0.8)]">
-        <div className="bg-[#1C1D1F] p-[27px] items-center h-full w-full flex flex-col gap-[29px] rounded-[41px] max-w-[794px] max-h-[785px] overflow-y-scroll scrollbar-hide">
+        <div className="bg-[#1C1D1F] p-[27px] items-center h-full w-full flex flex-col gap-[29px] rounded-[41px] max-w-[794px] max-h-[585px] overflow-y-scroll scrollbar-hide">
           <span className="flex items-center justify-center py-[23px] text-5xl font-bold text-[#f4f4f4]">
             Voyex
           </span>
@@ -137,7 +137,7 @@ const Page = () => {
         toggleHistoryVisibility={toggleHistoryVisibility}
         isHistoryVisible={isHistoryVisible}
       />
-      <div className="flex-grow relative flex h-full w-full flex-col gap-6 p-6 justify-start items-center overflow-y-scroll scrollbar-hide scroll-container">
+      <div className="flex-grow relative flex h-full w-full flex-col gap-6 p-4 justify-start items-center overflow-y-scroll scrollbar-hide scroll-container">
         <StepsHeader templateData={templateData} />
         <Body templateData={templateData} toolsData={toolsData} />
       </div>
