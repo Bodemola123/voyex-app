@@ -68,7 +68,7 @@ useEffect(() => {
   const [modalData, setModalData] = useState({
       first: {
     primaryCategory: "",
-    subCategories: [],
+    categories: [],
     name: "",
     description: "",
     productUrl: "",
@@ -108,7 +108,7 @@ useEffect(() => {
     setModalData({
         first: {
     primaryCategory: "",
-    subCategories: [],
+    categories: [],
     name: "",
     description: "",
     orgName: "",
@@ -182,7 +182,7 @@ const handleProductCreation = async () => {
 
 
       primary_category: modalData.first.primaryCategory,
-      sub_categories: modalData.first.subCategories,
+      sub_categories: modalData.first.categories,
       keywords_tags: modalData.first.tags,
 
       available_platforms: modalData.second.availablePlatforms,

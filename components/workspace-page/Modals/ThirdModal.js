@@ -4,10 +4,12 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FaCaretDown, FaCheck } from "react-icons/fa";
 import { toast } from "react-toastify";
+import MultiSelectRegions from "./MultiSelectRegions";
 
 const regions = ["North America", "Europe", "Asia", "South America", "Africa", "Oceania"];
 
 function ThirdModal({ closeModal, openModal, modalData, setModalData }) {
+  const [selectedRegions, setSelectedRegions] = useState(modalData.regionsAvailable || []);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -26,6 +28,11 @@ setModalData({
 });
 
   };
+
+  const handleRegionChange = (regions) => {
+    setSelectedRegions(regions);
+    setModalData({ ...modalData, regions})
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -101,7 +108,7 @@ setModalData({
           ))}
 
           {/* Regions Dropdown Multi-select */}
-          <div className="space-y-1 relative">
+          {/* <div className="space-y-1 relative">
             <label className="text-[#F4F4F4] text-sm font-medium">Regions Available</label>
             <div
               className="w-full py-3 px-4 bg-[#0A0A0B] text-[#f4f4f4] rounded-[68px] cursor-pointer flex items-center justify-between"
@@ -130,6 +137,13 @@ setModalData({
                 ))}
               </div>
             )}
+          </div> */}
+        <div className="flex flex-col gap-2.5 px-1">
+            <p className="text-base font-medium text-left text-[#ffffff]">Regions Available</p>
+            <MultiSelectRegions
+              selectedRegions={selectedRegions}
+              setSelectedRegions={handleRegionChange}
+            />
           </div>
         </div>
 

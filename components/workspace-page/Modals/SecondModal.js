@@ -1,12 +1,14 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { FaCaretDown, FaCheck } from "react-icons/fa";
+import MultiSelectPlatform from "./MultiSelectPlatform";
 
 const platformOptions = ["Web", "Android", "iOS", "API", "Desktop"];
 const pricingModelOptions = ["Free", "Paid", "Subscription"];
 const apiAccessOptions = ["Yes", "No"];
-
+ 
 const SecondModal = ({ closeModal, openModal, modalData, setModalData }) => {
+  const [selectedPlatforms, setSelectedPlatforms] = useState(modalData.availablePlatforms || []);
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -28,21 +30,26 @@ const SecondModal = ({ closeModal, openModal, modalData, setModalData }) => {
     };
   }, []);
 
-  // Toggle platform selection (multi-select)
-  const togglePlatform = (platform) => {
-    const selected = modalData.availablePlatforms || [];
-    if (selected.includes(platform)) {
-      setModalData({
-        ...modalData,
-        availablePlatforms: selected.filter((p) => p !== platform),
-      });
-    } else {
-      setModalData({
-        ...modalData,
-        availablePlatforms: [...selected, platform],
-      });
-    }
-  };
+  const handlePlatformChange =(platforms) => {
+    setSelectedPlatforms(platforms);
+    setModalData({ ...modalData, platforms}) // Update modalData with selected categories
+  }
+
+  // // Toggle platform selection (multi-select)
+  // const togglePlatform = (platform) => {
+  //   const selected = modalData.availablePlatforms || [];
+  //   if (selected.includes(platform)) {
+  //     setModalData({
+  //       ...modalData,
+  //       availablePlatforms: selected.filter((p) => p !== platform),
+  //     });
+  //   } else {
+  //     setModalData({
+  //       ...modalData,
+  //       availablePlatforms: [...selected, platform],
+  //     });
+  //   }
+  // };
 
   // Select pricing model or API access (single select)
   const handleSingleSelect = (key, value) => {
@@ -62,7 +69,6 @@ const handleInputChange = (key, value) => {
       detailedFeatures,
       pricingModel,
       pricingDetails,
-      availablePlatforms,
       apiAccess,
       integrationOptions,
       demoVideoUrl,
@@ -72,7 +78,6 @@ const handleInputChange = (key, value) => {
       detailedFeatures?.trim() &&
       pricingModel &&
       pricingDetails?.trim() &&
-      availablePlatforms?.length > 0 &&
       apiAccess &&
       integrationOptions?.trim() &&
       demoVideoUrl?.trim()
@@ -168,7 +173,7 @@ const handleInputChange = (key, value) => {
         </div>
 
         {/* Available Platforms (multi-select) */}
-        <div className="space-y-1 relative">
+        {/* <div className="space-y-1 relative">
           <label className="text-[#F4F4F4] text-sm font-medium">Available Platforms</label>
           <div
             className="w-full py-3 px-4 bg-[#0A0A0B] text-[#f4f4f4] rounded-[68px] cursor-pointer flex items-center justify-between"
@@ -197,7 +202,14 @@ const handleInputChange = (key, value) => {
               ))}
             </div>
           )}
-        </div>
+        </div> */}
+        <div className="flex flex-col gap-2.5 px-1">
+            <p className="text-base font-medium text-left text-[#ffffff]">Available platforms</p>
+            <MultiSelectPlatform
+              selectedPlatforms={selectedPlatforms}
+              setSelectedPlatforms={handlePlatformChange}
+            />
+          </div>
 
         {/* API Access Available (dropdown Yes/No) */}
         <div className="space-y-1 relative">

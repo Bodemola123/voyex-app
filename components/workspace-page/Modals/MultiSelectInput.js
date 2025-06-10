@@ -70,7 +70,7 @@ const MultiSelectInput = ({ selectedCategories, setSelectedCategories }) => {
       </Button>
 
       {open && (
-        <div className="absolute mt-2 w-full bg-black text-fontlight p-3 border-none max-h-[208px] overflow-y-scroll rounded-lg shadow-lg z-10">
+        <div className="absolute mt-2 w-full bg-black text-fontlight p-3 border-none max-h-[208px] overflow-y-scroll shadow-lg z-10  rounded-2xl">
           <div className="mt-2 ml-2">
             <p>You can add only up to 4 categories</p>
           </div>
@@ -81,7 +81,7 @@ const MultiSelectInput = ({ selectedCategories, setSelectedCategories }) => {
                 role="option"
                 aria-selected={selectedCategories.includes(category) ? "true" : "false"}
                 className={cn(
-                  "p-2 cursor-pointer hover:bg-purple",
+                  "p-2 cursor-pointer hover:bg-[#131314]",
                   selectedCategories.includes(category) && "opacity-50 cursor-not-allowed"
                 )}
                 onClick={() => handleCategorySelect(category)}
