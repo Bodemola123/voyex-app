@@ -6,6 +6,7 @@ import "../app/globals.css"
 import Popup from "@/components/search-page/Popup";
 import { useState } from "react";
 import Welcome from "@/components/user-signing-page/Welcome";
+import Container from "@/components/user-signing-page/Container";
 
 export default function SearchPage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -22,7 +23,7 @@ export default function SearchPage() {
       >
         <Image src="/ChatBotIcon.svg" alt="Chatbot" width={55} height={55} />
       </button> */}
-      <Welcome/>
+      <Container/>
     </main>
   );
 }

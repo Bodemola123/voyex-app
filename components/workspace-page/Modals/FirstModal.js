@@ -2,62 +2,76 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import MultiSelectInput from "./MultiSelectInput";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import "../../../app/globals.css";
 import Image from "next/image";
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown, FaCheck } from "react-icons/fa";
 
 function FirstModal({ closeModal, openModal, modalData, setModalData }) {
-  const [selectedCategories, setSelectedCategories] = useState(modalData.categories || []);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState(modalData.primaryCategory || "");
-const [openDropdown, setOpenDropdown] = useState(null);
-const categoryOptions = [
-  'Audio-generators', 'Content Creation', 'Productivity', 'Design',
-  'Marketing', 'Social', 'Video', 'Social-media', 'Video-generators',
-  'Research-assistant', 'Image-genrators', 'Text-generators',
-  'Website-builders', 'SEO'
-];
+  const [openDropdown, setOpenDropdown] = useState(null);
+  
+  const categoryOptions = [
+    'Audio-generators', 'Content Creation', 'Productivity', 'Design',
+    'Marketing', 'Social', 'Video', 'Social-media', 'Video-generators',
+    'Research-assistant', 'Image-genrators', 'Text-generators',
+    'Website-builders', 'SEO'
+  ];
 
-const toggleDropdown = (type) => {
-  setOpenDropdown(openDropdown === type ? null : type);
-};
+  const subCategoryOptions = [
+    "Chatbot",
+    "Research",
+    "Writing",
+    "Sales",
+    "Models",
+    "Energy",
+    "Finance"
+  ];
 
-const handleCategorySelect = (category) => {
-  setSelectedCategory(category);
-  setModalData({ ...modalData, primaryCategory: category });
-  setOpenDropdown(null);
-};
+  const toggleDropdown = (type) => {
+    setOpenDropdown(openDropdown === type ? null : type);
+  };
 
+  const toggleSubCategory = (subCategory) => {
+    const currentSubCategories = modalData.first.subCategories || [];
+    const newSubCategories = currentSubCategories.includes(subCategory)
+      ? currentSubCategories.filter(item => item !== subCategory)
+      : [...currentSubCategories, subCategory];
+    
+    setModalData(prev => ({
+      ...prev,
+      first: {
+        ...prev.first,
+        subCategories: newSubCategories
+      }
+    }));
+  };
 
-  // Handle category selection
-  const handleCategoryChange = (categories) => {
-    setSelectedCategories(categories);
-    setModalData({ ...modalData, categories }); // Update modalData with selected categories
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setModalData({ ...modalData, primaryCategory: category });
+    setOpenDropdown(null);
   };
 
   const handleTagChange = (e) => {
-  const tags = e.target.value.split(',').map(tag => tag.trim()).filter(Boolean);
-  setModalData({ ...modalData, tags: tags });
-};
+    const tags = e.target.value.split(',').map(tag => tag.trim()).filter(Boolean);
+    setModalData({ ...modalData, tags: tags });
+  };
 
-
-  // Handle input changes for name and description
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setModalData({ ...modalData, [name]: value });
   };
-
   // Validate tool name before proceeding
 const handleUpdateClick = async () => {
   if (!modalData.name?.trim() || !modalData.description?.trim()) {
     toast.warn("Please fill out all required fields.");
     return;
   }
-  if (selectedCategories.length === 0) {
+  if (subCategories.length === 0) {
     toast.warn("Please select at least one category.");
     return;
   }
@@ -155,12 +169,35 @@ const handleUpdateClick = async () => {
   )}
 </div>
 
-          <div className="flex flex-col gap-2.5 px-1">
-            <p className="text-base font-medium text-left text-[#ffffff]">Sub-Category</p>
-            <MultiSelectInput
-              selectedCategories={selectedCategories}
-              setSelectedCategories={handleCategoryChange}
-            />
+<div className="space-y-1 relative">
+            <label className="text-[#F4F4F4] text-sm font-medium">Sub-Categories</label>
+            <div
+              className="w-full py-3 px-4 bg-[#0A0A0B] text-[#f4f4f4] rounded-[68px] cursor-pointer flex items-center justify-between"
+              onClick={() => toggleDropdown("subCategories")}
+            >
+              <span>
+              {modalData.first.subCategories && modalData.first.subCategories.length > 0
+  ? modalData.first.subCategories.join(", ")
+  : "Select sub-categories"}
+              </span>
+              <FaCaretDown className="text-gray-300" />
+            </div>
+            {openDropdown === "subCategories" && (
+              <div className="absolute z-10 mt-2 w-full bg-[#0A0A0B] max-h-48 overflow-y-auto rounded-2xl shadow-lg scrollbar-hide">
+                {subCategoryOptions.map((subCategory) => (
+                  <div
+                    key={subCategory}
+                    className="px-4 py-2 text-base text-white capitalize hover:bg-[#131314] cursor-pointer flex justify-between items-center"
+                    onClick={() => toggleSubCategory(subCategory)}
+                  >
+                    <span>{subCategory}</span>
+                    {modalData.subCategories?.includes(subCategory) && (
+                      <FaCheck className="text-[#c088fb]" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Name Input */}

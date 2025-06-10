@@ -24,25 +24,25 @@ function ResetPassword({ setCurrentSlide }) {
     setShowConfirmPassword((prev) => !prev);
   };
 
-  // const validatePassword = (password) => {
-  //   const hasNumber = /\d/; // Check for a digit
-  //   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/; // Check for special characters
-  //   const hasUpperCase = /[A-Z]/; // Check for uppercase letters
+  const validatePassword = (password) => {
+    // const hasNumber = /\d/; // Check for a digit
+    // const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/; // Check for special characters
+    // const hasUpperCase = /[A-Z]/; // Check for uppercase letters
 
-  //   if (!hasNumber.test(password)) {
-  //     return "Password must contain at least one number.";
-  //   }
-  //   if (!hasSpecialChar.test(password)) {
-  //     return "Password must contain at least one special character.";
-  //   }
-  //   if (!hasUpperCase.test(password)) {
-  //     return "Password must contain at least one uppercase letter.";
-  //   }
-  //   if (password.length < 8) {
-  //     return "Password must be at least 8 characters long.";
-  //   }
-  //   return null; // No errors
-  // };
+    // if (!hasNumber.test(password)) {
+    //   return "Password must contain at least one number.";
+    // }
+    // if (!hasSpecialChar.test(password)) {
+    //   return "Password must contain at least one special character.";
+    // }
+    // if (!hasUpperCase.test(password)) {
+    //   return "Password must contain at least one uppercase letter.";
+    // }
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long.";
+    }
+    return null; // No errors
+  };
 
   const handleResetPassword = async () => {
     const validationError = validatePassword(password);
