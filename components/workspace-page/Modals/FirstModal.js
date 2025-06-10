@@ -35,19 +35,33 @@ function FirstModal({ closeModal, openModal, modalData, setModalData }) {
     setOpenDropdown(openDropdown === type ? null : type);
   };
 
-  const toggleSubCategory = (subCategory) => {
-    const currentSubCategories = modalData.first.subCategories || [];
-    const newSubCategories = currentSubCategories.includes(subCategory)
-      ? currentSubCategories.filter(item => item !== subCategory)
-      : [...currentSubCategories, subCategory];
+  // const toggleSubCategory = (subCategory) => {
+  //   const currentSubCategories = modalData.subCategories || [];
+  //   const newSubCategories = currentSubCategories.includes(subCategory)
+  //     ? currentSubCategories.filter(item => item !== subCategory)
+  //     : [...currentSubCategories, subCategory];
     
-    setModalData(prev => ({
-      ...prev,
-      first: {
-        ...prev.first,
-        subCategories: newSubCategories
-      }
-    }));
+  //   setModalData(prev => ({
+  //     ...prev,
+  //     first: {
+  //       ...prev.first,
+  //       subCategories: newSubCategories
+  //     }
+  //   }));
+  // };
+  const toggleSubCategory = (subCategory) => {
+    const selected = modalData.subCategories || [];
+    if (selected.includes(subCategory)) {
+      setModalData({
+        ...modalData,
+        subCategories: selected.filter((p) => p !== subCategory),
+      });
+    } else {
+      setModalData({
+        ...modalData,
+        subCategories: [...selected, subCategory],
+      });
+    }
   };
 
   const handleCategorySelect = (category) => {
@@ -176,8 +190,8 @@ const handleUpdateClick = async () => {
               onClick={() => toggleDropdown("subCategories")}
             >
               <span>
-              {modalData.first.subCategories && modalData.first.subCategories.length > 0
-  ? modalData.first.subCategories.join(", ")
+              {modalData.subCategories && modalData.subCategories.length > 0
+  ? modalData.subCategories.join(", ")
   : "Select sub-categories"}
               </span>
               <FaCaretDown className="text-gray-300" />
