@@ -260,8 +260,8 @@ const handleUpdateClick = async () => {
           </button>
           <button
             onClick={handleUpdateClick}
-            disabled={!modalData.name?.trim() || !modalData.description?.trim() || selectedCategories.length === 0 || !modalData.tags || !modalData.productUrl || !modalData.primaryCategory || loading}
-            className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && selectedCategories.length > 0 && !loading ? "" : "cursor-not-allowed opacity-50"}`}
+            disabled={!modalData.name?.trim() || !modalData.description?.trim() || subCategories.length === 0 || !modalData.tags || !modalData.productUrl || !modalData.primaryCategory || loading}
+            className={`px-[21px] py-2.5 text-sm md:text-base bg-[#C088FB] text-[#0A0A0B] rounded-[25px] hover:scale-105 transition-all ${modalData.name?.trim() && modalData.description?.trim() && subCategories.length > 0 && !loading ? "" : "cursor-not-allowed opacity-50"}`}
           >
             {loading ? "Checking..." : "Next step"}
           </button>
